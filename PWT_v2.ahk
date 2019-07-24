@@ -2015,9 +2015,8 @@ else if(Stack="12o") ; php var_dump to console
 	}
 else if(Stack="12q") ; windows start menu directory 
 	{
-		temp := A_AppData "\Microsoft\Windows\Start Menu\Programs"
 		if run
-			run, %temp%
+			run % A_AppData "\Microsoft\Windows\Start Menu\Programs"
 	}
 else if(Stack="12t") ; laravel scaffolding with generators 
 	{
@@ -2033,7 +2032,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=22/7/2019 @ 16`:31`:41`nWD MyCloud`t3.7534990929812193`nHammadh PC`t8.818250344134867`nLatheef PC`t12.086651741527021`nReception Laptop`t8.12027735542506`nModebe PC`t8.697528290562332`nAcer ES14 mobile laptop`t6.287619711831212`nHammadh J7 Pro`t4.646423704549671`nPichamon 20181005`t0.09519536700099707`nThihthibey iPhone 8 Plus`t2.994327150285244`nAfsara 300119`t10.522694412618876`nHammadh PC 2`t0.000005252659320831299`nBilal Desktop`t6.589645827189088`nShaira Iphone201811`t0.14625361090525985`nHewage Laptop Dell`t5.457861657254398`nAmrita`t34.496188163757324`nBilal 20190629`t15.250181843526661`nCenie`t4.6315274722874165`nHP LaserJet?`t3.7292813782868905`nHewage new Desktop`t8.237747425213456`n143`t9.084290348924696`n144`t0.4703928306698799`nwifi router`t3.7255141066325828`n
+		Button1_Label=24/7/2019 @ 15`:34`:25`nWD MyCloud`t3.756020960845053`nHammadh PC`t9.220937476493418`nLatheef PC`t12.421090250834823`nReception Laptop`t8.194732379168272`nModebe PC`t8.82216609083116`nAcer ES14 mobile laptop`t6.445409749634564`nHammadh J7 Pro`t4.741813226230443`nPichamon 20181005`t0.09519536700099707`nThihthibey iPhone 8 Plus`t2.994327150285244`nAfsara 300119`t12.359017907641828`nHammadh PC 2`t0.000005252659320831299`nBilal Desktop`t7.190493158996105`nShaira Iphone201811`t0.14625361090525985`nHewage Laptop Dell`t5.555859214626253`nAmrita`t37.89551556110382`nBilal 20190629`t16.685487457551062`nCenie`t5.485678495839238`nHP LaserJet `t3.7296836835620923`nHewage new Desktop`t8.701266010291874`n143`t10.762321797199547`n144`t1.2537160059437156`nwifi router`t3.7255367563975974`n
 	}
 else
 	{	
@@ -2228,7 +2227,10 @@ return
 	return
 	
 #if (Stack="12n") ; screenshot chrome 
-	`::	
+	`::
+		mode_12n = 1 ; window
+		;~ mode_12n = 2 ; control
+		
 		CoordMode, Mouse, Screen
 		MouseGetPos, mouseX, mouseY, id, control
 		WinGetPos, WinX, WinY, , , A
@@ -2249,6 +2251,15 @@ return
 		WinMove, Circle.html - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , % mouseX, % mouseY
 		
 		WinSet, Region, 8-80 W24 H24 E, Circle.html - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		
+		IfWinNotExist, Snipping Tool ahk_exe SnippingTool.exe
+		{
+			WinSet, AlwaysOnTop, Off, Circle.html - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			MsgBox Open snipping tool
+			Send #r
+			Send snippingtool.exe{Enter}
+			return
+		}
 
 		WinActivate, Snipping Tool ahk_exe SnippingTool.exe
 		WinWaitActive, Snipping Tool ahk_exe SnippingTool.exe, , 1
@@ -2256,10 +2267,14 @@ return
 		Send ^n
 		Sleep 1000
 		
-		MouseClickDrag, L, % x+WinX, % y+WinY, % x+w+WinX, % y+h+WinY, 100
+		if(mode_12n = 1)
+			MouseClickDrag, L, % WinX+8, % WinY, % x+w+WinX, % y+h+WinY, 100
+		else
+			MouseClickDrag, L, % x+WinX, % y+WinY, % x+w+WinX, % y+h+WinY, 100
 		
 		Sleep 100
 		WinSet, Region, %mouseX%-%mouseY% W1 H1, Circle.html - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		WinSet, AlwaysOnTop, Off, Circle.html - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
 	return
 		
 #if (Stack="12l") ; Adjust numbers 
