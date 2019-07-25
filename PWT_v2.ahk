@@ -2081,68 +2081,68 @@ else
 	
 #if (Stack="12z") ; clock in to SalonIris 
 	`::
-		WinActivate, ahk_exe SalonIris.exe
-		WinWaitActive, ahk_exe SalonIris.exe, , 2
-		IfWinActive, ahk_exe SalonIris.exe
-		{
-			Send {Alt}
-			
-			Send {Right 11}
-			Send {Down 2}
-			Send {Enter}
-			Sleep, 469
-			
-			Send, {h}
-			Sleep, 469
-			Send, {Tab}
-			Sleep, 531
-			Send, {u}
-			Send, {n}
-			Send, {k}
-			Send, {n}
-			Send, {d}
-			Send, {w}
-			Send, {n}
-			Send, {0}
-			Sleep, 313
-			Send, {Enter}
-			Sleep, 1093
-			Send, {Enter}
-			
-			lastClockInDate:= A_DD
-		}
-	return
-	
-	+`::
-		WinActivate, ahk_exe SalonIris.exe
-		WinWaitActive, ahk_exe SalonIris.exe, , 2
-		IfWinActive, ahk_exe SalonIris.exe
-		{
-			Send {Alt}
-			
-			Send {Right 11}
-			Send {Down 3}
-			Send {Enter}
-			Sleep, 469
-			
-			Send, {h}
-			Sleep, 469
-			Send, {Tab}
-			Sleep, 531
-			Send, {u}
-			Send, {n}
-			Send, {k}
-			Send, {n}
-			Send, {d}
-			Send, {w}
-			Send, {n}
-			Send, {0}
-			Sleep, 313
-			Send, {Enter}
-			Sleep, 1093
-			Send, {Enter}
-			
-			
+		if(lastClockInDate != A_DD){
+			WinActivate, ahk_exe SalonIris.exe
+			WinWaitActive, ahk_exe SalonIris.exe, , 2
+			IfWinActive, ahk_exe SalonIris.exe
+			{
+				Send {Alt}
+				
+				Send {Right 11}
+				Send {Down 2}
+				Send {Enter}
+				Sleep, 469
+				
+				Send, {h}
+				Sleep, 469
+				Send, {Tab}
+				Sleep, 531
+				Send, {u}
+				Send, {n}
+				Send, {k}
+				Send, {n}
+				Send, {d}
+				Send, {w}
+				Send, {n}
+				Send, {0}
+				Sleep, 313
+				Send, {Enter}
+				Sleep, 1093
+				Send, {Enter}
+				
+				lastClockInDate:= A_DD
+			}
+		}else{
+			WinActivate, ahk_exe SalonIris.exe
+			WinWaitActive, ahk_exe SalonIris.exe, , 2
+			IfWinActive, ahk_exe SalonIris.exe
+			{
+				Send {Alt}
+				
+				Send {Right 11}
+				Send {Down 3}
+				Send {Enter}
+				Sleep, 469
+				
+				Send, {h}
+				Sleep, 469
+				Send, {Tab}
+				Sleep, 531
+				Send, {u}
+				Send, {n}
+				Send, {k}
+				Send, {n}
+				Send, {d}
+				Send, {w}
+				Send, {n}
+				Send, {0}
+				Sleep, 313
+				Send, {Enter}
+				Sleep, 1093
+				Send, {Enter}
+				
+				
+			}
 		}
 	return
 	
