@@ -13,7 +13,11 @@ loop %g_configurations0%
 	t:=g_configurations%A_Index%
 	IniRead, %t%, %A_ScriptDir%\PWT_v2.ini, Main,  % t
 	%t% := decodeLinesAndTabs(%t%)
+	
+	if(InStr(%t%, "``") == 1)
+		%t% := SubStr(%t%, 2)
 }
+
 if(location = "ERROR")
 	MsgBox Could not load location
 
@@ -26,7 +30,7 @@ if(iniClipList != ""){
 
 #Include PWT_v2_include.ahk
 
-coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;"
+coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;Go to route,13b;"
 personalStacks:= "r,12r;c,12v;a,11y;"
 infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;"
 soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;"
@@ -37,7 +41,7 @@ eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCounc
 gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
 laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;"
 nodeJsStacks:= "regenerate js and css,15bb,npm run watch;"
-sisStacks:= "SIS Agency User,15bf;push MakudiOnline to git,12m;"
+sisStacks:= "SIS Agency User,15bf;push MakudiOnline to git,12m;SIS Admin User,13a;"
 chromeStacks:= "Sample login page,15bg;"
 etukuriStacks:= "laravel test assert success,15bj;laravel test assert fail,15bk;laravel form field,15bl;database seeder changes,15bi;laravel scaffolding with generators,12t;"
 cSharpStacks:= "c# use dbcontext,15bm;"
@@ -2005,7 +2009,7 @@ else if(Stack="12m") ; push MakudiOnline to git
 		{
 		  Run cmd 
 		  WinWaitActive, ahk_exe cmd.exe 
-		  Send cd /D C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline{Enter} 
+		  Send cd /D C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline{Enter}
 		  Send "C:\Program Files\Git\cmd\git.exe"  push -u origin master{Enter} 
 		}
 	}
@@ -2032,7 +2036,11 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=24/7/2019 @ 15`:34`:25`nWD MyCloud`t3.756020960845053`nHammadh PC`t9.220937476493418`nLatheef PC`t12.421090250834823`nReception Laptop`t8.194732379168272`nModebe PC`t8.82216609083116`nAcer ES14 mobile laptop`t6.445409749634564`nHammadh J7 Pro`t4.741813226230443`nPichamon 20181005`t0.09519536700099707`nThihthibey iPhone 8 Plus`t2.994327150285244`nAfsara 300119`t12.359017907641828`nHammadh PC 2`t0.000005252659320831299`nBilal Desktop`t7.190493158996105`nShaira Iphone201811`t0.14625361090525985`nHewage Laptop Dell`t5.555859214626253`nAmrita`t37.89551556110382`nBilal 20190629`t16.685487457551062`nCenie`t5.485678495839238`nHP LaserJet `t3.7296836835620923`nHewage new Desktop`t8.701266010291874`n143`t10.762321797199547`n144`t1.2537160059437156`nwifi router`t3.7255367563975974`n
+		Button1_Label=24/7/2019 @ 15`:34`:25`nWD MyCloud`t3.756020960845053`nHammadh PC`t9.220937476493418`nLatheef PC`t12.421090250834823`nReception Laptop`t8.194732379168272`nModebe PC`t8.82216609083116`nAcer ES14 mobile laptop`t6.445409749634564`nHammadh J7 Pro`t4.741813226230443`nPichamon 20181005`t0.09519536700099707`nThihthibey iPhone 8 Plus`t2.994327150285244`nAfsara 300119`t12.359017907641828`nHammadh PC 2`t0.000005252659320831299`nBilal Desktop`t7.190493158996105`nShaira Iphone201811`t0.14625361090525985`nHewage Laptop Dell`t5.555859214626253`nAmrita`t37.89551556110382`nBilal 20190629`t16.685487457551062`nCenie`t5.485678495839238`nHP LaserJetï¿½`t3.7296836835620923`nHewage new Desktop`t8.701266010291874`n143`t10.762321797199547`n144`t1.2537160059437156`nwifi router`t3.7255367563975974`n
+	}
+else if(Stack="13a") ; SIS Admin User 
+	{
+		Button1_Label=A302409
 	}
 else
 	{	
@@ -2058,6 +2066,18 @@ else
 }
 
 
+	
+#if (Stack="13b") ; Go to route 
+	`::
+		t := Clipboard
+		StringSplit, t, t, /
+		MyTT(t1)
+		Send ^p
+		Send % t1 "Controller"
+		Send {Enter}
+		Send ^r
+		Send % t2
+	return
 	
 #if (Stack="12z") ; clock in to SalonIris 
 	`::
@@ -2764,7 +2784,7 @@ XButton2::
 	
 #if (Stack="15bo") ; make new stack 
 	`::
-		stackPrefix := "12"
+		stackPrefix := "13"
 		newStackAsc := 97
 		
 		Loop 27 {
