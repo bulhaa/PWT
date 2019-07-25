@@ -1014,7 +1014,7 @@ return
 		MouseGetPos, prevMouseX, MouseY
 		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
 		{
-			if not GetKeyState("LButton", "P")  ; If this statement is true, the user has physically released the F1F1 key.
+			if not GetKeyState("LButton", "P")  ; If this statement is true, the user has physically released the F1 key.
 			{
 				MouseGetPos, currMouseX, MouseY
 				;~ MsgBox %prevMouseX% %currMouseX% %MouseY%
@@ -4360,6 +4360,13 @@ return
 		;~ scaffold_template =`    .eval("$('¿ value1 ¿').val("+property.rm_nRooms+");")`n
 		scaffold_template =`    .sleep(1000)`n    .waitForElementByCss('¿ value1 ¿')`n    .click()`n
 		printUsingScaffold()
+	return
+	
+	`;:: ; make js safe for chrome console
+		t := Clipboard
+		StringReplace, t, t, % "\\", % "\", All
+		StringReplace, t, t, % "\""", % """", All
+		Clipboard := t
 	return
 
 #if (Stack="15m") ;Grab Articles for TTS Reader mode 
