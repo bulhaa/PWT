@@ -3097,41 +3097,63 @@ XButton2::
 	
 #if (Stack="15ak") ; Go to reference 
 	`::
-		; Search for reference in atom
-		Send {Left}{Right}
-		Send +{Home}
-		
-		waitClipboard()
-		StringSplit, clipboard,clipboard, '`"%A_Space%()`,;
-		t1:=clipboard%clipboard0%
-		len1 := StrLen(t1) + 1
-		
-		Send {Right}
-		Send +{End}
-		waitClipboard()
-		StringSplit, clipboard,clipboard, '`"%A_Space%()`,;
-
-		len2 := StrLen(clipboard1) + len1 - 1
-		ref := t1 clipboard1
-		
-		; select the reference
-		;~ Send {Left %len1%}+{Right %len2%}
-		
-		if(! WinActive("ahk_exe sublime_text.exe")){
-		;~ if(location="NCIT"){
-			StringReplace, ref, ref, ~, , All
-			StringReplace, ref, ref, /, \, All
-			ref := RegExReplace(ref, "^\\", "")
-			Clipboard:= ref
-			Send ^n
+		; if browser is open
+		if(WinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+			Send !d
+			waitClipboard()
+			
+			StringReplace, clipboard, clipboard, http://ecouncil.test:8080/ecouncil/index.php/, , All
+			
+			WinActivate, ahk_exe sublime_text.exe
+			WinWaitActive, ahk_exe sublime_text.exe, , 2
+			if(WinActive("ahk_exe sublime_text.exe")){
+				t := Clipboard
+				StringSplit, t, t, ?
+				StringSplit, t1, t1, /
+				Send ^p
+				Send % t11 "Controller"
+				Send {Enter}
+				Send ^r
+				Send % t12
+				Send {Enter}
+			}
 		}else{
-			StringReplace, ref, ref, ., \, All
-			Clipboard:= ref
-			Send ^p
+			; if IDE is open
+			Send {Left}{Right}
+			Send +{Home}
+			
+			waitClipboard()
+			StringSplit, clipboard,clipboard, '`"%A_Space%()`,;
+			t1:=clipboard%clipboard0%
+			len1 := StrLen(t1) + 1
+			
+			Send {Right}
+			Send +{End}
+			waitClipboard()
+			StringSplit, clipboard,clipboard, '`"%A_Space%()`,;
+
+			len2 := StrLen(clipboard1) + len1 - 1
+			ref := t1 clipboard1
+			
+			; select the reference
+			;~ Send {Left %len1%}+{Right %len2%}
+			
+			if(! WinActive("ahk_exe sublime_text.exe")){
+			;~ if(location="NCIT"){
+				StringReplace, ref, ref, ~, , All
+				StringReplace, ref, ref, /, \, All
+				ref := RegExReplace(ref, "^\\", "")
+				Clipboard:= ref
+				Send ^n
+			}else{
+				StringReplace, ref, ref, ., \, All
+				Clipboard:= ref
+				Send ^p
+			}
+			Sleep 100
+			;~ Clipboard := "e(" Clipboard ")"
+			Send ^v
 		}
-		Sleep 100
-		;~ Clipboard := "e(" Clipboard ")"
-		Send ^v
 	return
 
 #if (Stack="15ae") ; fetchRow
