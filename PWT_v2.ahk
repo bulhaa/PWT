@@ -2228,6 +2228,13 @@ return
 		Clipboard := " : ''"
 	return
 	
+	+`::
+		mergeClipboard()
+		scaffold_template = isset(¿ value1 ¿) ? ¿ value1 ¿
+		printUsingScaffold("L")
+		Clipboard := " : ''"
+	return
+	
 #if (Stack="12o") ; php var_dump to console 
 	`::
 		Send {Home 2}
