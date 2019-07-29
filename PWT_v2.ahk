@@ -1417,7 +1417,7 @@ Search(needle, zHayStack_p, Options:=0) {
 	}
 	AutoTrim, Off
 	GuiControl, +Redraw, Listbox1
-	Clipboard := RegExReplace(zMatchingStack, Chr(255), "`t")
+	;~ Clipboard := RegExReplace(zMatchingStack, Chr(255), "`t")
 	return zMatchingStack
 }
 
