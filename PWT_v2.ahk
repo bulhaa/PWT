@@ -660,77 +660,6 @@ ExitApp
 
 #IfWinNotActive, ahk_class AutoHotkeyGUI
 !F1::
-	;~ Send {Tab 9}
-	;~ Sleep 100
-	;~ Send {Space}
-;~ return
-
-
-	TT_showing = 0
-	if(switch="")
-		switch = 1
-
-
-	; add room info
-	if(switch=1){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		myTT("Get room info")
-		Stack:="11e"
-		Manager()
-	}else if(switch=2){
-		temp := chr(254)
-		clipWareHouse1=
-		clipWareHouse2=
-		clipWareHouse3=
-		StringReplace, Clipboard, Clipboard, `n, , All
-		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
-		StringSplit, clipWareHouse, Clipboard, %temp%,
-
-		Clipboard := clipWareHouse1
-		goToEndOfCliplist()
-		mergeClipboard(0)
-		
-		StringSplit, clipWareHouse1A, clipWareHouse1, `n,
-		Clipboard := clipWareHouse1A1
-		
-		Stack:="15c"
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		myTT("Add Room")
-		Manager()
-	}else if(switch=3){
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
-		myTT("Delete Images")
-	;~ }else if(switch=4){
-		;~ Stack:="11j"
-		;~ Manager()
-		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		;~ myTT("Get image list")
-	}else  if(switch=4){
-		Clipboard:=clipWareHouse2
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	;~ }else if(switch=6){
-		;~ Stack:="11d"
-		;~ myTT("Get room amenities list")
-		;~ Manager()
-	}else if(switch=5){
-		Clipboard:=clipWareHouse3
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		Stack:="15f"
-		tickRoomAmenities()
-		myTT("Tick amenities")
-		Manager()
-	}else if(switch=6){
-		switch = 0
-		myTT("Reloaded")
-		Reload
-	}
-	
-	switch++
-return
-
-
 	; add propety info to WDMyCloud
 	if(switch = 1){
 		WinActivate, Documents ahk_class CabinetWClass ahk_exe explorer.exe
@@ -757,8 +686,8 @@ return
 		WinActivate, Property Information.docx - Microsoft Word ahk_class OpusApp ahk_exe WINWORD.EXE
 		myTT("Fill property template ")
 		Manager()
-		;~ switch+=2
-		switch+=5
+		switch+=2
+		;~ switch+=5
 	;~ }else if(switch=4){
 		;~ WinActivate, Property Information.docx - Microsoft Word ahk_class OpusApp ahk_exe WINWORD.EXE
 		;~ myTT("Get Island name")
@@ -839,6 +768,77 @@ return
 	switch++
 return
 
+
+
+	;~ Send {Tab 9}
+	;~ Sleep 100
+	;~ Send {Space}
+;~ return
+
+
+	TT_showing = 0
+	if(switch="")
+		switch = 1
+
+
+	; add room info
+	if(switch=1){
+		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		myTT("Get room info")
+		Stack:="11e"
+		Manager()
+	}else if(switch=2){
+		temp := chr(254)
+		clipWareHouse1=
+		clipWareHouse2=
+		clipWareHouse3=
+		StringReplace, Clipboard, Clipboard, `n, , All
+		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+		StringSplit, clipWareHouse, Clipboard, %temp%,
+
+		Clipboard := clipWareHouse1
+		goToEndOfCliplist()
+		mergeClipboard(0)
+		
+		StringSplit, clipWareHouse1A, clipWareHouse1, `n,
+		Clipboard := clipWareHouse1A1
+		
+		Stack:="15c"
+		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		myTT("Add Room")
+		Manager()
+	}else if(switch=3){
+		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+		myTT("Delete Images")
+	;~ }else if(switch=4){
+		;~ Stack:="11j"
+		;~ Manager()
+		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		;~ myTT("Get image list")
+	}else  if(switch=4){
+		Clipboard:=clipWareHouse2
+		Stack:="15g"
+		myTT("Download images")
+		Manager()
+	;~ }else if(switch=6){
+		;~ Stack:="11d"
+		;~ myTT("Get room amenities list")
+		;~ Manager()
+	}else if(switch=5){
+		Clipboard:=clipWareHouse3
+		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		Stack:="15f"
+		tickRoomAmenities()
+		myTT("Tick amenities")
+		Manager()
+	}else if(switch=6){
+		switch = 0
+		myTT("Reloaded")
+		Reload
+	}
+	
+	switch++
+return
 
 
 	; add room info
@@ -1843,8 +1843,12 @@ else if(Stack="11g") ; get room amenities from soleasia
 	}
 else if(Stack="11h") ; Get Property Information 
 	{
-		Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = ''`;`n//$('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__Header > h1').text() + delim + $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__SubSection > div > div.FirstTileContent__Address').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('.hotel-desc')[0] ?  $('.hotel-desc')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n// $.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n  // output += value.outerText + delim`;`n// })`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
+		Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div.collapsed > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#property-critical-root > div > div.Northstar > div.sc-bRBYWo.hKubsX > div.NorthstarMainContent > div.sc-Rmtcm.fsSPrI.Cardstyled__CardStyled-qh6gc3-0.edkwBM > div.HeaderCerebrum > div`:nth-child(1) > h1').text() + delim + $('#property-critical-root > div > div.Northstar > div.sc-bRBYWo.hKubsX > div.NorthstarMainContent > div.sc-Rmtcm.fsSPrI.Cardstyled__CardStyled-qh6gc3-0.edkwBM > div.HeaderCerebrum > div.HeaderCerebrum__Location > span.HeaderCerebrum__Address').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0] ?  $('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
 	}
+;~ else if(Stack="11h") ; Get Property Information 
+	;~ {
+		;~ Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__Header > h1').text() + delim + $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__SubSection > div > div.FirstTileContent__Address').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('.hotel-desc')[0] ?  $('.hotel-desc')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
+	;~ }
 ;~ else if(Stack="11h") ; Get Property Information 
 	;~ {
 		;~ Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#property-split-root > div > div`:nth-child(4) > div > div.propertyPageRightColumn > div.hotel-header > div.hotel-header-info.hotel-header__Hotel > div > div.hotel-header-info-name > h1').text() + delim + $('#property-split-root > div > div`:nth-child(4) > div > div.propertyPageRightColumn > div.hotel-header > div.hotel-header-info.hotel-header__Hotel > div > div.hotel-header-info-address > a.hotel-header-info-address-text').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('.hotel-desc')[0] ?  $('.hotel-desc')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n  output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;
@@ -2036,7 +2040,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=25/7/2019 @ 17`:13`:20`nWD MyCloud`t3.7573940888792277`nHammadh PC`t13.034569503739476`nLatheef PC`t12.791827076114714`nReception Laptop`t8.461810693144798`nModebe PC`t8.921549902297556`nAcer ES14 mobile laptop`t6.590464873239398`nHammadh J7 Pro`t4.866800183989108`nPichamon 20181005`t0.09519536700099707`nThihthibey iPhone 8 Plus`t3.2787138214334846`nAfsara 300119`t13.687417172826827`nHammadh PC 2`t0.000005252659320831299`nLatheef Ipad`t0.36559863574802876`nBilal Desktop`t7.40946009196341`nShaira Iphone201811`t0.14625361090525985`nHewage Laptop Dell`t5.659913796000183`nAmrita`t39.37631845474243`nBilal 20190629`t17.664970548823476`nCenie`t6.180519949644804`nHP LaserJet�`t3.729923356632702`nHewage new Desktop`t8.946803291328251`n143`t12.732459181919694`n144`t1.799245299771428`nwifi router`t3.7255492137683555`n`n
+		Button1_Label=26/7/2019 @ 16`:58`:42`nWD MyCloud`t3.758668505102396`nHammadh PC`t13.33834280911833`nLatheef PC`t17.131280192174017`nReception Laptop`t8.574998584575951`nModebe PC`t8.955193791538477`nAcer ES14 mobile laptop`t6.746257928200066`nHammadh J7 Pro`t4.940244089439512`nPichamon 20181005`t0.09519536700099707`nThihthibey iPhone 8 Plus`t3.594001683406532`nAfsara 300119`t14.827815381810069`nHammadh PC 2`t0.000005252659320831299`nLatheef Ipad`t0.36738278437405825`nBilal Desktop`t7.4451112588867545`nShaira Iphone201811`t0.14625361090525985`nHewage Laptop Dell`t5.687349922955036`nAmrita`t39.711594581604004`nBilal 20190629`t17.786393695510924`nCenie`t6.180519949644804`nHP LaserJet�`t3.729923356632702`nHewage new Desktop`t8.946803291328251`n143`t13.298709153197706`n144`t1.799245299771428`nwifi router`t3.725560680211894`n`n
 	}
 else if(Stack="13a") ; SIS Admin User 
 	{
@@ -3458,7 +3462,7 @@ XButton2::
 			else if(A_Index=2)
 			{
 				showTT=0	
-				SendInput {Raw}sole
+				SendInput {Raw}cenie
 				sleep 2000
 				Send {Tab}
 			}
@@ -3509,7 +3513,7 @@ XButton2::
 			}
 			else if(A_Index=10)
 			{
-				Send {Space}{Tab 2}{Space}{Tab 2}
+				Send {Tab}{Space}{Tab}{Space}{Tab 2}
 				showTT=0
 				Send 20
 				sleep 200
@@ -3921,6 +3925,7 @@ return
 		clipboard=`n%clipboard%`n
 		StringReplace, clipboard, clipboard, `r, , All
 		
+		amenityReplace("Internet access � wireless", "Free Wifi")
 		amenityReplace("Free Wi-Fi in all rooms", "Free Wifi")
 		amenityReplace("Free Wi-Fi in all rooms!", "Free Wifi")
 		amenityReplace("Internet access � wireless", "Free Wifi")
