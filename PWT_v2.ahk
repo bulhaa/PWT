@@ -48,8 +48,9 @@ cSharpStacks:= "c# use dbcontext,15bm;"
 sheriStacks:= "sheri bandwidth usage,12y;clock in to SalonIris,12z;"
 fileZillaStacks:= "filezilla convert local path to ftp path,12w;"
 sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
+yiiStacks:= "yii app end,13b;"
 
-allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks "swap css colors,15bc;"
+allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks "swap css colors,15bc;"
 
 zStacks:= allStacks
 
@@ -2056,6 +2057,10 @@ else if(Stack="13a") ; SIS Admin User
 else if(Stack="13c") ; jquery ready 
 	{
 		Button1_Label=$(function() {`n    `n})`;`n
+	}
+else if(Stack="13b") ; yii app end 
+	{
+		Button1_Label=Yii`:`:app()->end()`;
 	}
 else
 	{	
@@ -4371,7 +4376,8 @@ return
 			;~ scaffold_template =`$('¿ value1 ¿')
 			;~ scaffold_template =round(¿ value1 ¿, decimalPlaces)
 			;~ scaffold_template =output += $('¿ value1 ¿').val() + "\t";`n
-			scaffold_template =$('¿ value1 ¿').text()
+			;~ scaffold_template =$('¿ value1 ¿').text()
+			scaffold_template =$('¿ value1 ¿').val();
 			printUsingScaffold()
 		}else{
 			WinActivate, ahk_exe chrome.exe
