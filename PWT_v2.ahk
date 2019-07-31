@@ -669,8 +669,9 @@ ExitApp
 		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, ,
 		myTT("Check property name")
 	}else if(switch = 2){
-		FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % "\\wdmycloud\soleasia\Maldives\Ari North (AA) Atoll\Mathiveri\" Clipboard ".docx"
-		run % "\\wdmycloud\soleasia\Maldives\Ari North (AA) Atoll\Rasdhoo\" Clipboard ".docx"
+		t := "\\wdmycloud\soleasia\Maldives\Ari North (AA) Atoll\Thoddoo\" Clipboard ".docx"
+		FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % t
+		run % t
 		myTT("Template Copied")
 	}else if(switch = 3){
 		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
@@ -2048,7 +2049,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=26/7/2019 @ 16`:58`:42`nWD MyCloud`t3.758668505102396`nHammadh PC`t13.33834280911833`nLatheef PC`t17.131280192174017`nReception Laptop`t8.574998584575951`nModebe PC`t8.955193791538477`nAcer ES14 mobile laptop`t6.746257928200066`nHammadh J7 Pro`t4.940244089439512`nPichamon 20181005`t0.09519536700099707`nThihthibey iPhone 8 Plus`t3.594001683406532`nAfsara 300119`t14.827815381810069`nHammadh PC 2`t0.000005252659320831299`nLatheef Ipad`t0.36738278437405825`nBilal Desktop`t7.4451112588867545`nShaira Iphone201811`t0.14625361090525985`nHewage Laptop Dell`t5.687349922955036`nAmrita`t39.711594581604004`nBilal 20190629`t17.786393695510924`nCenie`t6.180519949644804`nHP LaserJetï¿½`t3.729923356632702`nHewage new Desktop`t8.946803291328251`n143`t13.298709153197706`n144`t1.799245299771428`nwifi router`t3.725560680211894`n`n
+		Button1_Label=31/7/2019 @ 16`:14`:45`t`nWD MyCloud`t4.148880371`nHammadh PC`t26.61079859`nLatheef PC`t103.1654303`nReception Laptop`t21.23518487`nModebe PC`t14.30623092`nAcer ES14 mobile laptop`t7.358654895`nHammadh J7 Pro`t5.29261625`nPichamon 20181005`t0.123270191`nThihthibey iPhone 8 Plus`t7.03214831`nAfsara 300119`t36.63942461`nHammadh PC 2`t8.24779E-06`nLatheef Ipad`t0.420878374`nBilal Desktop`t10.51659808`nShaira Iphone201811`t0.146253611`nHewage Laptop Dell`t7.282171603`nAmrita`t63.05985153`nBilal 20190629`t25.43921514`nCenie`t6.762621909`nHP LaserJetï¿½`t3.731946146`nHewage new Desktop`t14.41083067`nBilal Surface Pro`t18.36948688`nAmrita Tablet`t10.52852842`n145`t0.172642811`nwifi router`t3.72578371`n`n
 	}
 else if(Stack="13a") ; SIS Admin User 
 	{
@@ -3604,7 +3605,7 @@ XButton2::
 			}
 			
 			if(clipboard!=""){
-				StringReplace, Clipboard, Clipboard, ÿ, , All
+				StringReplace, Clipboard, Clipboard, ï¿½, , All
 				temp:=Clipboard
 				  WinClip.Clear()
 				  WinClip.SetHTML( "<div style='color: rgb(78, 78, 78); font-family: mallory, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px;'>" temp "</div>")
@@ -3970,7 +3971,7 @@ return
 		clipboard=`n%clipboard%`n
 		StringReplace, clipboard, clipboard, `r, , All
 		
-		amenityReplace("Internet access – wireless", "Free Wifi")
+		amenityReplace("Internet access ï¿½ wireless", "Free Wifi")
 		amenityReplace("Free Wi-Fi in all rooms", "Free Wifi")
 		amenityReplace("Free Wi-Fi in all rooms!", "Free Wifi")
 		amenityReplace("Internet access ï¿½ wireless", "Free Wifi")
