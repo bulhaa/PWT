@@ -33,7 +33,7 @@ if(iniClipList != ""){
 coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;"
 personalStacks:= "r,12r;c,12v;a,11y;"
 infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;"
-soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;"
+soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
 seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
 jsStacks:="console log,15l;jquery ready,13c;"
 ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
@@ -661,6 +661,97 @@ ExitApp
 
 #IfWinNotActive, ahk_class AutoHotkeyGUI
 !F1::
+	TT_showing = 0
+	if(switch="")
+		switch = 1
+
+
+	; add room info
+	if(switch=1){
+		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		myTT("Get room info")
+		Stack:="11e"
+		Manager()
+	}else if(switch=2){
+		temp := chr(254)
+		clipWareHouse1=
+		clipWareHouse2=
+		clipWareHouse3=
+		StringReplace, Clipboard, Clipboard, `n, , All
+		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+		StringSplit, clipWareHouse, Clipboard, %temp%,
+
+		Clipboard := clipWareHouse1
+		goToEndOfCliplist()
+		mergeClipboard(0)
+		
+		StringSplit, clipWareHouse1A, clipWareHouse1, `n,
+		Clipboard := clipWareHouse1A1
+		
+		Stack:="15c"
+		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		myTT("Add Room")
+		Manager()
+	}else if(switch=3){
+		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+		myTT("Delete Images")
+	;~ }else if(switch=4){
+		;~ Stack:="11j"
+		;~ Manager()
+		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		;~ myTT("Get image list")
+	}else  if(switch=4){
+		Clipboard:=clipWareHouse2
+		Stack:="15g"
+		myTT("Download images")
+		Manager()
+	;~ }else if(switch=6){
+		;~ Stack:="11d"
+		;~ myTT("Get room amenities list")
+		;~ Manager()
+	}else if(switch=5){
+		Clipboard:=clipWareHouse3
+		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		Stack:="15f"
+		tickRoomAmenities()
+		myTT("Tick amenities")
+		Manager()
+	}else if(switch=6){
+		switch = 0
+		myTT("Reloaded")
+		Reload
+	}
+	
+	switch++
+return
+
+
+	; add propety info to WDMyCloud
+	if(switch = 1){
+		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		Stack:="13d"
+		myTT("Get Property images")
+		Manager()
+	}else if(switch = 2){
+		StringReplace, Clipboard, Clipboard, `n, , All
+		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+		myTT("Delete Images")
+	}else if(switch = 3){
+		Stack:="15g"
+		myTT("Download images")
+		Manager()
+	}else if(switch = 4){
+		switch = 0
+		clipList=
+		Reload
+		myTT("Reloaded")
+	}
+	switch++
+return
+
+
+
 	; add propety info to WDMyCloud
 	if(switch = ""){
 		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
@@ -783,71 +874,6 @@ return
 	;~ Sleep 100
 	;~ Send {Space}
 ;~ return
-
-
-	TT_showing = 0
-	if(switch="")
-		switch = 1
-
-
-	; add room info
-	if(switch=1){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		myTT("Get room info")
-		Stack:="11e"
-		Manager()
-	}else if(switch=2){
-		temp := chr(254)
-		clipWareHouse1=
-		clipWareHouse2=
-		clipWareHouse3=
-		StringReplace, Clipboard, Clipboard, `n, , All
-		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
-		StringSplit, clipWareHouse, Clipboard, %temp%,
-
-		Clipboard := clipWareHouse1
-		goToEndOfCliplist()
-		mergeClipboard(0)
-		
-		StringSplit, clipWareHouse1A, clipWareHouse1, `n,
-		Clipboard := clipWareHouse1A1
-		
-		Stack:="15c"
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		myTT("Add Room")
-		Manager()
-	}else if(switch=3){
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
-		myTT("Delete Images")
-	;~ }else if(switch=4){
-		;~ Stack:="11j"
-		;~ Manager()
-		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		;~ myTT("Get image list")
-	}else  if(switch=4){
-		Clipboard:=clipWareHouse2
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	;~ }else if(switch=6){
-		;~ Stack:="11d"
-		;~ myTT("Get room amenities list")
-		;~ Manager()
-	}else if(switch=5){
-		Clipboard:=clipWareHouse3
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		Stack:="15f"
-		tickRoomAmenities()
-		myTT("Tick amenities")
-		Manager()
-	}else if(switch=6){
-		switch = 0
-		myTT("Reloaded")
-		Reload
-	}
-	
-	switch++
-return
 
 
 	; add room info
@@ -1840,7 +1866,7 @@ else if(Stack="11d") ; get room amenities list
 	}
 else if(Stack="11e") ; Get Room Information 
 	{
-		Button1_Label=var delim = String.fromCharCode(255)`;`n`nvar output = $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-header > div.MasterRoom-headerLeft > a > div > div > span')[0].innerHTML + delim`; // Room name`n`noutput += "0" + delim`; // Number of rooms`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next()[0].innerText `: "" ) + delim`; // Bed types`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup').find('.ficon-adults-one').length * ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div').text().match(/\d+\.?\d*/) == null ? 1 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div').text().match(/\d+\.?\d*/)[0])) + delim`; // Persons`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').length==0 ? "" `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').text()) + delim`; // Free Breakfast`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next().length!=0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next()[0].innerText.match(/\d+\.?\d*[ ]m�\/\d+\.?\d*[ ]ft�/)[0] `: "-") + delim`; // Area`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next()[0].innerText `: "" ) + delim`; // View`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container').length==0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('span.pd-price')[0].innerText + delim `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container')[0].innerText) + delim`; // Price`n`n`noutput += String.fromCharCode(254)`;`n`n$.each($('.thumbnail-wrapper > img')`, function( index`, value ) {`n  output += value.src.replace('80x60'`, '1024x768').replace('100x75'`, '1024x768').replace('photos.hotelbeds.com/giata/medium'`, 'photos.hotelbeds.com/giata/bigger').replace('aff.bstatic.com/images/hotel/max300'`, 'aff.bstatic.com/images/hotel/840x460').replace('aff.bstatic.com/images/hotel/max200'`, 'aff.bstatic.com/images/hotel/840x460') + delim`;`n})`;`n`noutput += String.fromCharCode(254)`;`n$.each($('.details__amenities-item').not(".details__amenities-item_disabled")`, function( index`, value ) {`n  output += value.outerText + delim`;`n})`;`n`nfor(`; output.length>0`;){`n`tprompt("test"`, output.substring(0`, 2000))`;`n`toutput = output.substring(2000`, output.length)`n}`n`n`n
+		Button1_Label := "var delim = String.fromCharCode(255)`;`n`nvar output = $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-header > div.MasterRoom-headerLeft > a > div > div > span')[0].innerHTML + delim`; // Room name`n`noutput += ""0"" + delim`; // Number of rooms`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next()[0].innerText `: '' ) + delim`; // Bed types`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup').find('.ficon-adults-one').length * ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div').text().match(/\d+\.?\d*/) == null ? 1 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div').text().match(/\d+\.?\d*/)[0])) + delim`; // Persons`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').length==0 ? '' `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').text()) + delim`; // Free Breakfast`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next().length!=0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next()[0].innerText.match(/\d+\.?\d*[ ]m" Chr(178) "\/\d+\.?\d*[ ]ft" Chr(178) "/)[0] `: '-') + delim`; // Area`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next()[0].innerText `: '' ) + delim`; // View`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container').length==0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('span.pd-price')[0].innerText + delim `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container')[0].innerText) + delim`; // Price`n`n`noutput += String.fromCharCode(254)`;`n`n$.each($('.thumbnail-wrapper > img')`, function( index`, value ) {`n  output += value.src.replace('80x60'`, '1024x768').replace('100x75'`, '1024x768').replace('photos.hotelbeds.com/giata/medium'`, 'photos.hotelbeds.com/giata/bigger').replace('aff.bstatic.com/images/hotel/max300'`, 'aff.bstatic.com/images/hotel/840x460').replace('aff.bstatic.com/images/hotel/max200'`, 'aff.bstatic.com/images/hotel/840x460') + delim`;`n})`;`n`noutput += String.fromCharCode(254)`;`n$.each($('.details__amenities-item').not("".details__amenities-item_disabled"")`, function( index`, value ) {`n  output += value.outerText + delim`;`n})`;`n`nfor(`; output.length>0`;){`n`tprompt(""test""`, output.substring(0`, 2000))`;`n`toutput = output.substring(2000`, output.length)`n}`n`n`n"
 	}
 else if(Stack="11f") ; Remove network adapters
 	{
@@ -1849,6 +1875,10 @@ else if(Stack="11f") ; Remove network adapters
 else if(Stack="11g") ; get room amenities from soleasia
 	{
 		Button1_Label=var output = "";`n$.each($('.amenity_four_rows').not(".not-available-feature"), function( index, value ) {`n  output += value.outerText + "\n";`n});`nprompt("test",output);
+	}
+else if(Stack="11h") ; Get Property Information 
+	{
+		Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__Header > h1').text() + delim + $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__SubSection > div > div.FirstTileContent__Address').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0] ?  $('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
 	}
 ;~ else if(Stack="11h") ; Get Property Information 
 	;~ {
@@ -2063,6 +2093,10 @@ else if(Stack="13b") ; yii app end
 	{
 		Button1_Label=Yii`:`:app()->end()`;
 	}
+else if(Stack="13d") ; property images from booking.com 
+	{
+		Button1_Label=`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`noutput = ''`;`na = 1`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('#photo_wrapper > div.hp-gallery-slides.hp-gallery-top.slick-initialized.slick-slider > div > div > div`:nth-child('+a+') > img')[0] != null){`n`t`toutput += $('#photo_wrapper > div.hp-gallery-slides.hp-gallery-top.slick-initialized.slick-slider > div > div > div`:nth-child('+a+') > img')[0].src + delim`;`n`t`ta++`n`t`t$('#photo_wrapper > div.hp-gallery-controls.landmark_photos_enabled.hp-controls--visible > a.hp-gallery-control.hp-gallery-control-with_best_ugc_highlight.hp-gallery-control-next').click()`;`n`t}else{`n`t`talert('test')`;`n`t}`n`tif(a > $('#photos_distinct > a').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
+	}
 else
 	{	
 		EditVisible :=1
@@ -2087,6 +2121,13 @@ else
 }
 
 
+	
+#if (Stack="13d") ; property images from booking.com 
+	`::
+		mergeClipboard()
+		Send {Esc}
+	return
+	
 	
 #if (Stack="12z") ; clock in to SalonIris 
 	`::
@@ -3606,7 +3647,9 @@ XButton2::
 			}
 			
 			if(clipboard!=""){
-				StringReplace, Clipboard, Clipboard, �, , All
+				StringReplace, Clipboard, Clipboard, % chr(255), , All
+				StringReplace, Clipboard, Clipboard, % chr(254), , All
+				StringReplace, Clipboard, Clipboard, % chr(253), , All
 				temp:=Clipboard
 				  WinClip.Clear()
 				  WinClip.SetHTML( "<div style='color: rgb(78, 78, 78); font-family: mallory, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px;'>" temp "</div>")
@@ -3921,7 +3964,7 @@ return
 		{
 			if(Clipboard="Beach view")
 				Send {space}
-			Send {Tab 2}
+			Send {Tab}
 
 			if(Clipboard="Garden view")
 				Send {space}
@@ -3931,11 +3974,19 @@ return
 				Send {space}
 			Send {Tab}
 			
-			if(Clipboard="Ocean view" or Clipboard="Sea view")
+			if(Clipboard="Ocean view")
 				Send {space}
-			Send {Tab 2}
+			Send {Tab}
 
 			if(Clipboard="Pool view")
+				Send {space}
+			Send {Tab}
+
+			if(Clipboard="Sea view")
+				Send {space}
+			Send {Tab}
+
+			if(Clipboard="Street view")
 				Send {space}
 			Send {Tab}
 
@@ -3968,14 +4019,13 @@ return
 
 #if (Stack="15d") ; tick property amenitites
 	`::		
-
 		clipboard=`n%clipboard%`n
 		StringReplace, clipboard, clipboard, `r, , All
 		
-		amenityReplace("Internet access � wireless", "Free Wifi")
+		amenityReplace("Vending machine", "Vending Machine")
 		amenityReplace("Free Wi-Fi in all rooms", "Free Wifi")
 		amenityReplace("Free Wi-Fi in all rooms!", "Free Wifi")
-		amenityReplace("Internet access � wireless", "Free Wifi")
+		amenityReplace("Internet access " Chr(8211) " wireless", "Free Wifi")
 		amenityReplace("Car park (on site, free)", "Car park")
 		amenityReplace("Private beach", "Private Beach")
 		amenityReplace("Diving", "Dive school")
@@ -4169,16 +4219,16 @@ return
 
 #if (Stack="15g") ; Download images
 	`::
-		FileCreateDir, C:\Users\sheesu.-sheesu-\Downloads\New folder\Featured\
+		FileCreateDir, % A_Desktop "\SoleAsia\New folder\Featured"
 
 		StringSplit, clipboard, clipboard, `n, `r
 		loop %clipboard0%
 		{
 			temp:= Clipboard%A_Index%
 			if(A_Index = 1)
-				run C:\Users\sheesu.-sheesu-\Documents\Hammadh\download\download.exe %temp% /notime /overwrite /output:"C:\Users\sheesu.-sheesu-\Downloads\New folder\Featured"
+				run % A_Desktop "\SoleAsia\download.exe " temp " /notime /overwrite /output:""" A_Desktop "\SoleAsia\New folder\Featured"""
 			else
-				run C:\Users\sheesu.-sheesu-\Documents\Hammadh\download\download.exe %temp% /notime /overwrite /output:"C:\Users\sheesu.-sheesu-\Downloads\New folder"
+				run % A_Desktop "\SoleAsia\download.exe " temp " /notime /overwrite /output:""" A_Desktop "\SoleAsia\New folder"""
 		}
 	return
 		
