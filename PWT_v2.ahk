@@ -2049,7 +2049,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=31/7/2019 @ 16`:14`:45`t`nWD MyCloud`t4.148880371`nHammadh PC`t26.61079859`nLatheef PC`t103.1654303`nReception Laptop`t21.23518487`nModebe PC`t14.30623092`nAcer ES14 mobile laptop`t7.358654895`nHammadh J7 Pro`t5.29261625`nPichamon 20181005`t0.123270191`nThihthibey iPhone 8 Plus`t7.03214831`nAfsara 300119`t36.63942461`nHammadh PC 2`t8.24779E-06`nLatheef Ipad`t0.420878374`nBilal Desktop`t10.51659808`nShaira Iphone201811`t0.146253611`nHewage Laptop Dell`t7.282171603`nAmrita`t63.05985153`nBilal 20190629`t25.43921514`nCenie`t6.762621909`nHP LaserJet�`t3.731946146`nHewage new Desktop`t14.41083067`nBilal Surface Pro`t18.36948688`nAmrita Tablet`t10.52852842`n145`t0.172642811`nwifi router`t3.72578371`n`n
+		Button1_Label=2/8/2019 @ 16`:41`:35`nWD MyCloud`t0.001286705955862999`nHammadh PC`t0.6126597495749593`nLatheef PC`t0.6095580821856856`nReception Laptop`t0.23944534920156002`nModebe PC`t0.12793169263750315`nAcer ES14 mobile laptop`t0.09026063792407513`nHammadh J7 Pro`t0.05715715419501066`nThihthibey iPhone 8 Plus`t0.03129136934876442`nAfsara 300119`t1.1227335222065449`nLatheef Ipad`t0.0014206720516085625`nBilal Desktop`t0.10733120702207088`nHewage Laptop Dell`t4.059352586977184`nAmrita`t0.6124389935284853`nBilal 20190629`t0.06434131506830454`nCenie`t0.08669637236744165`nHewage new Desktop`t0.025014925748109818`nAmrita Tablet`t0.14594589453190565`n146`t0.014432569965720177`nwifi router`t0.000011608004570007324`n
 	}
 else if(Stack="13a") ; SIS Admin User 
 	{
@@ -2180,6 +2180,7 @@ else
 		StringReplace, clipboard, clipboard, C:\Users\sheesu.-sheesu-\Documents\Casa_website\, /casaretreat.com/, All
 		StringReplace, clipboard, clipboard, C:\Users\sheesu.-sheesu-\Downloads\hotel-master\GoodLayers Plugin\gdlr-hotel\gdlr-hotel\, /casaretreat.com/wp-content/themes/hotelmaster/, All
 		StringReplace, clipboard, clipboard, C:\Users\sheesu.-sheesu-\Downloads\hotel-master\hotelmaster\hotelmaster\, /casaretreat.com/wp-content/plugins/gdlr-hostel/, All
+		StringReplace, clipboard, clipboard, C:\Users\sheesu.-sheesu-\Documents\tropisle, \tropisle, All
 		StringReplace, clipboard, clipboard, \, /, All
 		
 		Send ^v
