@@ -2017,7 +2017,7 @@ else if(Stack="15bm") ; c# use dbcontext
 	}
 else if(Stack="15am") ; scaffolding mode 
 	{
-		Button1_Label=`t`tscaffold_template = ¿ value1 ¿`n`t`tprintUsingScaffold("")`n`n
+		Button1_Label=`t`tscaffold_template = � value1 �`n`t`tprintUsingScaffold("")`n`n
 	}
 else if(Stack="11x") ; grab links from chrome 
 	{
@@ -2274,14 +2274,14 @@ return
 #if (Stack="12p") ; php null check 
 	`::
 		mergeClipboard()
-		scaffold_template = !is_null(¿ value1 ¿) ? ¿ value1 ¿
+		scaffold_template = !is_null(� value1 �) ? � value1 �
 		printUsingScaffold("L")
 		Clipboard := " : ''"
 	return
 	
 	+`::
 		mergeClipboard()
-		scaffold_template = isset(¿ value1 ¿) ? ¿ value1 ¿
+		scaffold_template = isset(� value1 �) ? � value1 �
 		printUsingScaffold("L")
 		Clipboard := " : ''"
 	return
@@ -2360,10 +2360,10 @@ return
 		global v_12l
 		Click, 2
 
-		t := "0 0 140 ¿ value1 ¿"
+		t := "0 0 140 � value1 �"
 		;~ matrix(1.3333333,0,1.000000,-1.3333333,0,808.81867)
 		
-		StringReplace, t, t, ¿ value1 ¿, % v_12l, All
+		StringReplace, t, t, � value1 �, % v_12l, All
 		
 		Clipboard := t
 		Send ^v
@@ -2412,7 +2412,7 @@ return
 	return
 	
 	`:: 
-		Send ¿ value1 ¿
+		Send � value1 �
 	return
 	
 #if (Stack="12i") ; Remove Lines 
@@ -2489,7 +2489,7 @@ return
 #if (Stack="11z") ; purify 
 	`::
 		waitClipboard()
-		scaffold_template = $parser = new CHtmlPurifier()`;`nreturn $parser->purify(¿ value1 ¿)`;`n
+		scaffold_template = $parser = new CHtmlPurifier()`;`nreturn $parser->purify(� value1 �)`;`n
 		printUsingScaffold("C")
 	return
 	
@@ -2787,7 +2787,7 @@ XButton2::
 #if (Stack="11t") ; prices 
 	`::
 		Clipboard=
-		scaffold_template = ¿ valueAT1 ¿`nMVR ¿ value3 ¿`n`n
+		scaffold_template = � valueAT1 �`nMVR � value3 �`n`n
 		printUsingScaffold("MA", , 4)
 		;~ printUsingScaffold()
 	return
@@ -2836,7 +2836,7 @@ XButton2::
 #if (Stack="15l") ; console log 
 	`::
 		mergeClipboard()
-		scaffold_template = console.log('¿ value1 ¿: ' + ¿ value1 ¿);
+		scaffold_template = console.log('� value1 �: ' + � value1 �);
 		printUsingScaffold(1)
 	return
 	
@@ -2861,13 +2861,13 @@ XButton2::
 #if (Stack="15bn") ; convert to property function 
 	`::
 		mergeClipboard()
-		scaffold_template = property.¿ value1 ¿()
+		scaffold_template = property.� value1 �()
 		printUsingScaffold("L")
 	return
 	
 #if (Stack="15bl") ; laravel form field 
 	`::
-		scaffold_template =`                <div class="{{ add_error_class($errors->has('¿ valueS1 ¿'), 'form-group') }}">`n                    {!! Form`:`:label('¿ valueS1 ¿', '¿ valueT1 ¿').' *' !!}`n                    <?php`n                    $selected_¿ valueS1 ¿ = isset($¿ valueS2 ¿) ? $¿ valueS2 ¿->¿ valueS3 ¿ `: old('¿ valueS1 ¿');`n                    $¿ valueS1 ¿s = ['' => ''] + App\¿ value4 ¿`:`:pluck('name', 'id');`n                    ?>`n                    {!! Form`:`:select('¿ valueS1 ¿', $¿ valueS1 ¿s, $selected_¿ valueS1 ¿,`n                        ['class' => 'form-control select2-basic', 'data-allow-clear' => 'true', 'data-placeholder' => __('All')]) !!}`n                    @include('errors._list', ['error' => $errors->get('¿ valueS1 ¿')])`n                </div>`n`n
+		scaffold_template =`                <div class="{{ add_error_class($errors->has('� valueS1 �'), 'form-group') }}">`n                    {!! Form`:`:label('� valueS1 �', '� valueT1 �').' *' !!}`n                    <?php`n                    $selected_� valueS1 � = isset($� valueS2 �) ? $� valueS2 �->� valueS3 � `: old('� valueS1 �');`n                    $� valueS1 �s = ['' => ''] + App\� value4 �`:`:pluck('name', 'id');`n                    ?>`n                    {!! Form`:`:select('� valueS1 �', $� valueS1 �s, $selected_� valueS1 �,`n                        ['class' => 'form-control select2-basic', 'data-allow-clear' => 'true', 'data-placeholder' => __('All')]) !!}`n                    @include('errors._list', ['error' => $errors->get('� valueS1 �')])`n                </div>`n`n
 		printUsingScaffold()
 	return
 	
@@ -3087,7 +3087,7 @@ XButton2::
 	return
 	
 #if (Stack="15am") ; scaffolding mode 
-	+`:: Send ¿ value1 ¿{Left 3}+{Right}
+	+`:: Send � value1 �{Left 3}+{Right}
 	
 	`:: printUsingScaffold("", 1, -1)
 	
@@ -3100,6 +3100,7 @@ XButton2::
 	; M = merge to clipboard
 	; S = skip line
 	; A = all lines
+	; C = from Clipboard
 	printUsingScaffold( params = "", nRows = 1, nColumns = -1, next = 1 ){
 		global
 		local row
@@ -3121,8 +3122,8 @@ XButton2::
 
 		switch++
 		
-		if(!InStr(scaffold_template, "¿ value"))
-			scaffold_template=¿ value1 ¿
+		if(!InStr(scaffold_template, "� value"))
+			scaffold_template=� value1 �
 		
 		if(fromClipboard){
 			Clipboard := replaceMarker()
@@ -3255,7 +3256,7 @@ XButton2::
 		}
 		
 		value0++
-		StringReplace, t, t, ¿ value0 ¿, % value0, All
+		StringReplace, t, t, � value0 �, % value0, All
 		
 		return t
 	}
@@ -3278,15 +3279,15 @@ XButton2::
 		valueT%index% := titleCase(value%index%)
 		valueL%index% := lowerCase(value%index%)
 		
-		StringReplace, hayStack, hayStack, ¿ value%index% ¿, % value%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueC%index% ¿, % valueC%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueCC%index% ¿, % valueCC%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueS%index% ¿, % valueS%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueSH%index% ¿, % valueSH%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueU%index% ¿, % valueU%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueAT%index% ¿, % valueAT%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueT%index% ¿, % valueT%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueL%index% ¿, % valueL%index%, All
+		StringReplace, hayStack, hayStack, � value%index% �, % value%index%, All
+		StringReplace, hayStack, hayStack, � valueC%index% �, % valueC%index%, All
+		StringReplace, hayStack, hayStack, � valueCC%index% �, % valueCC%index%, All
+		StringReplace, hayStack, hayStack, � valueS%index% �, % valueS%index%, All
+		StringReplace, hayStack, hayStack, � valueSH%index% �, % valueSH%index%, All
+		StringReplace, hayStack, hayStack, � valueU%index% �, % valueU%index%, All
+		StringReplace, hayStack, hayStack, � valueAT%index% �, % valueAT%index%, All
+		StringReplace, hayStack, hayStack, � valueT%index% �, % valueT%index%, All
+		StringReplace, hayStack, hayStack, � valueL%index% �, % valueL%index%, All
 		
 		return hayStack
 	}
@@ -4420,16 +4421,16 @@ return
 			mergeClipboard(0)
 			mergeClipboard(0)
 			
-			;~ scaffold_template =`              "¿ value1 ¿"+`n
-			;~ scaffold_template =`    .waitForElementByCss('¿ value1 ¿')`r`n    .click()`r`n
-			;~ scaffold_template =`    .waitForConditionInBrowser("$('¿ value1 ¿').text().replace(',','').match(/\\d+\\.?\\d*/)[0]*1 == "`n        + total +";", 1000) // Assert total`n
-			;~ scaffold_template =`    .eval("$('¿ value1 ¿').val("+property.rm_nRooms+");")`n
-			;~ scaffold_template =`$('¿ value1 ¿').val()
-			;~ scaffold_template =`$('¿ value1 ¿')
-			;~ scaffold_template =round(¿ value1 ¿, decimalPlaces)
-			;~ scaffold_template =output += $('¿ value1 ¿').val() + "\t";`n
-			;~ scaffold_template =$('¿ value1 ¿').text()
-			scaffold_template =$('¿ value1 ¿').val();
+			;~ scaffold_template =`              "� value1 �"+`n
+			;~ scaffold_template =`    .waitForElementByCss('� value1 �')`r`n    .click()`r`n
+			;~ scaffold_template =`    .waitForConditionInBrowser("$('� value1 �').text().replace(',','').match(/\\d+\\.?\\d*/)[0]*1 == "`n        + total +";", 1000) // Assert total`n
+			;~ scaffold_template =`    .eval("$('� value1 �').val("+property.rm_nRooms+");")`n
+			;~ scaffold_template =`$('� value1 �').val()
+			;~ scaffold_template =`$('� value1 �')
+			;~ scaffold_template =round(� value1 �, decimalPlaces)
+			;~ scaffold_template =output += $('� value1 �').val() + "\t";`n
+			;~ scaffold_template =$('� value1 �').text()
+			scaffold_template =$('� value1 �').val();
 			printUsingScaffold()
 		}else{
 			WinActivate, ahk_exe chrome.exe
@@ -4460,8 +4461,8 @@ return
 	return
 	
 	^`::
-		;~ scaffold_template =`    .eval("$('¿ value1 ¿').val("+property.rm_nRooms+");")`n
-		scaffold_template =`    .sleep(1000)`n    .waitForElementByCss('¿ value1 ¿')`n    .click()`n
+		;~ scaffold_template =`    .eval("$('� value1 �').val("+property.rm_nRooms+");")`n
+		scaffold_template =`    .sleep(1000)`n    .waitForElementByCss('� value1 �')`n    .click()`n
 		printUsingScaffold()
 	return
 	
