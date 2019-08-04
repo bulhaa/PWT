@@ -2017,7 +2017,7 @@ else if(Stack="15bm") ; c# use dbcontext
 	}
 else if(Stack="15am") ; scaffolding mode 
 	{
-		Button1_Label=`t`tscaffold_template = � value1 �`n`t`tprintUsingScaffold("")`n`n
+		Button1_Label=`t`tscaffold_template = � value1 �`n`t`tprintUsingScaffold("")`n`n
 	}
 else if(Stack="11x") ; grab links from chrome 
 	{
@@ -2079,7 +2079,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=2/8/2019 @ 16`:41`:35`nWD MyCloud`t0.001286705955862999`nHammadh PC`t0.6126597495749593`nLatheef PC`t0.6095580821856856`nReception Laptop`t0.23944534920156002`nModebe PC`t0.12793169263750315`nAcer ES14 mobile laptop`t0.09026063792407513`nHammadh J7 Pro`t0.05715715419501066`nThihthibey iPhone 8 Plus`t0.03129136934876442`nAfsara 300119`t1.1227335222065449`nLatheef Ipad`t0.0014206720516085625`nBilal Desktop`t0.10733120702207088`nHewage Laptop Dell`t4.059352586977184`nAmrita`t0.6124389935284853`nBilal 20190629`t0.06434131506830454`nCenie`t0.08669637236744165`nHewage new Desktop`t0.025014925748109818`nAmrita Tablet`t0.14594589453190565`n146`t0.014432569965720177`nwifi router`t0.000011608004570007324`n
+		Button1_Label=4/8/2019 @ 16`:0`:21`nWD MyCloud`t0.003807387314736843`nHammadh PC`t1.529817409813404`nLatheef PC`t1.494739357382059`nHP LaserJet`t0.00036900024861097336`nReception Laptop`t1.075990566983819`nModebe PC`t0.2343797292560339`nCamera System`t5.21540641784668e-7`nAcer ES14 mobile laptop`t0.3797947121784091`nHammadh J7 Pro`t0.2462203288450837`nThihthibey iPhone 8 Plus`t0.16863637045025826`nAfsara 300119`t4.012422768399119`nHammadh PC 2`t0.000003822147846221924`nLatheef Ipad`t0.23071959614753723`nBilal Desktop`t0.2944731852039695`nHewage Laptop Dell`t4.176803162321448`nAmrita`t2.6785657638683915`nBilal 20190629`t0.6076011909171939`nCenie`t0.46193556394428015`nHewage new Desktop`t0.39298521634191275`nAmrita Tablet`t1.4130996325984597`n146`t0.014432569965720177`nwifi router`t0.000034399330615997314`n`n
 	}
 else if(Stack="13a") ; SIS Admin User 
 	{
@@ -3087,7 +3087,7 @@ XButton2::
 	return
 	
 #if (Stack="15am") ; scaffolding mode 
-	+`:: Send � value1 �{Left 3}+{Right}
+	+`:: Send � value1 �{Left 3}+{Right}
 	
 	`:: printUsingScaffold("", 1, -1)
 	
@@ -3122,11 +3122,11 @@ XButton2::
 
 		switch++
 		
-		if(!InStr(scaffold_template, "� value"))
-			scaffold_template=� value1 �
+		if(!InStr(scaffold_template, "� value"))
+			scaffold_template=� value1 �
 		
 		if(fromClipboard){
-			Clipboard := replaceMarker()
+			row := replaceMarker()
 			Send ^v
 		}else{
 			Loop % nRows
@@ -4400,6 +4400,38 @@ return
 	return
 
 #if (Stack="15k") ; run selenium test
+	^s::
+	filename_v_15k =
+		IfWinActive, event_register.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+			filename_v_15k = event_register.php
+	
+		IfWinActive, event.class.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+			filename_v_15k = event.class.php
+		
+		
+		if(filename_v_15k = ""){
+			myTT("no match")
+			return
+		}
+	
+		Send ^a
+		waitClipboard()
+		WinActivate, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+		WinWaitActive, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 2
+		IfWinActive, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+		{
+			Click 248, 354
+			Sleep 100
+			Send ^a
+			Send ^v
+			Sleep 100
+			Click 1799, 97
+		}
+		WinActivate, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		WinWaitActive, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , 2
+		Send ^{f5}
+	return
+
 	F12:: camelCase()
 	
 	`::
@@ -4417,21 +4449,21 @@ return
 			waitClipboard(0)
 			StringReplace, Clipboard, Clipboard, `n, , All
 			StringReplace, Clipboard, Clipboard, `r, , All
-			goToEndOfCliplist()
-			mergeClipboard(0)
-			mergeClipboard(0)
+			;~ goToEndOfCliplist()
+			;~ mergeClipboard(0)
+			;~ mergeClipboard(0)
 			
-			;~ scaffold_template =`              "� value1 �"+`n
-			;~ scaffold_template =`    .waitForElementByCss('� value1 �')`r`n    .click()`r`n
-			;~ scaffold_template =`    .waitForConditionInBrowser("$('� value1 �').text().replace(',','').match(/\\d+\\.?\\d*/)[0]*1 == "`n        + total +";", 1000) // Assert total`n
-			;~ scaffold_template =`    .eval("$('� value1 �').val("+property.rm_nRooms+");")`n
-			;~ scaffold_template =`$('� value1 �').val()
-			;~ scaffold_template =`$('� value1 �')
-			;~ scaffold_template =round(� value1 �, decimalPlaces)
-			;~ scaffold_template =output += $('� value1 �').val() + "\t";`n
-			;~ scaffold_template =$('� value1 �').text()
-			scaffold_template =$('� value1 �').val();
-			printUsingScaffold()
+			;~ scaffold_template =`              "¿ value1 ¿"+`n
+			;~ scaffold_template =`    .waitForElementByCss('¿ value1 ¿')`r`n    .click()`r`n
+			;~ scaffold_template =`    .waitForConditionInBrowser("$('¿ value1 ¿').text().replace(',','').match(/\\d+\\.?\\d*/)[0]*1 == "`n        + total +";", 1000) // Assert total`n
+			;~ scaffold_template =`    .eval("$('¿ value1 ¿').val("+property.rm_nRooms+");")`n
+			;~ scaffold_template =`$('¿ value1 ¿').val()
+			;~ scaffold_template =`$('¿ value1 ¿')
+			;~ scaffold_template =round(¿ value1 ¿, decimalPlaces)
+			;~ scaffold_template =output += $('¿ value1 ¿').val() + "\t";`n
+			;~ scaffold_template =$('¿ value1 ¿').text()
+			scaffold_template =$('¿ value1 ¿').hide();
+			printUsingScaffold("C")
 		}else{
 			WinActivate, ahk_exe chrome.exe
 		}
