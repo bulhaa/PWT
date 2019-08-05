@@ -48,7 +48,7 @@ cSharpStacks:= "c# use dbcontext,15bm;"
 sheriStacks:= "sheri bandwidth usage,12y;clock in to SalonIris,12z;"
 fileZillaStacks:= "filezilla convert local path to ftp path,12w;"
 sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
-yiiStacks:= "yii app end,13b;"
+yiiStacks:= "yii app end,13b;yii base url,13e;"
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks "swap css colors,15bc;"
 
@@ -2097,6 +2097,10 @@ else if(Stack="13d") ; property images from booking.com
 	{
 		Button1_Label=`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`noutput = ''`;`na = 1`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('#photo_wrapper > div.hp-gallery-slides.hp-gallery-top.slick-initialized.slick-slider > div > div > div`:nth-child('+a+') > img')[0] != null){`n`t`toutput += $('#photo_wrapper > div.hp-gallery-slides.hp-gallery-top.slick-initialized.slick-slider > div > div > div`:nth-child('+a+') > img')[0].src + delim`;`n`t`ta++`n`t`t$('#photo_wrapper > div.hp-gallery-controls.landmark_photos_enabled.hp-controls--visible > a.hp-gallery-control.hp-gallery-control-with_best_ugc_highlight.hp-gallery-control-next').click()`;`n`t}else{`n`t`talert('test')`;`n`t}`n`tif(a > $('#photos_distinct > a').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
 	}
+else if(Stack="13e") ; yii base url 
+	{
+		Button1_Label=<?php echo Yii`:`:app()->request->baseUrl ?>
+	}
 else
 	{	
 		EditVisible :=1
@@ -3034,6 +3038,10 @@ XButton2::
 	`::
 		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
 		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		
+		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
+		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
+		
 		synchronizeFoldersOneWay(Source, Destination)
 
 		MyTT("Done Synching")
