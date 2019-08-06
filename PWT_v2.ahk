@@ -3169,8 +3169,8 @@ XButton2::
 			Send !d
 			waitClipboard()
 			
-			StringReplace, clipboard, clipboard, http://ecouncil.test:8080/ecouncil/index.php/, , All
-			
+			Clipboard:= RegExReplace(Clipboard, "s)^.*index.php/", "$1")
+
 			WinActivate, ahk_exe sublime_text.exe
 			WinWaitActive, ahk_exe sublime_text.exe, , 2
 			if(WinActive("ahk_exe sublime_text.exe")){
