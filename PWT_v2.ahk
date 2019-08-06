@@ -747,32 +747,6 @@ ExitApp
 return
 
 
-	; add booking.com images to WDMyCloud
-	if(switch = 1){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		Stack:="13d"
-		myTT("Get Property images")
-		Manager()
-	}else if(switch = 2){
-		StringReplace, Clipboard, Clipboard, `n, , All
-		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
-		myTT("Delete Images")
-	}else if(switch = 3){
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	}else if(switch = 4){
-		switch = 0
-		clipList=
-		Reload
-		myTT("Reloaded")
-	}
-	switch++
-return
-
-
-
 	; add propety info to WDMyCloud
 	if(switch = 1){
 		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
@@ -898,6 +872,32 @@ return
 		tickPropertyAmenitites()
 		Manager()
 	}else if(switch = 13){
+		switch = 0
+		clipList=
+		Reload
+		myTT("Reloaded")
+	}
+	switch++
+return
+
+
+
+	; add booking.com images to WDMyCloud
+	if(switch = 1){
+		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		Stack:="13d"
+		myTT("Get Property images")
+		Manager()
+	}else if(switch = 2){
+		StringReplace, Clipboard, Clipboard, `n, , All
+		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+		myTT("Delete Images")
+	}else if(switch = 3){
+		Stack:="15g"
+		myTT("Download images")
+		Manager()
+	}else if(switch = 4){
 		switch = 0
 		clipList=
 		Reload
