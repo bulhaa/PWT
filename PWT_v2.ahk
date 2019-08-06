@@ -4,7 +4,7 @@ Process, Close, dota2.exe
 
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes"
+g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -774,14 +774,19 @@ return
 
 
 	; add propety info to WDMyCloud
-	if(switch = ""){
+	if(switch = 1){
 		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
 		myTT("Get Property name")
-	}else if(switch = 1){
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, ,
-		myTT("Check property name")
 	}else if(switch = 2){
-		t := "\\wdmycloud\soleasia\Maldives\Ari North (AA) Atoll\Thoddoo\" Clipboard ".docx"
+		; Property already present?
+		if(InStr("`n" g_propertynames "`n", Clipboard)){
+			MsgBox Property already present
+			return
+		}else{
+			g_propertynames := g_propertynames Clipboard "`n"
+		}
+
+		t := "\\wdmycloud\soleasia\Maldives\Ari North (AA) Atoll\Maalhos\" Clipboard ".docx"
 		FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % t
 		run % t
 		myTT("Template Copied")
@@ -866,6 +871,17 @@ return
 	}else if(switch = 10){
 		Clipboard:=clipWareHouse3
 		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+		
+		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
+		{
+			FileDelete, %A_LoopFileFullPath%
+		}
+		
+		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
+		{
+			FileRemoveDir, %A_LoopFileFullPath%, 1
+		}
+			
 		myTT("Delete Images")
 	}else if(switch = 11){
 		Stack:="15g"
@@ -879,6 +895,7 @@ return
 		Clipboard:=clipWareHouse2
 		Stack:="15d"
 		myTT("tick property amenitites")
+		tickPropertyAmenitites()
 		Manager()
 	}else if(switch = 13){
 		switch = 0
@@ -1897,10 +1914,10 @@ else if(Stack="11g") ; get room amenities from soleasia
 	{
 		Button1_Label=var output = "";`n$.each($('.amenity_four_rows').not(".not-available-feature"), function( index, value ) {`n  output += value.outerText + "\n";`n});`nprompt("test",output);
 	}
-else if(Stack="11h") ; Get Property Information 
-	{
-		Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__Header > h1').text() + delim + $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__SubSection > div > div.FirstTileContent__Address').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0] ?  $('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
-	}
+;~ else if(Stack="11h") ; Get Property Information 
+	;~ {
+		;~ Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__Header > h1').text() + delim + $('#hotel-mosaic-compact > div > div`:nth-child(1) > div > div > div > div.FirstTileContent__Section > div.FirstTileContent__SubSection > div > div.FirstTileContent__Address').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0] ?  $('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
+	;~ }
 ;~ else if(Stack="11h") ; Get Property Information 
 	;~ {
 		;~ Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div.sub-section-right > div`:nth-child(2) > div > div')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div.sub-section-right > div`:nth-child(2) > div')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div.sub-section-right > div.collapsed > div')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#property-critical-root > div > div.Northstar > div.sc-bRBYWo.hKubsX > div.NorthstarMainContent > div.sc-Rmtcm.fsSPrI.Cardstyled__CardStyled-qh6gc3-0.edkwBM > div.HeaderCerebrum > div`:nth-child(1) > h1').text() + delim + $('#property-critical-root > div > div.Northstar > div.sc-bRBYWo.hKubsX > div.NorthstarMainContent > div.sc-Rmtcm.fsSPrI.Cardstyled__CardStyled-qh6gc3-0.edkwBM > div.HeaderCerebrum > div.HeaderCerebrum__Location > span.HeaderCerebrum__Address').text() + delim + ($('.ficon-star-style.ficon-star-1').length>0?1`:$('.ficon-star-style.ficon-star-2').length>0?2`:$('.ficon-star-style.ficon-star-3').length>0?3`:$('.ficon-star-style.ficon-star-4').length>0?4`:$('.ficon-star-style.ficon-star-5').length>0?5`:$('.ficon-star-style.ficon-star-45').length>0?4`:$('.ficon-star-style.ficon-star-35').length>0?3`:$('.ficon-star-style.ficon-star-25').length>0?2`:$('.ficon-star-style.ficon-star-15').length>0?1`:0) + delim + ($('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0] ?  $('#property-room-grid-root > div > div.HotelOverview > div.HotelOverview__Container > div.HotelOverview__Left > div > div.HotelOverview__Desc > p')[0].outerHTML `: '') + delim + announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
@@ -3562,7 +3579,8 @@ XButton2::
 			if(clipboard="Write here")
 				clipboard=
 			
-			Send {Home}^a{BackSpace 30}
+			if(A_Index!=2 and A_Index!=5)
+				Send {Home}^a{BackSpace 30}
 
 			if(A_Index=1 or A_Index=100)
 			{
@@ -3571,8 +3589,8 @@ XButton2::
 			else if(A_Index=2)
 			{
 				showTT=0	
-				SendInput {Raw}cenie
-				sleep 2000
+				;~ SendInput {Raw}cenie
+				;~ sleep 2000
 				Send {Tab}
 			}
 			else if(A_Index=3)
@@ -3586,13 +3604,13 @@ XButton2::
 			{
 				SearchAddress:= Clipboard ", Maldives"
 				showTT=0
-				Send Maldives
-				Send {Enter}
-				Send {Enter}
-				sleep 2000
+				;~ Send Maldives
+				;~ Send {Enter}
+				;~ Send {Enter}
+				sleep 100
 				Send {Tab}
-				SendInput {Raw}%Clipboard%
-				sleep 2000
+				;~ SendInput {Raw}%Clipboard%
+				sleep 100
 				Send {Tab}
 			}
 			else if(A_Index=6)
@@ -3618,7 +3636,7 @@ XButton2::
 			}
 			else if(A_Index=9)
 			{
-				SendInput +960 3337996
+				SendInput {Raw}+960 3337996
 				sleep 200
 				Send {Tab}
 				SendInput info@soleasia.com
@@ -3638,7 +3656,7 @@ XButton2::
 				Send 20
 				sleep 200
 				Send {Tab}
-				Send 2
+				Send 0
 			}
 			else
 			{
@@ -4051,7 +4069,9 @@ return
 	return
 
 #if (Stack="15d") ; tick property amenitites
-	`::		
+	`:: tickPropertyAmenitites()
+	
+	tickPropertyAmenitites(){
 		clipboard=`n%clipboard%`n
 		StringReplace, clipboard, clipboard, `r, , All
 		
@@ -4123,8 +4143,9 @@ return
 		
 		
 		Clipboard=$('.amenity_four_rows > input').prop('checked',false);var str = "%amenities%";`nvar str_array = str.split('#');`n`nvar missingAmenities = "";`n`nfor(var i = 0; i < str_array.length; i++) {`n   str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");`n   `n   if(str_array[i] != ""){`n	   if($('.amenity_four_rows:contains("' + str_array[i] + '") > input').length == 0)`n			missingAmenities += str_array[i] + "\n";`n	   $('.amenity_four_rows:contains("' + str_array[i] + '") > input').prop('checked',true)`n}`n}`n`nif(missingAmenities != "")`n	prompt("These amenities are missing \n\n", missingAmenities);`n
-		MsgBox %Clipboard%
+		;~ MsgBox %Clipboard%
 	return
+	}
 	
 #if (Stack="15e") ; generic clipFetch
 	`:: ; next
