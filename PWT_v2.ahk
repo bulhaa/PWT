@@ -3060,6 +3060,9 @@ XButton2::
 		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
 		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
+		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
+		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
 		
@@ -3189,20 +3192,21 @@ XButton2::
 			Send !d
 			waitClipboard()
 			
-			Clipboard:= RegExReplace(Clipboard, "s)^.*index.php/", "$1")
+			t := Clipboard
+			t:= RegExReplace(t, "s)^.*index.php/", "$1")
 
 			WinActivate, ahk_exe sublime_text.exe
 			WinWaitActive, ahk_exe sublime_text.exe, , 2
 			if(WinActive("ahk_exe sublime_text.exe")){
-				t := Clipboard
 				StringSplit, t, t, ?
 				StringSplit, t1, t1, /
 				Send ^p
 				Send % t11 "Controller"
 				Send {Enter}
 				Send ^r
-				Send % t12
+				Send % "action" t12
 				Send {Enter}
+				Clipboard := t12
 			}
 		}else{
 			; if IDE is open
@@ -4429,38 +4433,61 @@ return
 
 #if (Stack="15k") ; run selenium test
 	^s::
-	filename_v_15k =
-		IfWinActive, event_register.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
-			filename_v_15k = event_register.php
-	
-		IfWinActive, header.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
-			filename_v_15k = header.php
-	
-		IfWinActive, event.class.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
-			filename_v_15k = event.class.php
+		if(location = "NCIT"){
+			IfWinActive, ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+			{
+				Send ^s
+				
+				WinActivate, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe"
+				WinWaitActive, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe", , 2
+				IfWinActive, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe"
+				{
+					Send {f5}
+					Sleep 100
+					Send {Enter}
+				}
+				
+				WinActivate, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+				WinWaitActive, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 2
+				IfWinActive, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+				{
+					
+				}
+			}
+		}else{
+			filename_v_15k =
+			IfWinActive, event_register.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+				filename_v_15k = event_register.php
 		
+			IfWinActive, header.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+				filename_v_15k = header.php
 		
-		if(filename_v_15k = ""){
-			myTT("no match")
-			return
-		}
-	
-		Send ^a
-		waitClipboard()
-		WinActivate, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
-		WinWaitActive, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 2
-		IfWinActive, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
-		{
-			Click 248, 354
-			Sleep 100
+			IfWinActive, event.class.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+				filename_v_15k = event.class.php
+			
+			
+			if(filename_v_15k = ""){
+				myTT("no match")
+				return
+			}
+		
 			Send ^a
-			Send ^v
-			Sleep 100
-			Click 1799, 97
+			waitClipboard()
+			WinActivate, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+			WinWaitActive, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 2
+			IfWinActive, % filename_v_15k " - cPanel File Manager v3 - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+			{
+				Click 248, 354
+				Sleep 100
+				Send ^a
+				Send ^v
+				Sleep 100
+				Click 1799, 97
+			}
+			WinActivate, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			WinWaitActive, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , 2
+			Send ^{f5}
 		}
-		WinActivate, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		WinWaitActive, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , 2
-		Send ^{f5}
 	return
 
 	F12:: camelCase()
