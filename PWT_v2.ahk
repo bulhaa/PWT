@@ -4,7 +4,7 @@ Process, Close, dota2.exe
 
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate"
+g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -692,15 +692,36 @@ ExitApp
 		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
 		myTT("Add Room")
 		Manager()
+		
+		; need to add room type?
+		if(!InStr("`n" g_roomtypes "`n", clipWareHouse1A1)){
+			g_roomtypes := g_roomtypes clipWareHouse1A1 "`n"
+			Clipboard =nonAjaxHttpQwzx(`n`t"post"`,`n"https`://www.soleasia.com/bookingadmin/properties/roomtypesave"`,`n{ `n    '_method'`: "POST"`,`n    'data[Property][search]'`: "cenie"`,`n    'data[Property][user]'`: "155"`,`n    'name'`: "%clipWareHouse1A1%"`,`n    'am_id'`: ""`n }`n)`n//.done(function( data ) {console.log(data)`;`n// })`;`n`n`nfunction nonAjaxHttpQwzx(method`, url`, data) {`n    'use strict'`;`n    var form`;`n`n    form = $('<form />'`, {`n        action`: url`,`n        method`: method`,`n        style`: 'display`: none`;'`n    })`;`n`n    var data = data`;`n`n    if (typeof data !== 'undefined' && data !== null) {`n        $.each(data`, function (name`, value) {`n            $('<input />'`, {`n                type`: 'hidden'`,`n                name`: name`,`n                value`: value`n            }).appendTo(form)`;`n        })`;`n    }`n    form.appendTo('body').submit()`;`n}
+			myTT("Add type")
+		}
+		
+		switch++
 	}else if(switch=3){
+	}else if(switch=4){
 		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+	
+		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
+		{
+			FileDelete, %A_LoopFileFullPath%
+		}
+		
+		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
+		{
+			FileRemoveDir, %A_LoopFileFullPath%, 1
+		}
+			
 		myTT("Delete Images")
 	;~ }else if(switch=4){
 		;~ Stack:="11j"
 		;~ Manager()
 		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
 		;~ myTT("Get image list")
-	}else  if(switch=4){
+	}else  if(switch=5){
 		Clipboard:=clipWareHouse2
 		Stack:="15g"
 		myTT("Download images")
@@ -709,14 +730,14 @@ ExitApp
 		;~ Stack:="11d"
 		;~ myTT("Get room amenities list")
 		;~ Manager()
-	}else if(switch=5){
+	}else if(switch=6){
 		Clipboard:=clipWareHouse3
 		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
 		Stack:="15f"
 		tickRoomAmenities()
 		myTT("Tick amenities")
 		Manager()
-	}else if(switch=6){
+	}else if(switch=7){
 		switch = 0
 		myTT("Reloaded")
 		Reload
@@ -726,7 +747,7 @@ ExitApp
 return
 
 
-	; add propety info to WDMyCloud
+	; add booking.com images to WDMyCloud
 	if(switch = 1){
 		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
 		Stack:="13d"
@@ -1866,7 +1887,7 @@ else if(Stack="11d") ; get room amenities list
 	}
 else if(Stack="11e") ; Get Room Information 
 	{
-		Button1_Label := "var delim = String.fromCharCode(255)`;`n`nvar output = $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-header > div.MasterRoom-headerLeft > a > div > div > span')[0].innerHTML + delim`; // Room name`n`noutput += ""0"" + delim`; // Number of rooms`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next()[0].innerText `: '' ) + delim`; // Bed types`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup').find('.ficon-adults-one').length * ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div').text().match(/\d+\.?\d*/) == null ? 1 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div').text().match(/\d+\.?\d*/)[0])) + delim`; // Persons`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').length==0 ? '' `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').text()) + delim`; // Free Breakfast`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next().length!=0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next()[0].innerText.match(/\d+\.?\d*[ ]m" Chr(178) "\/\d+\.?\d*[ ]ft" Chr(178) "/)[0] `: '-') + delim`; // Area`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next()[0].innerText `: '' ) + delim`; // View`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container').length==0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('span.pd-price')[0].innerText + delim `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container')[0].innerText) + delim`; // Price`n`n`noutput += String.fromCharCode(254)`;`n`n$.each($('.thumbnail-wrapper > img')`, function( index`, value ) {`n  output += value.src.replace('80x60'`, '1024x768').replace('100x75'`, '1024x768').replace('photos.hotelbeds.com/giata/medium'`, 'photos.hotelbeds.com/giata/bigger').replace('aff.bstatic.com/images/hotel/max300'`, 'aff.bstatic.com/images/hotel/840x460').replace('aff.bstatic.com/images/hotel/max200'`, 'aff.bstatic.com/images/hotel/840x460') + delim`;`n})`;`n`noutput += String.fromCharCode(254)`;`n$.each($('.details__amenities-item').not("".details__amenities-item_disabled"")`, function( index`, value ) {`n  output += value.outerText + delim`;`n})`;`n`nfor(`; output.length>0`;){`n`tprompt(""test""`, output.substring(0`, 2000))`;`n`toutput = output.substring(2000`, output.length)`n}`n`n`n"
+		Button1_Label := "var delim = String.fromCharCode(255)`;`n`nvar output = $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-header > div.MasterRoom-headerLeft > a > div > div > span')[0].innerHTML + delim`; // Room name`n`noutput += ""0"" + delim`; // Number of rooms`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next()[0].innerText `: '' ) + delim`; // Bed types`n`noutput += (($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup').find('.ficon-adults-one').length*1 * ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup').text().match(/\d+\.?\d*/) == null ? 1 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup').text().match(/\d+\.?\d*/)[0])) + ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div > span.Capacity__text').text().match(/\d+\.?\d*/) == null ? 0 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div > span.Capacity__text').text().match(/\d+\.?\d*/)[0])*1) + delim`; // Persons`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').length==0 ? '' `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').text()) + delim`; // Free Breakfast`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next().length!=0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next()[0].innerText.match(/\d+\.?\d*[ ]m" Chr(178) "\/\d+\.?\d*[ ]ft" Chr(178) "/)[0] `: '-') + delim`; // Area`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next()[0].innerText `: '' ) + delim`; // View`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container').length==0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('span.pd-price')[0].innerText + delim `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container')[0].innerText) + delim`; // Price`n`n`noutput += String.fromCharCode(254)`;`n`n$.each($('.thumbnail-wrapper > img')`, function( index`, value ) {`n  output += value.src.replace('80x60'`, '1024x768').replace('100x75'`, '1024x768').replace('photos.hotelbeds.com/giata/medium'`, 'photos.hotelbeds.com/giata/bigger').replace('aff.bstatic.com/images/hotel/max300'`, 'aff.bstatic.com/images/hotel/840x460').replace('aff.bstatic.com/images/hotel/max200'`, 'aff.bstatic.com/images/hotel/840x460') + delim`;`n})`;`n`noutput += String.fromCharCode(254)`;`n$.each($('.details__amenities-item').not("".details__amenities-item_disabled"")`, function( index`, value ) {`n  output += value.outerText + delim`;`n})`;`n`nfor(`; output.length>0`;){`n`tprompt(""test""`, output.substring(0`, 2000))`;`n`toutput = output.substring(2000`, output.length)`n}`n`n`n"
 	}
 else if(Stack="11f") ; Remove network adapters
 	{
@@ -2017,7 +2038,7 @@ else if(Stack="15bm") ; c# use dbcontext
 	}
 else if(Stack="15am") ; scaffolding mode 
 	{
-		Button1_Label=`t`tscaffold_template = � value1 �`n`t`tprintUsingScaffold("")`n`n
+		Button1_Label=`t`tscaffold_template = ¿ value1 ¿`n`t`tprintUsingScaffold("")`n`n
 	}
 else if(Stack="11x") ; grab links from chrome 
 	{
@@ -2079,7 +2100,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=4/8/2019 @ 16`:0`:21`nWD MyCloud`t0.003807387314736843`nHammadh PC`t1.529817409813404`nLatheef PC`t1.494739357382059`nHP LaserJet`t0.00036900024861097336`nReception Laptop`t1.075990566983819`nModebe PC`t0.2343797292560339`nCamera System`t5.21540641784668e-7`nAcer ES14 mobile laptop`t0.3797947121784091`nHammadh J7 Pro`t0.2462203288450837`nThihthibey iPhone 8 Plus`t0.16863637045025826`nAfsara 300119`t4.012422768399119`nHammadh PC 2`t0.000003822147846221924`nLatheef Ipad`t0.23071959614753723`nBilal Desktop`t0.2944731852039695`nHewage Laptop Dell`t4.176803162321448`nAmrita`t2.6785657638683915`nBilal 20190629`t0.6076011909171939`nCenie`t0.46193556394428015`nHewage new Desktop`t0.39298521634191275`nAmrita Tablet`t1.4130996325984597`n146`t0.014432569965720177`nwifi router`t0.000034399330615997314`n`n
+		Button1_Label=5/8/2019 @ 16`:48`:14`nWD MyCloud`t0.0051276953890919685`nHammadh PC`t1.843825252726674`nLatheef PC`t2.0187949184328318`nHP LaserJet`t0.00036900024861097336`nReception Laptop`t2.385455305688083`nModebe PC`t0.2560004973784089`nCamera System`t5.21540641784668e-7`nAcer ES14 mobile laptop`t0.47796235233545303`nHammadh J7 Pro`t0.4326940132305026`nThihthibey iPhone 8 Plus`t0.31737711373716593`nAfsara 300119`t5.127778901718557`nHammadh PC 2`t0.000003822147846221924`nLatheef Ipad`t0.568099319934845`nBilal Desktop`t0.3748066183179617`nHewage Laptop Dell`t4.366422608494759`nAmrita`t4.230374117381871`nBilal 20190629`t0.8999002017080784`nCenie`t0.5913447067141533`nHewage new Desktop`t0.5865904772654176`nAmrita Tablet`t2.559975126758218`n146`t0.014432569965720177`nwifi router`t0.00004657357931137085`n`n
 	}
 else if(Stack="13a") ; SIS Admin User 
 	{
@@ -2278,14 +2299,14 @@ return
 #if (Stack="12p") ; php null check 
 	`::
 		mergeClipboard()
-		scaffold_template = !is_null(� value1 �) ? � value1 �
+		scaffold_template = !is_null(¿ value1 ¿) ? ¿ value1 ¿
 		printUsingScaffold("L")
 		Clipboard := " : ''"
 	return
 	
 	+`::
 		mergeClipboard()
-		scaffold_template = isset(� value1 �) ? � value1 �
+		scaffold_template = isset(¿ value1 ¿) ? ¿ value1 ¿
 		printUsingScaffold("L")
 		Clipboard := " : ''"
 	return
@@ -2364,10 +2385,10 @@ return
 		global v_12l
 		Click, 2
 
-		t := "0 0 140 � value1 �"
+		t := "0 0 140 ¿ value1 ¿"
 		;~ matrix(1.3333333,0,1.000000,-1.3333333,0,808.81867)
 		
-		StringReplace, t, t, � value1 �, % v_12l, All
+		StringReplace, t, t, ¿ value1 ¿, % v_12l, All
 		
 		Clipboard := t
 		Send ^v
@@ -2416,7 +2437,7 @@ return
 	return
 	
 	`:: 
-		Send � value1 �
+		Send ¿ value1 ¿
 	return
 	
 #if (Stack="12i") ; Remove Lines 
@@ -2493,7 +2514,7 @@ return
 #if (Stack="11z") ; purify 
 	`::
 		waitClipboard()
-		scaffold_template = $parser = new CHtmlPurifier()`;`nreturn $parser->purify(� value1 �)`;`n
+		scaffold_template = $parser = new CHtmlPurifier()`;`nreturn $parser->purify(¿ value1 ¿)`;`n
 		printUsingScaffold("C")
 	return
 	
@@ -2791,7 +2812,7 @@ XButton2::
 #if (Stack="11t") ; prices 
 	`::
 		Clipboard=
-		scaffold_template = � valueAT1 �`nMVR � value3 �`n`n
+		scaffold_template = ¿ valueAT1 ¿`nMVR ¿ value3 ¿`n`n
 		printUsingScaffold("MA", , 4)
 		;~ printUsingScaffold()
 	return
@@ -2840,7 +2861,7 @@ XButton2::
 #if (Stack="15l") ; console log 
 	`::
 		mergeClipboard()
-		scaffold_template = console.log('� value1 �: ' + � value1 �);
+		scaffold_template = console.log('¿ value1 ¿: ' + ¿ value1 ¿);
 		printUsingScaffold(1)
 	return
 	
@@ -2865,13 +2886,13 @@ XButton2::
 #if (Stack="15bn") ; convert to property function 
 	`::
 		mergeClipboard()
-		scaffold_template = property.� value1 �()
+		scaffold_template = property.¿ value1 ¿()
 		printUsingScaffold("L")
 	return
 	
 #if (Stack="15bl") ; laravel form field 
 	`::
-		scaffold_template =`                <div class="{{ add_error_class($errors->has('� valueS1 �'), 'form-group') }}">`n                    {!! Form`:`:label('� valueS1 �', '� valueT1 �').' *' !!}`n                    <?php`n                    $selected_� valueS1 � = isset($� valueS2 �) ? $� valueS2 �->� valueS3 � `: old('� valueS1 �');`n                    $� valueS1 �s = ['' => ''] + App\� value4 �`:`:pluck('name', 'id');`n                    ?>`n                    {!! Form`:`:select('� valueS1 �', $� valueS1 �s, $selected_� valueS1 �,`n                        ['class' => 'form-control select2-basic', 'data-allow-clear' => 'true', 'data-placeholder' => __('All')]) !!}`n                    @include('errors._list', ['error' => $errors->get('� valueS1 �')])`n                </div>`n`n
+		scaffold_template =`                <div class="{{ add_error_class($errors->has('¿ valueS1 ¿'), 'form-group') }}">`n                    {!! Form`:`:label('¿ valueS1 ¿', '¿ valueT1 ¿').' *' !!}`n                    <?php`n                    $selected_¿ valueS1 ¿ = isset($¿ valueS2 ¿) ? $¿ valueS2 ¿->¿ valueS3 ¿ `: old('¿ valueS1 ¿');`n                    $¿ valueS1 ¿s = ['' => ''] + App\¿ value4 ¿`:`:pluck('name', 'id');`n                    ?>`n                    {!! Form`:`:select('¿ valueS1 ¿', $¿ valueS1 ¿s, $selected_¿ valueS1 ¿,`n                        ['class' => 'form-control select2-basic', 'data-allow-clear' => 'true', 'data-placeholder' => __('All')]) !!}`n                    @include('errors._list', ['error' => $errors->get('¿ valueS1 ¿')])`n                </div>`n`n
 		printUsingScaffold()
 	return
 	
@@ -3095,7 +3116,7 @@ XButton2::
 	return
 	
 #if (Stack="15am") ; scaffolding mode 
-	+`:: Send � value1 �{Left 3}+{Right}
+	+`:: Send ¿ value1 ¿{Left 3}+{Right}
 	
 	`:: printUsingScaffold("", 1, -1)
 	
@@ -3130,12 +3151,11 @@ XButton2::
 
 		switch++
 		
-		if(!InStr(scaffold_template, "� value"))
-			scaffold_template=� value1 �
+		if(!InStr(scaffold_template, "¿ value"))
+			scaffold_template=¿ value1 ¿
 		
 		if(fromClipboard){
 			row := replaceMarker()
-			Send ^v
 		}else{
 			Loop % nRows
 				row .= fetchRow(nColumns, 1, next)
@@ -3264,7 +3284,7 @@ XButton2::
 		}
 		
 		value0++
-		StringReplace, t, t, � value0 �, % value0, All
+		StringReplace, t, t, ¿ value0 ¿, % value0, All
 		
 		return t
 	}
@@ -3287,15 +3307,15 @@ XButton2::
 		valueT%index% := titleCase(value%index%)
 		valueL%index% := lowerCase(value%index%)
 		
-		StringReplace, hayStack, hayStack, � value%index% �, % value%index%, All
-		StringReplace, hayStack, hayStack, � valueC%index% �, % valueC%index%, All
-		StringReplace, hayStack, hayStack, � valueCC%index% �, % valueCC%index%, All
-		StringReplace, hayStack, hayStack, � valueS%index% �, % valueS%index%, All
-		StringReplace, hayStack, hayStack, � valueSH%index% �, % valueSH%index%, All
-		StringReplace, hayStack, hayStack, � valueU%index% �, % valueU%index%, All
-		StringReplace, hayStack, hayStack, � valueAT%index% �, % valueAT%index%, All
-		StringReplace, hayStack, hayStack, � valueT%index% �, % valueT%index%, All
-		StringReplace, hayStack, hayStack, � valueL%index% �, % valueL%index%, All
+		StringReplace, hayStack, hayStack, ¿ value%index% ¿, % value%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueC%index% ¿, % valueC%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueCC%index% ¿, % valueCC%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueS%index% ¿, % valueS%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueSH%index% ¿, % valueSH%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueU%index% ¿, % valueU%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueAT%index% ¿, % valueAT%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueT%index% ¿, % valueT%index%, All
+		StringReplace, hayStack, hayStack, ¿ valueL%index% ¿, % valueL%index%, All
 		
 		return hayStack
 	}
@@ -4413,6 +4433,9 @@ return
 		IfWinActive, event_register.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
 			filename_v_15k = event_register.php
 	
+		IfWinActive, header.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+			filename_v_15k = header.php
+	
 		IfWinActive, event.class.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
 			filename_v_15k = event.class.php
 		
@@ -4501,8 +4524,8 @@ return
 	return
 	
 	^`::
-		;~ scaffold_template =`    .eval("$('� value1 �').val("+property.rm_nRooms+");")`n
-		scaffold_template =`    .sleep(1000)`n    .waitForElementByCss('� value1 �')`n    .click()`n
+		;~ scaffold_template =`    .eval("$('¿ value1 ¿').val("+property.rm_nRooms+");")`n
+		scaffold_template =`    .sleep(1000)`n    .waitForElementByCss('¿ value1 ¿')`n    .click()`n
 		printUsingScaffold()
 	return
 	
