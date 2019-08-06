@@ -3928,6 +3928,7 @@ return
 		else if(A_Index=1)
 		{
 			Send {Tab}
+			Clipboard := Trim(Clipboard)
 			SendInput {Raw}%Clipboard%
 			Send {Tab}
 		}
