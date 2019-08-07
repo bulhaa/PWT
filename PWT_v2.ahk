@@ -390,7 +390,7 @@ return
 
 
 skipFileOrFolder(src_path){
-	if(InStr(src_path, "\Notepad++Portable\") or InStr(src_path, "\selenium-js-tester\") or InStr(src_path, "\.git\") or InStr(src_path, "~") or InStr(src_path, "Thumbs.db") or InStr(src_path, "\\wdmycloud\hammadh\hammadh\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\assets\") or InStr(src_path, "C:\xampp\htdocs\eCouncil\eCouncil\web\assets\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\protected\runtime\") or InStr(src_path, "C:\xampp\htdocs\eCouncil\eCouncil\web\protected\runtime\"))
+	if(InStr(src_path, "\Notepad++Portable\") or InStr(src_path, "\selenium-js-tester\") or InStr(src_path, "\.git\") or InStr(src_path, "~") or InStr(src_path, "Thumbs.db") or InStr(src_path, "\\wdmycloud\hammadh\hammadh\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\assets\") or InStr(src_path, "C:\xampp\htdocs\eCouncil\eCouncil\web\assets\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\protected\runtime\") or InStr(src_path, "C:\xampp\htdocs\eCouncil\eCouncil\web\protected\runtime\") or InStr(src_path, ".gitattributes") or InStr(src_path, ".gitignore") or InStr(src_path, "ec.sublime-project") or InStr(src_path, "ec.sublime-workspace"))
 		return 1 ; skip file
 	else
 		return 0 ; don't skip file
