@@ -30,7 +30,7 @@ if(iniClipList != ""){
 
 #Include PWT_v2_include.ahk
 
-coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;"
+coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;"
 personalStacks:= "r,12r;c,12v;a,11y;"
 infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;"
 soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
@@ -659,11 +659,98 @@ ExitApp
 
 
 
+
+
 #IfWinNotActive, ahk_class AutoHotkeyGUI
-!F1::
+F1::
 	TT_showing = 0
 	if(switch="")
 		switch = 1
+	
+	; sign into Google Chrome
+	if(Stack="12z"){
+		if(switch=1){
+			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")){
+				Sleep 1000
+				if(requireWinActive("Disable developer mode extensions ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 10)){
+					Sleep 1000
+					Send {Esc}
+					Sleep 100
+					
+					Click 1869, 53
+					Sleep 100
+					Click 143, 341
+					if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+						Sleep 500
+						if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+							Sleep 500
+							if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+								Sleep 1000
+								Click 786, 605
+								Sleep 100
+								Send Hammadh
+								Sleep 100
+								Click 786, 605
+							}
+						}
+					}
+				}
+			}
+		}else if(switch=2){
+			if(requireWinActive("Welcome to Chrome - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+				Sleep 1000
+				Click 1056, 715
+				
+				if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+					Sleep 1000
+					Send freestyle.reunion
+					Sleep 100
+					Click 1131, 756
+				}
+			}
+		}else if(switch=3){
+			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+				Sleep 1000
+				Click 64, 444
+				
+				if(requireWinActive("Settings - Sync and Google services - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+					Click 1275, 243
+					Sleep 100
+					Click 856, 294
+					Sleep 100
+					Click 1149, 359
+					if(requireWinActive("Settings - Manage sync - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+						Sleep 100
+						Click 1274, 229
+						Sleep 100
+						Send {Tab}{Space}
+						Send {Tab}{Space}
+						Send {Tab}{Space}
+						Send {Tab}{Space}
+						Send {Tab}{Space}
+						Send {Tab}{Space}
+						Send {Tab}{Space}
+						Send {Tab}
+						Send {Tab}{Space}
+						
+						Sleep 1000
+						Send !d
+						Sleep 100
+						Send gmail.com
+						Sleep 100
+						Send {Enter}
+					}
+				}
+			}
+		}else{
+			switch = 0
+			myTT("Reloaded")
+			Reload
+		}
+		
+		switch++
+	return
+	}
 
 
 	; add room info
@@ -2141,6 +2228,10 @@ else if(Stack="13e") ; yii base url
 	{
 		Button1_Label=<?php echo Yii`:`:app()->request->baseUrl ?>
 	}
+else if(Stack="13f") ; RequireWinActive 
+	{
+		Button1_Label=if(requireWinActive(win`, exe = "")){
+	}
 else
 	{	
 		EditVisible :=1
@@ -2165,6 +2256,23 @@ else
 }
 
 
+	
+#if (Stack="13f") ; RequireWinActive 
+	requireWinActive(win, exe = "", timeout = 2){
+		if(exe != ""){
+			IfWinNotExist, % win
+				run, % exe
+			
+			WinWait, % win, , % timeout
+		}
+			
+		WinActivate, % win
+		WinWaitActive, % win, , % timeout
+		IfWinActive, % win
+			return 1
+		else
+			return 0
+	}
 	
 #if (Stack="13d") ; property images from booking.com 
 	`::
@@ -2235,7 +2343,7 @@ else
 				Sleep, 1093
 				Send, {Enter}
 				
-				
+				lastClockInDate := ""
 			}
 		}
 	return
