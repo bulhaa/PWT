@@ -4047,6 +4047,9 @@ return
 		}
 		else if(A_Index=3)
 		{
+			StringReplace, Clipboard, Clipboard, % " or ", $, All
+			StringSplit, Clipboard, Clipboard, $
+			Clipboard := Clipboard1
 			StringReplace, Clipboard, Clipboard, % " and ", #, All
 			StringReplace, Clipboard, Clipboard, % " & ", #, All
 			StringSplit, Clipboard, Clipboard, #
@@ -4058,6 +4061,9 @@ return
 			Send {Home}^a{BackSpace 30}
 			SendInput {Raw}%bedType%
 			Send {Tab}
+			
+			if(!InStr("`n`nBunk bed`nBunk beds`nDouble Bed`nDouble Beds`nInter Connected Bed`nInter Connected Beds`nKing bed`nKing beds`nQueen bed`nQueen beds`nSemi double bed`nSemi double beds`nSingle Bed`nSingle Beds`nSofa Bed`nSofa Beds`nSunflower bed`nSunflower beds`nSuper king bed`nSuper king beds`nTwin bed`nTwin beds`n", "`n" bedType "`n"))
+				MsgBox New Bed Type
 			
 			if(clipboard0 >= 2){
 				Sleep 100
@@ -4073,6 +4079,9 @@ return
 				Send {Home}^a{BackSpace 30}
 				SendInput {Raw}%bedType%
 				Send {Tab}
+				
+				if(!InStr("`n`nBunk bed`nBunk beds`nDouble Bed`nDouble Beds`nInter Connected Bed`nInter Connected Beds`nKing bed`nKing beds`nQueen bed`nQueen beds`nSemi double bed`nSemi double beds`nSingle Bed`nSingle Beds`nSofa Bed`nSofa Beds`nSunflower bed`nSunflower beds`nSuper king bed`nSuper king beds`nTwin bed`nTwin beds`n", "`n" bedType "`n"))
+					MsgBox New Bed Type
 			}
 			if(clipboard0 >= 3){
 				Sleep 100
@@ -4090,8 +4099,17 @@ return
 				Send {Home}^a{BackSpace 30}
 				SendInput {Raw}%bedType%
 				Send {Tab}
+				
+				if(!InStr("`n`nBunk bed`nBunk beds`nDouble Bed`nDouble Beds`nInter Connected Bed`nInter Connected Beds`nKing bed`nKing beds`nQueen bed`nQueen beds`nSemi double bed`nSemi double beds`nSingle Bed`nSingle Beds`nSofa Bed`nSofa Beds`nSunflower bed`nSunflower beds`nSuper king bed`nSuper king beds`nTwin bed`nTwin beds`n", "`n" bedType "`n"))
+					MsgBox New Bed Type
 			}
 			
+			if(clipboard0 >= 4){
+				MsgBox More than 3 bed types
+			}
+			
+				
+
 			Send {Tab}
 		}
 		else if(A_Index=4)
@@ -4140,6 +4158,10 @@ return
 				Send {space}
 			Send {Tab}
 			
+			if(Clipboard="Nature view")
+				Send {space}
+			Send {Tab}
+			
 			if(Clipboard="Ocean view")
 				Send {space}
 			Send {Tab}
@@ -4155,6 +4177,9 @@ return
 			if(Clipboard="Street view")
 				Send {space}
 			Send {Tab}
+			
+			if(!InStr("`n`nCity view`nStreet view`nPool view`nOcean view`nNature view`nLagoon view`nBeach view`nSea view`nGarden View`n", "`n" Clipboard "`n"))
+				MsgBox New view
 
 			;~ Send {Tab 49}
 		}
