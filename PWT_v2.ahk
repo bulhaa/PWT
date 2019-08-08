@@ -662,7 +662,7 @@ ExitApp
 
 
 #IfWinNotActive, ahk_class AutoHotkeyGUI
-F1::
+!F1::
 	TT_showing = 0
 	if(switch="")
 		switch = 1
