@@ -680,18 +680,21 @@ ExitApp
 					Click 1869, 53
 					Sleep 100
 					Click 143, 341
-					if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+					if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
 						Sleep 500
-						if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-							Sleep 500
-							if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-								Sleep 1000
-								Click 786, 605
-								Sleep 100
-								Send Hammadh
-								Sleep 100
-								Click 786, 605
-							}
+						if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
+							Sleep 1000
+							Click 786, 605
+							Sleep 100
+							Send Hammadh
+							Sleep 100
+							Click 505, 260
+							Sleep 100
+							Click 102, 563
+							Sleep 100
+							
+							
+							Click 786, 605
 						}
 					}
 				}
@@ -702,43 +705,51 @@ ExitApp
 				Click 1056, 715
 				
 				if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-					Sleep 1000
+					Sleep 2000
 					Send freestyle.reunion
 					Sleep 100
 					Click 1131, 756
 				}
 			}
 		}else if(switch=3){
-			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+			if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+				Click 1105, 633
 				Sleep 1000
-				Click 64, 444
-				
-				if(requireWinActive("Settings - Sync and Google services - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-					Click 1275, 243
-					Sleep 100
-					Click 856, 294
-					Sleep 100
-					Click 1149, 359
-					if(requireWinActive("Settings - Manage sync - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+			}
+			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
+				Sleep 1000
+				if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
+					
+					Sleep 1000
+					Click 64, 444
+					
+					if(requireWinActive("Settings - Sync and Google services - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+						Click 1275, 243
 						Sleep 100
-						Click 1274, 229
+						Click 856, 294
 						Sleep 100
-						Send {Tab}{Space}
-						Send {Tab}{Space}
-						Send {Tab}{Space}
-						Send {Tab}{Space}
-						Send {Tab}{Space}
-						Send {Tab}{Space}
-						Send {Tab}{Space}
-						Send {Tab}
-						Send {Tab}{Space}
-						
-						Sleep 1000
-						Send !d
-						Sleep 100
-						Send gmail.com
-						Sleep 100
-						Send {Enter}
+						Click 1149, 359
+						if(requireWinActive("Settings - Manage sync - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+							Sleep 100
+							Click 1274, 229
+							Sleep 100
+							Send {Tab}{Space}
+							Send {Tab}{Space}
+							Send {Tab}{Space}
+							Send {Tab}{Space}
+							Send {Tab}{Space}
+							Send {Tab}{Space}
+							Send {Tab}{Space}
+							Send {Tab}
+							Send {Tab}{Space}
+							
+							Sleep 1000
+							Send !d
+							Sleep 100
+							Send gmail.com
+							Sleep 100
+							Send {Enter}
+						}
 					}
 				}
 			}
@@ -751,89 +762,6 @@ ExitApp
 		switch++
 	return
 	}
-
-
-	; add room info
-	if(switch=1){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		myTT("Get room info")
-		Stack:="11e"
-		Manager()
-	}else if(switch=2){
-		temp := chr(254)
-		clipWareHouse1=
-		clipWareHouse2=
-		clipWareHouse3=
-		StringReplace, Clipboard, Clipboard, `n, , All
-		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
-		StringSplit, clipWareHouse, Clipboard, %temp%,
-
-		Clipboard := clipWareHouse1
-		goToEndOfCliplist()
-		mergeClipboard(0)
-		
-		StringSplit, clipWareHouse1A, clipWareHouse1, `n,
-		Clipboard := clipWareHouse1A1
-		
-		
-		; need to add room type?
-		if(!InStr(g_roomtypes, "`n" clipWareHouse1A1 "`n")){
-			g_roomtypes := g_roomtypes clipWareHouse1A1 "`n"
-			myTT("Add type")
-			Clipboard =nonAjaxHttpQwzx(`n`t"post"`,`n"https`://www.soleasia.com/bookingadmin/properties/roomtypesave"`,`n{ `n    '_method'`: "POST"`,`n    'data[Property][search]'`: "cenie"`,`n    'data[Property][user]'`: "155"`,`n    'name'`: "%clipWareHouse1A1%"`,`n    'am_id'`: ""`n }`n)`n//.done(function( data ) {console.log(data)`;`n// })`;`n`n`nfunction nonAjaxHttpQwzx(method`, url`, data) {`n    'use strict'`;`n    var form`;`n`n    form = $('<form />'`, {`n        action`: url`,`n        method`: method`,`n        style`: 'display`: none`;'`n    })`;`n`n    var data = data`;`n`n    if (typeof data !== 'undefined' && data !== null) {`n        $.each(data`, function (name`, value) {`n            $('<input />'`, {`n                type`: 'hidden'`,`n                name`: name`,`n                value`: value`n            }).appendTo(form)`;`n        })`;`n    }`n    form.appendTo('body').submit()`;`n}
-		}else{
-			myTT("Add Room")
-		}
-		
-		Stack:="15c"
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		Manager()
-
-		switch++
-	}else if(switch=3){
-	}else if(switch=4){
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
-	
-		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
-		{
-			FileDelete, %A_LoopFileFullPath%
-		}
-		
-		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
-		{
-			FileRemoveDir, %A_LoopFileFullPath%, 1
-		}
-			
-		myTT("Delete Images")
-	;~ }else if(switch=4){
-		;~ Stack:="11j"
-		;~ Manager()
-		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		;~ myTT("Get image list")
-	}else  if(switch=5){
-		Clipboard:=clipWareHouse2
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	;~ }else if(switch=6){
-		;~ Stack:="11d"
-		;~ myTT("Get room amenities list")
-		;~ Manager()
-	}else if(switch=6){
-		Clipboard:=clipWareHouse3
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		Stack:="15f"
-		tickRoomAmenities()
-		myTT("Tick amenities")
-		Manager()
-	}else if(switch=7){
-		switch = 0
-		myTT("Reloaded")
-		Reload
-	}
-	
-	switch++
-return
 
 
 	; add propety info to WDMyCloud
@@ -849,7 +777,7 @@ return
 			g_propertynames := g_propertynames Clipboard "`n"
 		}
 
-		t := "\\wdmycloud\soleasia\Maldives\Ari North (AA) Atoll\Maalhos\" Clipboard ".docx"
+		t := "\\wdmycloud\soleasia\Maldives\Male South (KD) Atoll\Guraidhoo\" Clipboard ".docx"
 		FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % t
 		run % t
 		myTT("Template Copied")
@@ -969,6 +897,89 @@ return
 	switch++
 return
 
+
+
+	; add room info
+	if(switch=1){
+		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		myTT("Get room info")
+		Stack:="11e"
+		Manager()
+	}else if(switch=2){
+		temp := chr(254)
+		clipWareHouse1=
+		clipWareHouse2=
+		clipWareHouse3=
+		StringReplace, Clipboard, Clipboard, `n, , All
+		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+		StringSplit, clipWareHouse, Clipboard, %temp%,
+
+		Clipboard := clipWareHouse1
+		goToEndOfCliplist()
+		mergeClipboard(0)
+		
+		StringSplit, clipWareHouse1A, clipWareHouse1, `n,
+		Clipboard := clipWareHouse1A1
+		
+		
+		; need to add room type?
+		if(!InStr(g_roomtypes, "`n" clipWareHouse1A1 "`n")){
+			g_roomtypes := g_roomtypes clipWareHouse1A1 "`n"
+			myTT("Add type")
+			Clipboard =nonAjaxHttpQwzx(`n`t"post"`,`n"https`://www.soleasia.com/bookingadmin/properties/roomtypesave"`,`n{ `n    '_method'`: "POST"`,`n    'data[Property][search]'`: "cenie"`,`n    'data[Property][user]'`: "155"`,`n    'name'`: "%clipWareHouse1A1%"`,`n    'am_id'`: ""`n }`n)`n//.done(function( data ) {console.log(data)`;`n// })`;`n`n`nfunction nonAjaxHttpQwzx(method`, url`, data) {`n    'use strict'`;`n    var form`;`n`n    form = $('<form />'`, {`n        action`: url`,`n        method`: method`,`n        style`: 'display`: none`;'`n    })`;`n`n    var data = data`;`n`n    if (typeof data !== 'undefined' && data !== null) {`n        $.each(data`, function (name`, value) {`n            $('<input />'`, {`n                type`: 'hidden'`,`n                name`: name`,`n                value`: value`n            }).appendTo(form)`;`n        })`;`n    }`n    form.appendTo('body').submit()`;`n}
+		}else{
+			myTT("Add Room")
+		}
+		
+		Stack:="15c"
+		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		Manager()
+
+		switch++
+	}else if(switch=3){
+	}else if(switch=4){
+		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+	
+		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
+		{
+			FileDelete, %A_LoopFileFullPath%
+		}
+		
+		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
+		{
+			FileRemoveDir, %A_LoopFileFullPath%, 1
+		}
+			
+		myTT("Delete Images")
+	;~ }else if(switch=4){
+		;~ Stack:="11j"
+		;~ Manager()
+		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+		;~ myTT("Get image list")
+	}else  if(switch=5){
+		Clipboard:=clipWareHouse2
+		Stack:="15g"
+		myTT("Download images")
+		Manager()
+	;~ }else if(switch=6){
+		;~ Stack:="11d"
+		;~ myTT("Get room amenities list")
+		;~ Manager()
+	}else if(switch=6){
+		Clipboard:=clipWareHouse3
+		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+		Stack:="15f"
+		tickRoomAmenities()
+		myTT("Tick amenities")
+		Manager()
+	}else if(switch=7){
+		switch = 0
+		myTT("Reloaded")
+		Reload
+	}
+	
+	switch++
+return
 
 
 	; add booking.com images to WDMyCloud
@@ -2230,7 +2241,7 @@ else if(Stack="13e") ; yii base url
 	}
 else if(Stack="13f") ; RequireWinActive 
 	{
-		Button1_Label=if(requireWinActive(win`, exe = "")){
+		Button1_Label=if(requireWinActive(win`, exe = ""`, timeout = 2`, winExclude = "")){
 	}
 else
 	{	
@@ -2258,20 +2269,21 @@ else
 
 	
 #if (Stack="13f") ; RequireWinActive 
-	requireWinActive(win, exe = "", timeout = 2){
+	requireWinActive(win, exe = "", timeout = 2, winExclude = ""){
 		if(exe != ""){
-			IfWinNotExist, % win
+			IfWinNotExist, % win, , % winExclude
 				run, % exe
 			
-			WinWait, % win, , % timeout
+			WinWait, % win, , % timeout, % winExclude
 		}
-			
-		WinActivate, % win
-		WinWaitActive, % win, , % timeout
-		IfWinActive, % win
-			return 1
-		else
-			return 0
+		
+		Loop % timeout {
+			WinActivate, % win, , % winExclude
+			WinWaitActive, % win, , % 1, % winExclude
+			IfWinActive, % win, , % winExclude
+				return 1
+		}
+		return 0
 	}
 	
 #if (Stack="13d") ; property images from booking.com 
