@@ -788,7 +788,7 @@ ExitApp
 			g_propertynames := g_propertynames "`n" Clipboard
 		}
 
-		t := "\\wdmycloud\soleasia\Maldives\Male North (KA) Atoll\Huraa\" Clipboard ".docx"
+		t := "\\wdmycloud\soleasia\Maldives\Male South (KD) Atoll\Maafushi\" Clipboard ".docx"
 		FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % t
 		run % t
 		myTT("Template Copied")
@@ -2233,7 +2233,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=8/8/2019 @ 17`:6`:33`nWD MyCloud`t0.008268030360341072`nHammadh PC`t2.9060710575431585`nLatheef PC`t2.7982506342232227`nReception Laptop`t3.580569670535624`nModebe PC`t1.2688054414466023`nAcer ES14 mobile laptop`t0.7322566229850054`nHammadh J7 Pro`t0.5933411670848727`nPichamon 20181005`t0.19119989965111017`nAfsara 300119`t7.598057838156819`nLatheef Ipad`t0.6546441372483969`nBilal Desktop`t0.7474946519359946`nHewage Laptop Dell`t4.723493063822389`nAmrita`t8.176773166283965`nBilal 20190629`t2.8868195237591863`nCenie`t1.52440585475415`nHewage new Desktop`t1.456831899471581`nAmrita Tablet`t6.795509552583098`nAmrita Phone 20190806`t2.5568851605057716`nwifi router`t0.00007474422454833984`n
+		Button1_Label=10/8/2019 @ 14`:43`:58`nWD MyCloud`t0.010693278163671494`nHammadh PC`t4.729598953388631`nLatheef PC`t3.505054504610598`nReception Laptop`t4.418489372357726`nModebe PC`t1.413517551496625`nAcer ES14 mobile laptop`t0.9687218489125371`nHammadh J7 Pro`t0.7283489368855953`nPichamon 20181005`t0.19119989965111017`nThihthibey iPhone 8 Plus`t1.2465235767886043`nAfsara 300119`t9.94404597952962`nLatheef Ipad`t0.7050862200558186`nBilal Desktop`t0.9011683389544487`nHewage Laptop Dell`t4.8197613740339875`nAmrita`t9.403042052872479`nBilal 20190629`t2.900189653970301`nCenie`t1.824715924449265`nHewage new Desktop`t1.685910022817552`nAmrita Tablet`t7.817644125781953`nAmrita Phone 20190806`t2.7922379039227962`nwifi router`t0.00009682774543762207`n
 	}
 else if(Stack="13a") ; SIS Admin User 
 	{
