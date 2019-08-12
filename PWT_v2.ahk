@@ -783,6 +783,7 @@ ExitApp
 		; Property already present?
 		if(InStr(g_propertynames, "`n" Clipboard "`n")){
 			MsgBox Property already present
+			switch--
 			return
 		}else{
 			g_propertynames := g_propertynames "`n" Clipboard
@@ -2233,7 +2234,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=10/8/2019 @ 14`:43`:58`nWD MyCloud`t0.010693278163671494`nHammadh PC`t4.729598953388631`nLatheef PC`t3.505054504610598`nReception Laptop`t4.418489372357726`nModebe PC`t1.413517551496625`nAcer ES14 mobile laptop`t0.9687218489125371`nHammadh J7 Pro`t0.7283489368855953`nPichamon 20181005`t0.19119989965111017`nThihthibey iPhone 8 Plus`t1.2465235767886043`nAfsara 300119`t9.94404597952962`nLatheef Ipad`t0.7050862200558186`nBilal Desktop`t0.9011683389544487`nHewage Laptop Dell`t4.8197613740339875`nAmrita`t9.403042052872479`nBilal 20190629`t2.900189653970301`nCenie`t1.824715924449265`nHewage new Desktop`t1.685910022817552`nAmrita Tablet`t7.817644125781953`nAmrita Phone 20190806`t2.7922379039227962`nwifi router`t0.00009682774543762207`n
+		Button1_Label=12/8/2019 @ 12`:44`:58`nWD MyCloud`t0.013136355206370354`nHammadh PC`t5.96131082996726`nLatheef PC`t4.230748328380287`nReception Laptop`t8.09057993721217`nModebe PC`t1.5507512353360653`nThihthibey Phone 7`t8.908110557124019`nAcer ES14 mobile laptop`t1.1435314984992146`nHammadh J7 Pro`t0.7836351208388805`nPichamon 20181005`t0.19119989965111017`nThihthibey iPhone 8 Plus`t1.6901474557816982`nAfsara 300119`t13.53679679427296`nLatheef Ipad`t0.7775361286476254`nBilal Desktop`t0.9011683389544487`nHewage Laptop Dell`t5.0530613251030445`nAmrita`t16.097228224389255`nBilal 20190629`t2.900189653970301`nCenie`t2.1668377416208386`nHewage new Desktop`t1.8845839388668537`nAmrita Tablet`t9.480605270713568`nAmrita Phone 20190806`t2.8093475149944425`nwifi router`t0.00011905282735824585`n
 	}
 else if(Stack="13a") ; SIS Admin User 
 	{
@@ -3840,6 +3841,7 @@ XButton2::
 				StringReplace, Clipboard, Clipboard, % chr(254), , All
 				StringReplace, Clipboard, Clipboard, % chr(253), , All
 				temp:=Clipboard
+				StringReplace, temp, temp, % "<button type=""button"" class=""c-btn c-btn--primary""><i class=""ficon ficon-14 ficon-chat""></i>ASK THE PROPERTY</button>", % "", All
 				  WinClip.Clear()
 				  WinClip.SetHTML( "<div style='color: rgb(78, 78, 78); font-family: mallory, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px;'>" temp "</div>")
 				sleep 200
