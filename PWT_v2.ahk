@@ -112,7 +112,7 @@ GuiControl, Hide, MyEdit
 
 xCoord:=A_ScreenWidth-480
 if(Picture = "ERROR")
-	Picture=%A_ScriptDir%\Wallpaper\Wallpaper.jpg
+	Picture=%A_ScriptDir%\Wallpaper.jpg
 GuiControl,, Pic1, *w%xCoord% *h-1 %Picture%
 ;~ GuiControl,, Pic2, *w%xCoord% *h-1 %Picture%
 
