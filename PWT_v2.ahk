@@ -65,6 +65,7 @@ SetTitleMatchMode RegEx
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 
 AutoTrim, off
+SetKeyDelay, 100
 
 
 picOffset:=(A_ScreenWidth-Width)/2
