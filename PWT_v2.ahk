@@ -3276,7 +3276,7 @@ XButton2::
 	return
 	
 #if (Stack="15am") ; scaffolding mode 
-	+`:: Send ¿ value1 ¿{Left 3}+{Right}
+	+`:: Send ¿ value1 ¿{Left 3}+{Left}
 	
 	`:: printUsingScaffold("", 1, -1)
 	
