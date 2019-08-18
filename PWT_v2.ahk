@@ -35,7 +35,7 @@ personalStacks:= "r,12r;c,12v;a,11y;"
 infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;"
 soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
 seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
-jsStacks:="console log,15l;jquery ready,13c;"
+jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
 ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
 eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCouncil folders,15bd;purify,11z;"
 gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
@@ -2415,6 +2415,74 @@ else
 
 
 	
+#if (Stack="13g") ; map.js npm node 
+	`::
+		Send +{Home}
+		Send +{Up}
+		mergeClipboard(1, 1)
+	return
+	
+	^`:: 
+		Send {End}
+		Send +{Home}
+		Send +{Home}
+		Send +{Up}
+		Sleep 100
+		scaffold_template = ¿ value1 ¿`n
+		printUsingScaffold("")
+	return
+	
+	+`:: 
+		IfWinActive, % "ahk_exe sublime_text.exe"
+		{
+			Send ^s
+			Sleep 1000
+		}
+		
+		statusFile := "C:\xampp\htdocs\visibility-graph-master\use\webpack_status.log"
+		FileDelete, % statusFile
+		FileAppend, started, % statusFile
+		
+		
+		if(requireWinActive("ahk_exe cmd.exe")){
+			oldclip := Clipboard
+			Clipboard := "webpack > " statusFile "`r`n"
+			Send !{Space}ep
+			Sleep 1000
+			FileGetTime, oldTime, % statusFile
+			
+			Loop {
+				FileGetTime, currentTime, % statusFile
+				if(currentTime > oldTime){
+					if(requireWinActive("use - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+						Send {F5}
+					}
+
+					; arrange window active history as follow: chrome, sublime, 3rd program like scite, cmd
+					WinGet, currWin, ID, A
+					WinGet, ExStyle, ExStyle, ahk_id %currWin%
+					ExStyle:=(ExStyle & 0x8)
+					WinSet, AlwaysOnTop, On, ahk_id %currWin%
+					
+					shiftwin(4)
+					shiftwin(4)
+					Sleep 100
+					requireWinActive("ahk_exe sublime_text.exe")
+					Sleep 100
+					shiftwin(1)
+					
+					if(ExStyle=0)
+						WinSet, AlwaysOnTop, Off, ahk_id %currWin%
+					
+					myTT("webpack done")
+					break
+				}
+				Sleep 1000
+			}
+			Clipboard := oldclip
+		}
+	return
+	
 #if (Stack="13f") ; RequireWinActive 
 	requireWinActive(win, exe = "", timeout = 2, winExclude = ""){
 		if(exe != ""){
@@ -3474,6 +3542,7 @@ XButton2::
 		myTT(Clipboard)
 		
 		if(!mergeToClipboard){
+			Sleep 100
 			;~ Send !d
 			;~ Send ^v{Enter}
 			Send ^v
@@ -4542,6 +4611,7 @@ return
 		if(toClipboard){
 			Clipboard := value
 			myTT("Clipboard", 1)
+			Sleep 100
 		}
 
 		return {value: value, status: status}
