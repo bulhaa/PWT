@@ -3264,6 +3264,8 @@ XButton2::
 		waitClipboard()
 		StringReplace, Clipboard, Clipboard, /*, , All
 		StringReplace, Clipboard, Clipboard, */, , All
+		StringReplace, Clipboard, Clipboard, % "<!-- ", , All
+		StringReplace, Clipboard, Clipboard, % " -->", , All
 		Send ^v
 	return
 	
