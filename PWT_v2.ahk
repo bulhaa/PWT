@@ -1,4 +1,5 @@
 Process, Close, dota2.exe
+;~ Process, Close, explorer.exe
 
 ;~ iniClipList= one`t`ttwo`n`nthree`tfour`n
 
@@ -2357,7 +2358,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=18/8/2019 @ 17`:30`:21`nWD MyCloud`t0.019669368656735423`nHammadh PC`t9.19253472242053`nLatheef PC`t6.998066500380328`nReception Laptop`t13.494906844359063`nModebe PC`t11.348446899688945`nAcer ES14 mobile laptop`t2.765255872592304`nHammadh J7 Pro`t1.2089955724524342`nThihthibey iPhone 8 Plus`t4.4304819891549645`nAfsara 300119`t24.196830504957536`nLatheef Ipad`t0.8445514946974435`nHewage Laptop Dell`t5.732620555804443`nAmrita`t24.38236028727803`nCenie`t3.2578653007812064`nHewage new Desktop`t3.747087714395453`nAmrita Tablet`t20.427083317476843`nAmrita Phone 20190806`t4.6811969233732365`nwifi router`t0.0001896919546394348`n
+		Button1_Label=20/8/2019 @ 16`:11`:35`nWD MyCloud`t0.02209119943753958`nHammadh PC`t10.003061219151276`nLatheef PC`t7.51221342160522`nReception Laptop`t14.877862898420714`nModebe PC`t11.559406339786158`nAcer ES14 mobile laptop`t2.968458095997546`nHammadh J7 Pro`t1.2953999351458632`nThihthibey iPhone 8 Plus`t4.663702657664567`nAfsara 300119`t27.158327170100012`nLatheef Ipad`t4.925565006563774`nHewage Laptop Dell`t7.068646171958518`nAmrita`t25.554476554772886`nCenie`t3.5330785563281935`nHewage new Desktop`t3.961199861152996`nAmrita Tablet`t22.062932811032567`nAmrita Phone 20190806`t4.891707174485519`nwifi router`t0.00021135079243469237`n
 	}
 ;~ else if(Stack="12y") ; sheri bandwidth usage 
 	;~ {
