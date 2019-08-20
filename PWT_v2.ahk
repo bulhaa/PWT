@@ -49,8 +49,9 @@ sheriStacks:= "sheri bandwidth usage,12y;clock in to SalonIris,12z;"
 fileZillaStacks:= "filezilla convert local path to ftp path,12w;"
 sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
+vbStacks:= "c# to vb,13h;"
 
-allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks "swap css colors,15bc;"
+allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks "swap css colors,15bc;"
 
 zStacks:= allStacks
 
@@ -2414,6 +2415,15 @@ else
 }
 
 
+	
+#if (Stack="13h") ; c# to vb 
+	`::
+		waitClipboard()
+		Send ^x
+		Send % "Dim "
+		Send ^{right 2}
+		Send % "As " Clipboard " "
+	return
 	
 #if (Stack="13g") ; map.js npm node 
 	`::
