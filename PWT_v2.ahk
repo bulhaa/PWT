@@ -406,9 +406,9 @@ synchronizeFolders(Source, Destination){
 	synchronizeCore(Destination, Source, "F")
 }
 
-synchronizeFoldersOneWay(Source, Destination){
-	synchronizeCore(Source, Destination, "D", , , "P", "N")
-	synchronizeCore(Source, Destination, "F", "P", "N")
+synchronizeFoldersOneWay(Source, Destination, present = "N"){
+	synchronizeCore(Source, Destination, "D", , , "P", present)
+	synchronizeCore(Source, Destination, "F", "P", present)
 	synchronizeCore(Destination, Source, "D", "D", "S", "D", "S")
 	synchronizeCore(Destination, Source, "F", "D", "S")
 }
@@ -3509,16 +3509,17 @@ XButton2::
 
 #if (Stack="15bd") ; sync eCouncil folders 
 	`::
-		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
-		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
-		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
-		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		Source=C:\xampp\htdocs\eCouncil\eCouncil\web
+		Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
 		
-		synchronizeFoldersOneWay(Source, Destination)
+		;~ synchronizeFoldersOneWay(Source, Destination) ; copy if new
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
 		MyTT("Done Synching")
 		MyTT("Done Synching")
