@@ -31,7 +31,7 @@ if(iniClipList != ""){
 
 #Include PWT_v2_include.ahk
 
-coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;"
+coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
 personalStacks:= "r,12r;c,12v;a,11y;"
 infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;"
 soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
@@ -406,9 +406,9 @@ synchronizeFolders(Source, Destination){
 	synchronizeCore(Destination, Source, "F")
 }
 
-synchronizeFoldersOneWay(Source, Destination){
-	synchronizeCore(Source, Destination, "D", , , "P", "N")
-	synchronizeCore(Source, Destination, "F", "P", "N")
+synchronizeFoldersOneWay(Source, Destination, present = "N"){
+	synchronizeCore(Source, Destination, "D", , , "P", present)
+	synchronizeCore(Source, Destination, "F", "P", present)
 	synchronizeCore(Destination, Source, "D", "D", "S", "D", "S")
 	synchronizeCore(Destination, Source, "F", "D", "S")
 }
@@ -2423,6 +2423,82 @@ else
 
 
 	
+#if (Stack="13i") ; Check File Size 
+	`::
+		MyTT("Checking file size test")
+		AutoTrim, Off
+		Send ^c
+		sleep 100
+		SetBatchLines, -1  ; Make the operation run at maximum speed.
+		FolderSize = 0
+
+		StringGetPos, position, Clipboard, \, r1, ;Get Filename
+		StringLeft, MyFolder, Clipboard, position
+		myMsgLevel=/
+
+		StringSplit, Clipboard, Clipboard, `n, `r
+		Loop %Clipboard0%
+		{	
+			myTT("Checking " Clipboard%A_Index%)
+			FolderSize+= checkFileSize(Clipboard%A_Index%)
+		}
+
+		StringSplit, MyMsg, MyMsg, `n, `r
+		MyMsg=
+		loop %MyMsg0%
+		{
+			cur:=MyMsg0 - A_Index + 1
+			MyMsg:= MyMsg MyMsg%cur% "`n"
+		}
+
+			MyMsg:= "Foldersize in GB:`n" MyMsg
+
+		AutoTrim, On
+		MsgBox %MyMsg%
+		Clipboard:=MyMsg
+	return
+	
+	checkFileSize(path){
+		global MyMsg
+		global myMsgLevel
+		fileNames=
+
+		myMsgLevel:=myMsgLevel "`t"
+		;~ myMsgLevel++
+		
+		WhichFolder:=path
+		Loop, %WhichFolder%\*.*, 2, 0
+			FolderSize+= checkFileSize(A_LoopFileFullPath)
+		
+		Loop, %WhichFolder%\*.*, 0, 0
+		{
+			FolderSize+= %A_LoopFileSize%
+			;~ fileNames:= myMsgLevel "/" "`t" "/" A_LoopFileName "`n" fileNames 
+		}
+
+
+		sizeInGB:=FolderSize/1024/1024/1024
+		sizeInGB:=Round(sizeInGB,1)
+		
+		length:=StrLen(WhichFolder)
+		StringGetPos, position, WhichFolder, \, r1, ;Get Filename
+		length:=length-position-1
+		StringRight, MyFolder, WhichFolder, length
+
+			;~ MyMsg:= MyMsg fileNames
+			;~ MyMsg:= MyMsg myMsgLevel "/" MyFolder "`t" sizeInGB "`n" "`n"
+			
+		if (sizeInGB>0)
+			MyMsg:= MyMsg myMsgLevel "/" MyFolder "`t" sizeInGB "`n"
+			
+		
+		StringLeft, myMsgLevel, myMsgLevel, StrLen(myMsgLevel)-1
+		;~ myMsgLevel--
+		
+		
+		return FolderSize
+	}
+
 #if (Stack="13h") ; c# to vb 
 	`::
 		waitClipboard()
@@ -3442,16 +3518,17 @@ XButton2::
 
 #if (Stack="15bd") ; sync eCouncil folders 
 	`::
-		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
-		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
-		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
-		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		Source=C:\xampp\htdocs\eCouncil\eCouncil\web
+		Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
 		
-		synchronizeFoldersOneWay(Source, Destination)
+		;~ synchronizeFoldersOneWay(Source, Destination) ; copy if new
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
 		MyTT("Done Synching")
 		MyTT("Done Synching")
