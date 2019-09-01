@@ -705,7 +705,8 @@ ExitApp
 		}else if(switch=2){
 			if(requireWinActive("Welcome to Chrome - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
 				Sleep 1000
-				Click 1056, 715
+				;~ Click 1056, 715
+				Click 890, 692
 				
 				if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
 					Sleep 2000
@@ -2364,8 +2365,12 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=21/8/2019 @ 18`:59`:3`nWD MyCloud`t0.02352591676489592`nHammadh PC`t10.427330167065518`nLatheef PC`t8.14326578061252`nReception Laptop`t14.903621376279913`nModebe PC`t11.615782927385673`nAcer ES14 mobile laptop`t3.5611719819381573`nHammadh J7 Pro`t1.3735008483501159`nThihthibey iPhone 8 Plus`t5.5237945273838935`nAfsara 300119`t27.781384394887784`nHammadh PC 2`t0.0000019371509552001953`nLatheef Ipad`t4.967362438680938`nHewage Laptop Dell`t7.154547859811556`nAmrita`t26.647349894314143`nCenie`t3.8658112663842004`nHewage new Desktop`t4.333872783130934`nAmrita Tablet`t23.861888673442934`nAmrita Phone 20190806`t4.9102067342083595`nwifi router`t0.0002241620657711029`n`n
+		Button1_Label=1/9/2019 @ 16`:43`:55`nWD MyCloud`t0.027553803081076148`nHammadh PC`t10.889772719736355`nLatheef PC`t10.143689791291646`nReception Laptop`t15.92441843242588`nModebe PC`t12.341728128156767`nAcer ES14 mobile laptop`t4.068605735398803`nHammadh J7 Pro`t1.4138184312479578`nThihthibey iPhone 8 Plus`t5.6282451499573884`nAfsara 300119`t30.653380079578557`nHammadh PC 2`t0.000003330409526824951`nBilal Desktop`t4.7697018906929625`nHewage Laptop Dell`t7.425989466616285`nAmrita`t30.250107281177375`nCenie`t4.802951542108433`nHewage new Desktop`t4.990590291230907`nAmrita Tablet`t26.15956396917585`n146`t1.4354630587622523`n147`t0.5143409846350551`n149`t0.9091359078884125`nwifi router`t0.0002683998880653381`n
 	}
+;~ else if(Stack="12y") ; sheri bandwidth usage 
+	;~ {
+		;~ Button1_Label=21/8/2019 @ 18`:59`:3`nWD MyCloud`t0.02352591676489592`nHammadh PC`t10.427330167065518`nLatheef PC`t8.14326578061252`nReception Laptop`t14.903621376279913`nModebe PC`t11.615782927385673`nAcer ES14 mobile laptop`t3.5611719819381573`nHammadh J7 Pro`t1.3735008483501159`nThihthibey iPhone 8 Plus`t5.5237945273838935`nAfsara 300119`t27.781384394887784`nHammadh PC 2`t0.0000019371509552001953`nLatheef Ipad`t4.967362438680938`nHewage Laptop Dell`t7.154547859811556`nAmrita`t26.647349894314143`nCenie`t3.8658112663842004`nHewage new Desktop`t4.333872783130934`nAmrita Tablet`t23.861888673442934`nAmrita Phone 20190806`t4.9102067342083595`nwifi router`t0.0002241620657711029`n`n
+	;~ }
 ;~ else if(Stack="12y") ; sheri bandwidth usage 
 	;~ {
 		;~ Button1_Label=15/8/2019 @ 14`:57`:7`t`nWD MyCloud`t0.016351658`nHammadh PC`t7.599376273`nLatheef PC`t5.526266835`nReception Laptop`t11.56606328`nModebe PC`t10.14594998`nAcer ES14 mobile laptop`t2.009382185`nHammadh J7 Pro`t0.942167286`nAfsara 300119`t17.96705521`nHewage Laptop Dell`t5.351500397`nAmrita`t22.45069773`nCenie`t3.074410533`nHewage new Desktop`t3.146980378`nAmrita Tablet`t15.44028633`nAmrita Phone 20190806`t4.041295606`nwifi router`t0.000153735`n
