@@ -2675,11 +2675,16 @@ else
 	
 #if (Stack="12x") ; string replace 
 	`::
+		Send ^a
+		Sleep 100
 		waitClipboard()
 		t := Clipboard
-		;~ t:= RegExReplace(Clipboard, "s)\R(#.*?)\R", "$1")
-		StringReplace, t, Clipboard, `t, % " ", All
+		;~ t:= RegExReplace(t, "s)(\R).{21,21}(.*\R)", "$1$2")
+		t:= RegExReplace(t, ")(\R).{21,21}(.*\R)", "$1$2")
+		;~ StringReplace, t, Clipboard, `t, % " ", All
 		Clipboard := t
+		Sleep 100
+		Send ^v
 	return
 	
 #if (Stack="12w") ; filezilla convert local path to ftp path 
@@ -2783,8 +2788,11 @@ return
 	
 #if (Stack="12n") ; screenshot chrome 
 	`::
+		;~ WinMove, A, , -8, -8, 1936, 1176
+		;~ return
+		
 		mode_12n = 1 ; window
-		;~ mode_12n = 2 ; control
+		mode_12n = 2 ; control
 		
 		CoordMode, Mouse, Screen
 		MouseGetPos, mouseX, mouseY, id, control
