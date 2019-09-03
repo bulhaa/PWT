@@ -5,7 +5,7 @@ Process, Close, dota2.exe
 
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames"
+g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -38,7 +38,7 @@ soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tic
 seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
 jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
 ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
-eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCouncil folders,15bd;purify,11z;"
+eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCouncil folders,15bd;purify,11z;new role,13j;"
 gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
 laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;"
 nodeJsStacks:= "regenerate js and css,15bb,npm run watch;"
@@ -2428,6 +2428,14 @@ else
 
 
 	
+#if (Stack="13j") ; new role 
+	`::
+		ecouncil_role_id += 1
+		ecouncil_action_id += 1
+		scaffold_template := "INSERT INTO ``actions`` (``action_id```, ``controller_action```, ``description```, ``name```, ``active``) VALUES (" ecouncil_action_id "`, '¿ value1 ¿'`, NULL`, NULL`, 1)`;`nINSERT INTO ``roles`` (``role_id```, ``role_key```, ``name```, ``description```, ``parent_role_id```, ``is_system_role```, ``context_id```, ``operation_log_id``) VALUES (" ecouncil_role_id "`, '¿ value1 ¿'`, '¿ value1 ¿'`, '¿ value1 ¿'`, NULL`, 0`, 1`, NULL)`;`nINSERT INTO ``role_action``(``role_id```, ``action_id``) VALUES (" ecouncil_role_id "`, " ecouncil_action_id ")`;`n`n`n"
+		printUsingScaffold("C")
+	return
+	
 #if (Stack="13i") ; Check File Size 
 	`::
 		MyTT("Checking file size test")
@@ -3531,17 +3539,17 @@ XButton2::
 
 #if (Stack="15bd") ; sync eCouncil folders 
 	`::
-		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
-		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
-		Source=C:\xampp\htdocs\eCouncil\eCouncil\web
-		Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
+		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
 		
-		;~ synchronizeFoldersOneWay(Source, Destination) ; copy if new
-		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		synchronizeFoldersOneWay(Source, Destination) ; copy if new
+		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
 		MyTT("Done Synching")
 		MyTT("Done Synching")
