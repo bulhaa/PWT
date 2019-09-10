@@ -2470,7 +2470,7 @@ else if(Stack="12m") ; push MakudiOnline to git
 	}
 else if(Stack="12o") ; php var_dump to console 
 	{
-		Button1_Label=`                echo "<script type=\"text/javascript\">console.log('row`: "`;`n`n                ob_start()`;`n                var_dump($row)`;`n                $_var_dump_result = ob_get_clean()`;`n`n                echo str_replace(array("\n"`, "\r")`, ''`, $_var_dump_result)`;`n                echo "')`;</script>"`;`n`n
+		Button1_Label=`                echo "<script type=\"text/javascript\">console.log('row`: "`;`n`n                ob_start()`;`n                var_dump($row)`;`n                $_var_dump_result = ob_get_clean()`;`n`n                echo str_replace(array("\n"`, "\r")`, '\\n'`, $_var_dump_result)`;`n                echo "')`;</script>"`;`n`n
 	}
 else if(Stack="12q") ; windows start menu directory 
 	{
