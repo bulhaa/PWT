@@ -3543,14 +3543,20 @@ XButton2::
 
 #if (Stack="15bd") ; sync eCouncil folders 
 	`::
-		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
-		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
 		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
 		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
+		
+		;~ Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
+		;~ Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
+		
+		Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
+		Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
 		
 		synchronizeFoldersOneWay(Source, Destination) ; copy if new
 		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
@@ -5083,8 +5089,8 @@ return
 			;~ scaffold_template =round(¿ value1 ¿, decimalPlaces)
 			;~ scaffold_template =output += $('¿ value1 ¿').val() + "\t";`n
 			;~ scaffold_template =$('¿ value1 ¿').text()
-			;~ scaffold_template =$('¿ value1 ¿').hide();
-			scaffold_template =$('¿ value1 ¿')
+			scaffold_template =$('¿ value1 ¿').hide();
+			;~ scaffold_template =$('¿ value1 ¿')
 			printUsingScaffold("C")
 		}else{
 			WinActivate, ahk_exe chrome.exe
