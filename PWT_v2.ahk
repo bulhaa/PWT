@@ -795,7 +795,7 @@ ExitApp
 			g_propertynames := g_propertynames "`n" Clipboard
 		}
 
-		t := "\\wdmycloud\soleasia\Sri Lanka\Colombo\Colombo\" Clipboard ".docx"
+		t := "\\wdmycloud\soleasia\Bhutan\Paro\Paro\" Clipboard ".docx"
 		FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % t
 		run % t
 		myTT("Template Copied")
@@ -807,9 +807,9 @@ ExitApp
 		Stack:="11h"
 		Manager()
 		;~ if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")){
-			Click 177, 870 ; console
+			Click 178, 769 ; console
 			Sleep 1000
-			Click 40, 1011 ; input field
+			Click 47, 1005 ; input field
 			Sleep 500
 			Send ^a^v
 			Send {Enter}
@@ -2270,7 +2270,7 @@ else if(Stack="11g") ; get room amenities from soleasia
 	}
 else if(Stack="11h") ; Get Property Information 
 	{
-		Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div > div.sub-section-right > div.collapsed')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div > div.sub-section-right > div.collapsed')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div > div.sub-section-right > div.collapsed')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > h1').text() + delim`; // Property name`noutput += $('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div.HeaderCerebrum__Location > span.HeaderCerebrum__Address').text() + delim`; // Property address`noutput += ($('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-1').length>0?1`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-2').length>0?2`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-3').length>0?3`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-4').length>0?4`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-5').length>0?5`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-45').length>0?4`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-35').length>0?3`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-25').length>0?2`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-15').length>0?1`:0) + delim`; // star rating`noutput += ($('.hotel-desc')[0] ?  $('.hotel-desc')[0].outerHTML `: '') + delim`; // hotel description`noutput += announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
+		Button1_Label=helpfulFacts=""`;`n$.each($('#abouthotel-usefulinfo > div > div.sub-section-right > div`:nth-child(2)')`, function( index`, value ) {`n`thelpfulFacts+=value.outerHTML`;`n})`;`n`nguestPolicies=""`;`n$.each($('#abouthotel-policies > div > div.sub-section-right > div`:nth-child(2)')`, function( index`, value ) {`n`tguestPolicies+=value.outerHTML`;`n})`;`n`nannouncements=""`;`n$.each($('#abouthotel-nearest > div > div.sub-section-right > div`:nth-child(2)')`, function( index`, value ) {`n`tannouncements+=value.outerHTML`;`n})`;`n`nvar delim = "\n" + String.fromCharCode(255) + "\n"`;`n`nvar output = $('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > h1').text() + delim`; // Property name`noutput += $('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div.HeaderCerebrum__Location > span.HeaderCerebrum__Address').text() + delim`; // Property address`noutput += ($('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-1').length>0?1`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-2').length>0?2`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-3').length>0?3`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-4').length>0?4`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-5').length>0?5`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-45').length>0?4`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-35').length>0?3`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-25').length>0?2`:$('#property-critical-root > div > div.Northstar > div > div.NorthstarMainContent > div > div.HeaderCerebrum > div`:nth-child(1) > span > i.ficon-star-style.ficon-star-15').length>0?1`:0) + delim`; // star rating`noutput += ($('.hotel-desc')[0] ?  $('.hotel-desc')[0].outerHTML `: '') + delim`; // hotel description`noutput += announcements + delim + helpfulFacts + delim + guestPolicies`;`n`n`n`noutput += String.fromCharCode(254)`;`n$.each($('.features-item').not(".not-available-feature")`, function( index`, value ) {`n   output += value.outerText + delim`;`n})`;`n`n`n`n`noutput += String.fromCharCode(254)`;`na = 1`;`n$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child(1) > img').click()`;`nvar imageSourceInterval = setInterval(function(){ `n`t`n`tif($('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0] != null){`n`t`toutput += $('body > div > div > div > div.hotel-gallery > div.react-swipe-container.swipe.landscape > div > div`:nth-child('+a+') > div > img')[0].src + delim`;`n`t`ta++`n`t`t$('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div`:nth-child('+a+') > img').click()`;`n`t}`n`tif(a > $('body > div > div > div > div.hotel-gallery > div.thumbnail-carousel > div > div > div > div').length){`n`t`tclearInterval(imageSourceInterval)`;`n`t`tfor(`; output.length>0`;){`n`t`t`tprompt("test"`, output.substring(0`, 2000))`;`n`t`t`toutput = output.substring(2000`, output.length)`n`t`t}`n`t}`n}`, 10)`;`n
 	}
 ;~ else if(Stack="11h") ; Get Property Information --- till 2019_09_09 16:21
 	;~ {
@@ -2491,7 +2491,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=10/9/2019 @ 15`:35`:34`t`nWD MyCloud`t0.005173424`nHammadh PC`t1.522724143`nLatheef PC`t3.050260351`nReception Laptop`t0.288369571`nModebe PC`t1.940928839`nAcer ES14 mobile laptop`t0.174228693`nHammadh J7 Pro`t0.159973167`nAfsara 300119`t7.013331389`nHammadh PC 2`t1.3411E-06`nLatheef Ipad`t0.035996491`nBilal Desktop`t0.334259476`nHewage Laptop Dell`t0.35372137`nAmrita`t7.455242402`nCenie`t1.335975294`nHewage new Desktop`t0.636859841`nAmrita Tablet`t4.928854853`n146`t3.392336853`n147`t0.087801908`nMarigold`t1.649746688`nwifi router`t4.69983E-05`n
+		Button1_Label=24/9/2019 @ 17`:45`:13`nWD MyCloud`t0.02472354006022215`nHammadh PC`t6.918187312781811`nLatheef PC`t10.970979928970337`nReception Laptop`t1.8755193948745728`nModebe PC`t7.833019587211311`nAcer ES14 mobile laptop`t5.303504703566432`nHammadh J7 Pro`t1.3116094963625073`nPichamon 20181005`t0.5468322914093733`nThihthibey iPhone 8 Plus`t0.43573139142245054`nAfsara 300119`t23.990869522094727`nHammadh PC 2`t0.000027614645659923553`nLatheef Ipad`t0.035996491089463234`nBilal Desktop`t2.4484126465395093`nHewage Laptop Dell`t2.3054292015731335`nAmrita`t26.047284240834415`nCenie`t4.798139684833586`nHewage new Desktop`t3.8235061317682266`nAmrita Tablet`t21.480307906866074`n146`t3.392634766176343`n147`t0.08794734161347151`nBilal phone 2019_09_10`t10.885335366241634`nMarigold`t7.670058535411954`nwifi router`t0.00021184608340263367`n
 	}
 ;~ else if(Stack="12y") ; sheri bandwidth usage 
 	;~ {
@@ -2818,8 +2818,8 @@ else
 		waitClipboard()
 		t := Clipboard
 		;~ t:= RegExReplace(t, "s)(\R).{21,21}(.*\R)", "$1$2")
-		t:= RegExReplace(t, ")(\R).{21,21}(.*\R)", "$1$2")
-		;~ StringReplace, t, Clipboard, `t, % " ", All
+		;~ t:= RegExReplace(t, ")(\R).{21,21}(.*\R)", "$1$2")
+		StringReplace, t, t, % ";", % ";`n", All
 		Clipboard := t
 		Sleep 100
 		Send ^v
@@ -3774,7 +3774,11 @@ XButton2::
 			row := replaceMarker()
 		}else{
 			Loop % nRows
-				row .= fetchRow(nColumns, 1, next)
+			{
+				thisRow := fetchRow(nColumns, 1, next)
+				;~ run, thisRow
+				row .= thisRow
+			}
 		}
 		
 		if(skipLine)
@@ -4240,7 +4244,7 @@ XButton2::
 				Send {Tab}
 				SendInput info@soleasia.com
 				sleep 200
-				Send {Tab 2}
+				Send {Tab}
 				Send info@soleasia.com
 				sleep 200
 				Send {Tab}
@@ -5230,7 +5234,7 @@ return
 			;~ scaffold_template =output += $('¿ value1 ¿').val() + "\t";`n
 			;~ scaffold_template =$('¿ value1 ¿').text()
 			;~ scaffold_template =$('¿ value1 ¿').hide();
-			scaffold_template =$('¿ value1 ¿')
+			;~ scaffold_template =$('¿ value1 ¿')
 			printUsingScaffold("C")
 		}else{
 			WinActivate, ahk_exe chrome.exe
@@ -5238,7 +5242,14 @@ return
 	return
 	
 	+`::
+		IfWinActive, ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+		{
+			Send ^s
+			Sleep 500
+		}
+		
 		test_par:= "booking-test"
+		test_par:= "grab-inventory"
 	
 		; run test using selenium
 		IfWinNotExist, ahk_exe cmd.exe
