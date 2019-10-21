@@ -2823,7 +2823,7 @@ else
 		t := Clipboard
 		;~ t:= RegExReplace(t, "s)(\R).{21,21}(.*\R)", "$1$2")
 		;~ t:= RegExReplace(t, ")(\R).{21,21}(.*\R)", "$1$2")
-		StringReplace, t, t, % ";", % ";`n", All
+		StringReplace, t, t, % ",", % "`t", All
 		Clipboard := t
 		Sleep 100
 		Send ^v
@@ -3673,8 +3673,8 @@ XButton2::
 
 #if (Stack="15bd") ; sync eCouncil folders 
 	`::
-		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
-		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
 		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
 		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
@@ -3685,8 +3685,8 @@ XButton2::
 		;~ Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
 		;~ Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
 		
-		Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
-		Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
+		;~ Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
+		;~ Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
 		
 		synchronizeFoldersOneWay(Source, Destination) ; copy if new
 		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
@@ -3823,20 +3823,35 @@ XButton2::
 			waitClipboard()
 			
 			t := Clipboard
-			t:= RegExReplace(t, "s)^.*index.php/", "$1")
+			if(InStr(t, "http://localhost/SIS.Web")){
+				t:= RegExReplace(t, "s)^.*http://localhost/SIS.Web/", "$1")
 
-			WinActivate, ahk_exe sublime_text.exe
-			WinWaitActive, ahk_exe sublime_text.exe, , 2
-			if(WinActive("ahk_exe sublime_text.exe")){
-				StringSplit, t, t, ?
-				StringSplit, t1, t1, /
-				Send ^p
-				Send % t11 "Controller"
-				Send {Enter}
-				Send ^r
-				Send % "action" t12
-				Send {Enter}
-				Clipboard := t12
+				if(requireWinActive("ahk_exe devenv.exe")){
+					StringReplace, t, t, ~, , All
+					StringReplace, t, t, /, \, All
+					t := RegExReplace(t, "^\\", "")
+					StringSplit, t, t, ?
+					Clipboard:= t1
+					Send ^n
+					Sleep 100 
+					Send ^v
+				}
+			}else{
+				t:= RegExReplace(t, "s)^.*index.php/", "$1")
+
+				WinActivate, ahk_exe sublime_text.exe
+				WinWaitActive, ahk_exe sublime_text.exe, , 2
+				if(WinActive("ahk_exe sublime_text.exe")){
+					StringSplit, t, t, ?
+					StringSplit, t1, t1, /
+					Send ^p
+					Send % t11 "Controller"
+					Send {Enter}
+					Send ^r
+					Send % "action" t12
+					Send {Enter}
+					Clipboard := t12
+				}
 			}
 		}else{
 			; if IDE is open
@@ -4138,6 +4153,7 @@ XButton2::
 
 	genericWordCaseFormatter(source = "qpmz_default_never_used_by_anyone", replaceWith:="", firstWordFormat = 1, otherWordsFormat = 1){
 		if(source = "qpmz_default_never_used_by_anyone"){
+			waitClipboard()
 			source := Clipboard
 			replaceClipboard=1
 		}
