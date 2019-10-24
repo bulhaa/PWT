@@ -175,7 +175,7 @@ PeriodicJobsTimer:
 				Source=D:\Hammadh
 				Destination=Y:\Hammadh
 			}else if(location="Sheri"){
-				Source=C:\Users\sheesu.-sheesu-\Documents\Hammadh
+				Source=E:\hammadh
 				Destination=\\wdmycloud\hammadh
 			}else if(location="ncit_laptop"){
 				Source=C:\Users\hammadh\Documents\Desktop
@@ -682,7 +682,8 @@ ExitApp
 					
 					Click 1869, 53
 					Sleep 100
-					Click 143, 341
+					;~ Click 142, 479
+					Click 149, 335
 					if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
 						Sleep 500
 						if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
@@ -2491,7 +2492,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=24/9/2019 @ 17`:45`:13`nWD MyCloud`t0.02472354006022215`nHammadh PC`t6.918187312781811`nLatheef PC`t10.970979928970337`nReception Laptop`t1.8755193948745728`nModebe PC`t7.833019587211311`nAcer ES14 mobile laptop`t5.303504703566432`nHammadh J7 Pro`t1.3116094963625073`nPichamon 20181005`t0.5468322914093733`nThihthibey iPhone 8 Plus`t0.43573139142245054`nAfsara 300119`t23.990869522094727`nHammadh PC 2`t0.000027614645659923553`nLatheef Ipad`t0.035996491089463234`nBilal Desktop`t2.4484126465395093`nHewage Laptop Dell`t2.3054292015731335`nAmrita`t26.047284240834415`nCenie`t4.798139684833586`nHewage new Desktop`t3.8235061317682266`nAmrita Tablet`t21.480307906866074`n146`t3.392634766176343`n147`t0.08794734161347151`nBilal phone 2019_09_10`t10.885335366241634`nMarigold`t7.670058535411954`nwifi router`t0.00021184608340263367`n
+		Button1_Label=24/10/2019 @ 19`:47`:36`nWD MyCloud`t0.006708824075758457`nHammadh PC`t15.888363122940063`nLatheef PC`t11.30625605583191`nMarigold`t2.4872033316642046`nAmrita`t5.263880611397326`nBilal Desktop`t0.6735361907631159`nHewage Laptop Dell`t0.4338792311027646`nHewage new Desktop`t0.868509623222053`nCenie phone`t1.3784576747566462`nAmrita Tablet`t17.041772664524615`nHP LaserJet`t0.0007805097848176956`nReception Laptop`t0.15628199558705091`nModebe PC`t2.189310358837247`nHP Color Las`t3.604218363761902e-7`nAcer ES14 mobile laptop`t0.24438846204429865`nHammadh J7 Pro`t0.25992207508534193`nAfsara 300119`t6.6042345920577645`n126`t2.4875951251015067`n127`t0.037017822265625`nBilal 20191019`t4.668955514207482`n129`t4.904009493999183`n130`t0.2655139463022351`n253`t0.004261959344148636`n
 	}
 ;~ else if(Stack="12y") ; sheri bandwidth usage 
 	;~ {
@@ -5171,7 +5172,7 @@ return
 	return
 
 #if (Stack="15k") ; run selenium test
-	^s::
+	;~ ^s::
 		if(location = "NCIT"){
 			IfWinActive, ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
 			{
@@ -5259,7 +5260,7 @@ return
 			;~ scaffold_template =round(¿ value1 ¿, decimalPlaces)
 			;~ scaffold_template =output += $('¿ value1 ¿').val() + "\t";`n
 			;~ scaffold_template =$('¿ value1 ¿').text()
-			scaffold_template =$('¿ value1 ¿').hide();
+			;~ scaffold_template =$('¿ value1 ¿').hide();
 			;~ scaffold_template =$('¿ value1 ¿')
 			printUsingScaffold("C")
 		}else{
