@@ -3587,19 +3587,19 @@ XButton2::
 		global
 		
 		clipList_A_Index++
+		clipCells_A_Index = 0
 		
 		StringSplit, clipList, clipList, `n, `r
 		if(clipList_A_Index > clipList0){
 			clipList_A_Index := clipList0
 			myTT("Reached end of list")
 			clipLine := ""
+			return 0
 		}else{
 			clipLine := clipList%clipList_A_Index%
+			StringSplit, clipCells, clipLine, `t, `r`n
+			return 1
 		}
-
-		clipCells_A_Index = 0
-			
-		StringSplit, clipCells, clipLine, `t, `r`n
 	}
 		
 #if (Stack="15al") ; clipwait 
@@ -3922,8 +3922,7 @@ XButton2::
 			result := fetchValue(0, 0, 1)
 			if(result.status = "fail"){
 				if(!isRecursiveRun){
-					fetchRow(nColumns, fillTemplate, next, 1)
-					return
+					return fetchRow(nColumns, fillTemplate, next, 1)
 				}
 				break
 			}
@@ -4886,15 +4885,17 @@ return
 				if(! isRecursiveRun){
 					if(clipCells_A_Index < 1){
 						clipList_A_Index -= 2
-						gosub ClipLoad
+						success := ClipLoad()
 						clipCells_A_Index := clipCells0 + 1
 					}else
-						gosub ClipLoad
+						success := ClipLoad()
 					
-					return fetchValue(toClipboard, skipBlanks, next, 1)
+					if(success)
+						return fetchValue(toClipboard, skipBlanks, next, 1)
+					status := "fail"
 				}
+				
 				value := ""
-				status := "fail"
 				break
 			}
 			
