@@ -33,7 +33,7 @@ if(iniClipList != ""){
 
 coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
 personalStacks:= "r,12r;c,12v;a,11y;"
-infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;"
+infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;adb overscan,13l,android;right click,13m;"
 soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
 seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
 jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
@@ -2538,6 +2538,10 @@ else if(Stack="13k") ; git remote add origin
 	{
 		Button1_Label=git remote add origin https`://github.com/bulhaa/PWT.git
 	}
+else if(Stack="13l") ; adb overscan 
+	{
+		Button1_Label=C`:\Users\hammadh\Downloads\platform-tools_r28.0.2-windows\platform-tools\adb.exe shell wm overscan 0`,400`,0`,0
+	}
 else
 	{	
 		EditVisible :=1
@@ -2562,6 +2566,12 @@ else
 }
 
 
+
+	
+#if (Stack="13l") ; right click 
+	`::
+		Click right
+	return
 	
 #if (Stack="13j") ; new role 
 	`::
@@ -2592,7 +2602,7 @@ else
 		}
 
 		StringSplit, MyMsg, MyMsg, `n, `r
-		MyMsg=
+		MyMsg=m
 		loop %MyMsg0%
 		{
 			cur:=MyMsg0 - A_Index + 1
@@ -3971,11 +3981,16 @@ XButton2::
 
 #if (Stack="15ad") ; Get First 50000 characters
 	`::
-		Click 317, 508
+		Click 131, 225
+		;~ Click 317, 508
 		Sleep 1000
 		Send {Tab 2}
 		Sleep 300
-		Clipboard := SubStr(clipList, 1, 50000) " Hammadh End of document Hammadh End of document"
+		t := SubStr(clipList, 1, 50000) " Hammadh End of document Hammadh End of document"
+		StringReplace, t, t, % "�"
+		StringReplace, t, t, % "�"
+		Clipboard := t
+		Sleep 100
 		clipList := SubStr(clipList, 50001)
 		Send ^v
 		myTT("clip loaded")
