@@ -176,7 +176,7 @@ PeriodicJobsTimer:
 				Destination=Y:\Hammadh
 			}else if(location="Sheri"){
 				Source=E:\hammadh
-				Destination=\\wdmycloud\hammadh
+				Destination=E:\MyCloudBackup\hammadh
 			}else if(location="ncit_laptop"){
 				Source=C:\Users\hammadh\Documents\Desktop
 				Destination=Z:\D_Drive\Hammadh
@@ -712,15 +712,16 @@ ExitApp
 				if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
 					Sleep 2000
 					Send freestyle.reunion
+					Clipboard := "freestyle.reunion"
 					Sleep 100
 					Click 1131, 756
 				}
 			}
 		}else if(switch=3){
-			if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-				Click 1105, 633
-				Sleep 1000
-			}
+			;~ if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+				;~ Click 1105, 633
+				;~ Sleep 1000
+			;~ }
 			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
 				Sleep 1000
 				if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
@@ -2492,7 +2493,7 @@ else if(Stack="12g") ; Git export log to csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=24/10/2019 @ 19`:47`:36`nWD MyCloud`t0.006708824075758457`nHammadh PC`t15.888363122940063`nLatheef PC`t11.30625605583191`nMarigold`t2.4872033316642046`nAmrita`t5.263880611397326`nBilal Desktop`t0.6735361907631159`nHewage Laptop Dell`t0.4338792311027646`nHewage new Desktop`t0.868509623222053`nCenie phone`t1.3784576747566462`nAmrita Tablet`t17.041772664524615`nHP LaserJet`t0.0007805097848176956`nReception Laptop`t0.15628199558705091`nModebe PC`t2.189310358837247`nHP Color Las`t3.604218363761902e-7`nAcer ES14 mobile laptop`t0.24438846204429865`nHammadh J7 Pro`t0.25992207508534193`nAfsara 300119`t6.6042345920577645`n126`t2.4875951251015067`n127`t0.037017822265625`nBilal 20191019`t4.668955514207482`n129`t4.904009493999183`n130`t0.2655139463022351`n253`t0.004261959344148636`n
+		Button1_Label=25/11/2019 @ 20`:32`:7`nWD MyCloud`t0.06739527639001608`nHammadh PC`t5.62999396212399`nLatheef PC`t19.026920199394226`nMarigold`t10.85922122001648`nShaira Iphone201811`t0.8835362503305078`nAmrita`t16.59214748442173`nBilal Desktop`t2.9072003541514277`nHewage Laptop Dell`t1.8445487534627318`nHewage new Desktop`t2.6237473087385297`nCenie phone`t2.714696410112083`nAmrita Tablet`t26.136724543757737`nHP LaserJet`t0.00015107914805412292`nReception Laptop`t1.5515745943412185`nModebe PC`t8.530914783477783`nHP Color Las`t0.00023351237177848816`nDell Laptop`t0.000007873401045799255`nAcer ES14 mobile laptop`t1.327090971171856`nThihthibey iPhone 8 Plus`t0.28218750189989805`nAfsara 300119`t6.4170900750905275`nHammadh 20191105`t2.1075811106711626`nBilal 20191019`t10.640161234885454`n129`t15.49168337509036`n130`t17.69884708058089`n131`t6.387848447076976`n253`t0.00019202753901481628`n
 	}
 ;~ else if(Stack="12y") ; sheri bandwidth usage 
 	;~ {
@@ -5304,7 +5305,7 @@ return
 			WinActivate, ahk_exe SciTE.exe
 			Run cmd
 			WinWaitActive, ahk_exe cmd.exe
-			Send cd C:\Users\sheesu.-sheesu-\Documents\Hammadh\selenium-js-tester{Enter}
+			Send cd /d E:\hammadh\selenium-js-tester{Enter}
 		}
 		WinActivate, ahk_exe cmd.exe
 		WinWaitActive, ahk_exe cmd.exe
