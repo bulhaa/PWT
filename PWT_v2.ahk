@@ -1,3 +1,4 @@
+;~ 10.241.12.140
 Process, Close, dota2.exe
 ;~ Process, Close, explorer.exe
 
@@ -5,43 +6,55 @@ Process, Close, dota2.exe
 
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
+;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
+g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, case_permission_id"
+
+g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
-loop %g_configurations0%
+Loop, read, %A_ScriptDir%\PWT_v2.ini
 {
-	t:=g_configurations%A_Index%
-	IniRead, %t%, %A_ScriptDir%\PWT_v2.ini, Main,  % t
-	%t% := decodeLinesAndTabs(%t%)
+	if(A_Index = 1 or Trim(A_LoopReadLine) = "" or StrLen(A_LoopReadLine) < 3 )
+		continue
 	
-	if(InStr(%t%, "``") == 1)
-		%t% := SubStr(%t%, 2)
+	p := InStr( A_LoopReadLine, "=")
+	n := SubStr(A_LoopReadLine, 1, p-1)
+	v := SubStr(A_LoopReadLine, p+1)
+	a := A_Index
+	
+	t := n
+	%t% := decodeLinesAndTabs(v)
+	%t%backup := %t%
 }
 
 if(location = "ERROR")
 	MsgBox Could not load location
 
-StringSplit, clipList, clipList, `n, `r
-clipList_A_Index := clipList0
+;~ StringSplit, clipList, clipList, `n, `r
+clipList_A_Index := 0
 	
 if(iniClipList != ""){
 	clipList .= "`n" iniClipList
 }
 
+;~ Stack := "15am" ; scaffolding mode
+
+recentFunctions := Object()	; creates initially empty stack
+
 #Include PWT_v2_include.ahk
 
 coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
-personalStacks:= "r,12r;c,12v;a,11y;"
-infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;adb overscan,13l,android;right click,13m;"
+personalStacks:= "r,12r;c,12v;a,11y;right click,13m;records mv notes,14b;"
+infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;windows host file,13o;gitlab git.egov.mv,14d;"
 soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
 seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
 jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
 ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
-eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCouncil folders,15bd;purify,11z;new role,13j;"
+eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCouncil folders,15bd;purify,11z;new role,13j;ecouncil roles,13l;"
 gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
-laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;"
-nodeJsStacks:= "regenerate js and css,15bb,npm run watch;"
+laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;tailwind website,13p;deploy case management,13q;mysql mode,13r;SQLite,13s;laravel pretend migrate,13t;laravel seed db,13u;laravel clear view cache,13v;composer dump autoload,13w;dump laravel data,13x;livewire docs,14c;php,14n;data to seeder,14r;"
+nodeJsStacks:= "regenerate js and css,15bb,npm run watch;chai builder tailwinds,14i;tailwinds themeforest,14j;"
 sisStacks:= "SIS Agency User,15bf;push MakudiOnline to git,12m;SIS Admin User,13a;"
 chromeStacks:= "Sample login page,15bg;"
 etukuriStacks:= "laravel test assert success,15bj;laravel test assert fail,15bk;laravel form field,15bl;database seeder changes,15bi;laravel scaffolding with generators,12t;"
@@ -51,8 +64,11 @@ fileZillaStacks:= "filezilla convert local path to ftp path,12w;"
 sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
+phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;"
 
-allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks "swap css colors,15bc;"
+
+allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
 
 zStacks:= allStacks
 
@@ -100,7 +116,8 @@ Gui, Add, Edit, x102 y20 w310 h20 gSearch vSearch,
 Gui, Add, ListBox, x12 y50 w460 h300 gListBox vlistSel ,
 ; Generated using SmartGUI Creator for SciTE
 
-Gui, Show, w486 h685 , Decision Tree v2
+;~ Gui, Show, w486 h685 , Decision Tree v2
+Gui, Show, w486 h550 , Decision Tree v2
 Gui, +HwndMyGuiHwnd
 OnMessage(0x200, "WM_MOUSEMOVE")
 
@@ -136,11 +153,12 @@ OnExit, OnExitFunction
 if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 	MsgBox CheckIn
 
+
 	DriveGet, Devices2, List, REMOVABLE
 	if( WinExist( "Debugging] ahk_class SciTEWindow") )
 		MyTT("Debug Mode")
 	else
-		SetTimer, PeriodicJobsTimer, 1000
+		SetTimer, PeriodicJobsTimer, 100
 return
 
 
@@ -163,9 +181,52 @@ PeriodicJobsTimer:
 	
 	WindowList_globalCounter:=A_Min
 		
-	
+
+		;~ Loop {
+			CoordMode, Mouse, Screen
+			MouseGetPos, x, y
+			if(x != oldX or y != oldY){
+				oldX := x 
+				oldY := y
+				
+				x1 := x - 10
+				y1 := y - 10
+				x2 := x + 10
+				y2 := y - 10
+				x3 := x + 10
+				y3 := y + 10
+				x4 := x - 10
+				y4 := y + 10
+				
+									;~ WinMove, hammadhOverlay, , -13, -8, 1920, 1080
+					;~ WinSet, TransColor, 0D0D0D 255, hammadhOverlay
+					;~ WinSet, Region, %x1%-%y1% 2000-%y1% 2000-0 0-0 0-2000 2000-2000 2000-%y1% %x2%-%y2% %x3%-%y3% %x4%-%y4%, hammadhOverlay
+					;~ WinSet, Style, -0xCF0000, hammadhOverlay
+					;~ WinSet, ExStyle, -0x20201, hammadhOverlay
+					;~ WinSet, ExStyle, +0x80, hammadhOverlay
+					;~ WinSet, AlwaysOnTop, On, hammadhOverlay
+
+			}
+			;~ myTT("test 3")
+	PeriodicJobsRunning:=0
+			
+			
+			
+		;~ }
+		
+		return
+
+		CoordMode, Mouse, Relative
+		MouseGetPos, X, Y
+		CoordMode, Mouse, Relative
+		
+		Clipboard:= Clipboard "Click " X ", " Y "`nSleep 1000`n"
+		myTT(Clipboard)
+	;~ return
+
+
 	; Code to synchronize files
-	if ( A_DD != lastBackupDate and PWT_Backed_Up = "" and ( (a_hour>=13 and a_min>=45 and location="NCIT") OR (a_hour>=17 and a_min>=0 and location="Sheri") OR (a_hour>=25 and a_min>=0 and location="ncit_laptop") ) )
+	if (false and A_DD != lastBackupDate and PWT_Backed_Up = "" and ( (a_hour>=13 and a_min>=45 and location="NCIT") OR (a_hour>=17 and a_min>=0 and location="Sheri") OR (a_hour>=25 and a_min>=0 and location="ncit_laptop") ) )
 	{
 		MsgBox, 4, , Synch Starting. Do you want to continue? (Press YES or NO)
 		PWT_Backed_Up:=1
@@ -175,8 +236,8 @@ PeriodicJobsTimer:
 				Source=D:\Hammadh
 				Destination=Y:\Hammadh
 			}else if(location="Sheri"){
-				Source=E:\hammadh
-				Destination=E:\MyCloudBackup\hammadh
+				Source=C:\Users\sheesu.-sheesu-\Documents\Hammadh
+				Destination=\\wdmycloud\hammadh
 			}else if(location="ncit_laptop"){
 				Source=C:\Users\hammadh\Documents\Desktop
 				Destination=Z:\D_Drive\Hammadh
@@ -393,7 +454,7 @@ return
 
 
 skipFileOrFolder(src_path){
-	if(InStr(src_path, "\Notepad++Portable\") or InStr(src_path, "\selenium-js-tester\") or InStr(src_path, "\.git\") or InStr(src_path, "~") or InStr(src_path, "Thumbs.db") or InStr(src_path, "\\wdmycloud\hammadh\hammadh\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\assets\") or InStr(src_path, "C:\xampp\htdocs\eCouncil\eCouncil\web\assets\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\protected\runtime\") or InStr(src_path, "C:\xampp\htdocs\eCouncil\eCouncil\web\protected\runtime\") or InStr(src_path, ".gitattributes") or InStr(src_path, ".gitignore") or InStr(src_path, "ec.sublime-project") or InStr(src_path, "ec.sublime-workspace"))
+	if(InStr(src_path, "\Notepad++Portable\") or InStr(src_path, "\selenium-js-tester\") or InStr(src_path, "\.git\") or InStr(src_path, "~") or InStr(src_path, "Thumbs.db") or InStr(src_path, "\\wdmycloud\hammadh\hammadh\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\assets\") or InStr(src_path, "C:\xampp\htdocs\eCouncil\eCouncil\web\assets\") or InStr(src_path, "C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil\protected\runtime\") or InStr(src_path, "C:\xampp5\htdocs\eCouncil\eCouncil\web\protected\runtime\") or InStr(src_path, ".gitattributes") or InStr(src_path, ".gitignore") or InStr(src_path, "ec.sublime-project") or InStr(src_path, "ec.sublime-workspace") or InStr(src_path, "C:\xampp\htdocs\case-manager\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager\vendor") or InStr(src_path, "C:\xampp\htdocs\case-manager\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager\vendor"))
 		return 1 ; skip file
 	else
 		return 0 ; don't skip file
@@ -458,11 +519,11 @@ synchronizeCore(Source, Destination, params = "F", pAbsent = "C", present = "NC"
 						decision := pAbsent = "P" ? "copy" : ""
 						decision := pAbsent = "D" ? "delete" : decision
 						if(pAbsent == "C"){
-							WinActivate, , , ahk_exe explorer.exe
-							run, EXPLORER.EXE /select`, %A_LoopFileFullPath%
-							WinWaitActive, ahk_exe explorer.exe, , 2
-							Sleep 1000
-							InputBox, d, Create?, %A_LoopFileFullPath% is missing, , 729, 349
+							;~ WinActivate, , , ahk_exe explorer.exe
+							;~ run, EXPLORER.EXE /select`, %A_LoopFileFullPath%
+							;~ WinWaitActive, ahk_exe explorer.exe, , 2
+							;~ Sleep 1000
+							;~ InputBox, d, Create?, %A_LoopFileFullPath% is missing, , 729, 349
 							
 							if(d="d")
 								decision := "delete"
@@ -682,8 +743,7 @@ ExitApp
 					
 					Click 1869, 53
 					Sleep 100
-					;~ Click 142, 479
-					Click 149, 335
+					Click 143, 341
 					if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
 						Sleep 500
 						if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
@@ -712,16 +772,15 @@ ExitApp
 				if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
 					Sleep 2000
 					Send freestyle.reunion
-					Clipboard := "freestyle.reunion"
 					Sleep 100
 					Click 1131, 756
 				}
 			}
 		}else if(switch=3){
-			;~ if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-				;~ Click 1105, 633
-				;~ Sleep 1000
-			;~ }
+			if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+				Click 1105, 633
+				Sleep 1000
+			}
 			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
 				Sleep 1000
 				if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
@@ -1372,21 +1431,23 @@ OnExitFunction:
 	loop %g_configurations0%
 	{
 		t:=g_configurations%A_Index%
-		%t% := EncodeLinesAndTabs(%t%)
-		IniWrite, % %t%, %A_ScriptDir%\PWT_v2.ini, Main, % t
+		if(%t% != %t%backup){
+			%t% := EncodeLinesAndTabs(%t%)
+			IniWrite, % %t%, %A_ScriptDir%\PWT_v2.ini, Main, % t
+		}
 	}
 
-	FileCopy, %A_ScriptDir%\WindowList_global.txt, %A_ScriptDir%\WindowList_global.txt.bkp
-	FileDelete, %A_ScriptDir%\WindowList_global.txt
-	if ErrorLevel
-		MyTT("Delete Fail")
+	;~ FileCopy, %A_ScriptDir%\WindowList_global.txt, %A_ScriptDir%\WindowList_global.txt.bkp
+	;~ FileDelete, %A_ScriptDir%\WindowList_global.txt
+	;~ if ErrorLevel
+		;~ MyTT("Delete Fail")
 	
-	FileAppend, %WindowList_global%, %A_ScriptDir%\WindowList_global.txt
-	if ErrorLevel
-		MyTT("Append Fail")
+	;~ FileAppend, %WindowList_global%, %A_ScriptDir%\WindowList_global.txt
+	;~ if ErrorLevel
+		;~ MyTT("Append Fail")
 	
-	if(TT_showing)
-		sleep 1000
+	;~ if(TT_showing)
+		;~ sleep 1000
 	ExitApp  ; A script with an OnExit subroutine will not terminate unless the subroutine uses ExitApp
 return
 
@@ -1911,7 +1972,7 @@ chooseListItem( number ){
 		
 	if (searchAndRun!="")
 		Run %searchAndRun%
-	sleep 1000
+	;~ sleep 1000
 }
 	
 goToCode(onSelectOnly = 0){
@@ -2155,8 +2216,8 @@ ButtonD(){
 
 }
 }
-Manager()
-{
+
+Manager(){
 	global Stack, AltPath, listSel, SearchMode, zlistBoxItem, Button1_Label, Button2_Label, Button3_Label, Button4_Label
 	
 	GuiControl, Hide, Listbox1
@@ -2215,8 +2276,7 @@ Manager()
 return
 }
 
-StackSearch(Stack, run)
-{
+StackSearch(Stack, run){
 	global Button1_Label 
 	global Button2_Label
 	global Button3_Label 
@@ -2230,7 +2290,17 @@ StackSearch(Stack, run)
 	global location
 	global EditVisible = 0
 
-if(Stack=0)
+if(Stack="15am") ; scaffolding mode 
+	{
+		init_DB_Fields()
+		scaffoldFiles()
+		
+		;~ init_DB_Fields(1, 0)
+		;~ myTT("refreshed")
+		
+		Button1_Label=`t`tscaffold_template = ? value1 ?`n`t`tprintUsingScaffold("")`n`n
+	}
+else if(Stack=0)
 	{
 	}
 else if(Stack="1")
@@ -2260,7 +2330,7 @@ else if(Stack="11d") ; get room amenities list
 	}
 else if(Stack="11e") ; Get Room Information 
 	{
-		Button1_Label=var delim = String.fromCharCode(255)`;`n`nvar output = $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-header > div.MasterRoom-headerLeft > a > div > div > span')[0].innerHTML + delim`; // Room name`n`noutput += "0" + delim`; // Number of rooms`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next()[0].innerText `: '' ) + delim`; // Bed types`n`n$('.icon-hide').remove()`;`noutput += (($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup`:nth-child(2)').find('.ficon-adults-one').length*1 + $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span`:nth-child(2) > span.Capacity-iconGroup`:nth-child(1)').find('.ficon-adults-one').length*1) * (($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup`:nth-child(2)').text().match(/\d+\.?\d*/) == null ? 1 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup`:nth-child(2)').text().match(/\d+\.?\d*/)[0]))) + delim`; // Adults`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div > span.Capacity__text').text().match(/\d+\.?\d*/) == null ? 0 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div > span.Capacity__text').text().match(/\d+\.?\d*/)[0]) + delim`; // Children`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').length==0 ? '' `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').text()) + delim`; // Free Breakfast`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next().length!=0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next()[0].innerText.match(/\d+\.?\d*[ ]m�\/\d+\.?\d*[ ]ft�/)[0] `: '-') + delim`; // Area`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next()[0].innerText `: '' ) + delim`; // View`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container').length==0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('span.pd-price')[0].innerText + delim `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container')[0].innerText) + delim`; // Price`n`n`noutput += String.fromCharCode(254)`;`n`n$.each($('.thumbnail-wrapper > img')`, function( index`, value ) {`n  output += value.src.replace('80x60'`, '1024x768').replace('100x75'`, '1024x768').replace('photos.hotelbeds.com/giata/medium'`, 'photos.hotelbeds.com/giata/bigger').replace('aff.bstatic.com/images/hotel/max300'`, 'aff.bstatic.com/images/hotel/840x460').replace('aff.bstatic.com/images/hotel/max200'`, 'aff.bstatic.com/images/hotel/840x460') + delim`;`n})`;`n`noutput += String.fromCharCode(254)`;`n$.each($('.details__amenities-item').not(".details__amenities-item_disabled")`, function( index`, value ) {`n  output += value.outerText + delim`;`n})`;`n`nfor(`; output.length>0`;){`n`tprompt("test"`, output.substring(0`, 2000))`;`n`toutput = output.substring(2000`, output.length)`n}
+		Button1_Label=var delim = String.fromCharCode(255)`;`n`nvar output = $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-header > div.MasterRoom-headerLeft > a > div > div > span')[0].innerHTML + delim`; // Room name`n`noutput += "0" + delim`; // Number of rooms`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li > div > i.ficon-bed').next()[0].innerText `: '' ) + delim`; // Bed types`n`n$('.icon-hide').remove()`;`noutput += (($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup`:nth-child(2)').find('.ficon-adults-one').length*1 + $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span`:nth-child(2) > span.Capacity-iconGroup`:nth-child(1)').find('.ficon-adults-one').length*1) * (($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup`:nth-child(2)').text().match(/\d+\.?\d*/) == null ? 1 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div > div > span.Capacity-iconGroup`:nth-child(2)').text().match(/\d+\.?\d*/)[0]))) + delim`; // Adults`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div > span.Capacity__text').text().match(/\d+\.?\d*/) == null ? 0 `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div`:nth-child(2) > div > span.Capacity__text').text().match(/\d+\.?\d*/)[0]) + delim`; // Children`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').length==0 ? '' `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div`:nth-child(2) > div > div.ChildRoomsList-roomCell.ChildRoomsList-roomCell-featureBuckets > div > div').text()) + delim`; // Free Breakfast`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next().length!=0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div > ul > li > div > i.ficon-sqm').next()[0].innerText.match(/\d+\.?\d*[ ]m?\/\d+\.?\d*[ ]ft?/)[0] `: '-') + delim`; // Area`n`noutput += ( $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next().length != 0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-info > div`:nth-child(3) > ul > li div > i.ficon-views').next()[0].innerText `: '' ) + delim`; // View`n`noutput += ($('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container').length==0 ? $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('span.pd-price')[0].innerText + delim `: $('#roomGridContent > div`:nth-child(1) > div.MasterRoom-table > div > div.MasterRoom-roomsList > div > div > div > div > div > div > div > div.PriceContainer').find('.pd-crossedout-container')[0].innerText) + delim`; // Price`n`n`noutput += String.fromCharCode(254)`;`n`n$.each($('.thumbnail-wrapper > img')`, function( index`, value ) {`n  output += value.src.replace('80x60'`, '1024x768').replace('100x75'`, '1024x768').replace('photos.hotelbeds.com/giata/medium'`, 'photos.hotelbeds.com/giata/bigger').replace('aff.bstatic.com/images/hotel/max300'`, 'aff.bstatic.com/images/hotel/840x460').replace('aff.bstatic.com/images/hotel/max200'`, 'aff.bstatic.com/images/hotel/840x460') + delim`;`n})`;`n`noutput += String.fromCharCode(254)`;`n$.each($('.details__amenities-item').not(".details__amenities-item_disabled")`, function( index`, value ) {`n  output += value.outerText + delim`;`n})`;`n`nfor(`; output.length>0`;){`n`tprompt("test"`, output.substring(0`, 2000))`;`n`toutput = output.substring(2000`, output.length)`n}
 	}
 else if(Stack="11f") ; Remove network adapters
 	{
@@ -2371,7 +2441,7 @@ else if(Stack="15ar") ; laravel refresh classes
 	}
 else if(Stack="15as") ; laravel refresh database seed 
 	{
-		Button1_Label=php artisan migrate`:fresh --seed
+		Button1_Label=C`:\xampp\php81\php artisan migrate`:fresh --seed
 	}
 else if(Stack="15at") ; laravel run a specific seeder 
 	{
@@ -2429,10 +2499,6 @@ else if(Stack="15bm") ; c# use dbcontext
 	{
 		Button1_Label=`            using (var dbContext = new SISEntities())`n            {`n                var importLicense = dbContext.SubstanceImportLicenses.SingleOrDefault(i => i.SubstanceImportLicenseId == SubstanceImportId);`n                importLicense.Request.RequestStateID = ModelConfig.Requests.RequestStates.PENDING_AGENCY_APPROVAL;`n                dbContext.SaveChanges();`n            }`n`n
 	}
-else if(Stack="15am") ; scaffolding mode 
-	{
-		Button1_Label=`t`tscaffold_template = ¿ value1 ¿`n`t`tprintUsingScaffold("")`n`n
-	}
 else if(Stack="11x") ; grab links from chrome 
 	{
 		Button1_Label=var output=""`n$.each($('#page-body > div.forumbg > div > ul.topiclist.topics > li > dl > dt > a.topictitle')`, function( index`, value ) {`n  output += value.href + "\n"`;`n})`;`n`nfor(`; output.length>0`;){`n`tprompt("test"`, output.substring(0`, 2000))`;`n`toutput = output.substring(2000`, output.length)`;`n}`n
@@ -2472,7 +2538,7 @@ else if(Stack="12m") ; push MakudiOnline to git
 	}
 else if(Stack="12o") ; php var_dump to console 
 	{
-		Button1_Label=`                echo "<script type=\"text/javascript\">console.log('row`: "`;`n`n                ob_start()`;`n                var_dump($row)`;`n                $_var_dump_result = ob_get_clean()`;`n`n                echo str_replace(array("\n"`, "\r")`, '\\n'`, $_var_dump_result)`;`n                echo "')`;</script>"`;`n`n
+		Button1_Label=`                echo "<script type=\"text/javascript\">console.log(\"row`: "`;`n`n                ob_start()`;`n                var_dump($row)`;`n                $_var_dump_result = ob_get_clean()`;`n`n                echo str_replace(array("\n"`, "\r")`, '\\n'`, $_var_dump_result)`;`n                echo "\")`;</script>"`;`n`n
 	}
 else if(Stack="12q") ; windows start menu directory 
 	{
@@ -2489,11 +2555,12 @@ else if(Stack="12s") ; laravel make migration
 	}
 else if(Stack="12g") ; Git export log to csv 
 	{
-		Button1_Label=git log --since="last month" --pretty=format`:'`%h`,`%an`,`%ar`,`%s' > log.csv
+		Button1_Label=cd C`:\xampp\htdocs\eCouncil\eCouncil`n`rgit log --since="last month" --pretty=format`:`%s > log.txt
+		;~ Button1_Label=git log --since="last month" --pretty=format`:'`%h`,`%an`,`%ar`,`%s' > log.csv
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
-		Button1_Label=25/11/2019 @ 20`:32`:7`nWD MyCloud`t0.06739527639001608`nHammadh PC`t5.62999396212399`nLatheef PC`t19.026920199394226`nMarigold`t10.85922122001648`nShaira Iphone201811`t0.8835362503305078`nAmrita`t16.59214748442173`nBilal Desktop`t2.9072003541514277`nHewage Laptop Dell`t1.8445487534627318`nHewage new Desktop`t2.6237473087385297`nCenie phone`t2.714696410112083`nAmrita Tablet`t26.136724543757737`nHP LaserJet`t0.00015107914805412292`nReception Laptop`t1.5515745943412185`nModebe PC`t8.530914783477783`nHP Color Las`t0.00023351237177848816`nDell Laptop`t0.000007873401045799255`nAcer ES14 mobile laptop`t1.327090971171856`nThihthibey iPhone 8 Plus`t0.28218750189989805`nAfsara 300119`t6.4170900750905275`nHammadh 20191105`t2.1075811106711626`nBilal 20191019`t10.640161234885454`n129`t15.49168337509036`n130`t17.69884708058089`n131`t6.387848447076976`n253`t0.00019202753901481628`n
+		Button1_Label=24/9/2019 @ 17`:45`:13`nWD MyCloud`t0.02472354006022215`nHammadh PC`t6.918187312781811`nLatheef PC`t10.970979928970337`nReception Laptop`t1.8755193948745728`nModebe PC`t7.833019587211311`nAcer ES14 mobile laptop`t5.303504703566432`nHammadh J7 Pro`t1.3116094963625073`nPichamon 20181005`t0.5468322914093733`nThihthibey iPhone 8 Plus`t0.43573139142245054`nAfsara 300119`t23.990869522094727`nHammadh PC 2`t0.000027614645659923553`nLatheef Ipad`t0.035996491089463234`nBilal Desktop`t2.4484126465395093`nHewage Laptop Dell`t2.3054292015731335`nAmrita`t26.047284240834415`nCenie`t4.798139684833586`nHewage new Desktop`t3.8235061317682266`nAmrita Tablet`t21.480307906866074`n146`t3.392634766176343`n147`t0.08794734161347151`nBilal phone 2019_09_10`t10.885335366241634`nMarigold`t7.670058535411954`nwifi router`t0.00021184608340263367`n
 	}
 ;~ else if(Stack="12y") ; sheri bandwidth usage 
 	;~ {
@@ -2529,7 +2596,7 @@ else if(Stack="13d") ; property images from booking.com
 	}
 else if(Stack="13e") ; yii base url 
 	{
-		Button1_Label=<?php echo Yii`:`:app()->request->baseUrl ?>
+		Button1_Label=<?php echo Yii`:`:app()->request->baseUrl`; ?>
 	}
 else if(Stack="13f") ; RequireWinActive 
 	{
@@ -2539,9 +2606,143 @@ else if(Stack="13k") ; git remote add origin
 	{
 		Button1_Label=git remote add origin https`://github.com/bulhaa/PWT.git
 	}
-else if(Stack="13l") ; adb overscan 
+else if(Stack="13l") ; ecouncil roles 
 	{
-		Button1_Label=C`:\Users\hammadh\Downloads\platform-tools_r28.0.2-windows\platform-tools\adb.exe shell wm overscan 0`,400`,0`,0
+		Button1_Label=SELECT r.role_id`, r.role_key`, r.name`, r.description`, r.is_system_role`, r.context_id`, a.action_id`, a.controller_action`, a.description`, a.name`, a.active FROM ``roles`` r`nJOIN role_action ra ON r.``role_id`` = ra.``role_id```nJOIN actions a ON ra.action_id = a.action_id`nWHERE a.controller_action LIKE 'houseRegistrations/addMoreResidents'
+	}
+else if(Stack="13j") ; new role 
+	{
+		Button1_Label=SELECT * FROM ``roles`` ORDER BY ``roles``.``role_id`` DESC limit 10`;`nSELECT * FROM ``actions`` ORDER BY ``action_id`` DESC limit 10`;
+	}
+else if(Stack="13n") ; gems user 
+	{
+		Button1_Label=A302409
+	}
+else if(Stack="13o") ; windows host file 
+	{
+		Button1_Label=C`:\Windows\System32\drivers\etc
+	}
+else if(Stack="13p") ; tailwind website 
+	{
+		Button1_Label=https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1`%3A2&scaling=min-zoom&page-id=0`%3A1&starting-point-node-id=1`%3A2`nhttps`://laravel.com/docs/9.x/eloquent#soft-deleting`nhttps`://laravel-livewire.com/`nC`:\Users\hammadh.a\Downloads\Code-Generator-main`nhttps`://dev.to/dariusdauskurdis/laravel-8-advanced-crud-livewire-and-tailwind-271l`nhttps`://github.com/spatie/enum`nhttps`://tailwindcomponents.com/`nhttps`://flowbite.com/docs/components/tabs/#`nhttps`://heroicons.com/
+	}
+else if(Stack="13u") ; laravel seed db 
+	{
+		Button1_Label=C`:\xampp\php81\php artisan db`:seed`n
+	}
+else if(Stack="13v") ; laravel clear view cache 
+	{
+		Button1_Label=sudo php artisan view`:clear
+	}
+else if(Stack="13w") ; composer dump autoload 
+	{
+		Button1_Label=composer dump-autoload
+	}
+else if(Stack="13x") ; dump laravel data 
+	{
+		Button1_Label=`        $arr = []`;`n        foreach ($this->rows as $row) {`n            $arr[] = $row`;`n        }`n        dd( json_decode(json_encode($arr)) )`;`n
+	}
+else if(Stack="13y") ; phpMyAdmin 
+	{
+		Button1_Label=`http://localhost/phpmyadmin
+		run http://localhost/phpmyadmin
+	}
+else if(Stack="13z") ; tailwinds docs 
+	{
+		Button1_Label=`https://tailwindcss.com/docs/font-size
+		run https://tailwindcss.com/docs/font-size
+	}
+else if(Stack="14a") ; laravel docs 
+	{
+		Button1_Label=`https://laravel.com/docs/9.x/deployment#server-configuration
+		run https://laravel.com/docs/9.x/deployment#server-configuration
+	}
+else if(Stack="14b") ; records mv notes 
+	{
+		Button1_Label=recordsofmaldives.com`n`n`nServerName recordsofmaldives.com`nServerAlias www.recordsofmaldives.com`n`nsudo a2ensite recordsofmaldives.com.conf`n`n`n`ncertbot --apache -d recordsofmaldives.com -d www.recordsofmaldives.com`n`n`nsudo chown -R www-data`:$USER storage`n`ne7eab6c566626e6a5d7388b6c410c818c3cb853aec05702a`n`n`nCREATE USER 'records'@'localhost' IDENTIFIED BY 'iyN6iKtCygUmR8V'`;`n`n`nGRANT CREATE`, ALTER`, DROP`, INSERT`, UPDATE`, DELETE`, SELECT`, REFERENCES`, RELOAD on *.* TO 'records'@'localhost' WITH GRANT OPTION`;`n`ncreate DATABASE records`n`nC`:\xampp\php81\php artisan migrate`:fresh --seed`n`nusermod -aG sudo webadmin`n`nrsync --archive --chown=webadmin`:webadmin ~/.ssh /home/webadmin
+	}
+else if(Stack="14c") ; livewire docs 
+	{
+		Button1_Label=`https://laravel-livewire.com/docs/2.x/properties#debouncing-input
+		run, https://laravel-livewire.com/docs/2.x/properties#debouncing-input
+	}
+else if(Stack="14d") ; gitlab git.egov.mv 
+	{
+		Button1_Label=`https://git.egov.mv/
+		run, https://git.egov.mv/
+	}
+else if(Stack="14e") ; case manager wireframe 
+	{
+		Button1_Label=https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=343`%3A789&scaling=min-zoom&page-id=0`%3A1&starting-point-node-id=1`%3A2
+		;~ run, https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2
+		run, https`://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=0`%3A1
+	}
+else if(Stack="14f") ; teams 
+	{
+		Button1_Label=`https://teams.microsoft.com/_#/conversations/19:4683f526-d766-4bc9-8a7b-382b3a77dcd5_9529b8a9-30a5-462f-94a3-d662d45fd698@unq.gbl.spaces?ctx=chat
+		run, `https://teams.microsoft.com/_#/conversations/19:4683f526-d766-4bc9-8a7b-382b3a77dcd5_9529b8a9-30a5-462f-94a3-d662d45fd698@unq.gbl.spaces?ctx=chat
+	}
+else if(Stack="14g") ; otrs demo 
+	{
+		Button1_Label=https`://demo.otrsce.com/
+		run, https`://demo.otrsce.com/
+	}
+else if(Stack="14h") ; outlook 
+	{
+		Button1_Label=https`://outlook.office.com/mail/sentitems
+		run, https`://outlook.office.com/mail/sentitems
+	}
+else if(Stack="14i") ; chai builder tailwinds 
+	{
+		Button1_Label=https`://chaibuilder.com/try
+		run, https`://chaibuilder.com/try
+	}
+else if(Stack="14j") ; tailwinds themeforest list 
+	{
+		Button1_Label=https`://angular-material.fusetheme.com/apps/academy
+		run, https`://angular-material.fusetheme.com/apps/academy
+	}
+else if(Stack="14k") ; case manager local 
+	{
+		Button1_Label=http`://case-manager.test/login
+		run, http`://case-manager.test/login
+	}
+else if(Stack="14l") ; gemen online local 
+	{
+		Button1_Label=http`://gemen-online.test/birth-certificates/22/edit
+		run, http`://gemen-online.test/birth-certificates/22/edit
+	}
+else if(Stack="14m") ; gemen local 
+	{
+		Button1_Label=http`://ecouncil.test/ecouncil/index.php/site/login
+		run, http`://ecouncil.test/ecouncil/index.php/site/login
+	}
+else if(Stack="14n") ; php 
+	{
+		Button1_Label=<?php var_dump(  )`; die`; ?>
+	}
+else if(Stack="14o") ; hero icons 
+	{
+		Button1_Label=https`://heroicons.com/
+		Run, https`://heroicons.com/
+	}
+else if(Stack="14p") ; gemen online TE 
+	{
+		Button1_Label=https`://gemen.te.egov.mv/birth-records
+		Run, https`://gemen.te.egov.mv/birth-records
+	}
+else if(Stack="14q") ; eCouncil DB scripts 
+	{
+		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2022\Pending
+		Run, \\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2022\Pending
+	}
+else if(Stack="14r") ; data to seeder 
+	{
+		Button1_Label=`        // dd( json_decode(json_encode(Organisation`:`:all()) ) )`;`n
+	}
+else if(Stack="14s") ; composer custom php 
+	{
+		Button1_Label=C`:\xampp\php81\php.exe C`:\ProgramData\ComposerSetup\bin\composer.phar install
 	}
 else
 	{	
@@ -2567,18 +2768,128 @@ else
 }
 
 
-
 	
-#if (Stack="13l") ; right click 
+	
+#if (Stack="14r") ; data to seeder 
 	`::
+		Send ^a
+		Sleep 100
+		Clipboard=
+		waitClipboard()
+		StringReplace, Clipboard, Clipboard, +, , All
+		Clipboard := RegExReplace(Clipboard, "i)(.*[""].*)", "$1,") ; put comma at end
+		StringReplace, Clipboard, Clipboard, ":, " =>, All
+		StringReplace, Clipboard, Clipboard, T00:00:00.000000Z, , All
+		Clipboard := RegExReplace(Clipboard, "i).*[{].*", "  [")
+		StringReplace, Clipboard, Clipboard, }, ]`,, All
+		Clipboard := RegExReplace(Clipboard, "i).*for_editing.*", "")
+		Clipboard := RegExReplace(Clipboard, "i).*array.*", "[")
+		Clipboard := RegExReplace(Clipboard, "i)(\d{4}[-]\d{2}[-]\d{2})T(\d{2}[:]\d{2}[:]\d{2})[.]\d{6}Z", "$1 $2")
+		Clipboard := RegExReplace(Clipboard, "i).*created_by.*", "    ""created_by"" => 1,")
+		Clipboard := RegExReplace(Clipboard, "i).*updated_by.*", "    ""updated_by"" => 1,")
+		
+		Clipboard := replaceBlankLines(0, Clipboard)
+  	return
+	
+#if (Stack="13t") ; laravel pretend migrate 
+	`::
+		file =C:\xampp\htdocs\case-manager\migrate.sql
+		command:= "C:\xampp\php81\php artisan migrate --pretend --no-ansi > " file
+		RunWait %comspec% /c "%command%", C:\xampp\htdocs\case-manager
+		
+		FileRead, content, %file%
+		;~ StringReplace, content, content, `}); // group end, %route%`}); // group end
+		content := RegExReplace(content, ".*:", "")
+		content := RegExReplace(content, "(.*)", "$1;")
+		StringReplace, content, content, `;`;, `;, All
+		StringReplace, content, content, `r, , All
+		StringReplace, content, content, `n;, `n, All
+		
+		FileDelete, %file%
+		FileAppend, %content%, %file%
+	return
+	
+#if (Stack="13s") ; SQLite 
+	`::
+		file := "C:\xampp\htdocs\case-manager\.env"
+		content := "APP_NAME=Case-Manager`nAPP_ENV=local`nAPP_KEY=base64`:Jx7g4xVsDQ6t3cyiacsDmuDgkhvqQi2ICgGh8cFevYA=`nAPP_DEBUG=true`nAPP_URL=http`://case-manager.test`n`nLOG_CHANNEL=stack`nLOG_DEPRECATIONS_CHANNEL=null`nLOG_LEVEL=debug`n`nDB_CONNECTION=sqlite`nDB_DATABASE=C`:\xampp\htdocs\case-manager\database.sqlite`n`n#DB_CONNECTION=mysql`n#DB_DATABASE=case_manager`nDB_HOST=127.0.0.1`nDB_PORT=3306`nDB_USERNAME=root`nDB_PASSWORD=`n`nBROADCAST_DRIVER=log`nCACHE_DRIVER=file`nFILESYSTEM_DISK=local`nQUEUE_CONNECTION=sync`nSESSION_DRIVER=file`nSESSION_LIFETIME=120`n`nMEMCACHED_HOST=127.0.0.1`n`nREDIS_HOST=127.0.0.1`nREDIS_PASSWORD=null`nREDIS_PORT=6379`n`nMAIL_MAILER=smtp`nMAIL_HOST=mailhog`nMAIL_PORT=1025`nMAIL_USERNAME=null`nMAIL_PASSWORD=null`nMAIL_ENCRYPTION=null`nMAIL_FROM_ADDRESS=""hello@example.com""`nMAIL_FROM_NAME=""${APP_NAME}""`n`nAWS_ACCESS_KEY_ID=`nAWS_SECRET_ACCESS_KEY=`nAWS_DEFAULT_REGION=us-east-1`nAWS_BUCKET=`nAWS_USE_PATH_STYLE_ENDPOINT=false`n`nPUSHER_APP_ID=`nPUSHER_APP_KEY=`nPUSHER_APP_SECRET=`nPUSHER_APP_CLUSTER=mt1`n`nMIX_PUSHER_APP_KEY=""${PUSHER_APP_KEY}""`nMIX_PUSHER_APP_CLUSTER=""${PUSHER_APP_CLUSTER}""`n"
+		
+		
+		FileDelete, %file%
+		FileAppend, %content%, %file%
+	return
+	
+#if (Stack="13r") ; mysql mode 
+	`::
+		file := "C:\xampp\htdocs\case-manager\.env"
+		content := "APP_NAME=Case-Manager`nAPP_ENV=local`nAPP_KEY=base64`:Jx7g4xVsDQ6t3cyiacsDmuDgkhvqQi2ICgGh8cFevYA=`nAPP_DEBUG=true`nAPP_URL=http`://case-manager.test`n`nLOG_CHANNEL=stack`nLOG_DEPRECATIONS_CHANNEL=null`nLOG_LEVEL=debug`n`n#DB_CONNECTION=sqlite`n#DB_DATABASE=C`:\xampp\htdocs\case-manager\database.sqlite`n`nDB_CONNECTION=mysql`nDB_DATABASE=case_manager`nDB_HOST=127.0.0.1`nDB_PORT=3306`nDB_USERNAME=root`nDB_PASSWORD=`n`nBROADCAST_DRIVER=log`nCACHE_DRIVER=file`nFILESYSTEM_DISK=local`nQUEUE_CONNECTION=sync`nSESSION_DRIVER=file`nSESSION_LIFETIME=120`n`nMEMCACHED_HOST=127.0.0.1`n`nREDIS_HOST=127.0.0.1`nREDIS_PASSWORD=null`nREDIS_PORT=6379`n`nMAIL_MAILER=smtp`nMAIL_HOST=mailhog`nMAIL_PORT=1025`nMAIL_USERNAME=null`nMAIL_PASSWORD=null`nMAIL_ENCRYPTION=null`nMAIL_FROM_ADDRESS=""hello@example.com""`nMAIL_FROM_NAME=""${APP_NAME}""`n`nAWS_ACCESS_KEY_ID=`nAWS_SECRET_ACCESS_KEY=`nAWS_DEFAULT_REGION=us-east-1`nAWS_BUCKET=`nAWS_USE_PATH_STYLE_ENDPOINT=false`n`nPUSHER_APP_ID=`nPUSHER_APP_KEY=`nPUSHER_APP_SECRET=`nPUSHER_APP_CLUSTER=mt1`n`nMIX_PUSHER_APP_KEY=""${PUSHER_APP_KEY}""`nMIX_PUSHER_APP_CLUSTER=""${PUSHER_APP_CLUSTER}""`n"
+		
+		
+		FileDelete, %file%
+		FileAppend, %content%, %file%
+	return
+	
+#if (Stack="13q") ; deploy case management 
+	`::
+		Click 70, 284
+		Send {Home}
+		Send {Down}
+		Send {Down}{Space}
+		Send {CtrlDown}
+		
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}
+		Send {Down}{Space}
+		
+		Send {CtrlUp}
+	return
+	
+#if (Stack="13m") ; right click 
+	+`::
+		;~ Send {NumLock}
+		;~ Sleep 100
+		;~ Click 3811, 1149
+		;~ Click 2
+	;~ return
+	
+		;~ Click 2
 		Click right
 	return
 	
+	
+	`::
+		MouseClick, left,,, 1, 0, D  ; Hold down the left mouse button.
+		Loop
+		{
+			Sleep, 100
+			GetKeyState, state, ``, P
+			if state = U  ; The key has been released, so break out of the loop.
+				break
+			; ... insert here any other actions you want repeated.
+		}
+		MouseClick, left,,, 1, 0, U  ; Release the mouse button.
+	return
+	
+	^`:: Click, 2
+
 #if (Stack="13j") ; new role 
 	`::
 		ecouncil_role_id += 1
 		ecouncil_action_id += 1
-		scaffold_template := "INSERT INTO ``actions`` (``action_id```, ``controller_action```, ``description```, ``name```, ``active``) VALUES (" ecouncil_action_id "`, '¿ value1 ¿'`, NULL`, NULL`, 1)`;`nINSERT INTO ``roles`` (``role_id```, ``role_key```, ``name```, ``description```, ``parent_role_id```, ``is_system_role```, ``context_id```, ``operation_log_id``) VALUES (" ecouncil_role_id "`, '¿ value1 ¿'`, '¿ value1 ¿'`, '¿ value1 ¿'`, NULL`, 0`, 1`, NULL)`;`nINSERT INTO ``role_action``(``role_id```, ``action_id``) VALUES (" ecouncil_role_id "`, " ecouncil_action_id ")`;`n`n`n"
+		scaffold_template := "INSERT INTO ``actions`` (``action_id```, ``controller_action```, ``description```, ``name```, ``active``) VALUES (" ecouncil_action_id "`, '? value1 ?'`, NULL`, NULL`, 1)`;`nINSERT INTO ``roles`` (``role_id```, ``role_key```, ``name```, ``description```, ``parent_role_id```, ``is_system_role```, ``context_id```, ``operation_log_id``) VALUES (" ecouncil_role_id "`, '? value1 ?'`, '? value1 ?'`, '? value1 ?'`, NULL`, 0`, 1`, NULL)`;`nINSERT INTO ``role_action``(``role_id```, ``action_id``) VALUES (" ecouncil_role_id "`, " ecouncil_action_id ")`;`n`n`n"
+		printUsingScaffold("C")
+	return
+	
+	+`::
+		ecouncil_action_id += 1
+		scaffold_template := "INSERT INTO ``actions`` (``action_id```, ``controller_action```, ``description```, ``name```, ``active``) VALUES (" ecouncil_action_id "`, '? value1 ?'`, NULL`, NULL`, 1)`;`nINSERT INTO ``role_action``(``role_id```, ``action_id``) VALUES (roleID`, " ecouncil_action_id ")`;`n`n`n"
 		printUsingScaffold("C")
 	return
 	
@@ -2603,7 +2914,7 @@ else
 		}
 
 		StringSplit, MyMsg, MyMsg, `n, `r
-		MyMsg=m
+		MyMsg=
 		loop %MyMsg0%
 		{
 			cur:=MyMsg0 - A_Index + 1
@@ -2680,7 +2991,7 @@ else
 		Send +{Home}
 		Send +{Up}
 		Sleep 100
-		scaffold_template = ¿ value1 ¿`n
+		scaffold_template = ? value1 ?`n
 		printUsingScaffold("")
 	return
 	
@@ -2909,15 +3220,17 @@ return
 
 #if (Stack="12p") ; php null check 
 	`::
-		mergeClipboard()
-		scaffold_template = !is_null(¿ value1 ¿) ? ¿ value1 ¿
-		printUsingScaffold("L")
-		Clipboard := " : ''"
+		waitClipboard()
+		scaffold_template = !is_null(? value1 ?) ? ? value1 ? : ''
+		;~ printUsingScaffold("C")
+		runScaffold( scaffold_template, Clipboard)
+		Send ^v
+		;~ Clipboard := " : ''"
 	return
 	
 	+`::
 		mergeClipboard()
-		scaffold_template = isset(¿ value1 ¿) ? ¿ value1 ¿
+		scaffold_template = isset(? value1 ?) ? ? value1 ?
 		printUsingScaffold("L")
 		Clipboard := " : ''"
 	return
@@ -3003,7 +3316,7 @@ return
 		t := scaffold_template
 		;~ matrix(1.3333333,0,1.000000,-1.3333333,0,808.81867)
 		
-		StringReplace, t, t, ¿ value1 ¿, % v_12l, All
+		StringReplace, t, t, ? value1 ?, % v_12l, All
 		
 		Clipboard := t
 		Send ^v
@@ -3054,7 +3367,7 @@ return
 	`:: 
 		waitClipboard()
 		v_12l := Clipboard
-		Send ¿ value1 ¿
+		Send ? value1 ?
 	return
 	
 #if (Stack="12i") ; Remove Lines 
@@ -3139,7 +3452,7 @@ return
 #if (Stack="11z") ; purify 
 	`::
 		waitClipboard()
-		scaffold_template = $parser = new CHtmlPurifier()`;`nreturn $parser->purify(¿ value1 ¿)`;`n
+		scaffold_template = $parser = new CHtmlPurifier()`;`nreturn $parser->purify(? value1 ?)`;`n
 		printUsingScaffold("C")
 	return
 	
@@ -3437,7 +3750,7 @@ XButton2::
 #if (Stack="11t") ; prices 
 	`::
 		Clipboard=
-		scaffold_template = ¿ valueAT1 ¿`nMVR ¿ value3 ¿`n`n
+		scaffold_template = ? valueAT1 ?`nMVR ? value3 ?`n`n
 		printUsingScaffold("MA", , 4)
 		;~ printUsingScaffold()
 	return
@@ -3486,13 +3799,13 @@ XButton2::
 #if (Stack="15l") ; console log 
 	`::
 		mergeClipboard()
-		scaffold_template = console.log('¿ value1 ¿: ' + ¿ value1 ¿);
+		scaffold_template = console.log('? value1 ?: ' + ? value1 ?);
 		printUsingScaffold(1)
 	return
 	
 #if (Stack="15bo") ; make new stack 
 	`::
-		stackPrefix := "13"
+		stackPrefix := "14"
 		newStackAsc := 97
 		
 		Loop 27 {
@@ -3511,13 +3824,13 @@ XButton2::
 #if (Stack="15bn") ; convert to property function 
 	`::
 		mergeClipboard()
-		scaffold_template = property.¿ value1 ¿()
+		scaffold_template = property.? value1 ?()
 		printUsingScaffold("L")
 	return
 	
 #if (Stack="15bl") ; laravel form field 
 	`::
-		scaffold_template =`                <div class="{{ add_error_class($errors->has('¿ valueS1 ¿'), 'form-group') }}">`n                    {!! Form`:`:label('¿ valueS1 ¿', '¿ valueT1 ¿').' *' !!}`n                    <?php`n                    $selected_¿ valueS1 ¿ = isset($¿ valueS2 ¿) ? $¿ valueS2 ¿->¿ valueS3 ¿ `: old('¿ valueS1 ¿');`n                    $¿ valueS1 ¿s = ['' => ''] + App\¿ value4 ¿`:`:pluck('name', 'id');`n                    ?>`n                    {!! Form`:`:select('¿ valueS1 ¿', $¿ valueS1 ¿s, $selected_¿ valueS1 ¿,`n                        ['class' => 'form-control select2-basic', 'data-allow-clear' => 'true', 'data-placeholder' => __('All')]) !!}`n                    @include('errors._list', ['error' => $errors->get('¿ valueS1 ¿')])`n                </div>`n`n
+		scaffold_template =`                <div class="{{ add_error_class($errors->has('? valueS1 ?'), 'form-group') }}">`n                    {!! Form`:`:label('? valueS1 ?', '? valueT1 ?').' *' !!}`n                    <?php`n                    $selected_? valueS1 ? = isset($? valueS2 ?) ? $? valueS2 ?->? valueS3 ? `: old('? valueS1 ?');`n                    $? valueS1 ?s = ['' => ''] + App\? value4 ?`:`:pluck('name', 'id');`n                    ?>`n                    {!! Form`:`:select('? valueS1 ?', $? valueS1 ?s, $selected_? valueS1 ?,`n                        ['class' => 'form-control select2-basic', 'data-allow-clear' => 'true', 'data-placeholder' => __('All')]) !!}`n                    @include('errors._list', ['error' => $errors->get('? valueS1 ?')])`n                </div>`n`n
 		printUsingScaffold()
 	return
 	
@@ -3600,6 +3913,7 @@ XButton2::
 		clipList_A_Index++
 		clipCells_A_Index = 0
 		
+		;~ if(clipList0 = "")
 		StringSplit, clipList, clipList, `n, `r
 		if(clipList_A_Index > clipList0){
 			clipList_A_Index := clipList0
@@ -3609,7 +3923,7 @@ XButton2::
 		}else{
 			clipLine := clipList%clipList_A_Index%
 			StringSplit, clipCells, clipLine, `t, `r`n
-			return 1
+            return 1
 		}
 	}
 		
@@ -3618,13 +3932,11 @@ XButton2::
 	
 	return
 	
-	mergeClipboard(copy = 1, encodeAsSingleElement = 0, copyResult = 1)
-	{
+	mergeClipboard(copy = 1, encodeAsSingleElement = 0, copyResult = 1) {
 		return waitClipboard(copy, 1, encodeAsSingleElement, copyResult)
 	}
 
-	waitClipboard(copy = 1, merge = 0, encodeAsSingleElement = 0, copyResult = 1)
-	{
+	waitClipboard(copy = 1, merge = 0, encodeAsSingleElement = 0, copyResult = 1) {
 		global clipList, clipList_A_Index
 		
 		Sleep 100
@@ -3685,23 +3997,42 @@ XButton2::
 
 #if (Stack="15bd") ; sync eCouncil folders 
 	`::
+	
+		;~ StringReplace, clipboard, clipboard, `r, , All
+		;~ StringReplace, clipboard, clipboard, `n, :, All
+		;~ StringReplace, clipboard, clipboard, :, `n, All
+	;~ return		
+		
+	
+		;~ Source=C:\xampp\htdocs\case-manager
+		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
+		
 		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
 		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
 		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
-		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil	
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
-		
+			
 		;~ Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
 		;~ Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
 		
 		;~ Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
 		;~ Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
 		
-		synchronizeFoldersOneWay(Source, Destination) ; copy if new
-		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		;~ Source=C:\Users\User\Source\Workspaces\SubstanceInformationSystem\SIS
+		;~ Destination=C:\Users\User\Downloads\SIS
+		
+		;~ Source=C:\Users\User\Downloads\SIS
+		;~ Destination=C:\Users\User\Source\Workspaces\SubstanceInformationSystem\SIS
+		
+		;~ Source=C:\Users\User\Source\Workspaces\SubstanceInformationSystem\SIS
+		;~ Destination=D:\makudi-admin
+		
+		;~ synchronizeFoldersOneWay(Source, Destination) ; copy if new
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
 		MyTT("Done Synching")
 		MyTT("Done Synching")
@@ -3710,6 +4041,7 @@ XButton2::
 	
 #if (Stack="15bc") ; swap css colors 
 	`::
+
 		Send {End}^+{Left 3}
 		Sleep 100
 		Send ^x
@@ -3753,14 +4085,1935 @@ XButton2::
 		Send ^s
 	return
 	
+scaffoldFields(template, withID = 1){
+	global DB_Fields, primary_key
+	
+	clipList := DB_Fields
+	
+	if(withID)
+		clipList := primary_key_row() "`n" clipList
+	
+	return runScaffold( template, clipList)
+}
+	
+scaffoldModel(template, skip = 0){
+	global modelName
+	
+	if( skip )
+		return template
+	
+	return runScaffold( template, modelName)
+}
+
+runScaffold( template, data ){
+	global clipList, scaffold_template, clipList_A_Index, clipCells0
+	
+	value0=-1
+	clipList := data "`n"
+	scaffold_template := template
+	clipList_A_Index = 0
+	;~ StringSplit, clipList, clipList, `n, `r
+	ClipLoad()
+	;~ Clipboard=
+	output := printUsingScaffold("MA", 1, -1, 1, 0)
+	clipList := ""
+	scaffold_template := "default"
+	clipList_A_Index = 0
+	clipCells0 := ""
+	return output
+}
+
+model_casts( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(data_type = "datetime" or data_type = "timestamp" )
+		t := "`        '? valueS1 ?' => 'datetime'`,`n"
+	else if(data_type = "date" )
+		t := "`        '? valueS1 ?' => 'date'`,`n"
+	else
+		t := ""
+
+	return t
+}
+
+model_appends( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t := "`        '? valueS1 ?_for_editing'`,`n"
+	else
+		t := ""
+
+	return t
+}
+
+model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	required := "max`:1000000000|"`
+	if( InStr(nullability, "No") )
+		required := "required|"
+	
+	numeric := ""
+	if( InStr(data_type, "int(") and !related_table_singular )
+		numeric := "numeric|"
+	
+	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t := "`            'editing.? value1 ?_for_editing' => '" required "'`,`n"
+	else
+		t := "`            'editing.? value1 ?' => '" required numeric "'`,`n"
+	
+	return t
+}
+
+model_nullable( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if( InStr(nullability, "Yes") )
+		t := "`        '? valueS1 ?' => ''`,`n"
+	else
+		t := ""
+	
+	return t
+}
+
+model_dateGettersAndSetters( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t := "`    public function get? valueCC1 ?ForEditingAttribute()`n    {`n        return $this->? valueS1 ? ? $this->? valueS1 ?->format('d/m/Y') `: ''`;`n    }`n`n    public function set? valueCC1 ?ForEditingAttribute($value)`n    {`n        $this->? valueS1 ? = parseDate($value)`;`n    }`n`n"
+	else
+		t := ""
+	
+	return t
+}
+
+model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	valueCC4 := "? valueCC4 ?"
+	if( customModelName(related_table_singular) )
+		valueCC4 := customModelName(related_table_singular)
+	
+	name := scaffoldModel("? valueL1 ?")
+	plural := scaffoldModel("? valueL2 ?")
+	plural_C := scaffoldModel("? valueC2 ?")
+	model := scaffoldModel("? valueCC1 ?")
+	
+	if(related_table_singular != "" ){
+		t := "`    /**`n     * Get the ? valueL4 ? that owns the " name ".`n     */`n    public function ? valueC91 ?()`n    {`n        return $this->belongsTo(" valueCC4 "`:`:class`, '? valueS1 ?'`, '" related_primary_key "')`;`n    }`n`n    // /**`n    //  * Get the " plural " for the ? valueL4 ?.`n    //  */`n    // public function " plural_C "()`n    // {`n    //     return $this->hasMany(" model "`:`:class`, '" related_primary_key "'`, '? valueS1 ?')`;`n    // }`n`n"
+		without_id := StrReplace(field_name, "_id", "")
+		t := replaceMarker(without_id, t, 91)
+	}
+	else
+		t := ""
+	
+	return t
+}
+
+model_includes() {
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(name = "user" )
+		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`n"
+	else
+		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`n"
+	
+	return t
+}
+
+model_inheritance() {
+	global fields
+	
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(fields["deleted_at"])
+		softDeletes := "`, SoftDeletes"
+	
+	if(name = "user" )
+		t := "Authenticatable`n{`n    use HasApiTokens`, HasFactory`, Notifiable" softDeletes "`;"
+	else
+		t := "Model`n{`n    use HasFactory" softDeletes "`;"
+	
+	return t
+}
+
+opposite_relations(table_name_plural){
+	if(table_name_plural = "individuals")
+		return "`    /**`n     * Get the id cards for the individual.`n     */`n    public function idCards()`n    {`n        return $this->hasMany(IdCard`:`:class`, 'business_entity_id'`, 'business_entity_id')`;`n    }`n`n"
+	else if(table_name_plural = "services")
+		return "`    /**`n     * Get the requests for the service.`n     */`n    public function request()`n    {`n        return $this->hasOne(Request`:`:class`, 'service_id'`, 'service_id')`;`n    }`n`n"
+	else if(table_name_plural = "birth_records")
+		return "`    /**`n     * Get the birth certificates for the birth record.`n     */`n    public function birthCertificate()`n    {`n        return $this->hasOne(BirthCertificate`:`:class`, 'birth_records_id'`, 'birth_records_id')`;`n    }`n`n"
+}
+
+model(){
+	global
+	model_a( table_name_singular, table_name_plural, reverse, primary_key )
+}
+	
+model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
+	
+	includes := model_includes()
+	properties := scaffoldFields("` * @property integer $? valueS1 ?`n")
+	inheritance := model_inheritance()
+	casts := runSubScaffold( "model_casts")
+	appends := runSubScaffold( "model_appends")
+	validationRules := runSubScaffold( "model_validationRules")
+	nullable := runSubScaffold( "model_nullable")
+	name_field := "`        return $this->" name_field() "`;`n"
+	fillable := scaffoldFields("`        '? valueS1 ?'`,`n")
+	keys := scaffoldFields("`            '? value1 ?'`,`n")
+	dateGettersAndSetters := runSubScaffold( "model_dateGettersAndSetters")
+	relations := runSubScaffold( "model_relations", 1)
+	opposite_relations := opposite_relations(table_name_plural)
+	
+	customModelName := scaffoldModel( "? valueCC1 ?" )
+	
+	if( customModelName(table_name_singular) )
+		customModelName := customModelName(table_name_singular)
+	
+	;~ customModelName := scaffoldModel( customModelName )
+	file =C:\xampp\htdocs\case-manager\app\Models\%customModelName%.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %includes%, " includes "
+		StringReplace, content, content, %properties%, " properties "
+		StringReplace, content, content, %inheritance%, " inheritance "
+		StringReplace, content, content, %appends%, " appends "
+		StringReplace, content, content, %casts%, " casts "
+		StringReplace, content, content, %validationRules%, " validationRules "
+		StringReplace, content, content, %nullable%, " nullable "
+		StringReplace, content, content, %name_field%, " name_field "
+		StringReplace, content, content, %fillable%, " fillable "
+		StringReplace, content, content, %keys%, " keys "
+		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
+		StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = Auth`:`:id()`;`n            $model->updated_by = Auth`:`:id()`;`n            $model->created_at = now()`;`n            $model->updated_at = now()`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = Auth`:`:id()`;`n        })`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations opposite_relations "}`n"
+
+		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
+		content := scaffoldModel( t )
+	}
+		
+	fileWrite( content, file )
+}
+	
+factory(){
+	global
+	factory_a( table_name_singular, table_name_plural, reverse )
+}
+	
+factory_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	definitions := scaffoldFields("`            '? value1 ?' => $this->faker->name()`,`n")
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %definitions%, " definitions "
+	}else
+		content := scaffoldModel("<?php`n`nnamespace Database\Factories`;`n`nuse Illuminate\Database\Eloquent\Factories\Factory`;`nuse Illuminate\Support\Str`;`n`n/**`n * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\? valueCC1 ?>`n */`nclass ? valueCC1 ?Factory extends Factory`n{`n    /**`n     * Define the model's default state.`n     *`n     * @return array<string`, mixed>`n     */`n    public function definition()`n    {`n        return [`n" definitions "`n        ]`;`n    }`n`n    // /**`n    //  * `n    //  *`n    //  * @return static`n    //  */`n    // public function unverified()`n    // {`n    //     return $this->state(function (array $attributes) {`n    //         return [`n    //             'email_verified_at' => null`,`n    //         ]`;`n    //     })`;`n    // }`n}`n")
+	
+	name := scaffoldModel("? valueCC1 ?Factory")
+	
+	file =C:\xampp\htdocs\case-manager\database\factories\%name%.php
+	fileWrite( content, file )
+}
+
+Seeder_attributes( field_name, data_type, nullability, related_table_singular, related_table_plural ){
+	ignoreArr := {"created_by": 1, "updated_by": 1, "created_at": 1, "updated_at": 1, "deleted_at": 1}
+
+	if( ignoreArr[field_name] )
+		return ""
+	else
+		return "`                '? value1 ?' => 'test'`,`n"
+}
+
+seeder(){
+	global
+	seeder_a( table_name_singular, table_name_plural, reverse )
+}
+	
+seeder_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	
+	attributes := runSubScaffold( "Seeder_attributes")
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %attributes%, " attributes "
+	}else
+		content := scaffoldModel("<?php`n`nnamespace Database\Seeders`;`n`nuse Illuminate\Database\Console\Seeds\WithoutModelEvents`;`nuse Illuminate\Database\Seeder`;`nuse Illuminate\Support\Facades\DB`;`nuse Illuminate\Support\Str`;`n`nclass ? valueCC1 ?Seeder extends Seeder`n{`n    /**`n     * Run the database seeds.`n     *`n     * @return void`n     */`n    public function run()`n    {`n        DB`:`:table('? valueS2 ?')->insert([`n            [`n" attributes "`n            ]`,`n        ])`;`n    }`n}`n")
+	
+	name := scaffoldModel("? valueCC1 ?Seeder")
+	file =C:\xampp\htdocs\case-manager\database\seeders\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+updateDatabaseSeeder(){
+	global
+	updateDatabaseSeeder_a( table_name_singular, table_name_plural, reverse )
+}
+	
+updateDatabaseSeeder_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	seeder := scaffoldModel("`            // ? valueCC1 ?Seeder`:`:class`,`n")
+	
+	file =C:\xampp\htdocs\case-manager\database\seeders\DatabaseSeeder.php
+	FileRead, content, %file%
+	StringReplace, content, content, `        ])`;, %seeder%`        ])`;
+	
+	fileWrite( content, file )
+}
+	
+apiController_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	required := "max`:1000000000|"`
+	if( InStr(nullability, "No") )
+		required := "required|"
+	
+	numeric := ""
+	if( InStr(data_type, "int(") and !related_table_singular )
+		numeric := "numeric|"
+	
+	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t := "`            '? value1 ?' => '" required "'`,`n"
+	else
+		t := "`            '? value1 ?' => '" required numeric "'`,`n"
+	
+	return t
+}
+
+customModelName(table_name_singular){
+	global
+	
+	customModelName := { "case": "CaseModel" }
+	return customModelName[table_name_singular]
+}
+
+apiController(){
+	global
+	apiController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+apiController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	validationRules := runSubScaffold( "apiController_validationRules")
+	
+	t := "<?php`n`nnamespace App\Http\Controllers\Api`;`n`nuse App\Http\Controllers\Controller`;`nuse App\Models\? valueCC1 ?`;`nuse Symfony\Component\HttpFoundation\Response`;`nuse Illuminate\Http\Request`;`nuse Illuminate\Support\Facades\Validator`;`nuse App\Repositories\? valueCC91 ?Repository`;`n`nclass ? valueCC91 ?Controller extends Controller`n{`n    /** @var ? valueCC91 ?Repository $? valueS1 ?Repository*/`n    private $? valueS1 ?Repository`;`n`n    protected $routePath = '? valueS1 ?'`;`n    protected $viewPath = '? valueS1 ?'`;`n`n    public function __construct(? valueCC91 ?Repository $? valueS1 ?Repo)`n    {`n        $this->? valueS1 ?Repository = $? valueS1 ?Repo`;`n    }`n`n    /**`n     * Display a listing of the resource.`n     * https`://? valueS1 ?.te.egov.mv/api/? valueS2 ??page=1&filter[priority_id]=2000&orderBy=-id`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function index(Request $request)`n    {`n        $filters = $request->get('filter'`, array())`;`n        $orderBy = $request->get('orderBy'`, null)`;`n        $? valueS2 ? = $this->? valueS1 ?Repository->paginate(10`, ['*']`, $filters`, $orderBy)`;`n`n        return response()->json([`n                'data' => $? valueS2 ?`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    protected function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    /**`n     * Show the form for creating a new resource.`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function create()`n    // {`n    //     $item = new ? valueCC1 ?()`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_uri = ""/? valueS1 ?""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Store a newly created resource in storage.`n     *`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function store(Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'data' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $item = new ? valueCC1 ?`;`n`n        $item->fill($request->validate($this->rules()))`;`n        $item->save()`;`n        return response()->json([`n                'data' => $item`,`n            ]`, Response`:`:HTTP_CREATED)`;`n    }`n`n    /**`n     * Display the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function show($id)`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n        return view(""? valueS1 ?.show""`, compact('? valueS1 ?'))`;`n    }`n`n    /**`n     * Show the form for editing the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function edit($id)`n    // {`n    //     $item = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_method = 'PATCH'`;`n    //     $item->_uri = ""/? valueS1 ?/$item->id""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Update the specified resource in storage.`n     *`n     * @param int $id`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function update(? valueCC1 ? $? valueS1 ?`, Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'data' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $? valueS1 ?->update($request->validate($this->rules()))`;`n        return response()->json([`n                'data' => $? valueS1 ?`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    /**`n     * Remove the specified resource from storage.`n     *`n     * @param int $id`n     * @return \Illuminate\Routing\Redirector`n     */`n    // public function destroy($id)`n    // {`n    //     ? valueCC1 ?`:`:destroy($id)`;`n    //     return redirect(""/? valueS1 ?"")`;`n    // }`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueCC1 ?Controller")
+	file =C:\xampp\htdocs\case-manager\app\Http\Controllers\Api\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+repository(){
+	global
+	repository_a( table_name_singular, table_name_plural, reverse )
+}
+	
+repository_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	fields := scaffoldFields("        '? valueS1 ?',`n")
+	
+	t := "<?php`n`nnamespace App\Repositories`;`n`nuse App\Models\? valueCC1 ?`;`nuse App\Repositories\BaseRepository`;`n`nclass ? valueCC91 ?Repository extends BaseRepository`n{`n    protected $fieldSearchable = [`n" fields "    ]`;`n`n    public function getFieldsSearchable()`: array`n    {`n        return $this->fieldSearchable`;`n    }`n`n    public function model()`: string`n    {`n        return ? valueCC1 ?`:`:class`;`n    }`n}`n  "
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueCC1 ?Repository")
+	file =C:\xampp\htdocs\case-manager\app\Repositories\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+policy(){
+	global
+	policy_a( table_name_singular, table_name_plural, reverse )
+}
+	
+policy_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := scaffoldFields("        '? valueS1 ?',`n")
+	
+	t := "<?php`n`nnamespace App\Policies`;`n`nuse App\Models\? valueCC1 ?`;`nuse App\Models\User`;`nuse Illuminate\Auth\Access\HandlesAuthorization`;`nuse App\Enum\PermissionsEnum`;`n`nclass ? valueCC91 ?Policy`n{`n    use HandlesAuthorization`;`n`n/**`n     * Determine whether the user can view any models.`n     *`n     * @param  \App\Models\User  $user`n     * @return \Illuminate\Auth\Access\Response|bool`n     */`n    public function viewAny(User $user)`n    {`n        return hasPermission(PermissionsEnum`:`:? valueS1 ?_view_any())`;`n    }`n`n    /**`n     * Determine whether the user can view the model.`n     *`n     * @param  \App\Models\User  $user`n     * @param  \App\Models\? valueCC1 ?  $? valueS1 ?`n     * @return \Illuminate\Auth\Access\Response|bool`n     */`n    public function view(User $user`, ? valueCC1 ? $? valueS1 ?)`n    {`n        return hasPermission(PermissionsEnum`:`:? valueS1 ?_view()`, $? valueS1 ?->team_id)`;`n    }`n`n    /**`n     * Determine whether the user can create models.`n     *`n     * @param  \App\Models\User  $user`n     * @return \Illuminate\Auth\Access\Response|bool`n     */`n    public function create(User $user)`n    {`n        return hasPermission(PermissionsEnum`:`:? valueS1 ?_create())`;`n    }`n`n    /**`n     * Determine whether the user can update the model.`n     *`n     * @param  \App\Models\User  $user`n     * @param  \App\Models\? valueCC1 ?  $? valueS1 ?`n     * @return \Illuminate\Auth\Access\Response|bool`n     */`n    public function update(User $user`, ? valueCC1 ? $? valueS1 ?)`n    {`n        return hasPermission(PermissionsEnum`:`:? valueS1 ?_update()`, $? valueS1 ?->team_id)`;`n    }`n`n    /**`n     * Determine whether the user can delete the model.`n     *`n     * @param  \App\Models\User  $user`n     * @param  \App\Models\? valueCC1 ?  $? valueS1 ?`n     * @return \Illuminate\Auth\Access\Response|bool`n     */`n    public function delete(User $user`, ? valueCC1 ? $? valueS1 ?)`n    {`n        return hasPermission(PermissionsEnum`:`:? valueS1 ?_delete()`, $? valueS1 ?->team_id)`;`n    }`n`n    /**`n     * Determine whether the user can restore the model.`n     *`n     * @param  \App\Models\User  $user`n     * @param  \App\Models\? valueCC1 ?  $? valueS1 ?`n     * @return \Illuminate\Auth\Access\Response|bool`n     */`n    public function restore(User $user`, ? valueCC1 ? $? valueS1 ?)`n    {`n        return false`;`n    }`n`n    /**`n     * Determine whether the user can permanently delete the model.`n     *`n     * @param  \App\Models\User  $user`n     * @param  \App\Models\? valueCC1 ?  $? valueS1 ?`n     * @return \Illuminate\Auth\Access\Response|bool`n     */`n    public function forceDelete(User $user`, ? valueCC1 ? $? valueS1 ?)`n    {`n        return false`;`n    }`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueCC1 ?Policy")
+	file =C:\xampp\htdocs\case-manager\app\Policies\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+scaffold_ListController_relations( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	skip := {"created_by": 1, "updated_by": 1}
+	
+	if(related_table_singular != "" and !skip[field_name] )
+		t := "`            '? valueS1 ?'`,`n"
+	else 
+		t := ""
+
+	return t
+}
+
+;~ load_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	
+	;~ fields[field_name] := {"field_name": field_name, "nullability": nullability, "related_table_singular": related_table_singular, "related_table_plural": related_table_plural, "column_number": column_number, "column_number": column_number, "column_number": column_number}
+	
+;~ }
+
+load_fields(){
+	global DB_Fields, primary_key
+	
+	s := scaffoldModel("? valueS1 ?")
+	p := scaffoldModel("? valueS2 ?")
+	clipList := DB_Fields
+	clipList := primary_key_row() "`n" clipList
+	fields := {}
+	
+	StringSplit, clipList, clipList, `n, `r
+	output=
+	
+	Loop %clipList0%
+	{
+		field := clipList%A_Index%
+		StringSplit, field, field, `t
+		
+		fields[field1] := {"field_name": field1, "data_type": field2, "nullability": field3, "related_table_singular": field4, "related_table_plural": field5, "related_primary_key": field6, "column_number": A_Index, "table_name_singular": s, "table_name_plural": p}
+	}
+	
+	return fields
+}
+
+name_field(){
+	global
+	
+	if( fields["name"] )
+		return "name"
+	if( fields["name_english"] )
+		return "name_english"
+	else if( fields["title"] )
+		return "title"
+	else if( fields["subject"] )
+		return "subject"
+	else if( fields["full_name"] )
+		return "full_name"
+	else if( fields["organisation_name_english"] )
+		return "organisation_name_english"
+	else if( table_name_singular = "case_user") 
+		return "user()->name"
+	else 
+		return primary_key
+	
+	return ""
+}
+
+listController_dropdownsOnEdit( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	skip := {"created_by": 1, "updated_by": 1}
+	
+	if(related_table_singular != "" and !skip[field_name] )
+		t := "`            $this->emit(""? valueS1 ?Updated""`, [`n                'name' => '? valueS1 ?'`,`n                'value' => $this->editing->? valueS1 ?`,`n            ])`;`n            `n"
+
+	return t
+}
+
+listController(){
+	global
+	listController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	relations := runSubScaffold( "scaffold_ListController_relations")
+	dropdownsOnEdit := runSubScaffold( "listController_dropdownsOnEdit")
+	name_field := name_field()
+	
+	directory := scaffoldModel("? valueCC1 ?")
+	name := scaffoldModel("? valueCC2 ?")
+	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%\List%name%.php
+
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Support\Carbon`;`nuse App\Http\Livewire\DataTable\WithSorting`;`nuse App\Http\Livewire\DataTable\WithCachedRows`;`nuse App\Http\Livewire\DataTable\WithBulkActions`;`nuse App\Http\Livewire\DataTable\WithPerPagePagination`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass List? valueCC2 ? extends Component`n{`n    use WithPerPagePagination`, WithSorting`, WithBulkActions`, WithCachedRows`, AuthorizesRequests`;`n`n    public $showDeleteModal = false`;`n    public $showEditModal = false`;`n    public $showAdvanced = false`;`n    public $filters = [`n        'search' => ''`,`n        'status' => ''`,`n        'amount-min' => null`,`n        'amount-max' => null`,`n        'created_at-min' => null`,`n        'created_at-max' => null`,`n    ]`;`n    public ? valueCC1 ? $editing`;`n`n    protected $queryString = ['sorts']`;`n`n    protected $listeners = ['refresh? valueCC2 ?' => '$refresh']`;`n`n    protected function rules()`n    {`n        return ? valueCC1 ?`:`:rules()`;`n    }`n`n    public function mount() { $this->editing = $this->makeBlank? valueCC1 ?()`; }`n    public function updatedFilters() { $this->resetPage()`; }`n`n    public function exportSelected()`n    {`n        return response()->streamDownload(function () {`n            echo $this->selectedRowsQuery->toCsv()`;`n        }`, '? valueS2 ?.csv')`;`n    }`n`n    public function deleteSelected()`n    {`n        $this->authorize('delete'`, $this->editing)`;`n`n        $deleteCount = $this->selectedRowsQuery->count()`;`n`n        $this->selectedRowsQuery->delete()`;`n`n        $this->showDeleteModal = false`;`n`n        $this->notify('You\'ve deleted '.$deleteCount.' ? valueL2 ?')`;`n    }`n`n    public function makeBlank? valueCC1 ?()`n    {`n        return ? valueCC1 ?`:`:make(['date' => now()`, 'status' => 'success'])`;`n    }`n`n    public function toggleShowAdvanced()`n    {`n        $this->useCachedRows()`;`n`n        $this->showAdvanced = ! $this->showAdvanced`;`n    }`n`n    public function create()`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->getKey()){`n            $this->editing = $this->makeBlank? valueCC1 ?()`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    public function edit(? valueCC1 ? $? valueS1 ?)`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->isNot($? valueS1 ?)){`n            $this->editing = $? valueS1 ?`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    protected function updateComponentValues()`n    {`n" dropdownsOnEdit "`n    }`n`n    public function save()`n    {`n        nullableToNull($this->editing)`;`n        $this->validate()`;`n`n        if (!$this->editing->getKey()){`n            $this->authorize('create'`, $this->editing)`;`n            $this->editing->organisation_id = \Auth`:`:user()->organisation_id`;`n        }else{`n            $this->authorize('update'`, $this->editing)`;`n        }`n`n        activityLog($this->editing)`;`n        $this->editing->save()`;`n`n        $this->showEditModal = false`;`n    }`n`n    public function resetFilters() { $this->reset('filters')`; }`n`n    public function getRowsQueryProperty()`n    {`n        $query = ? valueCC1 ?`:`:query()`n            ->when($this->filters['status']`, fn($query`, $status) => $query->where('status'`, $status))`n            ->when($this->filters['amount-min']`, fn($query`, $amount) => $query->where('amount'`, '>='`, $amount))`n            ->when($this->filters['amount-max']`, fn($query`, $amount) => $query->where('amount'`, '<='`, $amount))`n            ->when($this->filters['created_at-min']`, fn($query`, $created_at) => $query->where('created_at'`, '>='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['created_at-max']`, fn($query`, $created_at) => $query->where('created_at'`, '<='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['search']`, fn($query`, $search) => $query->where('name'`, 'like'`, '`%'.$search.'`%'))`;`n`n        return $this->applySorting($query)`;`n    }`n`n    public function getRowsProperty()`n    {`n        return $this->cache(function () {`n            return $this->applyPagination($this->rowsQuery)`;`n        })`;`n    }`n`n    public function render()`n    {`n        $this->authorize('viewAny'`, $this->editing)`;`n`n        return view('livewire.? valueSH1 ?.list-? valueSH2 ?'`, [`n            '? valueS2 ?' => $this->rows`,`n        ])`;`n    }`n`n    public function getListeners()`n    {`n        return collect([`n" relations "        ])->mapWithKeys(function ($key) {`n                return [""{$key}Updated"" => 'updateDependingValue']`;`n            })`n            ->toArray()`;`n    }`n`n    public function updateDependingValue($data)`n    {`n        $name = $data['name']`;`n        $value = $data['value']`;`n`n        $this->editing->{$name} = $value`;`n    }`n`n}`n"
+		
+		if( customModelName(table_name_singular) )
+			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+		
+		t := replaceMarker( table_name_singular, t, 91)
+		
+		content := scaffoldModel( t )
+	}
+	
+	FileCreateDir, C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%
+	
+	fileWrite( content, file )
+}
+
+searchQuery(table_name_singular){
+	arr := []
+	arr["case_user"] := "$query->whereHas('user'`, function (Builder $query) use ($search) {`n                    $query->where('name'`, 'like'`, '`%'.$search.'`%')`;`n                })"
+	
+	if(arr[table_name_singular])
+		return arr[table_name_singular]
+	
+	name_field := name_field()
+	return "$query->where('" name_field "'`, 'like'`, '`%'.$search.'`%')"
+}
+	
+childListController(){
+	global
+	childListController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+childListController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	dropdownsOnEdit := runSubScaffold( "listController_dropdownsOnEdit")
+	relations := runSubScaffold( "scaffold_ListController_relations")
+	name_field := name_field()
+	searchQuery := searchQuery(table_name_singular)
+	
+	directory := scaffoldModel("? valueCC1 ?")
+	name := scaffoldModel("? valueCC2 ?")
+	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%\ChildList%name%.php
+
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`n`nnamespace App\Http\Livewire\? valueCC1 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Support\Carbon`;`nuse App\Http\Livewire\DataTable\WithSorting`;`nuse App\Http\Livewire\DataTable\WithCachedRows`;`nuse App\Http\Livewire\DataTable\WithBulkActions`;`nuse App\Http\Livewire\DataTable\WithPerPagePagination`;`nuse Illuminate\Database\Eloquent\Builder`;`n`nclass ChildList? valueCC2 ? extends Component`n{`n    use WithPerPagePagination`, WithSorting`, WithBulkActions`, WithCachedRows`;`n`n    public $showDeleteModal = false`;`n    public $showEditModal = false`;`n    public $showAdvanced = false`;`n    public $filters = [`n        'search' => ''`,`n        'status' => ''`,`n        'amount-min' => null`,`n        'amount-max' => null`,`n        'created_at-min' => null`,`n        'created_at-max' => null`,`n    ]`;`n    public ? valueCC1 ? $editing`;`n`n    protected $queryString = ['sorts']`;`n`n    protected $listeners = ['refresh? valueCC2 ?' => '$refresh']`;`n`n    public $dependsOn`;`n`n    public function mount($dependsOn = [])`n    {`n        $this->editing = $this->makeBlank? valueCC1 ?()`;`n        $this->dependsOn = $dependsOn`;`n        $this->editing->case_id = $dependsOn`;`n    }`n`n    protected function rules()`n    {`n        return ? valueCC1 ?`:`:rules()`;`n    }`n`n    public function updatedFilters() { $this->resetPage()`; }`n`n    public function exportSelected()`n    {`n        return response()->streamDownload(function () {`n            echo $this->selectedRowsQuery->toCsv()`;`n        }`, '? valueS2 ?.csv')`;`n    }`n`n    public function deleteSelected()`n    {`n        $deleteCount = $this->selectedRowsQuery->count()`;`n`n        $this->selectedRowsQuery->delete()`;`n`n        $this->showDeleteModal = false`;`n`n        $this->notify('You\'ve deleted '.$deleteCount.' ? valueL2 ?')`;`n    }`n`n    public function makeBlank? valueCC1 ?()`n    {`n        return ? valueCC1 ?`:`:make(['date' => now()`, 'status' => 'success'])`;`n    }`n`n    public function toggleShowAdvanced()`n    {`n        $this->useCachedRows()`;`n`n        $this->showAdvanced = ! $this->showAdvanced`;`n    }`n`n    public function create()`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->getKey()){`n            $this->editing = $this->makeBlank? valueCC1 ?()`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    public function edit(? valueCC1 ? $? valueS1 ?)`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->isNot($? valueS1 ?)){`n            $this->editing = $? valueS1 ?`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    protected function updateComponentValues()`n    {`n" dropdownsOnEdit "`n    }`n`n    public function save()`n    {`n        nullableToNull($this->editing)`;`n        $this->validate()`;`n`n        $this->editing->save()`;`n`n        $this->showEditModal = false`;`n    }`n`n    public function resetFilters() { $this->reset('filters')`; }`n`n    public function getRowsQueryProperty()`n    {`n        $query = ? valueCC1 ?`:`:query()`n            ->whereCaseId($this->dependsOn)`n            ->when($this->filters['status']`, fn($query`, $status) => $query->where('status'`, $status))`n            ->when($this->filters['amount-min']`, fn($query`, $amount) => $query->where('amount'`, '>='`, $amount))`n            ->when($this->filters['amount-max']`, fn($query`, $amount) => $query->where('amount'`, '<='`, $amount))`n            ->when($this->filters['created_at-min']`, fn($query`, $created_at) => $query->where('created_at'`, '>='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['created_at-max']`, fn($query`, $created_at) => $query->where('created_at'`, '<='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['search']`, fn($query`, $search) => " searchQuery ")`;`n`n        return $this->applySorting($query)`;`n    }`n`n    public function getRowsProperty()`n    {`n        return $this->cache(function () {`n            return $this->applyPagination($this->rowsQuery)`;`n        })`;`n    }`n`n    public function render()`n    {`n        return view('livewire.? valueSH1 ?.child-list-? valueSH2 ?'`, [`n            '? valueS2 ?' => $this->rows`,`n        ])`;`n    }`n`n    public function getListeners()`n    {`n        return collect([`n" relations "        ])->mapWithKeys(function ($key) {`n                return [""{$key}Updated"" => 'updateDependingValue']`;`n            })`n            ->toArray()`;`n    }`n`n    public function updateDependingValue($data)`n    {`n        $name = $data['name']`;`n        $value = $data['value']`;`n`n        $this->editing->{$name} = $value`;`n    }`n`n}`n"
+		
+		if( customModelName(table_name_singular) )
+			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+		
+		t := replaceMarker( scaffoldModel("? valueCC1 ?"), t, 91)
+		
+		content := scaffoldModel( t )
+	}
+	
+	FileCreateDir, C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%
+	
+	
+	fileWrite( content, file )
+}
+	
+enum(){
+	global
+	enum_a( table_name_singular, table_name_plural, reverse )
+}
+	
+enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	name := scaffoldModel("? valueCC2 ?")
+	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
+	
+	data := "`tEdit�Edit`tCopy�Copy`tDelete�Delete`t1`tcase.view_any`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t2`tcase.create`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t3`tcase.view`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t4`tcase.update`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t5`tcase.delete`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t6`ttask.view_any`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t7`ttask.create`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t8`ttask.view`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t9`ttask.update`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit�Edit`tCopy�Copy`tDelete�Delete`t10`ttask.delete`tNULL`tNULL`tNULL`tNULL`tNULL`n"
+	data := RegExReplace(data, "`n$", "")
+		
+	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
+	values := runScaffold("`            '? valueS6 ?' => ? value5 ?`,`n", data)
+	labels := runScaffold("`            '? valueS6 ?' => '? valueAT6 ?'`,`n", data)
+
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		;~ StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`nnamespace App\Enum`;`n`nuse \Spatie\Enum\Enum`;`n`n/**`n" comments "`n */`nclass ? valueCC2 ?Enum extends Enum`n{`n    protected static function values()`: array`n    {`n        return [`n" values "`n        ]`;`n    }`n`n    protected static function labels()`: array`n    {`n        return [`n" labels "`n        ]`;`n    }`n}`n"
+	
+		;~ t := "<?php`nnamespace App\Enum`;`n`nuse \Spatie\Enum\Enum`;`n`n/**`n * @method static self ? valueS2 ?()`n */`nclass ? valueCC2 ?Enum extends Enum`n{`n    protected static function values()`: array`n    {`n        return [`n            '? valueS2 ?' => ? value1 ?`,`n        ]`;`n    }`n`n    protected static function labels()`: array`n    {`n        return [`n            '? valueS2 ?' => '? valueAT2 ?'`,`n        ]`;`n    }`n}"
+		
+		content := scaffoldModel( t )
+	}
+	
+	fileWrite( content, file )
+}
+	
+manageController(){
+	global
+	manageController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+manageController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	relations := runSubScaffold( "scaffold_ListController_relations")
+	
+	t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Manage? valueCC91 ? extends Component`n{`n    use AuthorizesRequests`;`n`n    public ? valueCC1 ? $? valueC1 ?`;`n    public ? valueCC1 ? $editing`;`n    public $isEditing = false`;`n`n    protected function rules()`n    {`n        return ? valueCC1 ?`:`:rules()`;`n    }`n`n    public function mount($? valueC1 ? = null)`n    {`n        if ($? valueC1 ?) {`n            $this->editing = $? valueC1 ?`;`n            $this->isEditing = true`;`n        } else {`n            $this->editing = ? valueCC1 ?`:`:make()`;`n        }`n    }`n`n    public function render()`n    {`n        $this->authorize('update'`, $this->? valueC1 ?)`;`n`n        return view('livewire.? valueSH1 ?.manage-? valueSH1 ?')`;`n    }`n`n    public function save()`n    {`n        $this->authorize('update'`, $this->? valueC1 ?)`;`n`n        $this->validate()`;`n`n        activityLog($this->editing)`;`n        $this->editing->save()`;`n        return redirect()->route('? valueS2 ?.show'`, $this->editing['id'])`;`n    }`n`n    public function getListeners()`n    {`n        return collect([`n" relations "        ])->mapWithKeys(function ($key) {`n                return [""{$key}Updated"" => 'updateDependingValue']`;`n            })`n            ->toArray()`;`n    }`n`n    public function updateDependingValue($data)`n    {`n        $name = $data['name']`;`n        $value = $data['value']`;`n`n        $this->editing->{$name} = $value`;`n    }`n}`n`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( scaffoldModel("? valueCC1 ?"), t, 91)
+	
+	content := scaffoldModel( t )
+	
+	name := scaffoldModel("? valueCC1 ?\Manage? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+showController(){
+	global
+	showController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+showController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Show? valueCC91 ? extends Component`n{`n    use AuthorizesRequests`;`n`n    public ? valueCC1 ? $? valueC1 ?`;`n`n    public function render()`n    {`n        $this->authorize('view'`, $this->? valueC1 ?)`;`n`n        return view('livewire.? valueSH1 ?.show-? valueSH1 ?'`, [`n            '? valueS1 ?' => $this->? valueC1 ? ])`;`n    }`n`n    public function delete($id)`n    {`n        $this->authorize('delete'`, $this->? valueC1 ?)`;`n`n        ? valueCC1 ?`:`:find($id)->delete()`;`n        session()->flash('message'`, '? valueAT1 ? deleted successfully.')`;`n        return redirect()->route('? valueSH1 ?s')`;`n    }`n}`n"
+	
+	name := scaffoldModel("? valueS1 ?")
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( scaffoldModel("? valueCC1 ?"), t, 91)
+	
+	content := scaffoldModel( t )
+	
+	name := scaffoldModel("? valueCC1 ?\Show? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	
+	fileWrite( content, file )
+}
+
+Select_filter() {
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(name = "team" )
+		t := "`        $teams = []`;`n        $organisationId = $this->getDependingValue('organisation_id')`;`n`n        if ($this->hasDependency('organisation_id') && $organisationId != null) {`n            if(!empty($searchTerm))`n                $teams = Team`:`:where('name'`, 'like'`, '`%' . $searchTerm . '`%')->where('organisation_id'`, $organisationId)->get()`;`n            else`n                $teams = Team`:`:where('organisation_id'`, $organisationId)->get()`;`n        }`n"
+	else{
+		t := "`        if(!empty($searchTerm))`n            $? valueS2 ? = ? valueCC1 ?`:`:where('name'`, 'like'`, '`%' . $searchTerm . '`%')->get()`;`n        else`n            $? valueS2 ? = ? valueCC1 ?`:`:get()`;`n"
+		scaffoldModel( t )
+	}
+	
+	return t
+}
+
+selectController(){
+	global
+	selectController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+selectController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	filter := Select_filter()
+	name_field := name_field()
+	primary_key := primary_key()
+	
+	name := scaffoldModel("? valueCC1 ?\Select? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %filter%, " filter ", All
+		StringReplace, content, content, %name_field%, " name_field ", All
+		StringReplace, content, content, %primary_key%, " primary_key ", All
+	}else{
+		t := "<?php`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse App\Http\Livewire\LivewireSelect\LivewireSelect`;`nuse Illuminate\Support\Collection`;`n`nclass Select? valueCC91 ? extends LivewireSelect`n{`n    public function options($searchTerm = null) `: Collection`n    {`n        if(!empty($searchTerm))`n            $? valueS2 ? = ? valueCC1 ?`:`:where('" name_field "'`, 'like'`, '`%' . $searchTerm . '`%')->get()`;`n        else`n            $? valueS2 ? = ? valueCC1 ?`:`:get()`;`n`n        $list = []`;`n        foreach ($? valueS2 ? as $key => $? valueS1 ?) {`n            $list[] = [`n                'value' => $? valueS1 ?->" primary_key "`,`n                'description' => $? valueS1 ?->" name_field "`,`n            ]`;`n        }`n`n        return collect($list)`;`n    }`n`n    public function selectedOption($searchTerm = null) `: Collection`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:find($searchTerm)`;`n`n        $list = [`n            'value' => $? valueS1 ? ? $? valueS1 ?->" primary_key " `: ''`,`n            'description' => $? valueS1 ? ? $? valueS1 ?->" name_field " `: ''`,`n        ]`;`n`n        return collect($list)`;`n    }`n}`n"
+		
+		name := scaffoldModel("? valueS1 ?")
+		if( customModelName(table_name_singular) )
+			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+		
+		t := replaceMarker( scaffoldModel("? valueS1 ?"), t, 91)
+		
+		content := scaffoldModel( t )
+	}
+		
+	fileWrite( content, file )
+}
+
+scaffold_LiveWireImportController_rules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if( InStr(field3, "No") )
+		t := "`        'fieldColumnMap.? valueS1 ?' => 'required'`,`n"
+	else
+		t := ""
+
+	return t
+}
+
+scaffold_LiveWireImportController_createFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(field2 = "datetime" or field2 = "timestamp" )
+		t := "`                        ""? valueS1 ?"" =>  $row['? valueS1 ?'] ?  Carbon`:`:createFromFormat('d/m/Y H`:i'`, $row['? valueS1 ?'])->format('Y-m-d H:i:s') `: null`,`n"
+	else
+		t := "`                        ""? value1 ?"" => $row['? value1 ?']`,`n"
+
+	return t
+}
+
+scaffold_LiveWireImportController_guesses( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(field2 = "datetime" or field2 = "timestamp" )
+		t := "`            '? valueS1 ?' => ['? valueS1 ?_for_editing'`, '? valueS1 ?'`, 'alternateName']`,`n"
+	else
+		t := "`            '? valueS1 ?' => ['? valueS1 ?'`, 'alternateName']`,`n"
+
+	return t
+}
+
+importController(){
+	global
+	importController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+importController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	fieldColumnMap := scaffoldFields("`        '? valueS1 ?' => ''`,`n", 0)
+	rules := runSubScaffold( "scaffold_LiveWireImportController_rules")
+	customAttributes := scaffoldFields("`        'fieldColumnMap.? valueS1 ?' => '? valueS1 ?'`,`n", 0)
+	createFields := runSubScaffold( "scaffold_LiveWireImportController_createFields")
+	guesses := runSubScaffold( "scaffold_LiveWireImportController_guesses")
+	
+	name := scaffoldModel("? valueCC1 ?\Import? valueCC2 ?")
+	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %fieldColumnMap%, " fieldColumnMap "
+		StringReplace, content, content, %rules%, " rules "
+		StringReplace, content, content, %customAttributes%, " customAttributes "
+		StringReplace, content, content, %createFields%, " createFields "
+		StringReplace, content, content, %guesses%, " guesses "
+	}else{
+		t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Carbon\Carbon`;`nuse App\Csv`;`nuse Validator`;`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Livewire\WithFileUploads`;`nuse Illuminate\Support\Str`;`nuse Maatwebsite\Excel\Facades\Excel`;`nuse App\Imports\? valueCC2 ?Import`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Import? valueCC2 ? extends Component`n{`n    use WithFileUploads`, AuthorizesRequests`;`n`n    public $showModal = false`;`n    public $showFields = false`;`n    public $upload`;`n    public $columns`;`n    public $fieldColumnMap = [`n" fieldColumnMap "    ]`;`n`n    protected $rules = [`n    ]`;`n`n    protected $customAttributes = [`n" customAttributes "    ]`;`n`n    public function render()`n    {`n        $this->authorize('create'`, ? valueCC1 ?`:`:class)`;`n        return view('livewire.? valueSH1 ?.import-? valueSH2 ?')`;`n    }`n`n    public function updatingUpload($value)`n    {`n        Validator`:`:make(`n            ['upload' => $value]`,`n            ['upload' => 'required|mimes`:xlsx`,csv']`,`n        )->validate()`;`n    }`n`n    public function updatedUpload()`n    {`n        if( $this->upload && $this->upload->getMimeType() == ""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"" ){`n            Excel`:`:import(new ? valueCC2 ?Import`, $this->upload)`;`n            $this->reset()`;`n`n            $this->emit('refresh? valueCC2 ?')`;`n`n            $this->notify('Imported ? valueS2 ?!')`;`n        }else{`n            $this->columns = Csv`:`:from($this->upload)->columns()`;`n`n`n            $this->guessWhichColumnsMapToWhichFields()`;`n        }`n    }`n`n    public function import()`n    {`n        $this->authorize('create'`, ? valueCC1 ?`:`:class)`;`n        $this->validate()`;`n`n        $importCount = 0`;`n`n        Csv`:`:from($this->upload)`n            ->eachRow(function ($row) use (&$importCount) {`n                foreach (\App\Models\? valueCC1 ?`:`:nullable() as $key => $column) {`n                    $row[$key] = $row[$key] ? $row[$key] `: null`;`n                }`n`n                $row = $this->extractFieldsFromRow($row)`;`n`n                $? valueC1 ? = ? valueCC1 ?`:`:create(`n                    [`n" createFields "                    ]`n                )`;`n`n                activity()`n                ->performedOn($? valueC1 ?)`n                ->causedBy(auth()->user())`n                ->log('created ? valueL1 ?'))`;`n`n                $importCount++`;`n            })`;`n`n        $this->reset()`;`n`n        $this->emit('refresh? valueCC2 ?')`;`n`n        $this->notify('Imported '.$importCount.' ? valueS2 ?!')`;`n    }`n`n    public function extractFieldsFromRow($row)`n    {`n        $attributes = collect($this->fieldColumnMap)`n            ->filter()`n            ->mapWithKeys(function($heading`, $field) use ($row) {`n                return [$field => $row[$heading]]`;`n            })`n            ->toArray()`;`n`n        return $attributes + ['created_at' => now()]`;`n    }`n`n    public function guessWhichColumnsMapToWhichFields()`n    {`n        $guesses = [`n" guesses "        ]`;`n`n        foreach ($this->columns as $column) {`n            $match = collect($guesses)->search(fn($options) => in_array(strtolower($column)`, $options))`;`n`n            if ($match) $this->fieldColumnMap[$match] = $column`;`n        }`n    }`n}`n"
+		
+		if( customModelName(table_name_singular) )
+			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+		
+		singular := scaffoldModel("? valueS1 ?")
+		t := replaceMarker( singular, t, 91)
+		
+		content := scaffoldModel( t )
+	}
+	
+	directory := scaffoldModel("? valueCC1 ?")
+	FileCreateDir, C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%
+		
+	fileWrite( content, file )
+}
+
+importModel_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(data_type = "datetime" or data_type = "timestamp" )
+		t := "`           '? valueS1 ?'     => $row[" A_Index "] ? \PhpOffice\PhpSpreadsheet\Shared\Date`:`:excelToDateTimeObject($row[" A_Index "]) `: null`,`n"
+	else
+		t := "`           '? valueS1 ?'     => $row[" A_Index "]`,`n"
+
+	return t
+}
+
+importModel(){
+	global
+	importModel_a( table_name_singular, table_name_plural, reverse )
+}
+	
+importModel_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	fields := runSubScaffold( "importModel_fields", 1)
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %fields%, " fields "
+	}else
+		content := scaffoldModel("<?php`n`nnamespace App\Imports`;`n`nuse Carbon\Carbon`;`nuse App\Models\? valueAT1 ?`;`nuse Illuminate\Support\Facades\Hash`;`nuse Maatwebsite\Excel\Concerns\ToModel`;`nuse PhpOffice\PhpSpreadsheet\Shared\Date`;`n`nclass ? valueAT2 ?Import implements ToModel`n{`n    /**`n     * @param array $row`n     *`n     * @return ? valueAT1 ?|null`n     */`n    public function model(array $row)`n    {`n        if($row[12] == ""last_activity_date"")`n            return null`;`n        `n        return new ? valueAT1 ?([`n" fields "        ])`;`n    }`n}")
+	
+	name := scaffoldModel("? valueCC2 ?Import")
+	file =C:\xampp\htdocs\case-manager\app\Imports\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+scaffoldTableFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11, child = 0){
+	name := scaffoldModel("? valueS1 ?")
+	plural := scaffoldModel("? valueSH2 ?")
+	
+	fieldsArr := table_fields( table_name_singular )
+	
+	if( ! child )
+		on_click := " x-on`:click=""location.href = '{{ route('" plural ".show'`, $" name "['" primary_key "']) }}'"""
+
+	;~ if( field_name = name_field() ){
+	if( column_number = arrayLength ){
+		if( child ){
+			actions := scaffoldModel("`                        <x-table.cell>`n                            <x-button.link class=""bg-white text-secondary m-5 mb-0"">`n                                <div class=""flex space-x-2 items-center"">`n                                    <svg xmlns=""http`://www.w3.org/2000/svg"" `:class=""{'rotate-180'`: open{{ $loop->index }}`, 'rotate-0'`: !open{{ $loop->index }}}"" class=""inline w-6 h-6 mt-1 ml-1 transition-transform duration-200 transform md`:-mt-1 inline-block w-5 h-5 rotate-180"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"" stroke-width=""1.5"">`n                                        <path stroke-linecap=""round"" stroke-linejoin=""round"" d=""M19 9l-7 7-7-7""></path>`n                                      </svg>`n                                    <span></span>`n                                </div>`n                            </x-button.link>`n                        </x-table.cell>`n`n")
+		}else{
+			actions := scaffoldModel("	                        <x-table.cell>`n                            <a href=""{{ route('? valueSH9 ?.show'`, $? valueS8 ?['" primary_key "']) }}"">`n                                <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n                                <x-button.link class=""bg-white text-secondary m-5 mb-0"">`n                                    <div class=""flex space-x-2 items-center"">`n                                        <x-icon.eye/>`n                                        <span></span>`n                                    </div>`n                                </x-button.link>`n                            </a>`n                            <x-button.link class=""bg-white text-secondary m-5 mb-0"" wire`:click=""edit({{ $? valueS1 ?['" primary_key "'] }})"" >`n                                <div class=""flex space-x-2 items-center"">`n                                    <x-icon.pencil/>`n                                    <span></span>`n                                </div>`n                            </x-button.link>`n                        </x-table.cell>`n                        `n")
+		}
+	}
+
+	if(related_table_singular != "") { ; if relation is there
+		t := "`                        <x-table.cell" on_click ">`n                            <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n                                {{ $" name "->? valueC91 ? ? $" name "->? valueC91 ?->getName() `: '' }}`n                            </span>`n                        </x-table.cell>`n`n" actions
+		without_id := StrReplace(field_name, "_id", "")
+		t := replaceMarker(without_id, t, 91)
+	}else if(data_type = "datetime" or data_type = "timestamp" )
+		t := "`                        <x-table.cell" on_click ">`n                            {{ getDateForHumans($" name "->? valueS1 ?) }}`n                        </x-table.cell>`n`n" actions
+	else 
+		t := "`                        <x-table.cell" on_click ">`n                            <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n                                {{ $" name "->? valueS1 ? }}`n                            </span>`n                        </x-table.cell>`n`n" actions
+	
+	return t
+}
+
+scaffoldFormFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11, hidden = 0 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	; check if "an" or "a" should be used
+	aOrAn := "a"
+	vowels := ["a", "e", "i", "o", "u"]
+	firstCharacter := SubStr(related_table_singular, 1, 1)
+	if( HasVal(vowels, firstCharacter) )
+		aOrAn := "an"
+	
+	required := ""
+	if( InStr(nullability, "No") )
+		required := ":required=""true"" "
+	
+	dependancyArr := {"team_id": "'organisation_id', "}
+	dependancy := dependancyArr[field_name]
+	
+	if(hidden)
+		hidden := "hidden "
+	
+	if(related_table_singular != ""){
+		t := "`                    <div class=""" hidden "w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                        <x-input.group for=""? valueS1 ?"" label=""? valueAT91 ?"" " required " `:error=""$errors->first('editing.? valueS1 ?')"">`n                            <livewire`:? valueSH4 ?.select-? valueSH4 ?`n                              name=""? valueS1 ?""`n                              `:value=""$editing->? valueS1 ?""`n                              placeholder=""Choose " aOrAn " ? valueL4 ?""`n                              `:depends-on=""['? valueS1 ?'`, " dependancy "]""`n                              `:searchable=""true""`n                            />`n                        </x-input.group>`n                    </div>`n`n"
+		without_id := RegExReplace(field_name, "_id$", "")
+		t := replaceMarker(without_id, t, 91)
+	}else if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t := "`                    <div class=""w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                        <x-input.group for=""? valueS1 ?_for_editing"" label=""? valueAT1 ?""  " required " `:error=""$errors->first('editing.? valueS1 ?_for_editing')"">`n                            <x-input.date wire`:model=""editing.? valueS1 ?_for_editing"" id=""? valueS1 ?_for_editing"" />`n                        </x-input.group>`n                    </div>`n`n"
+	else if(data_type = "int")
+		t := "`                <x-input.group for=""? valueS1 ?"" label=""? valueAT1 ?""  " required " `:error=""$errors->first('editing.? valueS1 ?')"">`n                    <x-input.money wire`:model=""editing.? valueS1 ?"" id=""? valueS1 ?"" />`n                </x-input.group>`n`n"
+	else if(data_type = "longtext")
+		t := "`                    <div class=""w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                        <x-input.group for=""? valueS1 ?"" label=""? valueAT1 ?""  " required " `:error=""$errors->first('editing.? valueS1 ?')"">`n                            <x-input.textarea wire`:model=""editing.? valueS1 ?"" id=""? valueS1 ?"" placeholder=""? valueAT1 ?"" />`n                        </x-input.group>`n                    </div>`n`n"
+	else
+		t := "`                    <div class=""w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                        <x-input.group for=""? valueS1 ?"" label=""? valueAT1 ?""  " required " `:error=""$errors->first('editing.? valueS1 ?')"">`n                            <x-input.text wire`:model=""editing.? valueS1 ?"" id=""? valueS1 ?"" placeholder=""? valueAT1 ?"" />`n                        </x-input.group>`n                    </div>`n`n"
+	return t
+}
+
+childListView_FormFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	hiddenArr := {"case_item_case_id" : 1}
+	hidden := hiddenArr[table_name_singular "_" field_name]
+	return scaffoldFormFields( field_name, data_type, nullability, related_table_singular, related_table_plural, column_number, table_name_singular, table_name_plural, primary_key, hidden)
+}
+
+table_fields( table_name_singular ){
+	fieldsArr := table_fields_specific( table_name_singular )
+	
+	if(fieldsArr)
+		return fieldsArr
+	
+	fieldsArr := ["scaffold_blacklist", "deleted_at"]
+	
+	return fieldsArr
+}
+
+table_fields_specific( table_name_singular ){
+	global specificFieldsArr
+	
+	specificFieldsArr()
+	
+	return specificFieldsArr[ table_name_singular ]
+}
+
+columnLabel(table_name_singular, field_name){
+	arr := []
+	arr["case_item_from_organisation_id"] := "FROM"
+	arr["case_item_case_item_type_id"] := "TYPE"
+	arr["case_item_recieved_date"] := "RECIEVED"
+	
+	if(arr[table_name_singular "_" field_name])
+		return arr[table_name_singular "_" field_name]
+	else
+		return ""
+	
+}
+
+scaffoldTableHeaders( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	;~ if( field_name = name_field() )
+	if( column_number = arrayLength )
+		actions := "`                    <x-table.heading />`n"
+
+	t := "`                    <x-table.heading sortable multi-column wire`:click=""sortBy('? valueS1 ?')"" `:direction=""$sorts['? valueS1 ?'] ?? null"" class="""">? valueAT91 ?</x-table.heading>`n" actions
+	
+	columnLabel := columnLabel(table_name_singular, field_name)
+	if(!columnLabel){
+		columnLabel := field_name
+		if( related_table_singular )
+			columnLabel := RegExReplace(field_name, "_id$", "")
+	}
+	t := replaceMarker(columnLabel, t, 91)
+	return t
+}
+
+runSubScaffold( functionName, withID = 0, fieldsArr = "", blacklist = 0, reverse = 0 ){
+	global DB_Fields, fields, primary_key
+	
+	s := scaffoldModel("? valueS1 ?")
+	p := scaffoldModel("? valueS2 ?")
+	clipList := DB_Fields
+	if(withID)
+		clipList := primary_key_row() "`n" clipList
+	
+	StringSplit, clipList, clipList, `n, `r
+	output=
+	
+	if(!fieldsArr){
+		fieldsArr := []
+		
+		Loop %clipList0%
+		{
+			field := clipList%A_Index%
+			StringSplit, field, field, `t
+			;~ order_prefix := 1000 + A_Index
+			fieldsArr.Push( field1 )
+		}
+	}
+	
+	if(blacklist or HasVal(fieldsArr, "scaffold_blacklist")){
+		fieldsArrNew := []
+		
+		Loop %clipList0%
+		{
+			field := clipList%A_Index%
+			StringSplit, field, field, `t
+			;~ order_prefix := 1000 + A_Index
+			if(!HasVal(fieldsArr, field1))
+				fieldsArrNew.Push( field1 )
+		}
+		
+		fieldsArr := fieldsArrNew
+	}
+	
+	
+	For key, value in fieldsArr {
+		field := fields[ value ]
+		
+		if( !withID and field["field_name"] = primary_key )
+			continue
+		
+		t := %functionName%( field["field_name"], field["data_type"], field["nullability"], field["related_table_singular"], field["related_table_plural"], field["related_primary_key"], key, field["table_name_singular"], field["table_name_plural"], primary_key, fieldsArr.Length() )
+		
+		if( !reverse ){
+			t := replaceMarker(field["field_name"], t, 1)
+			t := replaceMarker(field["data_type"], t, 2)
+			t := replaceMarker(field["nullability"], t, 3)
+			t := replaceMarker(field["related_table_singular"], t, 4)
+			t := replaceMarker(field["related_table_plural"], t, 5)
+			t := replaceMarker(field["related_primary_key"], t, 6)
+			t := replaceMarker(field["column_number"], t, 7)
+			t := replaceMarker(field["table_name_singular"], t, 8)
+			t := replaceMarker(field["table_name_plural"], t, 9)
+		}
+		output := output t
+	}
+	
+	return output
+}
+	
+listView(){
+	global
+	listView_a( table_name_singular, table_name_plural, reverse, primary_key )
+}
+	
+listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
+	fieldsArr := ShowView_fieldsArr( table_name_singular )
+	table_fieldsArr := table_fields( table_name_singular )
+	
+	table_headers := runSubScaffold( "scaffoldTableHeaders", 1, table_fieldsArr)
+	table_rows := runSubScaffold( "scaffoldTableFields", 1, table_fieldsArr)
+	form_fields := runSubScaffold( "scaffoldFormFields", 0 )
+
+	directory := scaffoldModel("? valueSH1 ?")
+	name := scaffoldModel("? valueSH2 ?")
+	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%\list-%name%.blade.php
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %table_headers%, " table_headers "
+		StringReplace, content, content, %table_rows%, " table_rows "
+		StringReplace, content, content, %form_fields%, " form_fields "
+	}else{
+	
+		content := scaffoldModel("<div class=""pt-16 mx-auto px-2 sm`:px-4 md`:px-8"">`n    {{-- Breadcrumbs --}}`n    <div class=""pt-2"">`n        <div class=""text-sm mb-2"">`n            <a class=""text-blue-600"" href=""{{ route('home') }}"">`n                Home`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ route('? valueSH2 ?') }}"">`n                ? valueAT2 ?`n            </a>`n        </div>`n    </div>`n`n    <h1 class=""text-2xl font-semibold text-gray-900"">? valueAT2 ?</h1>`n`n    <div class=""py-4 space-y-4"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <div class=""w-2/4 flex space-x-4"">`n                <x-input.text wire`:model=""filters.search"" placeholder=""Search ? valueAT2 ?..."" />`n`n                <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link>`n            </div>`n`n            <div class=""space-x-2 flex items-center"">`n                @if ($showAdvanced)`n                <div class=""sm`:grid sm`:grid-cols-3 sm`:gap-4 sm`:items-start  sm`:border-gray-200 "">`n                    <label for=""perPage"" class=""block text-sm font-medium leading-5 text-gray-700 sm`:mt-px sm`:pt-2"">`n                        Per Page`n                    </label>`n`n                    <div class=""mt-1 sm`:mt-0 sm`:col-span-2"">`n                        <div class=""flex"">`n                            <select class=""form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus`:outline-none focus`:shadow-outline-blue focus`:border-blue-300 sm`:text-sm sm`:leading-5"" wire`:model=""perPage"" id=""perPage"">`n                                <option value=""10"">10</option>`n                                <option value=""25"">25</option>`n                                <option value=""50"">50</option>`n                            </select>`n                        </div>`n                    </div>`n                </div>`n`n`n                <x-dropdown label=""Bulk Actions"">`n                    <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                        <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                    </x-dropdown.item>`n`n                    <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                        <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                    </x-dropdown.item>`n                </x-dropdown>`n`n                <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                @endif`n`n                <x-button.primary wire`:click=""create""><x-icon.plus/> New</x-button.primary>`n            </div>`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n`n        <!-- ? valueAT2 ? Table -->`n        <div class=""flex-col space-y-4 backdrop-blur-lg`n        [ bg-gradient-to-b from-white/60 to-white/30 ]`n        [ border-[1px] border-solid border-white border-opacity-30 ]`n        [ shadow-lg ]"">`n            <x-table>`n                <x-slot name=""head"">`n                    <x-table.heading class=""pr-0 w-8"">`n                        <x-input.checkbox wire`:model=""selectPage"" />`n                    </x-table.heading>`n" table_headers "                </x-slot>`n`n                <x-slot name=""body"">`n                    @if ($selectPage)`n                    <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                        <x-table.cell colspan=""6"">`n                            @unless ($selectAll)`n                            <div>`n                                <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                                <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                            </div>`n                            @else`n                            <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                            @endif`n                        </x-table.cell>`n                    </x-table.row>`n                    @endif`n`n                    @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->" primary_key " }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->" primary_key " }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                    @endforelse`n                </x-slot>`n            </x-table>`n`n            {!! pagination( $? valueS2 ? ) !!}`n        </div>`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['" primary_key "'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "`n                </div>`n`n                <div class=""text-right"">`n                    <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                    <x-button.primary type=""submit"">Save</x-button.primary>`n`n                </div>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n</div>`n")
+	}
+	
+	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+	
+	fileWrite( content, file )
+}
+
+ChildListView_specificFieldsArr(table_name_singular){
+	global specificFieldsArr
+	specificFieldsArr["case_item"] := ["from_organisation_id", "case_item_type_id", "recieved_date", "title"]
+	;~ specificFieldsArr["case_user"] := ["user_id"]
+	specificFieldsArr["task"] := ["title", "assigned_user_id", "progress", "deadline"]
+	return specificFieldsArr[table_name_singular]
+}
+
+ChildListView_ShowView_fieldsArr(table_name_singular){
+	fieldsArr := {}
+	fieldsArr["case_item"] := ["from_organisation_id", "title", "content", "recieved_date"]
+	return fieldsArr[ table_name_singular ]
+}
+
+childListView_TableFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	return scaffoldTableFields( field_name, data_type, nullability, related_table_singular, related_table_plural, related_primary_key, column_number, table_name_singular, table_name_plural, primary_key, arrayLength, 1)
+}
+
+childListView_heading( table_name_singular ){
+	arr := []
+	arr["case_item"] := "Communications / Attachments"
+	arr["case_user"] := "People with Access"
+	
+	output := "? valueAT2 ?"
+	if(arr[table_name_singular])
+		output := arr[table_name_singular]
+	return output
+}
+
+childListView(reverse = 0){
+	global
+	childListView_a( table_name_singular, table_name_plural, reverse )
+}
+	
+childListView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	tableFields := ChildListView_specificFieldsArr( table_name_singular )
+	
+	heading := childListView_heading( table_name_singular )
+	
+	table_headers := runSubScaffold( "scaffoldTableHeaders", 1, tableFields)
+	table_rows := runSubScaffold( "childListView_TableFields", 1, tableFields)
+	form_fields := runSubScaffold( "childListView_FormFields")
+
+	directory := scaffoldModel("? valueSH1 ?")
+	name := scaffoldModel("? valueSH2 ?")
+	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%\child-list-%name%.blade.php
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %heading%, " heading "
+		StringReplace, content, content, %table_headers%, " table_headers "
+		StringReplace, content, content, %table_rows%, " table_rows "
+		StringReplace, content, content, %form_fields%, " form_fields "
+	}else{
+	
+		content := scaffoldModel("<div class=""mt-10 w-full"">`n`n    <div class=""pb-0 bg-white p-5 rounded-t-lg"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <h1 class=""text-lg font-semibold text-gray-900"">" heading "</h1>`n`n            <div class=""flex justify-end space-x-4"">`n                <div class=""w-2/4 flex space-x-4 pb-1"">`n                    <x-input.text wire`:model=""filters.search"" placeholder=""Search..."" />`n`n                    {{-- <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link> --}}`n                </div>`n`n                <div class=""space-x-2 flex items-center"">`n                    @if ($showAdvanced)`n                    <x-input.group borderless paddingless for=""perPage"" label=""Per Page"">`n                        <x-input.select wire`:model=""perPage"" id=""perPage"">`n                            <option value=""10"">10</option>`n                            <option value=""25"">25</option>`n                            <option value=""50"">50</option>`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-dropdown label=""Bulk Actions"">`n                        <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                            <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                        </x-dropdown.item>`n`n                        <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                            <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                        </x-dropdown.item>`n                    </x-dropdown>`n`n                    <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                    @endif`n`n                    <x-button.primary wire`:click=""create"" class=""px-2""><x-icon.plus/></x-button.primary>`n                </div>`n            </div>`n`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n    </div>`n`n    <!-- ? valueAT2 ? Table -->`n    <div class=""flex-col space-y-4 backdrop-blur-lg`n            [ bg-white ]`n            [ border-[1px] border-solid border-white border-opacity-30 ]`n            [ shadow-md ] rounded-b-lg"" x-data=""{ @for ($i=0`; $i<count($? valueS2 ?)+1`; $i++) open{{ $i }}`: false`, @endfor }"">`n        <x-table>`n            <x-slot name=""head"">`n                <x-table.heading class=""pr-0 w-8"">`n                    <x-input.checkbox wire`:model=""selectPage"" />`n                </x-table.heading>`n" table_headers "                    <x-table.heading />`n            </x-slot>`n`n            <x-slot name=""body"">`n                @if ($selectPage)`n                <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                    <x-table.cell colspan=""6"">`n                        @unless ($selectAll)`n                        <div>`n                            <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                            <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                        </div>`n                        @else`n                        <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                        @endif`n                    </x-table.cell>`n                </x-table.row>`n                @endif`n`n                @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row class=""bg-white"" wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->id }}"" x-on`:click=""open{{ $loop->index }} = !open{{ $loop->index }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->id }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    <tr x-show=""open{{ $loop->index }}"">`n                        <td class="""" colspan=""8"">`n                            <div x-transition`:enter=""transition ease-out duration-100""`n                            x-transition`:enter-start=""transform opacity-0 scale-95"" x-transition`:enter-end=""transform opacity-100 scale-100""`n                            x-transition`:leave=""transition ease-in duration-75"" x-transition`:leave-start=""transform opacity-100 scale-100""`n                            x-transition`:leave-end=""transform opacity-0 scale-95"">`n`n                                <div class=""bg-white inline-block min-w-full overflow-hidden px-13 pt-10 rounded-lg shadow"">`n                                    <div class=""flex flex-wrap -mx-3 mb-10 float-right"">`n                                        <a href=""{{ route('? valueSH2 ?.show'`, $? valueS1 ?['id']) }}"">`n                                            <x-button.link class=""bg-transparent text-secondary m-5 mb-0"">`n                                                <div class=""flex space-x-2 items-center"">`n                                                    <x-icon.eye/>`n                                                    <span></span>`n                                                </div>`n                                            </x-button.link>`n                                        </a>`n                                        <x-button.link class=""bg-transparent text-secondary m-5 mb-0"" wire`:click=""edit({{ $? valueS1 ?['id'] }})"" >`n                                            <div class=""flex space-x-2 items-center"">`n                                                <x-icon.pencil/>`n                                                <span></span>`n                                            </div>`n                                        </x-button.link>`n                                    </div>`n                                    <div class=""flex flex-wrap -mx-3 mb-6 "">`n                                        <div class=""md`:w-full px-3 mb-6"">`n                                            <span class=""font-bold"">{{ $? valueS1 ?->title }}</span>`n                                        </div>`n`n                                        <div class=""md`:w-full px-3 mb-6 inline-flex space-x-2 text-sm leading-5"">`n                                            {{ $? valueS1 ?->content }}`n                                        </div>`n                                    </div>`n                                </div>`n                            </div>`n                        </td>`n                    </tr>`n                @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                @endforelse`n            </x-slot>`n        </x-table>`n`n        {!! pagination( $? valueS2 ? ) !!}`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['id'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "                </div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Save</x-button.primary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n`n</div>`n")
+	}
+	
+	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+	
+	
+	fileWrite( content, file )
+}
+
+ManageView_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	name := scaffoldModel("? valueS1 ?")
+	
+	; check if "an" or "a" should be used
+	aOrAn := "a"
+	vowels := ["a", "e", "i", "o", "u"]
+	firstCharacter := SubStr(field_name, 1, 1)
+	if( HasVal(vowels, firstCharacter) )
+		aOrAn := "an"
+	
+	if(related_table_singular != ""){
+		t := "`                    <div class=""w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                        <x-input.group for=""? valueS1 ?"" label=""? valueAT91 ?"" `:error=""$errors->first('editing.? valueS1 ?')"">`n                            <livewire`:? valueSH4 ?.select-? valueSH4 ?`n                              name=""? valueS4 ?""`n                              placeholder=""Choose " aOrAn " ? valueL4 ?""`n                              `:searchable=""true""`n                            />`n                        </x-input.group>`n                    </div>`n`n"
+		without_id := StrReplace(field1, "_id", "")
+		t := replaceMarker(without_id, t, 91)
+	}else if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t := "`                    <div class=""w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                        <x-input.group for=""? valueS1 ?_for_editing"" label=""? valueAT1 ?"" `:error=""$errors->first('editing.? valueS1 ?_for_editing')"">`n                            <x-input.date wire`:model=""editing.? valueS1 ?_for_editing"" id=""? valueS1 ?_for_editing"" />`n                        </x-input.group>`n                    </div>`n`n"
+	else if(data_type = "int")
+		t := "`                <x-input.group for=""? valueS1 ?"" label=""? valueAT1 ?"" `:error=""$errors->first('editing.? valueS1 ?')"">`n                    <x-input.money wire`:model=""editing.? valueS1 ?"" id=""? valueS1 ?"" />`n                </x-input.group>`n`n"
+	else
+		t := "`                    <div class=""w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                        <x-input.group for=""? valueS1 ?"" label=""? valueAT1 ?"" `:error=""$errors->first('editing.? valueS1 ?')"">`n                            <x-input.text wire`:model=""editing.? valueS1 ?"" id=""? valueS1 ?"" placeholder=""? valueAT1 ?"" />`n                        </x-input.group>`n                    </div>`n`n"
+
+	return t
+}
+
+fileWrite( content, file){
+	FileDelete, %file%
+	FileAppend, %content%, %file%
+}
+
+manageView(){
+	global
+	manageView_a( table_name_singular, table_name_plural, reverse )
+}
+	
+manageView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	fieldsArr := ShowView_fieldsArr( table_name_singular )
+	
+	form_fields := runSubScaffold( "scaffoldFormFields", 0, fieldsArr )
+
+	name := scaffoldModel("? valueSH1 ?\manage-? valueSH1 ?")
+	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%name%.blade.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %form_fields%, " form_fields "
+	}else
+		content := scaffoldModel("<x-slot name=""header"">`n    <h2 class=""font-semibold text-xl text-gray-800 leading-tight"">`n        {{ __('? valueAT2 ?') }}`n    </h2>`n</x-slot>`n<div class=""max-w-7xl mx-auto px-4 sm`:px-6 lg`:px-8 pt-20 pb-10 "">`n    {{-- Breadcrumbs --}}`n    <div class="""">`n        <div class=""text-sm mb-2"">`n            <a class=""text-blue-600"" href=""{{ route('home') }}"">`n                Home`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ route('? valueSH2 ?') }}"">`n                ? valueAT2 ?`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ $editing['id'] ? route('? valueSH2 ?.show'`, $editing['id']) `: '#' }}"">`n                {{ $editing->id }}`n            </a>`n        </div>`n    </div>`n`n    @if (session()->has('message'))`n        <div id=""alert"" class=""text-white px-6 py-4 border-0 rounded relative mb-4 bg-green-500"">`n            <span class=""inline-block align-middle mr-8"">`n                {{ session('message') }}`n            </span>`n            <button class=""absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus`:outline-none"" onclick=""document.getElementById('alert').remove()`;"">`n                <span>?</span>`n            </button>`n        </div>`n    @endif`n`n`n    <div class=""w-full align-center"">`n        <div class=""float-left"">`n            <h1 class=""font-semibold leading-tight text-2xl mt-4 mb-2 mx-6 text-gray-900"">`n                <a href=""{{ route('? valueSH2 ?') }}"">`n                    ? valueAT1 ?`n                </a>`n                / {{ $editing['id'] ? 'Edit' `: 'Create' }}`:`n                <a href=""{{ $editing['id'] ? route('? valueSH2 ?.show'`, $editing['id']) `: route('? valueSH2 ?') }}"">`n                    {{ $editing->getName() }}`n                </a>`n            </h1>`n        </div>`n        <div class=""float-left"">`n        </div>`n    </div>`n`n    <div class=""`n    [ bg-white ]`n    [ border-[1px] border-solid border-white border-opacity-30 ]`n    [ shadow-lg ] shadow rounded-lg "">`n        <div class=""inline-block min-w-full overflow-hidden"">`n            <form>`n                <div class=""px-4 pt-5 pb-4 sm`:p-6 sm`:pb-4"">`n                    <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "                    </div>`n                </div>`n                <div class=""px-4 py-3 sm`:px-6 sm`:flex sm`:flex-row-reverse"">`n                <span class=""flex w-full sm`:ml-3 sm`:w-auto"">`n                    <button wire`:click.prevent=""save()"" type=""button"" class=""inline-flex bg-blue-500 hover`:bg-blue-700 text-white font-bold py-2 px-4 rounded"">Save</button>`n                </span>`n                </div>`n            </form>`n        </div>`n    </div>`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n    })`n</script>`n@endpush`n")
+	
+	fileWrite( content, file )
+}
+
+ShowView_Fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	arr := ["deleted_at"]
+
+	if( HasVal(arr, field1) )
+		return ""
+	
+	name := scaffoldModel("? valueS1 ?")
+	plural := scaffoldModel("? valueSH2 ?")
+	
+	if(related_table_singular != "") ; if relation is there
+	{
+		t := "`                <div class=""md`:w-1/3 px-3 mb-6 text-ellipsis"">`n                    <label class=""block text-gray-700 text-xs"">`n                        ? valueAT91 ?`:`n                    </label>`n                    <label class=""block text-gray-700 text-sm mb-2 text-sm leading-5 font-medium"">`n                        <a href=""{{ $" name "['? valueS1 ?'] ? route('? valueSH5 ?.show'`, $" name "['? valueS1 ?']) `: '' }}"">`n                            <span class=""{{ isset($" name "->? valueC91 ?->color) ? ""bg-"".$" name "->? valueC91 ?->color.""-100 text-"".$" name "->? valueC91 ?->color.""-800 px-2.5"" `: """" }} text-xs font-medium inline-flex items-center py-0.5 rounded mr-2 dark`:bg-gray-700 dark`:text-gray-300"">`n                                @if(isset($" name "->? valueC91 ?->icon) && $" name "->? valueC91 ?->icon)`n                                    <x-dynamic-component `:component=""'icon.'.$" name "->? valueC91 ?->icon""  class='mr-1 w-3 h-3 text-slate-600' strokeWidth='1' />`n                                @endif`n                                {{ $" name "->? valueC91 ? ? $" name "->? valueC91 ?->getName() `: """" }}`n                            </span>`n                        </a>`n                    </label>`n                </div>`n`n"
+		without_id := StrReplace(field_name, "_id", "")
+		t := replaceMarker(without_id, t, 91)
+	}else if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t := "`                <div class=""md`:w-1/3 px-3 mb-6 text-ellipsis"">`n                    <label class=""block text-gray-700 text-xs"">`n                        ? valueAT1 ?`:`n                    </label>`n                    <label class=""block text-gray-700 text-sm mb-2 text-sm leading-5 font-medium"">`n                        {{ getDateForHumans($" name "->? valueS1 ?) }}`n                    </label>`n                </div>`n`n"
+	else if(data_type = "longtext")
+		t := "`                <div class=""md`:w-1/3 px-3 mb-6 text-ellipsis"">`n                    <label class=""block text-gray-700 text-xs"">`n                        ? valueAT1 ?`:`n                    </label>`n                    <label x-data=""{ isCollapsed`: true }"" class=""block text-gray-700 text-sm mb-2 text-sm leading-5 font-medium"">`n                        <span class=""inline-flex space-x-2"" `:class=""{'line-clamp-none'`: !isCollapsed`, 'line-clamp-3'`: isCollapsed}"">`n                            {{ $" name "->? valueS1 ? }}`n                        </span>`n                        <button`n                                @click=""isCollapsed = !isCollapsed""`n                                x-text=""isCollapsed ? 'Show more' `: 'Show less'""></button>`n                    </label>`n                </div>`n`n"
+	else 
+		t := "`                <div class=""md`:w-1/3 px-3 mb-6 text-ellipsis"">`n                    <label class=""block text-gray-700 text-xs"">`n                        ? valueAT1 ?`:`n                    </label>`n                    <label x-data=""{ isCollapsed`: true }"" class=""block text-gray-700 text-sm mb-2 text-sm leading-5 font-medium"">`n                        {{ $" name "->? valueS1 ? }}`n                    </label>`n                </div>`n`n"
+
+	return t
+}
+
+ShowView_subList( table_name_singular = 1, table_name_plural = 2 ){
+	arr := {"case": "`                <livewire`:case-item.child-list-case-items`n                `:depends-on=""$case->id""`n                />`n`n                <livewire`:task.child-list-tasks`n                `:depends-on=""$case->id""`n                />`n`n        </div>`n    </div>`n    <div class=""md`:w-1/3 px-3 mb-6 inline-flex space-x-2 text-sm leading-5"">`n        <livewire`:case-user.child-list-case-users`n        `:depends-on=""$case->id""`n        />`n`n    </div>`n"}
+	return "{{-- sub list here --}}`n" arr[table_name_singular]
+}
+
+ShowView_before( table_name_singular = 1, table_name_plural = 2 ){
+	arr := {"case": "<div class=""flex flex-wrap -mx-3 mb-6 "">`n    <div class=""md`:w-2/3 px-3 mb-6"">`n        <div class=""mx-auto px-4 sm`:px-6 lg`:px-8"">`n"}
+	
+	if( arr[table_name_singular] )
+		return arr[table_name_singular]
+	
+	return "<div class=""pt-20 max-w-7xl mx-auto px-4 sm`:px-6 lg`:px-8"">`n"
+}
+
+ShowView_fieldsArr(table_name_singular){
+	return table_fields( table_name_singular )
+}
+
+ShowView_fieldsMoreArr(table_name_singular){
+	arr := []
+	arr["case"] := ["organisation_id", "team_id", "from_individual_id", "created_by", "updated_by", "created_at", "updated_at"]
+	
+	return arr[table_name_singular]
+}
+
+showView(){
+	global
+	showView_a( table_name_singular, table_name_plural, reverse, primary_key )
+}
+	
+showView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
+	fieldsArr := ShowView_fieldsArr( table_name_singular )
+	
+	before := ShowView_before( table_name_singular, table_name_plural )
+	form_fields := runSubScaffold( "ShowView_Fields", 1, fieldsArr )
+	
+	;~ fieldsArr.Push("scaffold_blacklist")
+	fieldsMoreArr := ShowView_fieldsMoreArr( table_name_singular )
+	form_fields_more := fieldsMoreArr = "" ? "" : runSubScaffold( "ShowView_Fields", 1, fieldsMoreArr )
+	sub_list := ShowView_subList( table_name_singular, table_name_plural )
+
+	name := scaffoldModel("? valueSH1 ?\show-? valueSH1 ?")
+	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%name%.blade.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %before%, " before "
+		StringReplace, content, content, %form_fields%, " form_fields "
+		StringReplace, content, content, %sub_list%, " sub_list "
+	}else
+		content := scaffoldModel("" before "    {{-- Breadcrumbs --}}`n    <div class="""">`n        <div class=""text-sm mb-2"">`n            <a class=""text-blue-600"" href=""{{ route('home') }}"">`n                Home`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ route('? valueSH2 ?') }}"">`n                ? valueAT2 ?`n            </a>`n            >`n            {{ $? valueS1 ?->id }}`n        </div>`n    </div>`n`n    @if (session()->has('message'))`n        <div id=""alert"" class=""text-white px-6 py-4 border-0 rounded relative mb-4 bg-green-500"">`n            <span class=""inline-block align-middle mr-8"">`n                {{ session('message') }}`n            </span>`n            <button class=""absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus`:outline-none"" onclick=""document.getElementById('alert').remove()`;"">`n                <span>x</span>`n            </button>`n        </div>`n    @endif`n`n    <div class=""w-full align-center"">`n        <div class=""float-left"">`n            <h1 class=""font-semibold leading-tight text-2xl mt-4 mb-2 px-5 text-gray-900"">`n                <a href=""{{ route('? valueSH2 ?') }}"">`n                    ? valueAT1 ?`:`n                </a>`n                {{ $? valueS1 ?->getName() }}</h1>`n        </div>`n        <div class=""float-right"">`n            <a href=""{{ route('? valueSH2 ?.edit'`, $? valueS1 ?['" primary_key "']) }}"">`n                <x-button.link class=""text-secondary m-5 mb-0"" >`n                    <div class=""flex space-x-2 items-center"">`n                        <x-icon.pencil/>`n                        <span></span>`n                    </div>`n                </x-button.link>`n            </a>`n            <x-button.link class=""text-secondary m-5 mb-0"" wire`:click=""$emit('triggerDelete'`,{{ $? valueS1 ?['id'] }})"" >`n                <div class=""flex space-x-2 items-center"">`n                    <x-icon.trash/>`n                    <span></span>`n                </div>`n            </x-button.link>`n        </div>`n    </div>`n`n    <div class=""`n    [ bg-white ]`n    [ border-[1px] border-solid border-white border-opacity-30 ]`n    [ shadow-lg ] shadow rounded-lg "">`n        <div x-data=""{ open`: false }"" class=""inline-block min-w-full overflow-hidden px-5"">`n            <div class=""flex flex-wrap -mx-3 mb-10"">`n            </div>`n            <div class=""flex flex-wrap -mx-3"">`n" form_fields "            </div>`n            <div x-show=""open"" class=""flex flex-wrap -mx-3"">`n" form_fields_more "            </div>`n            <div class=""flex justify-center ..."">`n                <x-button.link x-on`:click=""open = !open"" class=""bg-white text-secondary mb-0 place-items-center"">`n                    <div class=""flex space-x-2 items-center"">`n                        <svg xmlns=""http`://www.w3.org/2000/svg"" `:class=""{'rotate-180'`: open`, 'rotate-0'`: !open}"" class=""inline w-6 h-6 mt-1 ml-1 transition-transform duration-200 transform md`:-mt-1 inline-block w-5 h-5 rotate-180"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"" stroke-width=""1.5"">`n                            <path stroke-linecap=""round"" stroke-linejoin=""round"" d=""M19 9l-7 7-7-7""></path>`n                          </svg>`n                        <span></span>`n                    </div>`n                </x-button.link>`n            </div>`n        </div>`n    </div>`n`n" sub_list "`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n        @this.on('triggerDelete'`, ? valueS1 ?Id => {`n            Swal.fire({`n                title`: 'Are You Sure?'`,`n                text`: '? valueAT1 ? record will be deleted!'`,`n                type`: ""warning""`,`n                showCancelButton`: true`,`n                confirmButtonColor`: '#d33'`,`n                cancelButtonColor`: '#3085d6'`,`n                confirmButtonText`: 'Delete!'`n            }).then((result) => {`n                if (result.value) {`n                    @this.call('delete'`,? valueS1 ?Id)`n                } else {`n                    console.log(""Canceled"")`;`n                }`n            })`;`n        })`;`n    })`n</script>`n@endpush`n")
+		
+	fileWrite( content, file )
+}
+
+ImportView_form_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(field2 = "datetime" or field2 = "timestamp")
+		t := "`                    <x-input.group for=""? valueS1 ?"" label=""? valueAT1 ?"">`n                        <x-input.select wire`:model=""fieldColumnMap.? valueS1 ?_for_editing"" id=""? valueS1 ?"">`n                            <option value="""" disabled>Select Column...</option>`n                            @foreach ($columns as $column)`n                                <option>{{ $column }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n                    `n"
+	else
+		t := "`                    <x-input.group for=""? valueS1 ?"" label=""? valueAT1 ?"" `:error=""$errors->first('fieldColumnMap.? valueS1 ?')"">`n                        <x-input.select wire`:model=""fieldColumnMap.? valueS1 ?"" id=""? valueS1 ?"">`n                            <option value="""" disabled>Select Column...</option>`n                            @foreach ($columns as $column)`n                                <option>{{ $column }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n"
+
+	return t
+}
+
+importView(){
+	global
+	importView_a( table_name_singular, table_name_plural, reverse )
+}
+	
+importView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	name := scaffoldModel("? valueS1 ?")
+	form_fields := runSubScaffold( "ImportView_form_fields")
+
+	
+	name := scaffoldModel("? valueSH1 ?\import-? valueSH2 ?")
+	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%name%.blade.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %form_fields%, " form_fields "
+	}else{
+		content := scaffoldModel("<div>`n    <x-button.secondary wire`:click=""$toggle('showModal')"" class=""flex items-center space-x-2""><x-icon.upload class=""text-cool-gray-500""/> <span>Import</span></x-button.secondary>`n`n    <form wire`:submit.prevent=""import"">`n        <x-modal.dialog wire`:model=""showModal"">`n            <x-slot name=""title"">Import ? valueAT2 ?</x-slot>`n`n            <x-slot name=""content"">`n                @unless ($upload)`n                <div class=""py-12 flex flex-col items-center justify-center "">`n                    <div class=""flex items-center space-x-2 text-xl"">`n                        <x-icon.upload class=""text-cool-gray-400 h-8 w-8"" />`n                        <x-input.file-upload wire`:model=""upload"" id=""upload""><span class=""text-cool-gray-500 font-bold"">CSV or Excel File</span></x-input.file-upload>`n                    </div>`n                    @error('upload') <div class=""mt-3 text-red-500 text-sm"">{{ $message }}</div> @enderror`n                </div>`n                @else`n                <div>`n" form_fields "                </div>`n                @endif`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Import</x-button.primary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n</div>`n")
+	}
+	
+	directory := scaffoldModel("? valueSH1 ?")
+	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+
+	fileWrite( content, file )
+}
+
+updateRoutesFile(){
+	global
+	updateRoutesFile_a( table_name_singular, table_name_plural, reverse )
+}
+	
+updateRoutesFile_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	route := scaffoldModel("`    Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n        Route`:`:get('/'`, App\Http\Livewire\? valueCC1 ?\List? valueCC2 ?`:`:class)->name('? valueSH2 ?')`;`n        Route`:`:get('/create'`, App\Http\Livewire\? valueCC1 ?\Manage? valueCC1 ?`:`:class)->name('? valueSH2 ?.create')`;`n        Route`:`:get('/{? valueC1 ?}/edit'`, App\Http\Livewire\? valueCC1 ?\Manage? valueCC1 ?`:`:class)->name('? valueSH2 ?.edit')`;`n        Route`:`:get('/{? valueC1 ?}'`, App\Http\Livewire\? valueCC1 ?\Show? valueCC1 ?`:`:class)->name('? valueSH2 ?.show')`;`n    })`;`n`n")
+	
+	file =C:\xampp\htdocs\case-manager\routes\web.php
+	FileRead, content, %file%
+	StringReplace, content, content, `}); // group end, %route%`}); // group end
+	
+	fileWrite( content, file )
+}
+	
+updateApiRoutes(){
+	global
+	updateApiRoutes_a( table_name_singular, table_name_plural, reverse )
+}
+	
+updateApiRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	route := scaffoldModel("`    Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n        Route`:`:get('/'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'index'])->name('api.? valueSH2 ?')`;`n        Route`:`:post('/store'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'store'])->name('api.? valueSH2 ?.store')`;`n        Route`:`:post('/{? valueS1 ?}/update'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'update'])->name('api.? valueSH2 ?.update')`;`n        Route`:`:get('/{? valueS1 ?}'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'show'])->name('api.? valueSH2 ?.show')`;`n    })`;`n`n")
+	
+	file =C:\xampp\htdocs\case-manager\routes\web.php
+	FileRead, content, %file%
+	StringReplace, content, content, // add API routes here, %route%// add API routes here
+	
+	fileWrite( content, file )
+}
+	
+updatePermissions(){
+	global
+	updatePermissions_a( table_name_singular, table_name_plural, reverse )
+}
+	
+updatePermissions_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	permissions := scaffoldModel("`            // ? valueS1 ?`n            [`n                'name' => '? valueS1 ?.view_any'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.create'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.view'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.update'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.delete'`,`n            ]`,`n`n")
+	
+	file =C:\xampp\htdocs\case-manager\database\seeders\PermissionSeeder.php
+	FileRead, content, %file%
+	StringReplace, content, content, `            // add new permissions here, %permissions%`            // add new permissions here
+	
+	fileWrite( content, file )
+}
+	
+updateSidebar(){
+	global
+	updateSidebar_a( table_name_singular, table_name_plural, reverse )
+}
+	
+updateSidebar_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ item := scaffoldModel("`    '? valueAT2 ?' => [`n        'name' => '? valueAT2 ?'`,`n        'route' => '? valueSH2 ?'`,`n        'icon' => 'clipboard-list'`,`n    ]`,`n")
+	
+	;~ file := "C:\xampp\htdocs\case-manager\resources\views\layouts\app.blade.php"
+	;~ FileRead, content, %file%
+	;~ StringReplace, content, content, `r,
+	;~ StringReplace, content, content, `    // add new menu items here, %item%`    // add new menu items here, All
+	
+	item := scaffoldModel("`                    <a href=""{{ route('? valueSH2 ?') }}"" class=""block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode`:bg-transparent dark-mode`:hover`:bg-gray-600 dark-mode`:focus`:bg-gray-600 dark-mode`:focus`:text-white dark-mode`:hover`:text-white dark-mode`:text-gray-200 md`:mt-0 hover`:text-gray-900 focus`:text-gray-900 hover`:bg-gray-200 focus`:bg-gray-200 focus`:outline-none focus`:shadow-outline"">? valueAT2 ?</a>`n")
+	
+	file := "C:\xampp\htdocs\case-manager\resources\views\layouts\sidebar\desktop.blade.php"
+	FileRead, content, %file%
+	StringReplace, content, content, `r,
+	StringReplace, content, content, `                    <!-- Insert new menu items here -->, %item%`                    <!-- Insert new menu items here -->, All
+	
+	fileWrite( content, file )
+}
+
+primary_key(){
+	global primary_key
+	
+	return primary_key
+}
+	
+primary_key_row(){
+	global primary_key_row
+	
+	return primary_key_row
+}
+	
+mergeDataTypesAndRelationships(dataTypes, relations){
+	global primary_key, primary_key_row, table_name_plural
+	StringSplit, dataTypes, dataTypes, `n, `r
+	StringSplit, relations, relations, `n, `r
+	fields =
+	
+	Loop %dataTypes0%
+	{
+		dataType := dataTypes%A_Index%
+		StringSplit, dataType, dataType, `t
+		field := dataType
+		
+		relationFound := 0
+		
+		Loop %relations0%
+		{
+			relation := relations%A_Index%
+			StringSplit, relation, relation, `t
+			
+			if(dataType1 = relation1){
+				relationFound := 1
+				
+				singular := toSingular(relation2)
+				;~ StringSplit, rows, singularAndPlural, `n
+				;~ Loop %rows0%
+				;~ {
+					;~ row := rows%A_Index%
+					;~ StringSplit, col, row, `t
+					
+					;~ if(relation2 = col2){
+						;~ singular := col1
+						;~ break
+					;~ }
+				;~ }
+				
+				field := field "`t" singular "`t" relation2 "`t" relation3
+				break
+			}
+		}
+		
+		if(!relationFound)
+			field := field "`t" "`t" "`t"
+		
+		if(dataType1 = primary_key){
+			primary_key_row := field
+			setGlobal("dbCache_primaryKey_" table_name_plural, primary_key_row)
+		}else{
+			fields := fields field
+		
+			if(A_Index != dataTypes0)
+				fields := fields "`n"
+		}
+	}
+
+	;~ Clipboard := dataTypes "`n" Clipboard
+	return fields
+}
+
+getDataTypesByHttp(){
+	global found_DB_table, location, primary_key, table_name_plural
+	
+	if(!cache)
+		cache := []
+	
+	found_DB_table := 0
+	
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(!cache[name] and name and name != "s"){
+		if(location = "ncit_laptop")
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
+		else
+			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/structure&db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
+		
+		FileRead, table_info, %A_ScriptDir%\table_info.html
+		cache[name] := table_info
+	}else
+		table_info := cache[name]
+	
+	table_info := RegExReplace(table_info, "\s+", " ")
+	table_info_replaced := RegExReplace(table_info, ".*tablestructure(.*)fieldsForm_checkall.*", "$1")
+	if(table_info != table_info_replaced){
+		found_DB_table := 1
+		table_info := table_info_replaced
+		StringReplace, table_info, table_info, <tr, % chr(255), All
+		StringSplit, row, table_info, % chr(255)
+
+		table_info=
+		
+		Loop %row0%
+		{
+			if(A_Index >= 3 ){
+				StringReplace, row%A_Index%, row%A_Index%, <td, % chr(255), All
+				StringSplit, column, row%A_Index%, % chr(255)
+
+				name := RegExReplace(column3, ").*for=""checkbox_row_.{1,2}"">[ ](\S*)[ ]*.*", "$1")
+				dataType := RegExReplace(column4, ").*lang=""en"">[ ](\S*)[ ]*.*", "$1")
+				nullable := RegExReplace(column7, ").*>(\S*)</td>", "$1")
+				
+				if( InStr( column3, "title=""Primary""") ){
+					primary_key := name
+				}
+				
+				table_info := table_info name "`t" dataType "`t" nullable
+				if(A_Index != row0)
+					table_info := table_info "`n"
+			}
+		}
+	}else
+		return ""
+	
+	return table_info
+}
+	
+getRelationsByHttp(){
+	global
+	static cache
+	
+	if(!cache)
+		cache := []
+	
+	name := scaffoldModel("? valueS1 ?")
+	
+	if(!cache[name] and name and name != "s"){
+		if(location = "ncit_laptop")
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
+		else
+			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/relation&db=case_manager&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
+		
+		FileRead, table_info, %A_ScriptDir%\table_info.html
+		cache[name] := table_info
+	}else
+		table_info := cache[name]
+	
+	table_info := RegExReplace(table_info, "\\""", """")
+	table_info := RegExReplace(table_info, "\\n", " ")
+	table_info := RegExReplace(table_info, "\s+", " ")
+	table_info := RegExReplace(table_info, ".*Foreign key constraints(.*)id=""ir_div"".*", "$1")
+	StringReplace, table_info, table_info, <tr, % chr(255), All
+	StringSplit, row, table_info, % chr(255)
+
+	table_info=
+	
+	Loop %row0%
+	{
+		if(A_Index >= 4 and A_Index <= row0 - 2){
+			StringReplace, row%A_Index%, row%A_Index%, <td, % chr(255), All
+			StringSplit, column, row%A_Index%, % chr(255)
+
+			name := RegExReplace(column4, ").*selected=""selected"">[ ](\S*)[ ]*.*", "$1")
+			relatedTable := RegExReplace(column6, ").*selected=""selected"">[ ](\S*)[ ]*.*", "$1")
+			primaryKey := RegExReplace(column7, ").*selected=""selected"">[ ](\S*)[ ]*.*", "$1")
+			table_info := table_info name "`t" relatedTable "`t" primaryKey "`n"
+		}
+	}
+	
+	return table_info
+}
+	
+fieldsFromDB(){
+	global clipList, scaffold_template, DB_Fields, modelName, clipList_A_Index
+	
+	clipList_A_Index := 0
+	modelName := Clipboard
+	
+	;~ clipList := "`t1`tid Primary`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`tAUTO_INCREMENT`tChange Change`tDrop Drop`t`nMore More`n`t2`tcase_id`tvarchar(250)`tutf8mb4_unicode_ci`t`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t3`tuser_organisation_id Index`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t4`tfrom_user_organisation_id Index`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t5`torigin`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t6`tpriority`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t7`trecieved_date`tdatetime`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t8`tdeadline`tdatetime`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t9`tassigned_user_id Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t10`tstatus`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t11`tcreated_by Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t12`tupdated_by Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t13`toperation_log_id Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t14`tcreated_at`ttimestamp`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t15`tupdated_at`ttimestamp`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t16`tdeleted_at`ttimestamp`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n"
+	
+	;~ modelName =Drop Drop`t`ncases_assigned_user_id_foreign`nON DELETE`nRESTRICT`nON UPDATE`nRESTRICT`n`nassigned_user_id`n+ Add column`t`ncase_manager`n`nusers`n`nid`nDrop Drop`t`ncases_created_by_foreign`nON DELETE`nRESTRICT`nON UPDATE`nRESTRICT`n`ncreated_by`n+ Add column`t`ncase_manager`n`nusers`n`nid`nDrop Drop`t`ncases_from_user_organisation_id_foreign`nON DELETE`nRESTRICT`nON UPDATE`nRESTRICT`n`nfrom_user_organisation_id`n+ Add column`t`ncase_manager`n`nusers`n`nid`nDrop Drop`t`ncases_operation_log_id_foreign`nON DELETE`nRESTRICT`nON UPDATE`nRESTRICT`n`noperation_log_id`n+ Add column`t`ncase_manager`n`noperation_logs`n`nid`nDrop Drop`t`ncases_updated_by_foreign`nON DELETE`nRESTRICT`nON UPDATE`nRESTRICT`n`nupdated_by`n+ Add column`t`ncase_manager`n`nusers`n`nid`nDrop Drop`t`ncases_user_organisation_id_foreign`nON DELETE`nRESTRICT`nON UPDATE`nRESTRICT`n`nuser_organisation_id`n+ Add column`t`ncase_manager`n`nuser_organisations`n`nid
+	
+	
+	StringReplace, clipList, clipList, `r, , All
+	StringReplace, clipList, clipList, More More`n, , All
+	StringReplace, clipList, clipList, ` Primary, , All
+	StringReplace, clipList, clipList, ` Index, , All
+	
+	scaffold_template := "? value3 ?`t? value4 ?`n"
+	ClipLoad()
+	Clipboard=
+	printUsingScaffold( "MA", 1, -1)
+	dataTypes := Clipboard
+
+	clipList_A_Index := 0
+	clipList := modelName
+	scaffold_template := "? value9 ?`t? value14 ?`n"
+	ClipLoad()
+	Clipboard=
+	printUsingScaffold( "M", 16, 16)
+	relations := Clipboard
+	
+	Clipboard := mergeDataTypesAndRelationships(dataTypes, relations)
+	return Clipboard
+}
+
+toSingular( name ){
+	global pluralToSingular
+	
+	if( pluralToSingular[name] )
+		return pluralToSingular[name]
+	
+	if( RegExMatch(name, ".*ies$") )
+		return RegExReplace(name, "(.*)ies$", "$1y")
+	else if( RegExMatch(name, ".*s$") )
+		return RegExReplace(name, "(.*)s$", "$1")
+	else
+		return name
+}
+
+toPlural( name ){
+	global singularToPlural
+	
+	if( singularToPlural[name] )
+		return singularToPlural[name]
+	
+	if( RegExMatch(name, ".*y$") )
+		return RegExReplace(name, "(.*)y$", "$1") "ies"
+	else
+		return name "s"
+}
+
+load_singularToPlural(){
+	global singularToPlural, pluralToSingular
+	
+	singularToPlural := {}
+	;~ singularToPlural["contact_information_type"] := "contact_information_types"
+	;~ singularToPlural["atoll"] := "atolls"
+	;~ singularToPlural["island"] := "islands"
+	;~ singularToPlural["country"] := "countries"
+	;~ singularToPlural["operation_type"] := "operation_types"
+	;~ singularToPlural["organisation_type"] := "organisation_types"
+	;~ singularToPlural["operation_log"] := "operation_logs"
+	;~ singularToPlural["user_organisation"] := "user_organisations"
+	;~ singularToPlural["business_entity_type"] := "business_entity_types"
+	;~ singularToPlural["business_entity"] := "business_entities"
+	;~ singularToPlural["user"] := "users"
+	;~ singularToPlural["password_reset"] := "password_resets"
+	;~ singularToPlural["document_type"] := "document_types"
+	;~ singularToPlural["file"] := "files"
+	;~ singularToPlural["failed_job"] := "failed_jobs"
+	;~ singularToPlural["personal_access_token"] := "personal_access_tokens"
+	;~ singularToPlural["action"] := "actions"
+	;~ singularToPlural["location_type"] := "location_types"
+	;~ singularToPlural["location"] := "locations"
+	;~ singularToPlural["auditlogactiontype"] := "auditlogactiontypes"
+	;~ singularToPlural["auditlogdatatype"] := "auditlogdatatypes"
+	;~ singularToPlural["auditlog"] := "auditlogs"
+	;~ singularToPlural["business_entity_contact_information"] := "business_entity_contact_informations"
+	;~ singularToPlural["business_entity_document"] := "business_entity_documents"
+	;~ singularToPlural["business_entity_location_type"] := "business_entity_location_types"
+	;~ singularToPlural["business_entity_location"] := "business_entity_locations"
+	;~ singularToPlural["errorlog"] := "errorlog"
+	;~ singularToPlural["gender_type"] := "gender_types"
+	;~ singularToPlural["individual"] := "individuals"
+	;~ singularToPlural["link_type"] := "link_types"
+	;~ singularToPlural["role"] := "roles"
+	;~ singularToPlural["navigation_link"] := "navigation_links"
+	;~ singularToPlural["organisation"] := "organisations"
+	;~ singularToPlural["request_state"] := "request_states"
+	;~ singularToPlural["sequence_number_type"] := "sequence_number_types"
+	;~ singularToPlural["request_type"] := "request_types"
+	;~ singularToPlural["request"] := "requests"
+	;~ singularToPlural["request_document"] := "request_documents"
+	;~ singularToPlural["request_types_allowed_request_state_transition"] := "request_types_allowed_request_state_transitions"
+	;~ singularToPlural["request_type_specific_document_type"] := "request_type_specific_document_types"
+	;~ singularToPlural["role_action"] := "role_action"
+	;~ singularToPlural["sequence_number_next_number"] := "sequence_number_next_numbers"
+	;~ singularToPlural["sso_user_state"] := "sso_user_state"
+	;~ singularToPlural["user_group"] := "user_groups"
+	;~ singularToPlural["user_assigned_user_group"] := "user_assigned_user_groups"
+	;~ singularToPlural["user_group_role"] := "user_group_roles"
+	;~ singularToPlural["ward"] := "wards"
+	;~ singularToPlural["case"] := "cases"
+	;~ singularToPlural["case_item_type"] := "case_item_types"
+	;~ singularToPlural["case_item"] := "case_items"
+	;~ singularToPlural["case_attachment"] := "case_attachments"
+	;~ singularToPlural["case_user"] := "case_users"
+	;~ singularToPlural["comment"] := "comments"
+	;~ singularToPlural["gems_mail"] := "gems_mails"
+	;~ singularToPlural["task"] := "tasks"
+	singularToPlural["status"] := "statuses"
+	singularToPlural["task_status"] := "task_statuses"
+	;~ singularToPlural["origin"] := "origins"
+	;~ singularToPlural["priority"] := "priorities"
+	;~ singularToPlural["team"] := "teams"
+
+	singularToPlural["address"] := "addresses"
+	
+	pluralToSingular := {}
+	
+	for index, value in singularToPlural
+		pluralToSingular[value] := index
+	
+}
+
+specificFieldsArr(){
+	global specificFieldsArr
+	
+	specificFieldsArr := []
+	
+	;~ specificFieldsArr["case"] := ["case_id", "title", "from_organisation_id", "origin_id", "priority_id", "recieved_date", "deadline", "handler_id", "status_id"]
+	specificFieldsArr["birth_record"] := ["foolhuma_form_number", "gender_type_id", "date_of_birth", "time_of_birth"]
+}
+
+processCamelCase( name ){
+	name := putSpacesInCamelCase(name)
+	StringReplace, name, name, _, %A_Space%, All
+	StringReplace, name, name, -, %A_Space%, All
+	name := RegExReplace(name, "\W+", " ")
+	return snakeCase( name )
+}
+
+getGlobal(variableName){
+	global
+	
+	t := %variableName%
+	;~ u := %t%
+	
+	return t
+}
+
+setGlobal(variableName, value){
+	global
+	
+	%variableName% := value
+}
+
+init_DB_Fields( loadName = 1, cache = 1){
+	global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
+	
+	if( loadName )
+		modelName()
+	
+	singular := processCamelCase( singular )
+
+	load_singularToPlural()
+	
+	result := singularToPlural[singular]
+	if(result){
+		plural := result
+	}else{
+		result := pluralToSingular[singular]
+		if(result){
+			plural := singular
+			singular := result
+		}else{
+			singular := toSingular( singular )
+			plural := toPlural( singular )
+			;~ if( RegExMatch(singular, ".*ies$") )
+				;~ singular := RegExReplace(singular, "(.*)ies$", "$1y")
+			;~ else if( RegExMatch(singular, ".*s$") )
+				;~ singular := RegExReplace(singular, "(.*)s$", "$1")
+			
+			;~ if( RegExMatch(singular, ".*y$") )
+				;~ plural := RegExReplace(singular, "(.*)y$", "$1") "ies"
+			;~ else
+				;~ plural := singular "s"
+		}
+	}
+	
+	table_name_singular := singular
+	table_name_plural := plural
+		
+	modelName := singular "`t" plural
+	
+	DB_Fields := getGlobal("dbCache_" plural)
+	
+	primary_key_row := getGlobal("dbCache_primaryKey_" plural)
+	StringSplit, primary_key_row, primary_key_row, `t
+	primary_key := primary_key_row1
+	
+	if(!DB_Fields or !cache){
+		dataTypes := getDataTypesByHttp()
+		if(dataTypes){
+			relations := getRelationsByHttp()
+			DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
+			setGlobal("dbCache_" plural, DB_Fields)
+		}
+	}
+		
+	fields := load_fields()
+	specificFieldsArr()
+}
+
+HasVal(haystack, needle) {
+	if !(IsObject(haystack)) || (haystack.Length() = 0)
+		return 0
+	for index, value in haystack
+		if (value = needle)
+			return index
+	return 0
+}
+
+durationPassed(label){
+	static lastTime
+	static lastLabel
+	
+	time := A_Min*1000*60 + A_Sec*1000 + A_MSec
+	if(lastTime){
+		diff := time - lastTime
+		myTT(lastLabel ": " diff)
+	}
+	lastTime := time
+	lastLabel := label
+}
+
+modelName(){
+	global singular
+	
+	singular := "case"
+}
+
+scaffoldFiles(){
+	global singular, reverse, table_name_plural, found_DB_table, DB_Fields
+	
+	;~ reverse := 1
+			
+	myTT(singular)
+	if( !DB_Fields )
+		myTT("DB table not found")
+	else{
+		;~ apiController()
+		;~ repository()
+		;~ updateApiRoutes()
+	
+		
+		
+		;~ policy()
+		;~ updatePermissions()
+		
+	
+		;~ enum()
+		
+		;~ childListController()
+		;~ childListView()
+		
+
+		;~ factory()
+		
+		;~ seeder()
+		;~ updateDatabaseSeeder()
+		
+		;~ model()
+		;~ importModel()
+		
+		;~ importController()
+		;~ listController()
+		;~ manageController()
+		;~ selectController()
+		;~ showController()
+		
+
+		;~ importView()
+		;~ listView()
+		;~ manageView()
+		;~ showView()
+		
+		;~ updateRoutesFile()
+		;~ updateSidebar()
+		
+
+		if(reverse)
+			myTT("reverse")
+		else
+			myTT("scaffold done")
+	}
+}
+
 #if (Stack="15am") ; scaffolding mode 
-	+`:: Send ¿ value1 ¿{Left 3}+{Left}
+	~^s::
+		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
+			if( WinExist("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") )
+			{
+				if( requireWinActive("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") )
+					Send {F5}
+					;~ t = 1
+			}
+			else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") )
+					Send {F5}
+				;~ t = 1
+	return
 	
-	`:: printUsingScaffold("", 1, -1)
+	F1:: goToReference()
 	
-	^`:: printUsingScaffold( 0, -1, 0) ; reverse
+	F4:: goToPrevReference()
+	return
 	
-	^+`:: printUsingScaffold( "MA" ) ; merge all
+	+`:: Send ? value1 ?{Left 2}+{Left}
+	
+	`::
+		;~ printUsingScaffold( "", 1, -1) ; scaffold single
+		;~ return
+		
+		;~ Send ^a
+		
+		Clipboard=
+		waitClipboard()
+		if(Clipboard){
+			; decodeLinesAndTabs
+			content := decodeLinesAndTabs(Clipboard)
+			StringReplace, content, content, `"`", `", All	
+			Clipboard := content
+		}else{
+			myTT("load as single-tab-plural if using unscaffolded template")
+			printUsingScaffold( "MA", 1, -1) ; merge all
+		}
+		
+		;~ Clipboard := RegExReplace(Clipboard, "i)(.*priority_id.*)1", "$13000")
+		;~ Clipboard := RegExReplace(Clipboard, "i)(.*priority_id.*)2", "$12000")
+		;~ Clipboard := RegExReplace(Clipboard, "i)(.*priority_id.*)3", "$11000")
+		
+		;~ Clipboard := RegExReplace(Clipboard, "i)(.*task_status_id.*\d)", "$1000")
+		;~ Send ^v
+	return
+
+	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
+
+	^+!`:: ; bulk
+		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role"]
+		
+		for k, v in bulkArr {
+			singular := snakeCase(v)
+		
+			init_DB_Fields(0)
+			scaffoldFiles()
+		}
+		
+		;~ for k, v in bulkArr {
+			;~ singular := snakeCase(v)
+		
+			;~ init_DB_Fields(0, 0)
+		;~ }
+	return
+			
+	^`:: ; hydrate template
+		old_Clipboard := Clipboard
+		Clipboard := """ " Clipboard " """
+		Send ^v
+		Sleep 200
+		Clipboard := old_Clipboard
+	return
+	
+	^+`:: ; unscaffold
+		waitClipboard()
+		
+		content := Clipboard
+		
+		if(singular){
+			init_DB_Fields()
+			StringCaseSense, On
+			
+			cases =CC`tAT`tS`tSH`tC`tL`tU`tT
+			StringSplit, cases, cases, `t
+			
+			iterations := [2, 1]
+			
+			for k, v in iterations {
+				outer_index := v
+				
+				Loop %cases0% {
+					name := scaffoldModel("? value" cases%A_Index% outer_index " ?")
+					content := StrReplace(content, name, "? value" cases%A_Index% outer_index " ?")
+				}
+				
+			}
+			
+			content := StrReplace(content, table_name_singular, "? value" 1 " ?")
+			content := StrReplace(content, table_name_plural, "? value" 2 " ?")
+
+			StringCaseSense, Off
+		}
+		
+		clip_two := content
+		scaffold_template := content
+		
+		StringReplace, content, content, `r, , All
+		StringReplace, content, content, `", `"`", All
+		
+		content := RegExReplace(content, """( \w+ )""", "$1")
+		content := encodeLinesAndTabs(content)
+		Clipboard := content
+	return
+	
+	
+	
+	;~ `:: 
+		;~ Clipboard=
+		;~ waitClipboard()
+		;~ printUsingScaffold("C", 1, -1)
+
+		printUsingScaffold("", 1, -1)
+	;~ `:: 
+		;~ StringReplace, Clipboard, Clipboard, `n, *, All
+		;~ StringReplace, Clipboard, Clipboard, `r, , All
+		
+		;~ scaffoldFiles()
+		;~ fieldsFromDB()
+	return
+	
+	
+	
+	;~ ^`:: printUsingScaffold( 0, -1, 0) ; reverse
+	
+	;~ ^+`:: printUsingScaffold( "MA", 1, -1) ; merge all
+	;~ `:: 
+		;~ printUsingScaffold( "MA", 1, -1) ; merge all
+		;~ Stack := "15s"
+	;~ return
 	
 	; params
 	; L = use last line
@@ -3768,7 +6021,7 @@ XButton2::
 	; S = skip line
 	; A = all lines
 	; C = from Clipboard
-	printUsingScaffold( params = "", nRows = 1, nColumns = -1, next = 1 ){
+	printUsingScaffold( params = "", nRows = 1, nColumns = -1, next = 1, defaultTemplate = 1 ){
 		global
 		local row
 		
@@ -3779,8 +6032,10 @@ XButton2::
 		fromClipboard := InStr(params, "C")
 		
 		StringSplit, clipList, clipList, `n, `r
-		if(allLines)
+		if(allLines){
+			;~ clipList_A_Index = 0
 			nRows := clipList0 - clipList_A_Index
+		}
 		
 		if(useLastLine){
 			clipList_A_Index := clipList0 - 1
@@ -3789,17 +6044,53 @@ XButton2::
 
 		switch++
 		
-		if(!InStr(scaffold_template, "¿ value"))
-			scaffold_template=¿ value1 ¿
+		if( defaultTemplate and !InStr(scaffold_template, "? value"))
+			scaffold_template=? value1 ?
 		
 		if(fromClipboard){
+			waitClipboard()
 			row := replaceMarker()
 		}else{
 			Loop % nRows
 			{
 				thisRow := fetchRow(nColumns, 1, next)
 				;~ run, thisRow
+				
+				;~ if(thisRow = "1")
+					;~ Send {Space}
+				;~ Send %thisRow%
+				;~ Send {Tab 5}
+				;~ sleep 50
+				
+				
+				;~ thisRow := RegExReplace(thisRow, "i)\s*magu$", " magu")
+				;~ thisRow := RegExReplace(thisRow, "i)\s*maagu$", " magu")
+				;~ thisRow := RegExReplace(thisRow, "i)\s*goalhi$", " goalhi")
+				;~ thisRow := RegExReplace(thisRow, "i)\s*hingun$", " hingun")
+				;~ thisRow := RegExReplace(thisRow, "i)\s*" Chr(0x0789) Chr(0x07A6) Chr(0x078E) Chr(0x07AA) "$", " " Chr(0x0789) Chr(0x07A6) Chr(0x078E) Chr(0x07AA) ) ; magu
+				;~ thisRow := RegExReplace(thisRow, "i)\s*" Chr(0x078E) Chr(0x07AF) Chr(0x0785) Chr(0x07A8) "$", " " Chr(0x078E) Chr(0x07AF) Chr(0x0785) Chr(0x07A8) ) ; goalhi
+				;~ thisRow := RegExReplace(thisRow, "i)\s*" Chr(0x0780) Chr(0x07A8) Chr(0x0782) Chr(0x078E) Chr(0x07AA) Chr(0x0782) Chr(0x07B0) "$", " " Chr(0x0780) Chr(0x07A8) Chr(0x0782) Chr(0x078E) Chr(0x07AA) Chr(0x0782) Chr(0x07B0) ) ; hingun
+				;~ row .= thisRow "`n"
+				
 				row .= thisRow
+				
+
+				;~ if(thisRow = "1"){
+					;~ Send {Space}
+					;~ Sleep 100
+				;~ }
+				
+				;~ Send {Tab}
+				;~ Sleep 100
+				
+				
+				;~ if(thisRow = "1"){
+					;~ Send {Enter}p{Enter}
+				;~ }
+				;~ Sleep 200
+				;~ Send {tab}{tab}
+				;~ Sleep 200
+
 			}
 		}
 		
@@ -3809,11 +6100,12 @@ XButton2::
 		StringReplace, row, row, % chr(254), `t, All
 		StringReplace, row, row, % chr(255), `n, All
 
-		if(!mergeToClipboard)
+		;~ if(!mergeToClipboard)
 			Clipboard=
 		
 		Clipboard .= row
-		myTT(Clipboard)
+		;~ myTT(Clipboard)
+		
 		
 		if(!mergeToClipboard){
 			Sleep 100
@@ -3823,20 +6115,36 @@ XButton2::
 			;~ run, % Clipboard
 			;~ SendInput {Raw}%Clipboard%
 			;~ Send {tab}
-			Sleep 100
+			
 		}
+		return row
 	}
 	
 #if (Stack="15ak") ; Go to reference 
-	`::
+	`:: goToReference()
+	
+	goToPrevReference(){
+		global
+		if(pop_twice)
+			recentFunctions.Remove( recentFunctions.Length() )
+		goToReference( recentFunctions[ recentFunctions.Length() ] )
+		if( recentFunctions.Length() > 1 )
+			recentFunctions.Remove( recentFunctions.Length() )
+	}
+	
+	goToReference(target = ""){
+		global
+		
 		; if browser is open
 		if(WinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
 			Send !d
 			waitClipboard()
 			
 			t := Clipboard
-			if(InStr(t, "http://localhost/SIS.Web")){
+			if(InStr(t, "http://localhost/SIS.Web") or InStr(t, "http://localhost/makudionline") or InStr(t, "http://localhost/eHealth")){
 				t:= RegExReplace(t, "s)^.*http://localhost/SIS.Web/", "$1")
+				t:= RegExReplace(t, "s)^.*http://localhost/makudionline/", "$1")
+				t:= RegExReplace(t, "s)^.*http://localhost/eHealth/", "$1")
 
 				if(requireWinActive("ahk_exe devenv.exe")){
 					StringReplace, t, t, ~, , All
@@ -3849,22 +6157,97 @@ XButton2::
 					Send ^v
 				}
 			}else{
-				t:= RegExReplace(t, "s)^.*index.php/", "$1")
+				if( InStr(t, "http://case.test") or InStr(t, "http://case-manager.test/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") ){
+					StringReplace, t, t, http://case.test/
+					StringReplace, t, t, http://case-manager.test/
+					StringReplace, t, t, http://gemen-online.test/
+					StringReplace, t, t, http://recordsmv.ddns.net/
+					model := RegExReplace(t, "s)^([a-z\-]+).*", "$1")
+					createRoute := RegExReplace(t, "s)^([a-z\-]+)/([a-z\-]+)$", "1")
+					showRoute := RegExReplace(t, "s)^([a-z\-]+)/(\d+)$", "1")
+					editRoute := RegExReplace(t, "s)^([a-z\-]+)/(\d+)/([a-z\-]+)$", "1")
+					
+					if(showRoute = "1")
+						action := "Show"
+					else if(createRoute = "1")
+						action := "Manage"
+					else if(editRoute = "1")
+						action := "Manage"
+					else
+						action := "List"
+					
+					WinActivate, ahk_exe Code.exe
+					WinWaitActive, ahk_exe Code.exe, , 2
+					if( WinActive("ahk_exe sublime_text.exe") or WinActive("ahk_exe Code.exe") ){
+						model := snakeCase(model)
+						load_singularToPlural()
+						Send ^p
+						Sleep 200
+						Send % capitalCamelCase( toSingular( model ) ) "/" action " http"
+						Clipboard := capitalCamelCase( toSingular( model ) ) "/" action " http"
+						Sleep 500
+						Send {Enter}
+						Sleep 200
+						Send ^p
+						Sleep 200
+						Send % "@render"
+						Sleep 200
+						Send {Enter}
+						;~ Clipboard := "render"
+					}
+				}else{
+					t:= RegExReplace(t, "s)^.*index.php/", "$1")
 
-				WinActivate, ahk_exe sublime_text.exe
-				WinWaitActive, ahk_exe sublime_text.exe, , 2
-				if(WinActive("ahk_exe sublime_text.exe")){
-					StringSplit, t, t, ?
-					StringSplit, t1, t1, /
-					Send ^p
-					Send % t11 "Controller"
-					Send {Enter}
-					Send ^r
-					Send % "action" t12
-					Send {Enter}
-					Clipboard := t12
+					WinActivate, ahk_exe Code.exe
+					WinWaitActive, ahk_exe Code.exe, , 2
+					if( WinActive("ahk_exe sublime_text.exe") or WinActive("ahk_exe Code.exe") ){
+						StringSplit, t, t, ?
+						StringSplit, t1, t1, /
+						Send ^p
+						Sleep 200
+						Send % t11 "Controller"
+						Sleep 500
+						Send {Enter}
+						
+						Sleep 200
+						Send ^+o
+						Sleep 200
+						Send % "action" t12
+						Sleep 200
+						Send {Enter}
+						Clipboard := t12
+					}
 				}
 			}
+		}else if(WinActive("ahk_exe SciTE.exe")){
+			Send ^f
+			Sleep 100
+		
+			old_Clipboard := Clipboard
+			
+			if(target){
+				pop_twice := 0
+				output := target
+			}else{
+				pop_twice := 1
+				waitClipboard()
+				recentFunctions.Insert(Clipboard)
+				output := Clipboard
+			}
+			Sleep 100
+			Clipboard := "^\s*" output "(.*)\s*{$"
+			Sleep 100
+			Send ^v
+			Sleep 100
+			Send !e
+			Sleep 100
+			Send !f
+			Sleep 100
+			Send !e
+			Sleep 100
+
+			Send {Esc}
+			Clipboard := old_Clipboard
 		}else{
 			; if IDE is open
 			Send {Left}{Right}
@@ -3875,7 +6258,12 @@ XButton2::
 			t1:=clipboard%clipboard0%
 			len1 := StrLen(t1) + 1
 			
+			Send {Ctrl Up}
+			Sleep 100
 			Send {Right}
+			Sleep 100
+			Send {Ctrl Up}
+			Sleep 100
 			Send +{End}
 			waitClipboard()
 			StringSplit, clipboard,clipboard, '`"%A_Space%()`,;
@@ -3886,14 +6274,14 @@ XButton2::
 			; select the reference
 			;~ Send {Left %len1%}+{Right %len2%}
 			
-			if(! WinActive("ahk_exe sublime_text.exe")){
+			if(! WinActive("ahk_exe sublime_text.exe") and ! WinActive("ahk_exe Code.exe")){
 			;~ if(location="NCIT"){
 				StringReplace, ref, ref, ~, , All
 				StringReplace, ref, ref, /, \, All
 				ref := RegExReplace(ref, "^\\", "")
 				Clipboard:= ref
 				Send ^n
-			}else{
+			}else {
 				StringReplace, ref, ref, ., \, All
 				Clipboard:= ref
 				Send ^p
@@ -3902,7 +6290,8 @@ XButton2::
 			;~ Clipboard := "e(" Clipboard ")"
 			Send ^v
 		}
-	return
+		return
+	}
 
 #if (Stack="15ae") ; fetchRow
 	`:: fetchRow()
@@ -3915,7 +6304,7 @@ XButton2::
 			clipList_A_Index -= 2
 		}
 		
-		if(clipCells0 = "")
+		if(clipCells0 = "" or clipCells0 = 0)
 			ClipLoad()
 		
 		if(nColumns = -1)
@@ -3944,12 +6333,12 @@ XButton2::
 		}
 		
 		value0++
-		StringReplace, t, t, ¿ value0 ¿, % value0, All
+		StringReplace, t, t, ? value0 ?, % value0, All
 		
 		return t
 	}
 	
-	replaceMarker(replacement = "qpmz_default_never_used_by_anyone", hayStack = "qpmz_default_never_used_by_anyone", index = 1 ){
+	replaceMarker( replacement = "qpmz_default_never_used_by_anyone", hayStack = "qpmz_default_never_used_by_anyone", index = 1 ){
 		global scaffold_template
 		
 		if(replacement = "qpmz_default_never_used_by_anyone")
@@ -3967,37 +6356,49 @@ XButton2::
 		valueT%index% := titleCase(value%index%)
 		valueL%index% := lowerCase(value%index%)
 		
-		StringReplace, hayStack, hayStack, ¿ value%index% ¿, % value%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueC%index% ¿, % valueC%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueCC%index% ¿, % valueCC%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueS%index% ¿, % valueS%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueSH%index% ¿, % valueSH%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueU%index% ¿, % valueU%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueAT%index% ¿, % valueAT%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueT%index% ¿, % valueT%index%, All
-		StringReplace, hayStack, hayStack, ¿ valueL%index% ¿, % valueL%index%, All
+		StringReplace, hayStack, hayStack, ? value%index% ?, % value%index%, All
+		StringReplace, hayStack, hayStack, ? valueC%index% ?, % valueC%index%, All
+		StringReplace, hayStack, hayStack, ? valueCC%index% ?, % valueCC%index%, All
+		StringReplace, hayStack, hayStack, ? valueS%index% ?, % valueS%index%, All
+		StringReplace, hayStack, hayStack, ? valueSH%index% ?, % valueSH%index%, All
+		StringReplace, hayStack, hayStack, ? valueU%index% ?, % valueU%index%, All
+		StringReplace, hayStack, hayStack, ? valueAT%index% ?, % valueAT%index%, All
+		StringReplace, hayStack, hayStack, ? valueT%index% ?, % valueT%index%, All
+		StringReplace, hayStack, hayStack, ? valueL%index% ?, % valueL%index%, All
 		
 		return hayStack
 	}
 
 #if (Stack="15ad") ; Get First 50000 characters
 	`::
-		Click 131, 225
-		;~ Click 317, 508
+		Click 317, 508
 		Sleep 1000
 		Send {Tab 2}
 		Sleep 300
-		t := SubStr(clipList, 1, 50000) " Hammadh End of document Hammadh End of document"
-		StringReplace, t, t, % "�"
-		StringReplace, t, t, % "�"
-		Clipboard := t
-		Sleep 100
+		Clipboard := SubStr(clipList, 1, 50000) " Hammadh End of document Hammadh End of document"
 		clipList := SubStr(clipList, 50001)
 		Send ^v
 		myTT("clip loaded")
 		MouseMove 3752, 500
 	return
 
+	;~ requireWinActive(win, exe = "", timeout = 2, winExclude = ""){
+		;~ if(exe != ""){
+			;~ IfWinNotExist, % win, , % winExclude
+				;~ run, % exe
+			
+			;~ WinWait, % win, , % timeout, % winExclude
+		;~ }
+		
+		;~ Loop % timeout {
+			;~ WinActivate, % win, , % winExclude
+			;~ WinWaitActive, % win, , % 1, % winExclude
+			;~ IfWinActive, % win, , % winExclude
+				;~ return 1
+		;~ }
+		;~ return 0
+	;~ }
+	
 #if (Stack="15ac") ; Toogle Hide Window
 	+`::
 		WinGet, HideWindow, ID, A
@@ -4019,18 +6420,24 @@ XButton2::
 
 #if (Stack="15u") ; replace blank lines
 	`:: 
-		replaceBlankLines()
-		mergeClipboard(0)
-		Stack:="15am"
-		Manager()
+		;~ waitClipboard()
+		;~ StringReplace, clipboard, clipboard, &, `n, All
+	;~ return
+		Clipboard=
+		waitClipboard()
+		Clipboard := replaceBlankLines(Clipboard)
+		;~ mergeClipboard(0)
+		;~ Stack:="15am"
+		;~ Manager()
 
 	return
 	
-	replaceBlankLines(paste = 1){
-		waitClipboard()
-		Clipboard := RegExReplace(Clipboard, "s)\R+", "`r`n")
+	replaceBlankLines(paste = 1, input=""){
+		
+		input := RegExReplace(input, "s)\R+", "`r`n")
 		if(paste)
 			Send ^v
+		return input
 	}
 
 #if (Stack="15t") ; make/undo file or folder read-only system hidden 
@@ -4046,25 +6453,48 @@ XButton2::
 	
 #if (Stack="15s") ; needle in haystack finder
 	`::
+		;~ StringReplace, needle, needle, `t, `n
+		;~ StringReplace, haystack, haystack, `t, `n
 		StringSplit, needle, needle, `n, `r
 		StringSplit, haystack, haystack, `n, `r
 		output=
 		AutoTrim, Off
+		
+		
 		loop %needle0% {
+			;~ if(Mod(A_Index, 2) != 1)
+				;~ continue
+			
 			outIndex:=A_Index
+			;~ outIndex1:=A_Index + 1
+			;~ tempN1 := needle%A_Index%
+			;~ tempN2 := needle%outIndex1%
+			
+			;~ tempN := tempN1 "`t" tempN2
+			
 			StringSplit, tempN, needle%outIndex%, `t
 			loop %haystack0% {
+				;~ if(Mod(A_Index, 3) != 1)
+					;~ continue
+				
 				StringSplit, tempH, haystack%A_Index%, `t
 				
+				;~ outIndex1:=A_Index + 1
+				;~ outIndex2:=A_Index + 2
+				;~ tempH1 := haystack%A_Index%
+				;~ tempH2 := haystack%outIndex1%
+				;~ tempH3 := haystack%outIndex2%
+				;~ tempH := tempH1 "`t" tempH2 "`t" tempH3
+					
 				;~ test1:=RegExReplace(tempN1 tempN4,"[^a-zA-Z0-9]","")
 				;~ test2:=RegExReplace(tempH1 tempH4,"[^a-zA-Z0-9]","")
 				
-				if(haystack%A_Index% = needle%outIndex%)
+				if(tempN1 = tempH1)
 				{
-					output:= output haystack%A_Index% "`n"
+					output:= output needle%outIndex% "`t" haystack%A_Index% "`t1`n"
 					break
 				}else if(a_index=haystack0)
-					output:= output needle%outIndex% "`tnot found`n"
+					output:= output needle%outIndex% "`t" needle%outIndex% "`tnot found`n"
 			}
 		}
 		Clipboard:=output
@@ -4119,6 +6549,27 @@ XButton2::
 
 #if (Stack="15ag") ; lower case
 	`:: 
+		;~ Send ^a
+		;~ Sleep 100
+		Send ^c
+		waitClipboard(0)
+		;~ t := Clipboard
+
+
+
+
+
+		;~ StringReplace, t, t, 192.168.1.1, 10.241.3.108, All
+		
+		
+		
+		
+		
+		;~ Clipboard := t
+		;~ Sleep 100
+		;~ Send ^v
+	;~ return
+
 		lowerCase()
 		Send ^v
 	return
@@ -4159,12 +6610,55 @@ XButton2::
 
 #if (Stack="15p") ; camelCase
 	`::
+		;~ Send ^a
+		;~ Sleep 100
+		;~ Send ^c
+		;~ waitClipboard(0)
+		;~ source := Clipboard
+		;~ StringSplit, source, source, `n, `r
+		
+		;~ Clipboard=
+		;~ clip_two=
+		
+		;~ loop %source0%
+		;~ {
+			;~ if(A_Index < 5){
+				;~ Clipboard:= Clipboard source%A_Index% "`r`n"
+				;~ clip_two:= clip_two source%A_Index% "`r`n"
+			;~ }else if(A_Index < 300)
+				;~ Clipboard:= Clipboard source%A_Index% "`r`n"
+			;~ else
+				;~ clip_two:= clip_two source%A_Index% "`r`n"
+		;~ }
+	
+	;~ return
+	
+	
 		camelCase()
 		Send ^v
 	return
 
 	camelCase(source = "qpmz_default_never_used_by_anyone"){
 		return genericWordCaseFormatter(source, "", 1, 2)
+	}
+	
+	putSpacesInCamelCase( name ){
+		Loop, Parse, name
+		{
+			if A_LoopField is lower
+				case := "L"
+			else 
+				case := "U"
+			
+			if(case != currentCase and case = "U" and currentCase != ""){
+				output := output " "
+			}
+			
+			currentCase := case
+			output := output A_LoopField
+		}
+		
+		return output
 	}
 
 	genericWordCaseFormatter(source = "qpmz_default_never_used_by_anyone", replaceWith:="", firstWordFormat = 1, otherWordsFormat = 1){
@@ -4174,9 +6668,14 @@ XButton2::
 			replaceClipboard=1
 		}
 		
-		source := RegExReplace(source, "\W+", " ")
+		source := putSpacesInCamelCase(source)
 		
 		StringReplace, source, source, _, %A_Space%, All
+		StringReplace, source, source, -, %A_Space%, All
+		StringReplace, source, source, ., %A_Space%, All
+		StringReplace, source, source, %A_Space%%A_Space%, %A_Space%, All
+		;~ source := RegExReplace(source, "\W+", " ")
+		
 		StringSplit, source, source, %A_Space%
 		tempz=
 		loop %source0%
@@ -4830,7 +7329,7 @@ return
 		amenityReplace("Kids club", "Kids Club")
 		amenityReplace("Playground", "Children's playground")
 		amenityReplace("Private pool", "Swimming pool")
-		amenityReplace("Internet access – wireless", "Free Wifi")
+		amenityReplace("Internet access ? wireless", "Free Wifi")
 		amenityReplace("Dart board", "Dart Board")
 		amenityReplace("Badminton court", "Badminton Courts")
 		amenityReplace("Complimentary instant coffee", "Coffee/tea maker")
@@ -4843,15 +7342,15 @@ return
 		amenityReplace("Game room", "Games Room")
 		amenityReplace("Welcome (English)", "English")
 		amenityReplace("Welcome (Nepali)", "Nepali")
-		amenityReplace("Xin chào! (Vietnamese)", "Vietnamese")
+		amenityReplace("Xin ch?o! (Vietnamese)", "Vietnamese")
 		amenityReplace("Welcome (Filipino)", "Filipino")
 		amenityReplace("Welcome (Sinhala)", "Sinhala")
 		amenityReplace("Welcome (Hindi)", "Hindi")
 		amenityReplace("Welcome (Tamil)", "Tamil")
-		amenityReplace("Dobrodošli (Slovenian)", "Slovenian")
-		amenityReplace("您好 (Chinese [Mandarin])", "Chinese [Mandarin]")
+		amenityReplace("Dobrodo?li (Slovenian)", "Slovenian")
+		amenityReplace("?? (Chinese [Mandarin])", "Chinese [Mandarin]")
 		amenityReplace("Willkommen! (German)", "German")
-		amenityReplace("Приветствуем (Russian)", "Russian")
+		amenityReplace("???????????? (Russian)", "Russian")
 		amenityReplace("", "")
 						
 		StringSplit,clipboard,clipboard,`n,`r
@@ -4907,11 +7406,11 @@ return
 						success := ClipLoad()
 					
 					if(success)
-						return fetchValue(toClipboard, skipBlanks, next, 1)
-					status := "fail"
+                        return fetchValue(toClipboard, skipBlanks, next, 1)
+                    status := "fail"
 				}
-				
 				value := ""
+				;~ status := "fail"
 				break
 			}
 			
@@ -4961,7 +7460,7 @@ return
 			amenityReplace("Mini bar", "Mini Bar")
 			amenityReplace("Ironing facilities", "Ironing Facilities")
 			amenityReplace("Bathroom phone", "Bathroom Telephone")
-			amenityReplace("Internet access – wireless", "Wi-Fi in the room")
+			amenityReplace("Internet access ? wireless", "Wi-Fi in the room")
 			amenityReplace("Fax machine", "")
 			amenityReplace("Free bottled water", "Complimentary Bottled water")
 			amenityReplace("Scale", "Weighing scale")
@@ -5115,7 +7614,26 @@ return
 
 #if (Stack="15a") ; Send datetime
 	`::
-		Clipboard:= A_yyyy "_" A_MM "_" A_DD " " A_Hour ":" A_Min
+		;~ waitClipboard()
+		
+		;~ formData:= Clipboard
+		;~ StringSplit, formData, formData, `n, `r
+		;~ formData=
+
+		;~ Loop %formData0% {
+			;~ t := formData%A_Index%
+		
+			;~ output := RegExReplace(formData%A_Index%, "s)^(\w\d{2,2}[.]?\d?) (.*)$", "$1`t$2")
+			
+			;~ if(output != formData%A_Index%)
+				;~ formData := formData output "`n"
+			
+		;~ }
+		
+		;~ Clipboard := formData
+	;~ return
+	
+		Clipboard:= A_yyyy "-" A_MM "-" A_DD "-" A_Hour ":" A_Min
 		Send ^v
 		Sleep 300
 		Clipboard := A_yyyy "_" A_MM "_" A_DD
@@ -5158,8 +7676,8 @@ return
 			Clipboard := "nonAjaxHttpQwzx(`n`t""" requestMethod """,`n"
 		
 		Clipboard := Clipboard """" requestUrl """,`n{ `n" formData " }`n)`n//.done(function( data ) {console.log(data);`n// });`n`n`nfunction nonAjaxHttpQwzx(method, url, data) {`n    'use strict'`;`n    var form`;`n`n    form = $('<form />'`, {`n        action`: url`,`n        method`: method`,`n        style`: 'display`: none`;'`n    })`;`n`n    var data = data`;`n`n    if (typeof data !== 'undefined' && data !== null) {`n        $.each(data`, function (name`, value) {`n            $('<input />'`, {`n                type`: 'hidden'`,`n                name`: name`,`n                value`: value`n            }).appendTo(form)`;`n        })`;`n    }`n    form.appendTo('body').submit()`;`n}"
-		StringReplace, Clipboard, Clipboard, % "http://localhost/SIS.Web", % "https://makudi.egov.mv/admin", All
-		StringReplace, Clipboard, Clipboard, % "http://localhost/SIS.Web", % "https://tr.egov.mv/makudi", All
+		;~ StringReplace, Clipboard, Clipboard, % "http://localhost/SIS.Web", % "https://makudi.egov.mv/admin", All
+		;~ StringReplace, Clipboard, Clipboard, % "http://localhost/SIS.Web", % "https://tr.egov.mv/makudi", All
 		myTT(Clipboard)
 	return
 	
@@ -5190,28 +7708,28 @@ return
 
 #if (Stack="15k") ; run selenium test
 	;~ ^s::
-		if(location = "NCIT"){
-			IfWinActive, ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
-			{
-				Send ^s
+		;~ if(location = "NCIT"){
+			;~ IfWinActive, ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
+			;~ {
+				;~ Send ^s
 				
-				WinActivate, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe"
-				WinWaitActive, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe", , 2
-				IfWinActive, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe"
-				{
-					Send {f5}
-					Sleep 100
-					Send {Enter}
-				}
+				;~ WinActivate, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe"
+				;~ WinWaitActive, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe", , 2
+				;~ IfWinActive, % "ahk_class TScpCommanderForm ahk_exe WinSCP.exe"
+				;~ {
+					;~ Send {f5}
+					;~ Sleep 100
+					;~ Send {Enter}
+				;~ }
 				
-				WinActivate, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
-				WinWaitActive, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 2
-				IfWinActive, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
-				{
+				;~ WinActivate, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+				;~ WinWaitActive, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 2
+				;~ IfWinActive, % "ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"
+				;~ {
 					
-				}
-			}
-		}else{
+				;~ }
+			;~ }
+		;~ }else{
 			filename_v_15k =
 			IfWinActive, event_register.php ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe
 				filename_v_15k = event_register.php
@@ -5244,7 +7762,7 @@ return
 			WinActivate, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
 			WinWaitActive, India Expo - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , 2
 			Send ^{f5}
-		}
+		;~ }
 	return
 
 	F12:: camelCase()
@@ -5255,10 +7773,10 @@ return
 		{
 			Click, right
 			Sleep 100
-			Send c{Right}
+			Send cc{Right}
 			Sleep 100
 			Clipboard=
-			Send ccc{Enter}
+			Send cc{Enter}
 			Sleep 1000
 			
 			waitClipboard(0)
@@ -5268,17 +7786,17 @@ return
 			;~ mergeClipboard(0)
 			;~ mergeClipboard(0)
 			
-			;~ scaffold_template =`              "¿ value1 ¿"+`n
-			;~ scaffold_template =`    .waitForElementByCss('¿ value1 ¿')`r`n    .click()`r`n
-			;~ scaffold_template =`    .waitForConditionInBrowser("$('¿ value1 ¿').text().replace(',','').match(/\\d+\\.?\\d*/)[0]*1 == "`n        + total +";", 1000) // Assert total`n
-			;~ scaffold_template =`    .eval("$('¿ value1 ¿').val("+property.rm_nRooms+");")`n
-			;~ scaffold_template =`$('¿ value1 ¿').val()
-			;~ scaffold_template =`$('¿ value1 ¿')
-			;~ scaffold_template =round(¿ value1 ¿, decimalPlaces)
-			;~ scaffold_template =output += $('¿ value1 ¿').val() + "\t";`n
-			;~ scaffold_template =$('¿ value1 ¿').text()
-			;~ scaffold_template =$('¿ value1 ¿').hide();
-			;~ scaffold_template =$('¿ value1 ¿')
+			;~ scaffold_template =`              "? value1 ?"+`n
+			scaffold_template =`        .waitForElementByCss('? value1 ?')`r`n        .click()`r`n
+			;~ scaffold_template =`    .waitForConditionInBrowser("$('? value1 ?').text().replace(',','').match(/\\d+\\.?\\d*/)[0]*1 == "`n        + total +";", 1000) // Assert total`n
+			;~ scaffold_template =`    .eval("$('? value1 ?').val("+property.rm_nRooms+");")`n
+			;~ scaffold_template =`$('? value1 ?').val()
+			;~ scaffold_template =`$('? value1 ?')
+			;~ scaffold_template =round(? value1 ?, decimalPlaces)
+			;~ scaffold_template =output += $('? value1 ?').val() + "\t";`n
+			;~ scaffold_template =$('? value1 ?').text()
+			;~ scaffold_template =$('? value1 ?').hide();
+			;~ scaffold_template =$('? value1 ?')
 			printUsingScaffold("C")
 		}else{
 			WinActivate, ahk_exe chrome.exe
@@ -5292,8 +7810,7 @@ return
 			Sleep 500
 		}
 		
-		test_par:= "booking-test"
-		test_par:= "grab-inventory"
+		test_par:= "eCouncil-test"
 	
 		; run test using selenium
 		IfWinNotExist, ahk_exe cmd.exe
@@ -5305,23 +7822,23 @@ return
 			WinActivate, ahk_exe SciTE.exe
 			Run cmd
 			WinWaitActive, ahk_exe cmd.exe
-			Send cd /d E:\hammadh\selenium-js-tester{Enter}
+			Send cd /D C:\Users\hammadh.a\Downloads\selenium-old{Enter}
 		}
 		WinActivate, ahk_exe cmd.exe
 		WinWaitActive, ahk_exe cmd.exe
 		WinMove, ahk_exe cmd.exe, , -3, 515, 753, 539
 		Send npm run %test_par%{Enter}
 		WinActivate, ahk_exe chrome.exe
-		WinMove, ahk_exe chrome.exe, , 381, 0, 1543, 1057
+		WinMove, ahk_exe chrome.exe, , 287, 0, 1637, 1167
 	return
 	
 	^`::
-		;~ scaffold_template =`    .eval("$('¿ value1 ¿').val("+property.rm_nRooms+");")`n
-		scaffold_template =`    .sleep(1000)`n    .waitForElementByCss('¿ value1 ¿')`n    .click()`n
+		;~ scaffold_template =`    .eval("$('? value1 ?').val("+property.rm_nRooms+");")`n
+		scaffold_template =`    .sleep(1000)`n    .waitForElementByCss('? value1 ?')`n    .click()`n
 		printUsingScaffold()
 	return
 	
-	`;:: ; make js safe for chrome console
+	;~ `;:: ; make js safe for chrome console
 		t := Clipboard
 		StringReplace, t, t, % "\\", % "\", All
 		StringReplace, t, t, % "\""", % """", All
@@ -5443,6 +7960,7 @@ return
 		Clipboard:=old_clip
 	return
 
+	;~ f::
 	!`::
 		mergeClipboard()
 	return
