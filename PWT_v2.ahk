@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2744,6 +2744,39 @@ else if(Stack="14s") ; composer custom php
 	{
 		Button1_Label=C`:\xampp\php81\php.exe C`:\ProgramData\ComposerSetup\bin\composer.phar install
 	}
+else if(Stack="14t") ; laravel run tests 
+	{
+		Button1_Label=php artisan test`n`n
+	}
+else if(Stack="14u") ; laravel test run group 
+	{
+		Button1_Label=php artisan test --group now
+		Button1_TT=`    /**`n     * @group now2`n    */`n
+	}
+else if(Stack="14v") ; disable xdebug 
+	{
+		FileCopy, C:\xampp\php8\php.ini, C:\xampp\php8\php.ini.bkp
+		
+		file =C:\xampp\php8\php.ini
+		FileRead, content, %file%
+		StringReplace, content, content, xdebug.mode = debug, `; xdebug.mode = debug
+		
+		fileWrite( content, file )
+	}
+else if(Stack="14w") ; enable xdebug 
+	{
+		FileCopy, C:\xampp\php8\php.ini, C:\xampp\php8\php.ini.bkp
+		
+		file =C:\xampp\php8\php.ini
+		FileRead, content, %file%
+		StringReplace, content, content, `; xdebug.mode = debug, xdebug.mode = debug
+		
+		fileWrite( content, file )
+	}
+else if(Stack="14x") ; php ini 
+	{
+		run, EXPLORER.EXE /select`, "C:\xampp\php8\php.ini"
+	}
 else
 	{	
 		EditVisible :=1
@@ -4004,11 +4037,11 @@ XButton2::
 	;~ return		
 		
 	
-		;~ Source=C:\xampp\htdocs\case-manager
-		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
+		Source=C:\xampp\htdocs\case-manager
+		Destination=C:\xampp\htdocs\case-manager-gitlab
 		
-		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
-		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
 		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
 		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil	
@@ -4164,10 +4197,10 @@ model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_t
 		numeric := "numeric|"
 	
 	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
-		t := "`            'editing.? value1 ?_for_editing' => '" required "'`,`n"
+		t := "`            $prefix.'? value1 ?_for_editing' => '" required "'`,`n"
 	else
-		t := "`            'editing.? value1 ?' => '" required numeric "'`,`n"
-	
+		t := "`            $prefix.'? value1 ?' => '" required numeric "'`,`n"
+
 	return t
 }
 
@@ -4218,9 +4251,9 @@ model_includes() {
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(name = "user" )
-		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`n"
+		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`n"
 	else
-		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`n"
+		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`n"
 	
 	return t
 }
@@ -4234,9 +4267,9 @@ model_inheritance() {
 		softDeletes := "`, SoftDeletes"
 	
 	if(name = "user" )
-		t := "Authenticatable`n{`n    use HasApiTokens`, HasFactory`, Notifiable" softDeletes "`;"
+		t := "Authenticatable implements Auditable`n{`n    use HasApiTokens`, HasFactory`, Notifiable" softDeletes "`, \OwenIt\Auditing\Auditable`;"
 	else
-		t := "Model`n{`n    use HasFactory" softDeletes "`;"
+		t := "Model implements Auditable`n{`n    use HasFactory" softDeletes "`, \OwenIt\Auditing\Auditable`;"
 	
 	return t
 }
@@ -4296,7 +4329,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = Auth`:`:id()`;`n            $model->updated_by = Auth`:`:id()`;`n            $model->created_at = now()`;`n            $model->updated_at = now()`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = Auth`:`:id()`;`n        })`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations opposite_relations "}`n"
+		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = Auth`:`:id()`;`n            $model->updated_by = Auth`:`:id()`;`n            $model->created_at = now()`;`n            $model->updated_at = now()`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = Auth`:`:id()`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations " `n`n" opposite_relations "}`n"
 
 		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
 		content := scaffoldModel( t )
@@ -4447,6 +4480,102 @@ repository_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("? valueCC1 ?Repository")
 	file =C:\xampp\htdocs\case-manager\app\Repositories\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+childListTest(){
+	global
+	childListTest_a( table_name_singular, table_name_plural, reverse )
+}
+	
+childListTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := scaffoldFields("        '? valueS1 ?',`n")
+	
+	t := "<?php`n`nnamespace Tests\Feature`;`n`nuse Livewire`;`nuse Tests\Test? valueCC91 ?`;`nuse App\Models\User`;`nuse App\Models\? valueCC1 ?`;`nuse Mockery\MockInterface`;`nuse App\Http\Livewire\? valueCC91 ?\ChildList? valueCC2 ?`;`nuse App\Http\Livewire\? valueCC91 ?\Show? valueCC91 ?`;`nuse App\Http\Livewire\? valueCC91 ?\Manage? valueCC91 ?`;`nuse Illuminate\Foundation\Testing\RefreshDatabase`;`nuse App\Enum\PriorityEnum`;`n`n`nclass ChildList? valueCC2 ?Test extends Test? valueCC91 ?`n{`n    use RefreshDatabase`;`n`n`n    /**`n     * Indicates whether the default seeder should run before each test.`n     *`n     * @var bool`n     */`n    protected $seed = true`;`n`n`n    /**`n    */`n    function test_can_list_? valueS2 ?()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        // $this->actingAs(User`:`:factory()->create())`;`n`n        // $this->partialMock(ChildList? valueCC2 ?`:`:class`, function(MockInterface $mock) {`n        //     $mock->shouldReceive('authorize')->andReturn(true)`;`n        // })`;`n`n        $component = Livewire`:`:test(ChildList? valueCC2 ?`:`:class)`;`n`n        $component->assertStatus(200)`;`n    }`n`n`n    /**`n     * @group now`n    */`n    function test_can_create_? valueS1 ?_from_list_view()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        Livewire`:`:test(ChildList? valueCC2 ?`:`:class)`n            ->set([`n                'editing.title' => ""Foo""`,`n                'editing.origin_id' => 2`,`n                'editing.priority_id' => PriorityEnum`:`:medium()->value`,`n                'editing.recieved_date_for_editing' => ""2022-10-10 09`:14`:36""`,`n                'editing.deadline_for_editing' => ""2022-10-17 09`:14`:36""`,`n            ])`n            ->call('save')`;`n`n        $this->assertTrue(? valueCC1 ?`:`:whereTitle('Foo')->exists())`;`n    }`n`n    /**`n     * @group now`n    */`n    function test_can_edit_? valueS1 ?_from_list_view()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        Livewire`:`:test(ChildList? valueCC2 ?`:`:class)`n            ->call('edit'`, 1)`n            ->set([`n                'editing.title' => ""Foo""`,`n                'editing.origin_id' => 2`,`n                'editing.priority_id' => PriorityEnum`:`:medium()->value`,`n                'editing.recieved_date_for_editing' => ""2022-10-10 09`:14`:36""`,`n                'editing.deadline_for_editing' => ""2022-10-17 09`:14`:36""`,`n            ])`n            ->call('save')`;`n`n        $this->assertTrue(? valueCC1 ?`:`:whereTitle('Foo')->exists())`;`n    }`n`n`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("ChildList? valueCC2 ?Test")
+	directory := scaffoldModel("? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+listTest(){
+	global
+	listTest_a( table_name_singular, table_name_plural, reverse )
+}
+	
+listTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := scaffoldFields("        '? valueS1 ?',`n")
+	
+	t := "<?php`n`nnamespace Tests\Feature`;`n`nuse Livewire`;`nuse Tests\Test? valueCC91 ?`;`nuse App\Models\User`;`nuse App\Models\? valueCC1 ?`;`nuse Mockery\MockInterface`;`nuse App\Http\Livewire\? valueCC91 ?\List? valueCC2 ?`;`nuse App\Http\Livewire\? valueCC91 ?\Show? valueCC91 ?`;`nuse App\Http\Livewire\? valueCC91 ?\Manage? valueCC91 ?`;`nuse Illuminate\Foundation\Testing\RefreshDatabase`;`nuse App\Enum\PriorityEnum`;`n`n`nclass List? valueCC2 ?Test extends Test? valueCC91 ?`n{`n    use RefreshDatabase`;`n`n`n    /**`n     * Indicates whether the default seeder should run before each test.`n     *`n     * @var bool`n     */`n    protected $seed = true`;`n`n`n    /**`n    */`n    function test_can_list_? valueS2 ?()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        // $this->actingAs(User`:`:factory()->create())`;`n`n        // $this->partialMock(List? valueCC2 ?`:`:class`, function(MockInterface $mock) {`n        //     $mock->shouldReceive('authorize')->andReturn(true)`;`n        // })`;`n`n        $component = Livewire`:`:test(List? valueCC2 ?`:`:class)`;`n`n        $component->assertStatus(200)`;`n    }`n`n`n    /**`n    */`n    function test_can_create_? valueS1 ?_from_list_view()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        Livewire`:`:test(List? valueCC2 ?`:`:class)`n            ->set([`n                'editing.title' => ""Foo""`,`n                'editing.origin_id' => 2`,`n                'editing.priority_id' => PriorityEnum`:`:medium()->value`,`n                'editing.recieved_date_for_editing' => ""2022-10-10 09`:14`:36""`,`n                'editing.deadline_for_editing' => ""2022-10-17 09`:14`:36""`,`n            ])`n            ->call('save')`;`n`n        $this->assertTrue(? valueCC1 ?`:`:whereTitle('Foo')->exists())`;`n    }`n`n    /**`n    */`n    function test_can_edit_? valueS1 ?_from_list_view()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        Livewire`:`:test(List? valueCC2 ?`:`:class)`n            ->call('edit'`, 1)`n            ->set([`n                'editing.title' => ""Foo""`,`n                'editing.origin_id' => 2`,`n                'editing.priority_id' => PriorityEnum`:`:medium()->value`,`n                'editing.recieved_date_for_editing' => ""2022-10-10 09`:14`:36""`,`n                'editing.deadline_for_editing' => ""2022-10-17 09`:14`:36""`,`n            ])`n            ->call('save')`;`n`n        $this->assertTrue(? valueCC1 ?`:`:whereTitle('Foo')->exists())`;`n    }`n`n`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("List? valueCC2 ?Test")
+	directory := scaffoldModel("? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+manageTest(){
+	global
+	manageTest_a( table_name_singular, table_name_plural, reverse )
+}
+	
+manageTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := scaffoldFields("        '? valueS1 ?',`n")
+	
+	t := "<?php`n`nnamespace Tests\Feature`;`n`nuse Livewire`;`nuse Tests\Test? valueCC91 ?`;`nuse App\Models\User`;`nuse App\Models\? valueCC1 ?`;`nuse Mockery\MockInterface`;`nuse App\Http\Livewire\? valueCC91 ?\List? valueCC91 ?s`;`nuse App\Http\Livewire\? valueCC91 ?\Show? valueCC91 ?`;`nuse App\Http\Livewire\? valueCC91 ?\Manage? valueCC91 ?`;`nuse Illuminate\Foundation\Testing\RefreshDatabase`;`nuse App\Enum\PriorityEnum`;`n`n`nclass Manage? valueCC91 ?Test extends Test? valueCC91 ?`n{`n    use RefreshDatabase`;`n`n`n    /**`n     * Indicates whether the default seeder should run before each test.`n     *`n     * @var bool`n     */`n    protected $seed = true`;`n`n`n    /**`n    */`n    function test_can_create_? valueS1 ?_from_create_view()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        Livewire`:`:test(Manage? valueCC91 ?`:`:class)`n            ->set([`n                'editing.title' => ""Foo""`,`n                'editing.origin_id' => 2`,`n                'editing.priority_id' => PriorityEnum`:`:medium()->value`,`n                'editing.recieved_date_for_editing' => ""2022-10-10 09`:14`:36""`,`n                'editing.deadline_for_editing' => ""2022-10-17 09`:14`:36""`,`n            ])`n            ->call('save')`;`n`n        $this->assertTrue(? valueCC1 ?`:`:whereTitle('Foo')->exists())`;`n    }`n`n`n    /**`n    */`n    function test_can_edit_? valueS1 ?_from_manage_view()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        Livewire`:`:test(Manage? valueCC91 ?`:`:class`, ['? valueS1 ?' => ? valueCC1 ?`:`:find(1)])`n            ->set([`n                'editing.title' => ""Bar""`,`n                'editing.origin_id' => 2`,`n                'editing.priority_id' => PriorityEnum`:`:medium()->value`,`n                'editing.recieved_date_for_editing' => ""2022-10-10 09`:14`:36""`,`n                'editing.deadline_for_editing' => ""2022-10-17 09`:14`:36""`,`n            ])`n            ->call('save')`;`n`n        $this->assertTrue(? valueCC1 ?`:`:whereTitle('Bar')->exists())`;`n    }`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("Manage? valueCC1 ?Test")
+	directory := scaffoldModel("? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+showTest(){
+	global
+	showTest_a( table_name_singular, table_name_plural, reverse )
+}
+	
+showTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := scaffoldFields("        '? valueS1 ?',`n")
+	
+	t := "<?php`n`nnamespace Tests\Feature`;`n`nuse Livewire`;`nuse Tests\Test? valueCC91 ?`;`nuse App\Models\User`;`nuse App\Models\? valueCC1 ?`;`nuse Mockery\MockInterface`;`nuse App\Http\Livewire\? valueCC91 ?\List? valueCC91 ?s`;`nuse App\Http\Livewire\? valueCC91 ?\Show? valueCC91 ?`;`nuse App\Http\Livewire\? valueCC91 ?\Manage? valueCC91 ?`;`nuse Illuminate\Foundation\Testing\RefreshDatabase`;`nuse App\Enum\PriorityEnum`;`n`n`nclass Show? valueCC91 ?Test extends Test? valueCC91 ?`n{`n    use RefreshDatabase`;`n`n`n    /**`n     * Indicates whether the default seeder should run before each test.`n     *`n     * @var bool`n     */`n    protected $seed = true`;`n`n`n    /**`n    */`n    function test_can_view_? valueS1 ?()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        $response = $this->get('/? valueS2 ?/1')`;`n`n        $response->assertStatus(200)`;`n    }`n`n`n    /**`n    */`n    function test_can_delete_? valueS1 ?()`n    {`n        $this->actingAs(User`:`:find(1))`;`n`n        Livewire`:`:test(Show? valueCC91 ?`:`:class`, ['? valueS1 ?' => ? valueCC1 ?`:`:find(1)])`n            ->call('delete'`, 1)`;`n`n        $this->assertTrue(!? valueCC1 ?`:`:find(1))`;`n    }`n`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("Show? valueCC1 ?Test")
+	directory := scaffoldModel("? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4613,7 +4742,7 @@ childListController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 		
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`n`nnamespace App\Http\Livewire\? valueCC1 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Support\Carbon`;`nuse App\Http\Livewire\DataTable\WithSorting`;`nuse App\Http\Livewire\DataTable\WithCachedRows`;`nuse App\Http\Livewire\DataTable\WithBulkActions`;`nuse App\Http\Livewire\DataTable\WithPerPagePagination`;`nuse Illuminate\Database\Eloquent\Builder`;`n`nclass ChildList? valueCC2 ? extends Component`n{`n    use WithPerPagePagination`, WithSorting`, WithBulkActions`, WithCachedRows`;`n`n    public $showDeleteModal = false`;`n    public $showEditModal = false`;`n    public $showAdvanced = false`;`n    public $filters = [`n        'search' => ''`,`n        'status' => ''`,`n        'amount-min' => null`,`n        'amount-max' => null`,`n        'created_at-min' => null`,`n        'created_at-max' => null`,`n    ]`;`n    public ? valueCC1 ? $editing`;`n`n    protected $queryString = ['sorts']`;`n`n    protected $listeners = ['refresh? valueCC2 ?' => '$refresh']`;`n`n    public $dependsOn`;`n`n    public function mount($dependsOn = [])`n    {`n        $this->editing = $this->makeBlank? valueCC1 ?()`;`n        $this->dependsOn = $dependsOn`;`n        $this->editing->case_id = $dependsOn`;`n    }`n`n    protected function rules()`n    {`n        return ? valueCC1 ?`:`:rules()`;`n    }`n`n    public function updatedFilters() { $this->resetPage()`; }`n`n    public function exportSelected()`n    {`n        return response()->streamDownload(function () {`n            echo $this->selectedRowsQuery->toCsv()`;`n        }`, '? valueS2 ?.csv')`;`n    }`n`n    public function deleteSelected()`n    {`n        $deleteCount = $this->selectedRowsQuery->count()`;`n`n        $this->selectedRowsQuery->delete()`;`n`n        $this->showDeleteModal = false`;`n`n        $this->notify('You\'ve deleted '.$deleteCount.' ? valueL2 ?')`;`n    }`n`n    public function makeBlank? valueCC1 ?()`n    {`n        return ? valueCC1 ?`:`:make(['date' => now()`, 'status' => 'success'])`;`n    }`n`n    public function toggleShowAdvanced()`n    {`n        $this->useCachedRows()`;`n`n        $this->showAdvanced = ! $this->showAdvanced`;`n    }`n`n    public function create()`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->getKey()){`n            $this->editing = $this->makeBlank? valueCC1 ?()`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    public function edit(? valueCC1 ? $? valueS1 ?)`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->isNot($? valueS1 ?)){`n            $this->editing = $? valueS1 ?`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    protected function updateComponentValues()`n    {`n" dropdownsOnEdit "`n    }`n`n    public function save()`n    {`n        nullableToNull($this->editing)`;`n        $this->validate()`;`n`n        $this->editing->save()`;`n`n        $this->showEditModal = false`;`n    }`n`n    public function resetFilters() { $this->reset('filters')`; }`n`n    public function getRowsQueryProperty()`n    {`n        $query = ? valueCC1 ?`:`:query()`n            ->whereCaseId($this->dependsOn)`n            ->when($this->filters['status']`, fn($query`, $status) => $query->where('status'`, $status))`n            ->when($this->filters['amount-min']`, fn($query`, $amount) => $query->where('amount'`, '>='`, $amount))`n            ->when($this->filters['amount-max']`, fn($query`, $amount) => $query->where('amount'`, '<='`, $amount))`n            ->when($this->filters['created_at-min']`, fn($query`, $created_at) => $query->where('created_at'`, '>='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['created_at-max']`, fn($query`, $created_at) => $query->where('created_at'`, '<='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['search']`, fn($query`, $search) => " searchQuery ")`;`n`n        return $this->applySorting($query)`;`n    }`n`n    public function getRowsProperty()`n    {`n        return $this->cache(function () {`n            return $this->applyPagination($this->rowsQuery)`;`n        })`;`n    }`n`n    public function render()`n    {`n        return view('livewire.? valueSH1 ?.child-list-? valueSH2 ?'`, [`n            '? valueS2 ?' => $this->rows`,`n        ])`;`n    }`n`n    public function getListeners()`n    {`n        return collect([`n" relations "        ])->mapWithKeys(function ($key) {`n                return [""{$key}Updated"" => 'updateDependingValue']`;`n            })`n            ->toArray()`;`n    }`n`n    public function updateDependingValue($data)`n    {`n        $name = $data['name']`;`n        $value = $data['value']`;`n`n        $this->editing->{$name} = $value`;`n    }`n`n}`n"
+		t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Support\Carbon`;`nuse App\Http\Livewire\DataTable\WithSorting`;`nuse App\Http\Livewire\DataTable\WithCachedRows`;`nuse App\Http\Livewire\DataTable\WithBulkActions`;`nuse App\Http\Livewire\DataTable\WithPerPagePagination`;`nuse Illuminate\Database\Eloquent\Builder`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass ChildList? valueCC2 ? extends Component`n{`n    use WithPerPagePagination`, WithSorting`, WithBulkActions`, WithCachedRows`, AuthorizesRequests`;`n`n    public $showDeleteModal = false`;`n    public $showEditModal = false`;`n    public $showAdvanced = false`;`n    public $filters = [`n        'search' => ''`,`n        'status' => ''`,`n        'amount-min' => null`,`n        'amount-max' => null`,`n        'created_at-min' => null`,`n        'created_at-max' => null`,`n    ]`;`n    public ? valueCC1 ? $editing`;`n`n    protected $queryString = ['sorts']`;`n`n    protected $listeners = ['refresh? valueCC2 ?' => '$refresh']`;`n`n    public $dependsOn`;`n`n    public function mount($dependsOn = [])`n    {`n        $this->editing = $this->makeBlank? valueCC91 ?()`;`n        $this->dependsOn = $dependsOn`;`n        $this->editing->? valueS1 ?_id = $dependsOn`;`n    }`n`n    protected function rules()`n    {`n        return ? valueCC1 ?`:`:rules()`;`n    }`n`n    public function updatedFilters() { $this->resetPage()`; }`n`n    public function exportSelected()`n    {`n        return response()->streamDownload(function () {`n            echo $this->selectedRowsQuery->toCsv()`;`n        }`, '? valueS2 ?.csv')`;`n    }`n`n    public function deleteSelected()`n    {`n        $this->authorize('delete'`, $this->editing)`;`n`n        $deleteCount = $this->selectedRowsQuery->count()`;`n`n        $this->selectedRowsQuery->delete()`;`n`n        $this->showDeleteModal = false`;`n`n        $this->notify('You\'ve deleted '.$deleteCount.' ? valueL2 ?')`;`n    }`n`n    public function makeBlank? valueCC91 ?()`n    {`n        return ? valueCC1 ?`:`:make(['date' => now()`, 'status' => 'success'])`;`n    }`n`n    public function toggleShowAdvanced()`n    {`n        $this->useCachedRows()`;`n`n        $this->showAdvanced = ! $this->showAdvanced`;`n    }`n`n    public function create()`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->getKey()){`n            $this->editing = $this->makeBlank? valueCC1 ?()`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    public function edit(? valueCC1 ? $? valueS1 ?)`n    {`n        $this->useCachedRows()`;`n`n        if ($this->editing->isNot($? valueS1 ?)){`n            $this->editing = $? valueS1 ?`;`n            $this->updateComponentValues()`;`n        }`n`n        $this->showEditModal = true`;`n    }`n`n    protected function updateComponentValues()`n    {`n" dropdownsOnEdit "`n    }`n`n    public function save()`n    {`n        nullableToNull($this->editing)`;`n        $this->validate()`;`n`n        if (!$this->editing->getKey()){`n            $this->authorize('create'`, $this->editing)`;`n        }else{`n            $this->authorize('update'`, $this->editing)`;`n        }`n`n        activityLog($this->editing)`;`n        $this->editing->save()`;`n`n        $this->showEditModal = false`;`n    }`n`n    public function resetFilters() { $this->reset('filters')`; }`n`n    public function getRowsQueryProperty()`n    {`n        $query = ? valueCC1 ?`:`:query()`n            ->where? valueCC91 ?Id($this->dependsOn)`n            ->when($this->filters['status']`, fn($query`, $status) => $query->where('status'`, $status))`n            ->when($this->filters['amount-min']`, fn($query`, $amount) => $query->where('amount'`, '>='`, $amount))`n            ->when($this->filters['amount-max']`, fn($query`, $amount) => $query->where('amount'`, '<='`, $amount))`n            ->when($this->filters['created_at-min']`, fn($query`, $created_at) => $query->where('created_at'`, '>='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['created_at-max']`, fn($query`, $created_at) => $query->where('created_at'`, '<='`, Carbon`:`:createFromFormat('d/m/Y'`, $created_at)))`n            ->when($this->filters['search']`, fn($query`, $search) => " searchQuery ")`;`n`n        return $this->applySorting($query)`;`n    }`n`n    public function getRowsProperty()`n    {`n        return $this->cache(function () {`n            return $this->applyPagination($this->rowsQuery)`;`n        })`;`n    }`n`n    public function render()`n    {`n        $this->authorize('viewAny'`, $this->editing)`;`n`n        return view('livewire.? valueSH1 ?.child-list-? valueSH2 ?'`, [`n            '? valueS2 ?' => $this->rows`,`n        ])`;`n    }`n`n    public function getListeners()`n    {`n        return collect([`n" relations "        ])->mapWithKeys(function ($key) {`n                return [""{$key}Updated"" => 'updateDependingValue']`;`n            })`n            ->toArray()`;`n    }`n`n    public function updateDependingValue($data)`n    {`n        $name = $data['name']`;`n        $value = $data['value']`;`n`n        $this->editing->{$name} = $value`;`n    }`n`n}`n"
 		
 		if( customModelName(table_name_singular) )
 			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -4638,7 +4767,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
 	
-	data := "`tEdit Edit`tCopy Copy`tDelete Delete`t1`tcase.view_any`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t2`tcase.create`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t3`tcase.view`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t4`tcase.update`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t5`tcase.delete`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t6`ttask.view_any`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t7`ttask.create`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t8`ttask.view`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t9`ttask.update`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEdit Edit`tCopy Copy`tDelete Delete`t10`ttask.delete`tNULL`tNULL`tNULL`tNULL`tNULL`n"
+	data := "`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t1`tcase.view_any`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t2`tcase.create`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t3`tcase.view`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t4`tcase.update`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t5`tcase.delete`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t6`ttask.view_any`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t7`ttask.create`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t8`ttask.view`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t9`ttask.update`tNULL`tNULL`tNULL`tNULL`tNULL`n`tEditï¿½Edit`tCopyï¿½Copy`tDeleteï¿½Delete`t10`ttask.delete`tNULL`tNULL`tNULL`tNULL`tNULL`n"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -4669,7 +4798,7 @@ manageController(){
 manageController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	relations := runSubScaffold( "scaffold_ListController_relations")
 	
-	t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Manage? valueCC91 ? extends Component`n{`n    use AuthorizesRequests`;`n`n    public ? valueCC1 ? $? valueC1 ?`;`n    public ? valueCC1 ? $editing`;`n    public $isEditing = false`;`n`n    protected function rules()`n    {`n        return ? valueCC1 ?`:`:rules()`;`n    }`n`n    public function mount($? valueC1 ? = null)`n    {`n        if ($? valueC1 ?) {`n            $this->editing = $? valueC1 ?`;`n            $this->isEditing = true`;`n        } else {`n            $this->editing = ? valueCC1 ?`:`:make()`;`n        }`n    }`n`n    public function render()`n    {`n        $this->authorize('update'`, $this->? valueC1 ?)`;`n`n        return view('livewire.? valueSH1 ?.manage-? valueSH1 ?')`;`n    }`n`n    public function save()`n    {`n        $this->authorize('update'`, $this->? valueC1 ?)`;`n`n        $this->validate()`;`n`n        activityLog($this->editing)`;`n        $this->editing->save()`;`n        return redirect()->route('? valueS2 ?.show'`, $this->editing['id'])`;`n    }`n`n    public function getListeners()`n    {`n        return collect([`n" relations "        ])->mapWithKeys(function ($key) {`n                return [""{$key}Updated"" => 'updateDependingValue']`;`n            })`n            ->toArray()`;`n    }`n`n    public function updateDependingValue($data)`n    {`n        $name = $data['name']`;`n        $value = $data['value']`;`n`n        $this->editing->{$name} = $value`;`n    }`n}`n`n"
+	t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Manage? valueCC91 ? extends Component`n{`n    use AuthorizesRequests`;`n`n    public ? valueCC1 ? $? valueC1 ?`;`n    public ? valueCC1 ? $editing`;`n    public $isEditing = false`;`n`n    protected function rules()`n    {`n        return ? valueCC1 ?`:`:rules()`;`n    }`n`n    public function mount($? valueC1 ? = null)`n    {`n        if ($? valueC1 ?) {`n            $this->editing = $? valueC1 ?`;`n            $this->isEditing = true`;`n        } else {`n            $this->editing = ? valueCC1 ?`:`:make()`;`n        }`n    }`n`n    public function render()`n    {`n        $this->authorize( $this->editing->getKey() ? 'update' `: 'create'`, $this->editing)`;`n`n        return view('livewire.? valueSH1 ?.manage-? valueSH1 ?')`;`n    }`n`n    public function save()`n    {`n        $this->authorize( $this->editing->getKey() ? 'update' `: 'create'`, $this->editing)`;`n`n        $this->validate()`;`n`n        activityLog($this->editing)`;`n        $this->editing->save()`;`n        return redirect()->route('? valueS2 ?.show'`, $this->editing['id'])`;`n    }`n`n    public function getListeners()`n    {`n        return collect([`n" relations "        ])->mapWithKeys(function ($key) {`n                return [""{$key}Updated"" => 'updateDependingValue']`;`n            })`n            ->toArray()`;`n    }`n`n    public function updateDependingValue($data)`n    {`n        $name = $data['name']`;`n        $value = $data['value']`;`n`n        $this->editing->{$name} = $value`;`n    }`n}`n`n"
 	
 	if( customModelName(table_name_singular) )
 		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -4690,7 +4819,7 @@ showController(){
 }
 	
 showController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
-	t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Show? valueCC91 ? extends Component`n{`n    use AuthorizesRequests`;`n`n    public ? valueCC1 ? $? valueC1 ?`;`n`n    public function render()`n    {`n        $this->authorize('view'`, $this->? valueC1 ?)`;`n`n        return view('livewire.? valueSH1 ?.show-? valueSH1 ?'`, [`n            '? valueS1 ?' => $this->? valueC1 ? ])`;`n    }`n`n    public function delete($id)`n    {`n        $this->authorize('delete'`, $this->? valueC1 ?)`;`n`n        ? valueCC1 ?`:`:find($id)->delete()`;`n        session()->flash('message'`, '? valueAT1 ? deleted successfully.')`;`n        return redirect()->route('? valueSH1 ?s')`;`n    }`n}`n"
+	t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Show? valueCC91 ? extends Component`n{`n    use AuthorizesRequests`;`n`n    public ? valueCC1 ? $? valueC1 ?`;`n`n    public function render()`n    {`n        $this->authorize('view'`, $this->? valueC1 ?)`;`n`n        return view('livewire.? valueSH1 ?.show-? valueSH1 ?'`, [`n            '? valueS1 ?' => $this->? valueC1 ? ])`;`n    }`n`n    public function delete($id)`n    {`n        $this->authorize('delete'`, $this->? valueC1 ?)`;`n`n        $this->? valueC1 ?->delete()`;`n        session()->flash('message'`, '? valueAT1 ? deleted successfully.')`;`n        return redirect()->route('? valueSH1 ?s')`;`n    }`n}`n"
 	
 	name := scaffoldModel("? valueS1 ?")
 	if( customModelName(table_name_singular) )
@@ -4740,7 +4869,7 @@ selectController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		StringReplace, content, content, %name_field%, " name_field ", All
 		StringReplace, content, content, %primary_key%, " primary_key ", All
 	}else{
-		t := "<?php`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse App\Http\Livewire\LivewireSelect\LivewireSelect`;`nuse Illuminate\Support\Collection`;`n`nclass Select? valueCC91 ? extends LivewireSelect`n{`n    public function options($searchTerm = null) `: Collection`n    {`n        if(!empty($searchTerm))`n            $? valueS2 ? = ? valueCC1 ?`:`:where('" name_field "'`, 'like'`, '`%' . $searchTerm . '`%')->get()`;`n        else`n            $? valueS2 ? = ? valueCC1 ?`:`:get()`;`n`n        $list = []`;`n        foreach ($? valueS2 ? as $key => $? valueS1 ?) {`n            $list[] = [`n                'value' => $? valueS1 ?->" primary_key "`,`n                'description' => $? valueS1 ?->" name_field "`,`n            ]`;`n        }`n`n        return collect($list)`;`n    }`n`n    public function selectedOption($searchTerm = null) `: Collection`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:find($searchTerm)`;`n`n        $list = [`n            'value' => $? valueS1 ? ? $? valueS1 ?->" primary_key " `: ''`,`n            'description' => $? valueS1 ? ? $? valueS1 ?->" name_field " `: ''`,`n        ]`;`n`n        return collect($list)`;`n    }`n}`n"
+		t := "<?php`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse App\Http\Livewire\LivewireSelect\LivewireSelect`;`nuse Illuminate\Support\Collection`;`n`nclass Select? valueCC91 ? extends LivewireSelect`n{`n    public function options($searchTerm = null) `: Collection`n    {`n        if(!empty($searchTerm))`n            $? valueS2 ? = ? valueCC1 ?`:`:where('" name_field "'`, 'like'`, '`%' . $searchTerm . '`%')->limit(20)->get()`;`n        else`n            $? valueS2 ? = ? valueCC1 ?`:`:limit(20)->get()`;`n`n        $list = []`;`n        foreach ($? valueS2 ? as $key => $? valueS1 ?) {`n            $list[] = [`n                'value' => $? valueS1 ?->" primary_key "`,`n                'description' => $? valueS1 ?->" name_field "`,`n            ]`;`n        }`n`n        return collect($list)`;`n    }`n`n    public function selectedOption($searchTerm = null) `: Collection`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:find($searchTerm)`;`n`n        $list = [`n            'value' => $? valueS1 ? ? $? valueS1 ?->" primary_key " `: ''`,`n            'description' => $? valueS1 ? ? $? valueS1 ?->" name_field " `: ''`,`n        ]`;`n`n        return collect($list)`;`n    }`n}`n"
 		
 		name := scaffoldModel("? valueS1 ?")
 		if( customModelName(table_name_singular) )
@@ -4812,7 +4941,7 @@ importController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		StringReplace, content, content, %createFields%, " createFields "
 		StringReplace, content, content, %guesses%, " guesses "
 	}else{
-		t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Carbon\Carbon`;`nuse App\Csv`;`nuse Validator`;`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Livewire\WithFileUploads`;`nuse Illuminate\Support\Str`;`nuse Maatwebsite\Excel\Facades\Excel`;`nuse App\Imports\? valueCC2 ?Import`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Import? valueCC2 ? extends Component`n{`n    use WithFileUploads`, AuthorizesRequests`;`n`n    public $showModal = false`;`n    public $showFields = false`;`n    public $upload`;`n    public $columns`;`n    public $fieldColumnMap = [`n" fieldColumnMap "    ]`;`n`n    protected $rules = [`n    ]`;`n`n    protected $customAttributes = [`n" customAttributes "    ]`;`n`n    public function render()`n    {`n        $this->authorize('create'`, ? valueCC1 ?`:`:class)`;`n        return view('livewire.? valueSH1 ?.import-? valueSH2 ?')`;`n    }`n`n    public function updatingUpload($value)`n    {`n        Validator`:`:make(`n            ['upload' => $value]`,`n            ['upload' => 'required|mimes`:xlsx`,csv']`,`n        )->validate()`;`n    }`n`n    public function updatedUpload()`n    {`n        if( $this->upload && $this->upload->getMimeType() == ""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"" ){`n            Excel`:`:import(new ? valueCC2 ?Import`, $this->upload)`;`n            $this->reset()`;`n`n            $this->emit('refresh? valueCC2 ?')`;`n`n            $this->notify('Imported ? valueS2 ?!')`;`n        }else{`n            $this->columns = Csv`:`:from($this->upload)->columns()`;`n`n`n            $this->guessWhichColumnsMapToWhichFields()`;`n        }`n    }`n`n    public function import()`n    {`n        $this->authorize('create'`, ? valueCC1 ?`:`:class)`;`n        $this->validate()`;`n`n        $importCount = 0`;`n`n        Csv`:`:from($this->upload)`n            ->eachRow(function ($row) use (&$importCount) {`n                foreach (\App\Models\? valueCC1 ?`:`:nullable() as $key => $column) {`n                    $row[$key] = $row[$key] ? $row[$key] `: null`;`n                }`n`n                $row = $this->extractFieldsFromRow($row)`;`n`n                $? valueC1 ? = ? valueCC1 ?`:`:create(`n                    [`n" createFields "                    ]`n                )`;`n`n                activity()`n                ->performedOn($? valueC1 ?)`n                ->causedBy(auth()->user())`n                ->log('created ? valueL1 ?'))`;`n`n                $importCount++`;`n            })`;`n`n        $this->reset()`;`n`n        $this->emit('refresh? valueCC2 ?')`;`n`n        $this->notify('Imported '.$importCount.' ? valueS2 ?!')`;`n    }`n`n    public function extractFieldsFromRow($row)`n    {`n        $attributes = collect($this->fieldColumnMap)`n            ->filter()`n            ->mapWithKeys(function($heading`, $field) use ($row) {`n                return [$field => $row[$heading]]`;`n            })`n            ->toArray()`;`n`n        return $attributes + ['created_at' => now()]`;`n    }`n`n    public function guessWhichColumnsMapToWhichFields()`n    {`n        $guesses = [`n" guesses "        ]`;`n`n        foreach ($this->columns as $column) {`n            $match = collect($guesses)->search(fn($options) => in_array(strtolower($column)`, $options))`;`n`n            if ($match) $this->fieldColumnMap[$match] = $column`;`n        }`n    }`n}`n"
+		t := "<?php`n`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Carbon\Carbon`;`nuse App\Csv`;`nuse Validator`;`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse Livewire\WithFileUploads`;`nuse Illuminate\Support\Str`;`nuse Maatwebsite\Excel\Facades\Excel`;`nuse App\Imports\? valueCC2 ?Import`;`nuse Illuminate\Foundation\Auth\Access\AuthorizesRequests`;`n`nclass Import? valueCC2 ? extends Component`n{`n    use WithFileUploads`, AuthorizesRequests`;`n`n    public $showModal = false`;`n    public $showFields = false`;`n    public $upload`;`n    public $columns`;`n    public $fieldColumnMap = [`n" fieldColumnMap "    ]`;`n`n    protected $rules = [`n    ]`;`n`n    protected $customAttributes = [`n" customAttributes "    ]`;`n`n    public function render()`n    {`n        $this->authorize('create'`, ? valueCC1 ?`:`:class)`;`n        return view('livewire.? valueSH1 ?.import-? valueSH2 ?')`;`n    }`n`n    public function updatingUpload($value)`n    {`n        Validator`:`:make(`n            ['upload' => $value]`,`n            ['upload' => 'required|mimes`:xlsx`,csv']`,`n        )->validate()`;`n    }`n`n    public function updatedUpload()`n    {`n        if( $this->upload && $this->upload->getMimeType() == ""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"" ){`n            Excel`:`:import(new ? valueCC2 ?Import`, $this->upload)`;`n            $this->reset()`;`n`n            $this->emit('refresh? valueCC2 ?')`;`n`n            $this->notify('Imported ? valueS2 ?!')`;`n        }else{`n            $this->columns = Csv`:`:from($this->upload)->columns()`;`n`n`n            $this->guessWhichColumnsMapToWhichFields()`;`n        }`n    }`n`n    public function import()`n    {`n        $this->authorize('create'`, ? valueCC1 ?`:`:class)`;`n        $this->validate()`;`n`n        $importCount = 0`;`n`n        Csv`:`:from($this->upload)`n            ->eachRow(function ($row) use (&$importCount) {`n                foreach (\App\Models\? valueCC1 ?`:`:nullable() as $key => $column) {`n                    $row[$key] = $row[$key] ? $row[$key] `: null`;`n                }`n`n                $row = $this->extractFieldsFromRow($row)`;`n`n                $? valueC1 ? = ? valueCC1 ?`:`:create(`n                    [`n" createFields "                    ]`n                )`;`n`n                activity()`n                ->performedOn($? valueC1 ?)`n                ->causedBy(auth()->user())`n                ->log('created ? valueL1 ?')`;`n`n                $importCount++`;`n            })`;`n`n        $this->reset()`;`n`n        $this->emit('refresh? valueCC2 ?')`;`n`n        $this->notify('Imported '.$importCount.' ? valueS2 ?!')`;`n    }`n`n    public function extractFieldsFromRow($row)`n    {`n        $attributes = collect($this->fieldColumnMap)`n            ->filter()`n            ->mapWithKeys(function($heading`, $field) use ($row) {`n                return [$field => $row[$heading]]`;`n            })`n            ->toArray()`;`n`n        return $attributes + ['created_at' => now()]`;`n    }`n`n    public function guessWhichColumnsMapToWhichFields()`n    {`n        $guesses = [`n" guesses "        ]`;`n`n        foreach ($this->columns as $column) {`n            $match = collect($guesses)->search(fn($options) => in_array(strtolower($column)`, $options))`;`n`n            if ($match) $this->fieldColumnMap[$match] = $column`;`n        }`n    }`n}`n"
 		
 		if( customModelName(table_name_singular) )
 			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -5833,6 +5962,12 @@ scaffoldFiles(){
 	
 		
 		
+		;~ childListTest()
+		;~ listTest()
+		;~ manageTest()
+		showTest()
+		
+		
 		;~ policy()
 		;~ updatePermissions()
 		
@@ -5961,6 +6096,12 @@ scaffoldFiles(){
 			StringSplit, cases, cases, `t
 			
 			iterations := [2, 1]
+			
+			name := scaffoldModel("? valueCC1 ?")
+			content := StrReplace(content, name, "? valueCC91 ?")
+			
+			name := scaffoldModel("? valueCC91 ?Model")
+			content := StrReplace(content, name, "? valueCC1 ?")
 			
 			for k, v in iterations {
 				outer_index := v
