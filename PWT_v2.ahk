@@ -5946,7 +5946,7 @@ durationPassed(label){
 modelName(){
 	global singular
 	
-	singular := "task"
+	singular := ""
 }
 
 scaffoldFiles(){
@@ -6398,7 +6398,7 @@ scaffoldFiles(){
 			Send +{Home}
 			
 			waitClipboard()
-			StringSplit, clipboard,clipboard, '`"%A_Space%()`,;
+			StringSplit, clipboard,clipboard, :'`"%A_Space%()`,;
 			t1:=clipboard%clipboard0%
 			len1 := StrLen(t1) + 1
 			
@@ -6410,7 +6410,7 @@ scaffoldFiles(){
 			Sleep 100
 			Send +{End}
 			waitClipboard()
-			StringSplit, clipboard,clipboard, '`"%A_Space%()`,;
+			StringSplit, clipboard,clipboard, :'`"%A_Space%()`,;
 
 			len2 := StrLen(clipboard1) + len1 - 1
 			ref := t1 clipboard1
