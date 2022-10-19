@@ -9,7 +9,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, case_permission_id"
 
-g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_confidentiality_classes, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users"
+g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -4037,11 +4037,11 @@ XButton2::
 	;~ return		
 		
 	
-		Source=C:\xampp\htdocs\case-manager
-		Destination=C:\xampp\htdocs\case-manager-gitlab
+		;~ Source=C:\xampp\htdocs\case-manager
+		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
 		
-		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
-		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
+		Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil
+		Destination=C:\xampp\htdocs\eCouncil\eCouncil\web
 		
 		;~ Source=C:\xampp\htdocs\eCouncil\eCouncil\web
 		;~ Destination=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\ecouncil	
@@ -5819,6 +5819,7 @@ load_singularToPlural(){
 	singularToPlural["status"] := "statuses"
 	singularToPlural["task_status"] := "task_statuses"
 	singularToPlural["confidentiality_class"] := "confidentiality_classes"
+	singularToPlural["sensitivity"] := "sensitivities"
 	;~ singularToPlural["origin"] := "origins"
 	;~ singularToPlural["priority"] := "priorities"
 	;~ singularToPlural["team"] := "teams"
@@ -5946,7 +5947,7 @@ durationPassed(label){
 modelName(){
 	global singular
 	
-	singular := ""
+	singular := "task-comment"
 }
 
 scaffoldFiles(){
@@ -6061,8 +6062,8 @@ scaffoldFiles(){
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
 
 	^+!`:: ; bulk
-		;~ bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "confidentiality_classes", "tags", "checklist", "task_comments", "task_tags", "task_users"]
-		bulkArr := ["tags", "checklist", "task_comments", "task_tags", "task_users"]
+		;~ bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users"]
+		bulkArr := ["tags", "checklists", "task_comments", "task_tags", "task_users"]
 		
 		for k, v in bulkArr {
 			singular := snakeCase(v)
@@ -6398,7 +6399,8 @@ scaffoldFiles(){
 			Send +{Home}
 			
 			waitClipboard()
-			StringSplit, clipboard,clipboard, :'`"%A_Space%()`,;
+			StringReplace, clipboard, clipboard, <x-, , All
+			StringSplit, clipboard,clipboard, >:'`"%A_Space%()`,;
 			t1:=clipboard%clipboard0%
 			len1 := StrLen(t1) + 1
 			
@@ -6410,7 +6412,7 @@ scaffoldFiles(){
 			Sleep 100
 			Send +{End}
 			waitClipboard()
-			StringSplit, clipboard,clipboard, :'`"%A_Space%()`,;
+			StringSplit, clipboard,clipboard, >:'`"%A_Space%()`,;
 
 			len2 := StrLen(clipboard1) + len1 - 1
 			ref := t1 clipboard1
