@@ -53,7 +53,7 @@ jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
 ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
 eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCouncil folders,15bd;purify,11z;new role,13j;ecouncil roles,13l;"
 gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
-laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;tailwind website,13p;deploy case management,13q;mysql mode,13r;SQLite,13s;laravel pretend migrate,13t;laravel seed db,13u;laravel clear view cache,13v;composer dump autoload,13w;dump laravel data,13x;livewire docs,14c;php,14n;data to seeder,14r;"
+laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;tailwind website,13p;deploy case management,13q;mysql mode,13r;SQLite,13s;laravel pretend migrate,13t;laravel seed db,13u;laravel clear view cache,13v;composer dump autoload,13w;dump laravel data,13x;livewire docs,14c;php,14n;data to seeder,14r;php artisan optimize:clear,14y;"
 nodeJsStacks:= "regenerate js and css,15bb,npm run watch;chai builder tailwinds,14i;tailwinds themeforest,14j;"
 sisStacks:= "SIS Agency User,15bf;push MakudiOnline to git,12m;SIS Admin User,13a;"
 chromeStacks:= "Sample login page,15bg;"
@@ -2738,7 +2738,7 @@ else if(Stack="14q") ; eCouncil DB scripts
 	}
 else if(Stack="14r") ; data to seeder 
 	{
-		Button1_Label=`        // dd( json_decode(json_encode(Organisation`:`:all()) ) )`;`n
+		Button1_Label=`        // dd( json_decode(json_encode(\App\Models\Organisation`:`:all()) ) )`;`n
 	}
 else if(Stack="14s") ; composer custom php 
 	{
@@ -2796,6 +2796,33 @@ else if(Stack="14w") ; enable xdebug
 else if(Stack="14x") ; php ini 
 	{
 		run, EXPLORER.EXE /select`, "C:\xampp\php\php.ini"
+	}
+else if(Stack="14y") ; php artisan optimize:clear 
+	{
+		Button1_Label=php artisan optimize`:clear
+	}
+else if(Stack="14z") ; TR alerts 
+	{
+		Button1_Label=http`://tr.egov.mv/alerts/
+		run, http`://tr.egov.mv/alerts/
+	}
+else if(Stack="16a") ; git reset 
+	{
+		Button1_Label=git reset --hard origin/develop
+	}
+else if(Stack="16b") ; gitlab 
+	{
+		Button1_Label=https`://git.egov.mv/gov-productivity/case-manager/-/boards
+		run, https`://git.egov.mv/gov-productivity/case-manager/-/boards
+	}
+else if(Stack="16c") ; phpmyadmin 
+	{
+		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&db=case_manager&table=individuals&pos=0
+		run, http`://localhost/phpmyadmin/index.php?route=/sql&db=case_manager&table=individuals&pos=0
+	}
+else if(Stack="16d") ; apache vhost 
+	{
+		run, EXPLORER.EXE /select`, "C:\xampp\apache\conf\extra\httpd-vhosts.conf"
 	}
 else if(Stack="14y") ; mysql general_log 
 	{
@@ -2895,16 +2922,16 @@ else
 		Send {Down}{Space}
 		Send {CtrlDown}
 		
-		Send {Down}{Space}
-		Send {Down}{Space}
-		Send {Down}{Space}
-		Send {Down}{Space}
 		Send {Down}
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}
 		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}
 		
 		Send {CtrlUp}
 	return
@@ -3875,7 +3902,7 @@ XButton2::
 	
 #if (Stack="15bo") ; make new stack 
 	`::
-		stackPrefix := "14"
+		stackPrefix := "16"
 		newStackAsc := 97
 		
 		Loop 27 {
@@ -4845,7 +4872,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
 	
-	data := "`t Edit`t Copy`t Delete`t1`tCompany`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t2`tPartnership`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t3`tCooperative Society`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t4`tGovernment Organisation`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t5`tClub/Association`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t6`tMinistry`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t7`tDepartment`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t8`tCouncils`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t9`tHealth Facility`tNULL`tNULL`tNULL`tNULL`tNULL"
+	data := "`tï¿½Edit`tï¿½Copy`tï¿½Delete`t1`tCompany`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t2`tPartnership`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t3`tCooperative Society`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t4`tGovernment Organisation`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t5`tClub/Association`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t6`tMinistry`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t7`tDepartment`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t8`tCouncils`tNULL`tNULL`tNULL`tNULL`tNULL`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t9`tHealth Facility`tNULL`tNULL`tNULL`tNULL`tNULL"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -6222,7 +6249,7 @@ scaffoldFiles(){
 			
 		;~ }
 		
-		;~ Send ^v
+		Send ^v
 	return
 
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
