@@ -9,7 +9,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
 
-g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses"
+g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2295,8 +2295,8 @@ if(Stack="15am") ; scaffolding mode
 		init_DB_Fields()
 		scaffoldFiles()
 		
-		init_DB_Fields(1, 0)
-		myTT("refreshed")
+		;~ init_DB_Fields(1, 0)
+		;~ myTT("refreshed")
 		
 		Button1_Label=`t`tscaffold_template = ? value1 ?`n`t`tprintUsingScaffold("")`n`n
 	}
@@ -2828,6 +2828,14 @@ else if(Stack="14y") ; mysql general_log
 	{
 		Button1_Label=SET global general_log = 1`;`nSHOW VARIABLES like 'general`%'`;
 		run, EXPLORER.EXE /select`, "C:\xampp\mysql\data\DESKTOP-JAF1A1H.log"
+	}
+else if(Stack="16e") ; gts 
+	{
+		Button1_Label=https`://gts.te.egov.mv/api/documentation#/
+	}
+else if(Stack="16f") ; dev otp 
+	{
+		Button1_Label=https`://sso-messaging-dev.egov.mv/Alerts/Default.aspx
 	}
 else
 	{	
@@ -4101,11 +4109,11 @@ XButton2::
 	;~ return		
 		
 	
-		;~ Source=C:\xampp\htdocs\case-manager
-		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
+		Source=C:\xampp\htdocs\case-manager
+		Destination=C:\xampp\htdocs\case-manager-gitlab
 		
-		Source=C:\xampp\htdocs\case-manager-gitlab
-		Destination=C:\xampp\htdocs\case-manager
+		;~ Source=C:\xampp\htdocs\case-manager-gitlab
+		;~ Destination=C:\xampp\htdocs\case-manager
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
@@ -6255,7 +6263,7 @@ scaffoldFiles(){
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
 
 	^+!`:: ; bulk
-		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users", "id_types", "addresses"]
+		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types"]
 		;~ bulkArr := ["tags", "checklists", "task_comments", "task_tags", "task_users"]
 		
 		for k, v in bulkArr {
