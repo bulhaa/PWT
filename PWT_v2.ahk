@@ -2673,9 +2673,9 @@ else if(Stack="14d") ; gitlab git.egov.mv
 	}
 else if(Stack="14e") ; case manager wireframe 
 	{
-		Button1_Label=https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=343`%3A789&scaling=min-zoom&page-id=0`%3A1&starting-point-node-id=1`%3A2
+		Button1_Label=https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=343`%3A789&scaling=min-zoom&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps```://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=0```%3A1
 		;~ run, https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2
-		run, https`://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=0`%3A1
+		run, https`://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=2957`%3A16754&t=4Hm5Ac9UqPj3ZEzN-1
 	}
 else if(Stack="14f") ; teams 
 	{
@@ -2935,7 +2935,28 @@ else
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}
+		Send {Down}
 		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}
+		
+		Send {CtrlUp}
+	return
+	
+	^`::
+		Click 575, 235
+		Sleep 100
+		
+		Send {Home}
+		Send {Down}{Space}
+		Send {CtrlDown}
+		
+		Send {Down}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
@@ -6136,7 +6157,7 @@ durationPassed(label){
 modelName(){
 	global singular
 	
-	singular := "individual"
+	singular := "task_users"
 }
 	
 scaffoldFiles(){
@@ -6173,7 +6194,7 @@ scaffoldFiles(){
 		;~ childListModalController()
 		;~ childListView()
 		;~ childListCompactView()
-		;~ childListModalView()
+		childListModalView()
 		
 
 		;~ factory()
@@ -6224,18 +6245,26 @@ scaffoldFiles(){
 	F1:: goToReference()
 	
 	F4:: goToPrevReference()
-	return
 	
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		;~ printUsingScaffold( "", 1, -1) ; scaffold single
+		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
 		;~ return
 		
 		;~ Send ^a
 		
 		Clipboard=
 		waitClipboard()
+		
+		;~ StringReplace, Clipboard, Clipboard, individual_id" => 91, individual_id" => 1, All	
+		;~ StringReplace, Clipboard, Clipboard, individual_id" => 92, individual_id" => 5, All	
+		;~ StringReplace, Clipboard, Clipboard, individual_id" => 93, individual_id" => 4, All	
+		;~ StringReplace, Clipboard, Clipboard, individual_id" => 94, individual_id" => 6, All	
+		;~ StringReplace, Clipboard, Clipboard, individual_id" => 95, individual_id" => 7, All	
+		;~ StringReplace, Clipboard, Clipboard, individual_id" => 96, individual_id" => 3, All	
+		;~ StringReplace, Clipboard, Clipboard, individual_id" => 97, individual_id" => 2, All	
+			
 		if(Clipboard){
 			; decodeLinesAndTabs
 			content := decodeLinesAndTabs(Clipboard)
@@ -6509,12 +6538,13 @@ scaffoldFiles(){
 					Send ^v
 				}
 			}else{
-				if( InStr(t, "http://case.test") or InStr(t, "http://case-manager.test/") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") ){
+				if( InStr(t, "http://case.test") or InStr(t, "http://case-manager.test/") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") or InStr(t, "http://case-manager.localhost") ){
 					StringReplace, t, t, http://case.test/
 					StringReplace, t, t, http://case-manager.test/
 					StringReplace, t, t, https://case.te.egov.mv/
 					StringReplace, t, t, http://gemen-online.test/
 					StringReplace, t, t, http://recordsmv.ddns.net/
+					StringReplace, t, t, http://case-manager.localhost/
 					model := RegExReplace(t, "s)^([a-z\-]+).*", "$1")
 					createRoute := RegExReplace(t, "s)^([a-z\-]+)/([a-z\-]+)$", "1")
 					showRoute := RegExReplace(t, "s)^([a-z\-]+)/(\d+)$", "1")
@@ -6843,12 +6873,12 @@ scaffoldFiles(){
 				;~ test1:=RegExReplace(tempN1 tempN4,"[^a-zA-Z0-9]","")
 				;~ test2:=RegExReplace(tempH1 tempH4,"[^a-zA-Z0-9]","")
 				
-				if(tempN1 = tempH1)
+				if( InStr(tempH1, tempN2) )
 				{
 					output:= output needle%outIndex% "`t" haystack%A_Index% "`t1`n"
 					break
 				}else if(a_index=haystack0)
-					output:= output needle%outIndex% "`t" needle%outIndex% "`tnot found`n"
+					output:= output needle%outIndex% "`tnot found`n"
 			}
 		}
 		Clipboard:=output
