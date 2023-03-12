@@ -9,7 +9,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
 
-g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types"
+g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -2832,6 +2832,7 @@ else if(Stack="14y") ; mysql general_log
 else if(Stack="16e") ; gts 
 	{
 		Button1_Label=https`://gts.te.egov.mv/api/documentation#/
+		run, https://gts.te.egov.mv/api/documentation#/
 	}
 else if(Stack="16f") ; dev otp 
 	{
@@ -4130,17 +4131,17 @@ XButton2::
 	;~ return		
 		
 	
-		Source=C:\xampp\htdocs\case-manager
-		Destination=C:\xampp\htdocs\case-manager-gitlab
+		;~ Source=C:\xampp\htdocs\case-manager
+		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
 		
-		;~ Source=C:\xampp\htdocs\case-manager-gitlab
-		;~ Destination=C:\xampp\htdocs\case-manager
+		Source=C:\xampp\htdocs\case-manager-gitlab
+		Destination=C:\xampp\htdocs\case-manager
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
 		
 		;~ Source=C:\xampp\htdocs\eCouncil-gitlab\web
-		;~ Destination=C:\xampp\htdocs\ecouncil\ecouncil	
+		;~ Destination=C:\xampp\htdocs\ecouncil\ecouncil
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
@@ -4347,9 +4348,9 @@ model_includes() {
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(name = "user" )
-		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`n"
+		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`n"
 	else
-		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`n"
+		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`n"
 	
 	return t
 }
@@ -4901,7 +4902,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
 	
-	data := "`t�Edit`t�Copy`t�Delete`t1`tCompany`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t2`tPartnership`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t3`tCooperative Society`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t4`tGovernment Organisation`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t5`tClub/Association`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t6`tMinistry`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t7`tDepartment`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t8`tCouncils`tNULL`tNULL`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t9`tHealth Facility`tNULL`tNULL`tNULL`tNULL`tNULL"
+	data := "`tEdit`tCopy`tDelete`t1`tManual`tNULL`tNULL`n`tEdit`tCopy`tDelete`t2`tDNR`tNULL`tNULL`n`tEdit`tCopy`tDelete`t3`tMED`tNULL`tNULL`n`tEdit`tCopy`tDelete`t4`tGTS`tNULL`tNULL"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -5476,7 +5477,7 @@ childListModalView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0
 		StringReplace, content, content, %form_fields%, " form_fields "
 	}else{
 	
-		content := scaffoldModel("<div class=""w-full py-2"">`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['id'] ? 'Edit ? valueAT1 ?' `: '' }} </x-slot>`n`n            <x-slot name=""content"">`n                @if ($editing['id'])`n                    <div x-data=""{ @for ($i=0`; $i<count($? valueS2 ?)+1`; $i++) open{{ $i }}`: false`, @endfor }"">`n                        <x-table>`n                            <x-slot name=""head"">`n                                <x-table.heading sortable multi-column wire`:click=""sortBy('tag_id')"" `:direction=""$sorts['tag_id'] ?? null"" class="""">Tag</x-table.heading>`n                                <x-table.heading />`n                            </x-slot>`n`n                            <x-slot name=""body"">`n                                @forelse ($? valueS2 ? as $? valueS1 ?)`n                                    <x-table.row class="""" wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->id }}"" x-on`:click=""open{{ $loop->index }} = !open{{ $loop->index }}"">`n                                        <x-table.cell>`n                                            <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n                                                {{ $? valueS1 ?->tag ? $? valueS1 ?->tag->getName() `: '' }}`n                                            </span>`n                                        </x-table.cell>`n`n                                        <x-table.cell>`n                                            <x-button.link class=""text-secondary m-2"" wire`:click=""$emit('triggerDelete'`,{{ $? valueS1 ?['id'] }})"" >`n                                                <div class=""flex space-x-2 items-center"">`n                                                    <x-icon.trash/>`n                                                    <span></span>`n                                                </div>`n                                            </x-button.link>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @empty`n                                    <x-table.row>`n                                        <x-table.cell colspan=""11"">`n                                            <div class=""flex justify-center items-center space-x-2"">`n                                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No Tags found...</span>`n                                            </div>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @endforelse`n                            </x-slot>`n                        </x-table>`n`n                        {!! pagination( $? valueS2 ? ) !!}`n                    </div>`n                @else`n`t`t`t`t`t<div class=""flex flex-wrap -mx-3 mb-6"">`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                            <div class=""text-lg font-bold"">`n                                Attach ? valueAT1 ?`n                            </div>`n                        </div>`n`t`t`t`t`t`t`n" form_fields "`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0 pt-10"">`n                            <x-button.primary type=""submit"">Save</x-button.primary>`n                        </div>`n`n                    </div>`n                @endif`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n        @this.on('triggerDelete'`, ? valueS1 ?Id => {`n            Swal.fire({`n                title`: 'Are You Sure?'`,`n                text`: 'Tag will be detached!'`,`n                type`: ""warning""`,`n                showCancelButton`: true`,`n                confirmButtonColor`: '#d33'`,`n                cancelButtonColor`: '#3085d6'`,`n                confirmButtonText`: 'Detach!'`n            }).then((result) => {`n                if (result.value) {`n                    @this.call('delete'`,? valueS1 ?Id)`n                } else {`n                    console.log(""Canceled"")`;`n                }`n            })`;`n        })`;`n    })`n</script>`n@endpush`n")
+		content := scaffoldModel("<div class=""w-full py-2"">`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">{{ __('Delete ? valueAT1 ?') }}</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">{{ __('Are you sure you? This action is irreversible') }}.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">{{ __('Cancel') }}</x-button.secondary>`n`n                <x-button.primary type=""submit"">{{ __('Delete') }}</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['id'] ? __('Edit ? valueAT1 ?') `: '' }} </x-slot>`n`n            <x-slot name=""content"">`n                @if ($editing['id'])`n                    <div x-data=""{ @for ($i=0`; $i<count($? valueS2 ?)+1`; $i++) open{{ $i }}`: false`, @endfor }"">`n                        <x-table>`n                            <x-slot name=""head"">`n                                <x-table.heading sortable multi-column wire`:click=""sortBy('tag_id')"" `:direction=""$sorts['tag_id'] ?? null"" class="""">{{ __('Tag') }}</x-table.heading>`n                                <x-table.heading />`n                            </x-slot>`n`n                            <x-slot name=""body"">`n                                @forelse ($? valueS2 ? as $? valueS1 ?)`n                                    <x-table.row class="""" wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->id }}"" x-on`:click=""open{{ $loop->index }} = !open{{ $loop->index }}"">`n                                        <x-table.cell>`n                                            <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n                                                {{ $? valueS1 ?->tag ? $? valueS1 ?->tag->getName() `: '' }}`n                                            </span>`n                                        </x-table.cell>`n`n                                        <x-table.cell>`n                                            <x-button.link class=""text-secondary m-2"" wire`:click=""$emit('triggerDelete'`,{{ $? valueS1 ?['id'] }})"" >`n                                                <div class=""flex space-x-2 items-center"">`n                                                    <x-icon.trash/>`n                                                    <span></span>`n                                                </div>`n                                            </x-button.link>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @empty`n                                    <x-table.row>`n                                        <x-table.cell colspan=""11"">`n                                            <div class=""flex justify-center items-center space-x-2"">`n                                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">{{ __('No Tags found') }}...</span>`n                                            </div>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @endforelse`n                            </x-slot>`n                        </x-table>`n`n                        {!! pagination( $? valueS2 ? ) !!}`n                    </div>`n                @else`n`t`t`t`t`t<div class=""flex flex-wrap -mx-3 mb-6"">`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                            <div class=""rtl`:iyyu-normal text-lg font-bold"">`n                                {{ __('Attach ? valueAT1 ?') }}`n                            </div>`n                        </div>`n`n" form_fields "`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0 pt-10"">`n                            <x-button.primary type=""submit"">{{ __('Save') }}</x-button.primary>`n                        </div>`n`n                    </div>`n                @endif`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">{{ __('Cancel') }}</x-button.secondary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n        @this.on('triggerDelete'`, ? valueS1 ?Id => {`n            Swal.fire({`n                title`: '{{ __(""Are You Sure?"") }}'`,`n                text`: '{{ __(""Tag will be detached"") }}!'`,`n                type`: ""warning""`,`n                showCancelButton`: true`,`n                confirmButtonColor`: '#d33'`,`n                cancelButtonColor`: '#3085d6'`,`n                cancelButtonText`: '{{ __(""Cancel"") }}!'`,`n                confirmButtonText`: '{{ __(""Detach"") }}!'`n            }).then((result) => {`n                if (result.value) {`n                    @this.call('delete'`,? valueS1 ?Id)`n                } else {`n                    console.log(""Canceled"")`;`n                }`n            })`;`n        })`;`n    })`n</script>`n@endpush`n")
 	}
 	
 	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
@@ -6157,7 +6158,7 @@ durationPassed(label){
 modelName(){
 	global singular
 	
-	singular := "task_users"
+	singular := "organisations"
 }
 	
 scaffoldFiles(){
@@ -6194,7 +6195,7 @@ scaffoldFiles(){
 		;~ childListModalController()
 		;~ childListView()
 		;~ childListCompactView()
-		childListModalView()
+		;~ childListModalView()
 		
 
 		;~ factory()
@@ -6249,8 +6250,8 @@ scaffoldFiles(){
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
-		;~ return
+		printUsingScaffold( "", 1, -1) ; scaffold single
+		return
 		
 		;~ Send ^a
 		
@@ -6258,12 +6259,6 @@ scaffoldFiles(){
 		waitClipboard()
 		
 		;~ StringReplace, Clipboard, Clipboard, individual_id" => 91, individual_id" => 1, All	
-		;~ StringReplace, Clipboard, Clipboard, individual_id" => 92, individual_id" => 5, All	
-		;~ StringReplace, Clipboard, Clipboard, individual_id" => 93, individual_id" => 4, All	
-		;~ StringReplace, Clipboard, Clipboard, individual_id" => 94, individual_id" => 6, All	
-		;~ StringReplace, Clipboard, Clipboard, individual_id" => 95, individual_id" => 7, All	
-		;~ StringReplace, Clipboard, Clipboard, individual_id" => 96, individual_id" => 3, All	
-		;~ StringReplace, Clipboard, Clipboard, individual_id" => 97, individual_id" => 2, All	
 			
 		if(Clipboard){
 			; decodeLinesAndTabs
@@ -6274,13 +6269,14 @@ scaffoldFiles(){
 			myTT("load as single-tab-plural if using unscaffolded template")
 			printUsingScaffold( "MA", 1, -1) ; merge all
 		}
-		
+
+
 		;~ StringSplit, Clipboard, Clipboard, `n, `r
 		;~ Clipboard=
 		
 		;~ Loop %Clipboard0%
 		;~ {
-			;~ t := RegExReplace(Clipboard%A_Index%, "i).*>[ ](.*),", "$1")
+			;~ t := RegExReplace(Clipboard%A_Index%, "i)^[^""]*""([^""]*)"".*", "$1")
 			;~ if(t != Clipboard%A_Index%)
 				;~ Clipboard .= t "`n"
 			
@@ -6292,7 +6288,7 @@ scaffoldFiles(){
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
 
 	^+!`:: ; bulk
-		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types"]
+		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types"]
 		;~ bulkArr := ["tags", "checklists", "task_comments", "task_tags", "task_users"]
 		
 		for k, v in bulkArr {
