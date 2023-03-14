@@ -6158,7 +6158,7 @@ durationPassed(label){
 modelName(){
 	global singular
 	
-	singular := "organisations"
+	singular := "case"
 }
 	
 scaffoldFiles(){
@@ -6232,15 +6232,15 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode 
 	~^s::
 		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
-			if( WinExist("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") )
-			{
-				if( requireWinActive("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") )
+			if( WinExist("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+				if( requireWinActive("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
+					Click 37, 25
 					Send {F5}
-					;~ t = 1
+				}
+			} else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+				Click 37, 25
+				Send {F5}
 			}
-			else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") )
-					Send {F5}
-				;~ t = 1
 	return
 	
 	F1:: goToReference()
@@ -6250,25 +6250,26 @@ scaffoldFiles(){
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		printUsingScaffold( "", 1, -1) ; scaffold single
-		return
+		;~ printUsingScaffold( "", 1, -1) ; scaffold single
+		;~ return
 		
 		;~ Send ^a
 		
 		Clipboard=
 		waitClipboard()
 		
-		;~ StringReplace, Clipboard, Clipboard, individual_id" => 91, individual_id" => 1, All	
+		StringReplace, Clipboard, Clipboard, `r, , All	
+		StringReplace, Clipboard, Clipboard, `                ""organisation_logo"" => null`,`n, , All	
 			
-		if(Clipboard){
-			; decodeLinesAndTabs
-			content := decodeLinesAndTabs(Clipboard)
-			StringReplace, content, content, `"`", `", All	
-			Clipboard := content
-		}else{
-			myTT("load as single-tab-plural if using unscaffolded template")
-			printUsingScaffold( "MA", 1, -1) ; merge all
-		}
+		;~ if(Clipboard){
+			;~ ; decodeLinesAndTabs
+			;~ content := decodeLinesAndTabs(Clipboard)
+			;~ StringReplace, content, content, `"`", `", All	
+			;~ Clipboard := content
+		;~ }else{
+			;~ myTT("load as single-tab-plural if using unscaffolded template")
+			;~ printUsingScaffold( "MA", 1, -1) ; merge all
+		;~ }
 
 
 		;~ StringSplit, Clipboard, Clipboard, `n, `r
@@ -6282,7 +6283,7 @@ scaffoldFiles(){
 			
 		;~ }
 		
-		Send ^v
+		;~ Send ^v
 	return
 
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
@@ -6805,7 +6806,7 @@ scaffoldFiles(){
 	;~ return
 		Clipboard=
 		waitClipboard()
-		Clipboard := replaceBlankLines(Clipboard)
+		Clipboard := replaceBlankLines(0, Clipboard)
 		;~ mergeClipboard(0)
 		;~ Stack:="15am"
 		;~ Manager()
