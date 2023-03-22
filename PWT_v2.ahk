@@ -2936,7 +2936,6 @@ else
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}
-		Send {Down}
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
@@ -2957,7 +2956,6 @@ else
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
-		Send {Down}
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
@@ -4131,11 +4129,11 @@ XButton2::
 	;~ return		
 		
 	
-		;~ Source=C:\xampp\htdocs\case-manager
-		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
+		Source=C:\xampp\htdocs\case-manager
+		Destination=C:\xampp\htdocs\case-manager-gitlab
 		
-		Source=C:\xampp\htdocs\case-manager-gitlab
-		Destination=C:\xampp\htdocs\case-manager
+		;~ Source=C:\xampp\htdocs\case-manager-gitlab
+		;~ Destination=C:\xampp\htdocs\case-manager
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
@@ -6158,7 +6156,7 @@ durationPassed(label){
 modelName(){
 	global singular
 	
-	singular := "case"
+	singular := "individual"
 }
 	
 scaffoldFiles(){
@@ -6232,13 +6230,15 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode 
 	~^s::
 		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
-			if( WinExist("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
-				if( requireWinActive("Case Manager - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
+			if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+				if( requireWinActive("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
 					Click 37, 25
+					Sleep 100
 					Send {F5}
 				}
 			} else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
 				Click 37, 25
+				Sleep 100
 				Send {F5}
 			}
 	return
@@ -6250,26 +6250,26 @@ scaffoldFiles(){
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		;~ printUsingScaffold( "", 1, -1) ; scaffold single
-		;~ return
+		printUsingScaffold( "C", 1, -1) ; scaffold single
+		return
 		
 		;~ Send ^a
 		
 		Clipboard=
 		waitClipboard()
 		
-		StringReplace, Clipboard, Clipboard, `r, , All	
-		StringReplace, Clipboard, Clipboard, `                ""organisation_logo"" => null`,`n, , All	
+		;~ StringReplace, Clipboard, Clipboard, `r, , All	
+		;~ StringReplace, Clipboard, Clipboard, `                ""organisation_logo"" => null`,`n, , All	
 			
-		;~ if(Clipboard){
-			;~ ; decodeLinesAndTabs
-			;~ content := decodeLinesAndTabs(Clipboard)
-			;~ StringReplace, content, content, `"`", `", All	
-			;~ Clipboard := content
-		;~ }else{
-			;~ myTT("load as single-tab-plural if using unscaffolded template")
-			;~ printUsingScaffold( "MA", 1, -1) ; merge all
-		;~ }
+		if(Clipboard){
+			; decodeLinesAndTabs
+			content := decodeLinesAndTabs(Clipboard)
+			StringReplace, content, content, `"`", `", All	
+			Clipboard := content
+		}else{
+			myTT("load as single-tab-plural if using unscaffolded template")
+			printUsingScaffold( "MA", 1, -1) ; merge all
+		}
 
 
 		;~ StringSplit, Clipboard, Clipboard, `n, `r
@@ -8357,4 +8357,3 @@ return
 		;~ Sleep 100
 		printUsingScaffold("")
 	return
-
