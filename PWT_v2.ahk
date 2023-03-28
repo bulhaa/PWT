@@ -9,7 +9,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
 
-g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_origins, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_origins, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types"
+g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -4346,9 +4346,9 @@ model_includes() {
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(name = "user" )
-		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`n"
+		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n"
 	else
-		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`n"
+		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n"
 	
 	return t
 }
@@ -4378,6 +4378,25 @@ opposite_relations(table_name_plural){
 		return "`    /**`n     * Get the birth certificates for the birth record.`n     */`n    public function birthCertificate()`n    {`n        return $this->hasOne(BirthCertificate`:`:class`, 'birth_records_id'`, 'birth_records_id')`;`n    }`n`n"
 }
 
+
+model_properties( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	t := "` * @property " data_type " $? valueS1 ?`n"
+	
+	return t
+}
+
+
+model_dvFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+	if ( RegExMatch(field_name, "_dv$") ){
+		t := "`        '? valueS1 ?' => ''`,`n"
+	} else {
+		t := ""
+	}
+	
+	return t
+}
+
+
 model(){
 	global
 	model_a( table_name_singular, table_name_plural, reverse, primary_key )
@@ -4386,7 +4405,7 @@ model(){
 model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
 	
 	includes := model_includes()
-	properties := scaffoldFields("` * @property integer $? valueS1 ?`n")
+	properties := runSubScaffold( "model_properties")
 	inheritance := model_inheritance()
 	casts := runSubScaffold( "model_casts")
 	appends := runSubScaffold( "model_appends")
@@ -4395,6 +4414,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 	name_field := "`        return $this->" name_field() "`;`n"
 	fillable := scaffoldFields("`        '? valueS1 ?'`,`n")
 	keys := scaffoldFields("`            '? value1 ?'`,`n")
+	dvFields := runSubScaffold( "model_dvFields")
 	dateGettersAndSetters := runSubScaffold( "model_dateGettersAndSetters")
 	relations := runSubScaffold( "model_relations", 1)
 	opposite_relations := opposite_relations(table_name_plural)
@@ -4424,7 +4444,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = Auth`:`:id()`;`n            $model->updated_by = Auth`:`:id()`;`n            $model->created_at = now()`;`n            $model->updated_at = now()`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = Auth`:`:id()`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations " `n`n" opposite_relations "}`n"
+		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = CauserResolver`:`:resolve()->id`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = CauserResolver`:`:resolve()->id`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dvFields "`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
 
 		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
 		content := scaffoldModel( t )
@@ -5002,7 +5022,7 @@ selectController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		StringReplace, content, content, %name_field%, " name_field ", All
 		StringReplace, content, content, %primary_key%, " primary_key ", All
 	}else{
-		t := "<?php`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse App\Http\Livewire\LivewireSelect\LivewireSelect`;`nuse Illuminate\Support\Collection`;`n`nclass Select? valueCC91 ? extends LivewireSelect`n{`n    public function options($searchTerm = null) `: Collection`n    {`n        if(!empty($searchTerm))`n            $? valueS2 ? = ? valueCC1 ?`:`:where('" name_field "'`, 'like'`, '`%' . $searchTerm . '`%')->limit(20)->get()`;`n        else`n            $? valueS2 ? = ? valueCC1 ?`:`:limit(20)->get()`;`n`n        $list = []`;`n        foreach ($? valueS2 ? as $key => $? valueS1 ?) {`n            $list[] = [`n                'value' => $? valueS1 ?->" primary_key "`,`n                'description' => $? valueS1 ?->" name_field "`,`n            ]`;`n        }`n`n        return collect($list)`;`n    }`n`n    public function selectedOption($searchTerm = null) `: Collection`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:find($searchTerm)`;`n`n        $list = [`n            'value' => $? valueS1 ? ? $? valueS1 ?->" primary_key " `: ''`,`n            'description' => $? valueS1 ? ? $? valueS1 ?->" name_field " `: ''`,`n        ]`;`n`n        return collect($list)`;`n    }`n}`n"
+		t := "<?php`nnamespace App\Http\Livewire\? valueCC91 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse App\Http\Livewire\LivewireSelect\LivewireSelect`;`nuse Illuminate\Support\Collection`;`n`nclass Select? valueCC91 ? extends LivewireSelect`n{`n    public function options($searchTerm = null) `: Collection`n    {`n        if(!empty($searchTerm))`n            $? valueS2 ? = ? valueCC1 ?`:`:where('" name_field "'`, 'like'`, '`%' . $searchTerm . '`%')->limit(20)`n`t`t`t`t->orWhere('" name_field "_dv'`, 'like'`, '`%' . $searchTerm . '`%')`n`t`t`t`t->get()`;`n        else`n            $? valueS2 ? = ? valueCC1 ?`:`:limit(20)->get()`;`n`n        $list = []`;`n        foreach ($? valueS2 ? as $key => $? valueS1 ?) {`n            $list[] = [`n                'value' => $? valueS1 ?->" primary_key "`,`n                'description' => $? valueS1 ?->" name_field "`,`n            ]`;`n        }`n`n        return collect($list)`;`n    }`n`n    public function selectedOption($searchTerm = null) `: Collection`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:find($searchTerm)`;`n`n        $list = [`n            'value' => $? valueS1 ? ? $? valueS1 ?->" primary_key " `: ''`,`n            'description' => $? valueS1 ? ? $? valueS1 ?->" name_field " `: ''`,`n        ]`;`n`n        return collect($list)`;`n    }`n}`n"
 		
 		name := scaffoldModel("? valueS1 ?")
 		if( customModelName(table_name_singular) )
@@ -6153,12 +6173,14 @@ durationPassed(label){
 	lastLabel := label
 }
 
+
 modelName(){
 	global singular
 	
-	singular := "individual"
+	singular := "channel"
 }
-	
+
+
 scaffoldFiles(){
 	global singular, reverse, table_name_plural, found_DB_table, DB_Fields
 	
@@ -6250,8 +6272,8 @@ scaffoldFiles(){
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		printUsingScaffold( "C", 1, -1) ; scaffold single
-		return
+		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
+		;~ return
 		
 		;~ Send ^a
 		
@@ -6289,7 +6311,7 @@ scaffoldFiles(){
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
 
 	^+!`:: ; bulk
-		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "origins", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types"]
+		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types"]
 		;~ bulkArr := ["tags", "checklists", "task_comments", "task_tags", "task_users"]
 		
 		for k, v in bulkArr {
@@ -6328,11 +6350,11 @@ scaffoldFiles(){
 			
 			iterations := [2, 1]
 			
-			name := scaffoldModel("? valueCC1 ?")
-			content := StrReplace(content, name, "? valueCC91 ?")
+			;~ name := scaffoldModel("? valueCC1 ?")
+			;~ content := StrReplace(content, name, "? valueCC91 ?")
 			
-			name := scaffoldModel("? valueCC91 ?Model")
-			content := StrReplace(content, name, "? valueCC1 ?")
+			;~ name := scaffoldModel("? valueCC91 ?Model")
+			;~ content := StrReplace(content, name, "? valueCC1 ?")
 			
 			for k, v in iterations {
 				outer_index := v
