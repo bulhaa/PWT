@@ -4362,9 +4362,9 @@ model_inheritance() {
 		softDeletes := "`, SoftDeletes"
 	
 	if(name = "user" )
-		t := "Authenticatable implements Auditable`n{`n    use HasApiTokens`, HasFactory`, Notifiable" softDeletes "`, \OwenIt\Auditing\Auditable`;"
+		t := "Authenticatable implements Auditable`n{`n    use HasApiTokens`, HasFactory`, Notifiable" softDeletes "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
 	else
-		t := "Model implements Auditable`n{`n    use HasFactory" softDeletes "`, \OwenIt\Auditing\Auditable`;"
+		t := "Model implements Auditable`n{`n    use HasFactory" softDeletes "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
 	
 	return t
 }
@@ -4388,7 +4388,8 @@ model_properties( field_name = 1, data_type = 2, nullability = 3, related_table_
 
 model_dvFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
 	if ( RegExMatch(field_name, "_dv$") ){
-		t := "`        '? valueS1 ?' => ''`,`n"
+		field := RegExReplace(field_name, "_dv$", "")
+		t := "`        '" field "'`,`n"
 	} else {
 		t := ""
 	}
@@ -4444,7 +4445,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = CauserResolver`:`:resolve()->id`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = CauserResolver`:`:resolve()->id`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dvFields "`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
+		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = CauserResolver`:`:resolve()->id`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = CauserResolver`:`:resolve()->id`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
 
 		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
 		content := scaffoldModel( t )
@@ -6223,7 +6224,7 @@ scaffoldFiles(){
 		;~ seeder()
 		;~ updateDatabaseSeeder()
 		
-		;~ model()
+		model()
 		;~ importModel()
 		
 		;~ importController()
