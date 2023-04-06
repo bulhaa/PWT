@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2838,6 +2838,10 @@ else if(Stack="16f") ; dev otp
 	{
 		Button1_Label=https`://sso-messaging-dev.egov.mv/Alerts/Default.aspx
 	}
+else if(Stack="16g") ; ahk array 
+	{
+		Button1_Label=`t`; simple array`n`tactivityLogableTables `:= ["case_user"]`n`tif( HasVal(activityLogableTables`, name) )`n`n`t`; Associative Arrays`n`tfields `:= {"field_name"`: field1`, "data_type"`: field2`, "nullability"`: field3`, "related_table_singular"`: field4`, "related_table_plural"`: field5`, "related_primary_key"`: field6`, "column_number"`: A_Index`, "table_name_singular"`: s`, "table_name_plural"`: p}`n`tval `:= fields[field1]`n`t`n
+	}
 else
 	{	
 		EditVisible :=1
@@ -4342,13 +4346,37 @@ model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_s
 	return t
 }
 
-model_includes() {
-	name := scaffoldModel("? valueS1 ?")
-	
-	if(name = "user" )
-		t := "use Carbon\Carbon`;`nuse Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n"
+isActivityLoggableTables(){
+	global table_name_plural
+	arr := ["case_users"]
+	if( HasVal(arr, table_name_plural) )
+		return true
 	else
-		t := "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`nuse App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n"
+		return false
+}
+
+table_name_plural(){
+	global table_name_plural
+	return table_name_plural
+}
+
+table_name_singular(){
+	global table_name_singular
+	return table_name_singular
+}
+
+model_includes() {
+	t := t "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`n"
+	
+	if(table_name_singular() = "user")
+		t := t "use Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`n"
+	
+	if( isActivityLoggableTables() )
+		t := t "use Spatie\Activitylog\LogOptions`;`nuse Spatie\Activitylog\Models\Activity`;`nuse Spatie\Activitylog\Traits\LogsActivity`;`n"
+	
+	;~ logActivity := runSubScaffold( "model_properties", 1)
+	
+	t := t "use App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n"
 	
 	return t
 }
@@ -4360,11 +4388,14 @@ model_inheritance() {
 	
 	if(fields["deleted_at"])
 		softDeletes := "`, SoftDeletes"
-	
+		
+	if( isActivityLoggableTables() )
+		activityLog := "`, LogsActivity"
+		
 	if(name = "user" )
 		t := "Authenticatable implements Auditable`n{`n    use HasApiTokens`, HasFactory`, Notifiable" softDeletes "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
 	else
-		t := "Model implements Auditable`n{`n    use HasFactory" softDeletes "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
+		t := "Model implements Auditable`n{`n    use HasFactory" softDeletes activityLog "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
 	
 	return t
 }
@@ -4380,7 +4411,13 @@ opposite_relations(table_name_plural){
 
 
 model_properties( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
-	t := "` * @property " data_type " $? valueS1 ?`n"
+	
+	if( InStr(data_type, "varchar") || InStr(data_type, "char") )
+		t := "` * @property string $? valueS1 ?`n"
+	else if( InStr(data_type, "bigint") || InStr(data_type, "int"))
+		t := "` * @property integer $? valueS1 ?`n"
+	else
+		t := "` * @property " data_type " $? valueS1 ?`n"
 	
 	return t
 }
@@ -4406,7 +4443,7 @@ model(){
 model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
 	
 	includes := model_includes()
-	properties := runSubScaffold( "model_properties")
+	properties := runSubScaffold( "model_properties", 1)
 	inheritance := model_inheritance()
 	casts := runSubScaffold( "model_casts")
 	appends := runSubScaffold( "model_appends")
@@ -5821,6 +5858,7 @@ mergeDataTypesAndRelationships(dataTypes, relations){
 	return fields
 }
 
+
 getDataTypesByHttp(){
 	global found_DB_table, location, primary_key, table_name_plural
 	
@@ -5829,7 +5867,6 @@ getDataTypesByHttp(){
 	
 	found_DB_table := 0
 	
-	;~ name := scaffoldModel("? valueS2 ?")
 	name := tableName( scaffoldModel("? valueS2 ?") )
 	
 	if(!cache[name] and name and name != "s"){
@@ -6065,6 +6102,7 @@ tableName(name){
 	
 	singularTableName := {}
 	singularTableName["activity_logs"] := "activity_log"
+	singularTableName["case_users"] := "task_users"
 	
 	if( singularTableName[name] )
 		return singularTableName[name]
@@ -6103,6 +6141,7 @@ setGlobal(variableName, value){
 	
 	%variableName% := value
 }
+
 
 init_DB_Fields( loadName = 1, cache = 1){
 	global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
@@ -6152,6 +6191,7 @@ init_DB_Fields( loadName = 1, cache = 1){
 	specificFieldsArr()
 }
 
+
 HasVal(haystack, needle) {
 	if !(IsObject(haystack)) || (haystack.Length() = 0)
 		return 0
@@ -6178,7 +6218,7 @@ durationPassed(label){
 modelName(){
 	global singular
 	
-	singular := "channel"
+	singular := "case_users"
 }
 
 
