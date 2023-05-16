@@ -9,7 +9,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
 
-g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_case_items, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_case_items, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_task_comments, dbCache_primaryKey_task_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types"
+g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_communications, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_communications, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_comments, dbCache_primaryKey_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types, dbCache_members, dbCache_primaryKey_members"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2842,6 +2842,14 @@ else if(Stack="16g") ; ahk array
 	{
 		Button1_Label=`t`; simple array`n`tactivityLogableTables `:= ["case_user"]`n`tif( HasVal(activityLogableTables`, name) )`n`n`t`; Associative Arrays`n`tfields `:= {"field_name"`: field1`, "data_type"`: field2`, "nullability"`: field3`, "related_table_singular"`: field4`, "related_table_plural"`: field5`, "related_primary_key"`: field6`, "column_number"`: A_Index`, "table_name_singular"`: s`, "table_name_plural"`: p}`n`tval `:= fields[field1]`n`t`n
 	}
+else if(Stack="16h") ; merge fonts 
+	{
+		Button1_Label="C`:\Program Files (x86)\FontForgeBuilds\bin\fontforge.exe" -lang=ff -script "C`:\Users\user\Documents\mergefonts.ff" "C`:\xampp\htdocs\case-manager\public\fonts\MvIyyu-Normal.ttf" "C`:\xampp\htdocs\case-manager\public\fonts\SourceSansPro-Regular.ttf" 2000 "C`:\xampp\htdocs\case-manager\public\fonts\test.ttf"`n
+	}
+else if(Stack="16i") ; rtl iyyu-normal 
+	{
+		Button1_Label=rtl`:iyyu-normal
+	}
 else
 	{	
 		EditVisible :=1
@@ -2867,6 +2875,18 @@ else
 
 
 	
+	
+#if (Stack="16j") ; localization 
+	`::
+		Clipboard=
+		waitClipboard()
+		
+		scaffold_template={{ __('? value1 ?') }}
+		if( InStr(Clipboard, "'") or InStr(Clipboard, """") )
+			scaffold_template=__(? value1 ?)
+
+		printUsingScaffold( "C", 1, -1) ; scaffold single
+	return
 	
 #if (Stack="14r") ; data to seeder 
 	`::
@@ -2939,6 +2959,7 @@ else
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
+		Send {Down}{Space}
 		Send {Down}
 		Send {Down}{Space}
 		Send {Down}{Space}
@@ -2960,6 +2981,8 @@ else
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
@@ -4112,7 +4135,7 @@ XButton2::
 				}
 			}
 				
-			myTT(temp)
+			;~ myTT(temp)
 			;~ Send {Esc}{Tab} 
 		}
 		else{
@@ -4255,7 +4278,7 @@ runScaffold( template, data, params = "MA", nRows = 1, nColumns = -1, next = 1, 
 	return output
 }
 
-model_casts( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_casts( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(data_type = "datetime" or data_type = "timestamp" )
@@ -4268,7 +4291,7 @@ model_casts( field_name = 1, data_type = 2, nullability = 3, related_table_singu
 	return t
 }
 
-model_appends( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_appends( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
@@ -4279,7 +4302,7 @@ model_appends( field_name = 1, data_type = 2, nullability = 3, related_table_sin
 	return t
 }
 
-model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
@@ -4295,7 +4318,9 @@ model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_t
 	if( InStr(data_type, "int(") and !related_table_singular )
 		numeric := "numeric|"
 	
-	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+	if(table_name_plural = "case_users" and field_name = "task_user_type_id")
+		t := "`            $prefix.'? value1 ?' => 'required|'`,`n"
+	else if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
 		t := "`            $prefix.'? value1 ?_for_editing' => '" required "'`,`n"
 	else
 		t := "`            $prefix.'? value1 ?' => '" required numeric "'`,`n"
@@ -4303,10 +4328,12 @@ model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_t
 	return t
 }
 
-model_nullable( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_nullable( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
-	if( InStr(nullability, "Yes") )
+	if(table_name_plural = "case_users" and field_name = "task_user_type_id")
+		t := ""
+	else if( InStr(nullability, "Yes") )
 		t := "`        '? valueS1 ?' => ''`,`n"
 	else
 		t := ""
@@ -4314,7 +4341,7 @@ model_nullable( field_name = 1, data_type = 2, nullability = 3, related_table_si
 	return t
 }
 
-model_dateGettersAndSetters( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_dateGettersAndSetters( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
@@ -4325,7 +4352,7 @@ model_dateGettersAndSetters( field_name = 1, data_type = 2, nullability = 3, rel
 	return t
 }
 
-model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	valueCC4 := "? valueCC4 ?"
 	if( customModelName(related_table_singular) )
 		valueCC4 := customModelName(related_table_singular)
@@ -4336,11 +4363,10 @@ model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_s
 	model := scaffoldModel("? valueCC1 ?")
 	
 	if(related_table_singular != "" ){
-		t := "`    /**`n     * Get the ? valueL4 ? that owns the " name ".`n     */`n    public function ? valueC91 ?()`n    {`n        return $this->belongsTo(" valueCC4 "`:`:class`, '? valueS1 ?'`, '" related_primary_key "')`;`n    }`n`n    // /**`n    //  * Get the " plural " for the ? valueL4 ?.`n    //  */`n    // public function " plural_C "()`n    // {`n    //     return $this->hasMany(" model "`:`:class`, '" related_primary_key "'`, '? valueS1 ?')`;`n    // }`n`n"
+		t := "`    /**`n     * Get the ? valueL4 ? that owns the " name ".`n     */`n    public function ? valueC12 ?()`n    {`n        return $this->belongsTo(" valueCC4 "`:`:class`, '? valueS1 ?'`, '" related_primary_key "')`;`n    }`n`n    // /**`n    //  * Get the " plural " for the ? valueL4 ?.`n    //  */`n    // public function " plural_C "()`n    // {`n    //     return $this->hasMany(" model "`:`:class`, '" related_primary_key "'`, '? valueS1 ?')`;`n    // }`n`n"
 		without_id := StrReplace(field_name, "_id", "")
 		t := replaceMarker(without_id, t, 91)
-	}
-	else
+	}else
 		t := ""
 	
 	return t
@@ -4348,7 +4374,7 @@ model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_s
 
 isActivityLoggableTables(){
 	global table_name_plural
-	arr := ["case_users"]
+	arr := ["case_users", "attachments", "communications", "cases", "checklists", "tasks", "comments", "task_users"]
 	if( HasVal(arr, table_name_plural) )
 		return true
 	else
@@ -4365,6 +4391,18 @@ table_name_singular(){
 	return table_name_singular
 }
 
+model_includes_more() {
+	arr := {}
+	arr["user"] := "use Illuminate\Support\Facades\DB`;`nuse Illuminate\Support\Facades\Session`;`nuse Ncit\Rolify\Traits\HasPermission`;`n"
+	arr["communication"] := "use Storage;`n"
+	arr["case"] := "use App\Enum\CaseUserTypesEnum`;`nuse App\Enum\StatusEnum`;`nuse App\Enum\TaskStatusesEnum`;`nuse Illuminate\Database\Eloquent\Builder`;`n"
+	arr["role"] := "use Cocur\Slugify\Slugify`;`n`n"
+	arr["task"] := "use App\Enum\StatusEnum;`nuse App\Enum\TaskStatusesEnum;`n`n"
+	arr["member"] := "use Ncit\Rolify\Models\? valueCC1 ?Role`;`nuse Ncit\Rolify\Models\Role`;`n`n"
+	
+	return arr[table_name_singular()]
+}
+
 model_includes() {
 	t := t "use Carbon\Carbon`;`nuse Illuminate\Database\Eloquent\Factories\HasFactory`;`nuse Illuminate\Database\Eloquent\Model`;`nuse WithPagination`;`nuse Illuminate\Support\Facades\Auth`;`nuse Illuminate\Database\Eloquent\SoftDeletes`;`nuse OwenIt\Auditing\Contracts\Auditable`;`n"
 	
@@ -4376,7 +4414,7 @@ model_includes() {
 	
 	;~ logActivity := runSubScaffold( "model_properties", 1)
 	
-	t := t "use App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n"
+	t := t "use App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n" model_includes_more()
 	
 	return t
 }
@@ -4393,7 +4431,7 @@ model_inheritance() {
 		activityLog := "`, LogsActivity"
 		
 	if(name = "user" )
-		t := "Authenticatable implements Auditable`n{`n    use HasApiTokens`, HasFactory`, Notifiable" softDeletes "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
+		t := "Authenticatable implements Auditable`n{`n    use HasPermission, HasApiTokens`, HasFactory`, Notifiable" softDeletes "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
 	else
 		t := "Model implements Auditable`n{`n    use HasFactory" softDeletes activityLog "`, LocalizerTrait`, \OwenIt\Auditing\Auditable`;"
 	
@@ -4401,21 +4439,35 @@ model_inheritance() {
 }
 
 opposite_relations(table_name_plural){
-	if(table_name_plural = "individuals")
-		return "`    /**`n     * Get the id cards for the individual.`n     */`n    public function idCards()`n    {`n        return $this->hasMany(IdCard`:`:class`, 'business_entity_id'`, 'business_entity_id')`;`n    }`n`n"
-	else if(table_name_plural = "services")
-		return "`    /**`n     * Get the requests for the service.`n     */`n    public function request()`n    {`n        return $this->hasOne(Request`:`:class`, 'service_id'`, 'service_id')`;`n    }`n`n"
-	else if(table_name_plural = "birth_records")
-		return "`    /**`n     * Get the birth certificates for the birth record.`n     */`n    public function birthCertificate()`n    {`n        return $this->hasOne(BirthCertificate`:`:class`, 'birth_records_id'`, 'birth_records_id')`;`n    }`n`n"
+	arr := {}
+	arr["individuals"] := "`    /**`n     * Get the id cards for the individual.`n     */`n    public function idCards()`n    {`n        return $this->hasMany(IdCard`:`:class`, 'business_entity_id'`, 'business_entity_id')`;`n    }`n`n"
+	arr["services"] := "`    /**`n     * Get the requests for the service.`n     */`n    public function request()`n    {`n        return $this->hasOne(Request`:`:class`, 'service_id'`, 'service_id')`;`n    }`n`n"
+	arr["birth_records"] := "`    /**`n     * Get the birth certificates for the birth record.`n     */`n    public function birthCertificate()`n    {`n        return $this->hasOne(BirthCertificate`:`:class`, 'birth_records_id'`, 'birth_records_id')`;`n    }`n`n"
+	arr["case_users"] := "`    public function activity()`n    {`n        return $this->hasMany(Activity`:`:class`, 'subject_id'`, 'id')->orderByDesc('created_at')`;`n    }`n`n    public function toggleCaseUserType(){`n        if ($this->task_user_type_id == 1 ) // if edit`n            return $this->update([""task_user_type_id"" => 2])`;`n    }`n`n"
+	arr["users"] := "`    /**`n     * Get the team that owns the user.`n     */`n    public function team()`n    {`n        return $this->members->where(""org_id""`, $this->getCurrentOrg()[""id""])->first()->team`;`n    }`n`t`n    /**`n     * The roles that belong to the user.`n     */`n    public function roles()`n    {`n        return $this->members()->where('org_id'`, $this->getCurrentOrg())->first()->roles`;`n    }`n`n    public function hasRole($role){`n        return in_array($role`, auth()->user()->roles()->pluck(""name"")->toArray())`;`n    }`n`n    public function members()`n{`n        return $this->hasMany(Member`:`:class`, 'individual_id'`, 'id')`;`n    }`n`n    public function member(){`n        return $this->members()->orderByDesc('last_accessed')->first()`;`n    }`n`t`n    public function getCurrentOrg()`n    {`n        if (Session`:`:has('currentOrg')) {`n            return  Session`:`:get('currentOrg')`;`n        } else {`n            $org =`n                $this->members()->orderBy('last_accessed'`, 'DESC')->get()->first()->organisation`;`n            return ['id' => $org->id`, 'dv' => $org->name_short_dv`, 'en' => $org->name]`;`n        }`n    }`n`n    public function cases()`n    {`n        return $this->hasMany(CaseUser`:`:class`, 'individual_id'`, 'id')`;`n    }`n`n"
+	arr["attachments"] := "`    /**`n     * Get the parent attachable model (case-item or task).`n     */`n    public function attachable()`n    {`n        return $this->morphTo()`;`n    }`n`n    public function activity()`n    {`n        return $this->hasOne(Activity`:`:class`, 'subject_id'`, 'id')->where('subject_type'`,'App\Models\Attachment')`;`n    }`n`n"
+	arr["communications"] := "`n    public function attachmentUrl()`n    {`n        return $this->attachment`n            ? Storage`:`:disk('public')->url($this->attachemnt)`n            `: ''`;`n    }`n`n`n    /**`n     * Get all of the communication's attachments.`n     */`n    public function attachments()`n    {`n        return $this->morphMany(Attachment`:`:class`, 'attachable')`;`n    }`n`t`n`t`n    public function activity()`n    {`n        return $this->hasMany(Activity`:`:class`, 'subject_id'`, 'id')->where('subject_type'`, 'App\Models\Communication')->with('causer')->orderByDesc('created_at')`;`n    }`n`n`n"
+	arr["cases"] := "`    public function getOverallProgressAttribute()`n    {`n        $this->loadCount([`n            'tasks'`,`n            'tasks as completed_tasks_count' => function (Builder $query) {`n                $query->where('status_id'`, StatusEnum`:`:closed()->value)`;`n            }`,`n        ])`;`n`n        if ($this->tasks_count == 0)`n            return 0`;`n        else`n            return $this->completed_tasks_count / $this->tasks_count * 100`;`n    }`n`n    public function assignRefId()`n    {`n        if (!$this->ref_id) {`n            $this->ref_id = $this->makeRefId()`;`n            $duplicate = CaseModel`:`:where('ref_id'`, $this->ref_id)->first()`;`n`n            if ($duplicate)`n                $this->ref_id = $this->makeRefId()`;`n`n            // $this->save()`;`n        }`n    }`n`n    public function makeRefId()`n    {`n        $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'`;`n        return '0000' . substr(str_shuffle($permitted_chars)`, 0`, 4)`;`n    }`n`n    public function getRefIdForDisplayAttribute()`n    {`n        return 'CAS-' . substr($this->ref_id`, 4)`;`n    }`n`n    /**`n     * Get the tasks for the case.`n     */`n    public function tasks()`n    {`n        return $this->hasMany(Task`:`:class`, 'parent_id'`, 'id')`;`n    }`n`n`t/**`n     * Get the case users for the case.`n     */`n    public function caseUsers()`n    {`n        return $this->hasMany(CaseUser`:`:class`, 'task_id'`, 'id')`;`n    }`n`t`n    public function taskUsers()`n    {`n        return $this->hasMany(TaskUser`:`:class`,""task_id""`,""parent_id"")`;`n    }`n`n    public static function scopeDailyCount($query`, $start`, $end`, $dateField)`n    {`n        return  $query->whereBetween($dateField`, [$start`, $end])`n            ->selectRaw('DATE_FORMAT(' . $dateField . '`,""`%Y-`%m-`%d"") as date`, count(*) as total')`n            ->groupByRaw('DATE_FORMAT(' . $dateField . '`,""`%Y-`%m-`%d"")')`n            ->orderBy(""date"")`n            ->get()`;`n    }`n`t`n    public static function scopeMonthlyCount($query`, $start`, $end`, $dateField)`n    {`n        return`n            $query->whereBetween($dateField`, [$start`, $end])`n            ->selectRaw(""`n        YEAR(recieved_date) as year`,`n        MONTH(recieved_date) as month`,`n        count(*) as total"")`n            ->groupBy('year'`, 'month')`n            ->orderBy('year')`n            ->orderBy('month')`n            ->get()`;`n    }`n`t`n    public static function scopeWeeklyCount($query`, $start`, $end`, $dateField)`n    {`n        return  $query->whereBetween($dateField`, [$start`, $end])`n            ->selectRaw(""`n        WEEK(recieved_date) as week`,`n        YEAR(recieved_date) as year`,`n        count(*) as total"")`n            ->groupBy('week'`, 'year')`n            ->orderBy(""week"")`n            ->get()`;`n    }`n`n    public static function  getCasesQueryForIndividual($byOrg=false`, $byTeam=false`, $byHandler=false`,$byUser=false)`n    {`n        $org =  Auth`:`:user()->getCurrentOrg()['id']`;`n        $team =  Auth`:`:user()->team()->id`;`n        $query = CaseModel`:`:query()`;`n        // $query = $query->Orwhere('handler_id'`,Auth`:`:id())`;`n`n        if($byOrg){`n            $query = $query->where(""organisation_id""`, $org)`;`n        }else if ($byTeam){`n            $query = $query->where(""team_id""`, $team)`;`n        }else if($byUser){`n            $task_ids = CaseUser`:`:whereIndividualId(Auth`:`:id())->pluck(""task_id"")`;`n            $query = $query->wherein(""id""`,$task_ids)`;`n        } else {`n            $task_ids = CaseUser`:`:whereIndividualId(Auth`:`:id())->pluck(""task_id"")`;`n            $query = $query->where('organisation_id'`,$org)`n                            ->wherein(""id""`, $task_ids)`n                            ->where(""team_id""`, $team)`;`n`n        }`n`n`n        return $query`;`n    }`n`n    public static function scopeByStatus($query`, $id)`n    {`n        return $query->where('status_id'`, $id)`;`n    }`n`n    public function communications()`n    {`n        return $this->hasMany(CaseItem`:`:class`, ""task_id""`, ""id"")`;`n    }`n`n    public function comments(){`n        return $this->hasMany(TaskComment`:`:class`,'task_id'`, 'id')`;`n    }`n`n    public function activity()`n    {`n        return $this->hasMany(Activity`:`:class`, 'subject_id'`, 'id')->where('subject_type'`,'App\Models\CaseModel')->orderByDesc('created_at')`;`n    }`n`n    public function activities()`n    {`n        $activities = collect()`;`n        $caseItems = $this->communications()->withTrashed()->with('activity')->get()`;`n        $caseItemsActivity = $this->communications()->withTrashed()->with('activity')->get()->pluck(""activity"")`;`n        if (!$caseItemsActivity->isEmpty()) {`n            foreach ($caseItemsActivity as $caseItem) {`n                foreach($caseItem as $act){`n                    $activities->push($act)`;`n                }`n            }`n        }`n`n        foreach ($this->caseUsers as $user) {`n            if($user->activity->isNotEmpty()){`n                $activities->push($user->activity->first())`;`n            }`n        }`n`n        foreach($this->tasks as $task){`n            foreach($task->taskUsers as $act){`n                $activities->push($act->activity->first())`;`n            }`n        }`n        foreach($this->tasks as $task){`n            foreach($task->activity as $act){`n                $activities->push($act)`;`n            }`n        }`n`n        foreach($this->comments as $comment){`n            $activities->push($comment->activity->first())`;`n            // dd($comment)`;`n        }`n        if ($this->activity->isNotEmpty()){`n            $caseModel = $this->activity()->with('causer')->get()`;`n            foreach ($caseModel as $model) {`n                $activities->push($model)`;`n            }`n            // dd($caseModel)`;`n            $activities = $activities->sortByDesc(function ($activity) {`n                return $activity->created_at`;`n            })`;`n        }`n        return $activities`;`n    }`n`t`n`t"
+	arr["checklists"] := "`n    public function toggleStatus()`n    {`n        $this->is_done = !$this->is_done`;`n    }`n`n`n    public function activity()`n    {`n        return $this->hasMany(Activity`:`:class`, 'subject_id'`, 'id')->orderByDesc('created_at')`;`n    }`n"
+	arr["organisations"] := "`    public function user(){`n        return $this->belongsToMany(User`:`:class`, 'individual_organisation'`,'organisation_id'`,'individual_id')`;`n`n    }`n`t`n    public function team(){`n        return $this->hasMany(Team`:`:class)`;`n    }`n`n"
+	arr["roles"] := "`n    /**`n     * The permissions that belong to the user.`n     */`n    public function permissions()`n    {`n        return $this->belongsToMany(Permission`:`:class)->wherePivot('deleted_at'`, null)`;`n    }`n`n"
+	arr["tasks"] := "`    public static function scopeGetUserTasks($query`, $userId)`n    {`n        return $query->whereIn(""id""`, TaskUser`:`:whereUserId($userId)->get()->pluck(""task_id""))`;`n    }`n`n`tpublic function toggleStatus()`n    {`n        if ($this->status_id == StatusEnum`:`:completed()->value) {`n            $this->status_id = StatusEnum`:`:not_started()->value`;`n            $this->closed_date = null`;`n        } else {`n            $this->status_id = StatusEnum`:`:completed()->value`;`n            $this->closed_date = now()`;`n        }`n    }`n`n    public function checkLists()`n    {`n        return $this->hasMany(Checklist`:`:class`, 'task_id'`, 'id')`;`n    }`n`n    public  function  isComplete()`n    {`n        if ($this->status_id == StatusEnum`:`:completed()->value) {`n            $checklist = $this->checkLists()->get()`;`n            $total = $checklist->count()`;`n            $counter = 0`;`n            foreach ($checklist as $check) {`n                if ($check->is_done === 1)`n                    $counter = $counter + 1`;`n            }`n            return $total == $counter`;`n        } else`n            return true`;`n    }`n`n    public static function scopeDailyCount($query`, $start`, $end`, $dateField)`n    {`n        return  $query->whereBetween($dateField`, [$start`, $end])`n            ->selectRaw('DATE_FORMAT(' . $dateField . '`,""`%Y-`%m-`%d"") as date`, count(*) as total')`n            ->groupByRaw('DATE_FORMAT(' . $dateField . '`,""`%Y-`%m-`%d"")')`n            ->orderBy(""date"")`n            ->get()`;`n    }`n`t`n    public static function scopeMonthlyCount($query`, $start`, $end`, $dateField)`n    {`n        return`n            $query->whereBetween($dateField`, [$start`, $end])`n            ->selectRaw(""YEAR("" . $dateField . "") as year`,`n        MONTH("" . $dateField . "") as month`,`n        count(*) as total"")`n            ->groupBy('year'`, 'month')`n            ->orderBy(""year"")`n            ->orderBy(""month"")`n            ->get()`;`n    }`n`t`n    public static function scopeWeeklyCount($query`, $start`, $end`, $dateField)`n    {`n        return  $query->whereBetween($dateField`, [$start`, $end])`n            ->selectRaw(""`n        WEEK("" . $dateField . "") as week`,`n        YEAR("" . $dateField . "") as year`,`n        count(*) as total"")`n            ->groupBy('week'`, 'year')`n            ->orderBy(""week"")`n            ->get()`;`n    }`n`t`n`t/**`n     * Get the task users for the user.`n     */`n    public function taskUsers()`n    {`n        return $this->hasMany(TaskUser`:`:class`, 'task_id'`, 'id')`;`n    }`n`n    public function comments()`n    {`n        return $this->hasMany(TaskComment`:`:class`, 'task_id'`, 'id')`;`n    }`n`n    public function activity()`n    {`n        return $this->hasMany(Activity`:`:class`, 'subject_id'`, 'id')->where('subject_type'`, 'App\Models\Task')->orderByDesc('created_at')`;`n    }`n`n    public function activities()`n    {`n        $activities = collect()`;`n        $checklists = $this->checkLists()`;`n        foreach ($checklists as $checklist) {`n            foreach ($checklist as $check) {`n                $activities->push($check)`;`n            }`n        }`n`n        $comments = $this->comments()`;`n        foreach ($comments as $comment) {`n            foreach ($comment as $chk) {`n                $activities->push($chk)`;`n            }`n        }`n        foreach ($this->activity() as $act) {`n            $activities->push($act)`;`n        }`n`n        return $activities`;`n    }`n`t`n`t"
+	arr["comments"] := "`    public function case()`n    {`n        return $this->belongsTo(CaseModel`:`:class`,'task_id'`,'id')`;`n    }`n`n    public function activity()`n    {`n        return $this->hasMany(Activity`:`:class`, 'subject_id'`, 'id')->where('subject_type'`,'App\Models\Comment')->orderByDesc('created_at')`;`n    }`n`n"
+	arr["task_users"] := "`    public function activity()`n    {`n        return $this->hasMany(Activity`:`:class`,""subject_id""`,""id"")->orderByDesc('created_at')`;`n    }`n`n"
+	arr["teams"] := "`    public function users()`n    {`n        return $this->hasMany(User`:`:class)`;`n    }`n"
+	
+	return arr[table_name_plural]
 }
 
 
-model_properties( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_properties( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	
 	if( InStr(data_type, "varchar") || InStr(data_type, "char") )
 		t := "` * @property string $? valueS1 ?`n"
 	else if( InStr(data_type, "bigint") || InStr(data_type, "int"))
 		t := "` * @property integer $? valueS1 ?`n"
+	else if( InStr(data_type, "enum") )
+		t := "` * @property enum $? valueS1 ?`n"
 	else
 		t := "` * @property " data_type " $? valueS1 ?`n"
 	
@@ -4423,7 +4475,7 @@ model_properties( field_name = 1, data_type = 2, nullability = 3, related_table_
 }
 
 
-model_dvFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+model_dvFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	if ( RegExMatch(field_name, "_dv$") ){
 		field := RegExReplace(field_name, "_dv$", "")
 		t := "`        '" field "'`,`n"
@@ -4432,6 +4484,38 @@ model_dvFields( field_name = 1, data_type = 2, nullability = 3, related_table_si
 	}
 	
 	return t
+}
+
+
+model_ActivitylogOptions_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	;~ if( related_table_singular )
+		return "'? value1 ?'`, "
+}
+
+
+model_ActivitylogOptions(){
+	global table_name_singular
+	
+	if( !isActivityLoggableTables() )
+		return ""
+	
+	arr := {}
+	arr["attachment"] := "'name',"
+	arr["communication"] := "'from_organisation_id', 'from_individual_id', 'channel_id', 'reference_number', 'title', 'content', 'recieved_date', 'recieved_by'"
+	arr["case"] := "'ref_id', 'title', 'purpose', 'action', 'organisation_id', 'team_id', 'from_organisation_id', 'from_individual_id', 'channel_id', 'priority_id', 'recieved_date', 'deadline', 'handler_id', 'status_id',"
+	arr["task"] := "'ref_id', 'organisation_id', 'parent_id', 'sensitivity_id', 'priority_id', 'team_id', 'channel_id', 'thread_id', 'message_id', 'start_date', 'deadline', 'note', 'status_id', 'title',"
+	
+	if( arr[table_name_singular] )
+		fields := arr[table_name_singular]
+	else
+		fields := runSubScaffold( "model_ActivitylogOptions_fields")
+	
+	return "`n`n    public function getActivitylogOptions()`: LogOptions`n    {`n        return LogOptions`:`:defaults()`n            ->logOnly([`n                " fields "`n            ])`n            ->logOnlyDirty()`;`n    }`n"
 }
 
 
@@ -4445,6 +4529,8 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 	includes := model_includes()
 	properties := runSubScaffold( "model_properties", 1)
 	inheritance := model_inheritance()
+	activitylogOptions := model_ActivitylogOptions()
+	tableName := tableName( table_name_plural )
 	casts := runSubScaffold( "model_casts")
 	appends := runSubScaffold( "model_appends")
 	validationRules := runSubScaffold( "model_validationRules")
@@ -4482,7 +4568,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '? valueS2 ?'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = CauserResolver`:`:resolve()->id`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = CauserResolver`:`:resolve()->id`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
+		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "" activitylogOptions "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '" tableName "'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = optional(CauserResolver`:`:resolve())->id`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = optional(CauserResolver`:`:resolve())->id`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
 
 		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
 		content := scaffoldModel( t )
@@ -4560,7 +4646,7 @@ updateDatabaseSeeder_a(table_name_singular = 1, table_name_plural = 2, reverse =
 	fileWrite( content, file )
 }
 	
-apiController_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+apiController_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
@@ -4757,7 +4843,7 @@ policy_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	fileWrite( content, file )
 }
 	
-scaffold_ListController_relations( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+scaffold_ListController_relations( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	skip := {"created_by": 1, "updated_by": 1}
 	
 	if(related_table_singular != "" and !skip[field_name] )
@@ -4768,7 +4854,7 @@ scaffold_ListController_relations( field_name = 1, data_type = 2, nullability = 
 	return t
 }
 
-;~ load_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+;~ load_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	
 	;~ fields[field_name] := {"field_name": field_name, "nullability": nullability, "related_table_singular": related_table_singular, "related_table_plural": related_table_plural, "column_number": column_number, "column_number": column_number, "column_number": column_number}
 	
@@ -4791,10 +4877,54 @@ load_fields(){
 		field := clipList%A_Index%
 		StringSplit, field, field, `t
 		
-		fields[field1] := {"field_name": field1, "data_type": field2, "nullability": field3, "related_table_singular": field4, "related_table_plural": field5, "related_primary_key": field6, "column_number": A_Index, "table_name_singular": s, "table_name_plural": p}
+		fieldName := p "." field1
+		
+		related := {}
+		related["case_users.task_id"] := "case"
+		related["case_users.individual_id"] := "user"
+		related["case_users.task_user_type_id"] := "case_user_type"
+		related["communications.task_id"] := "case"
+		related["tasks.parent_id"] := "case"
+		related["task_users.individual_id"] := "user"
+		
+		relatedOnly := {}
+		relatedOnly["communications.recieved_by"] := "user"
+		relatedOnly["cases.handler_id"] := "user"
+		
+		without_id := StrReplace(field1, "_id", "")
+		function_name := without_id
+		related_table_singular := field4
+		
+		if(related[fieldName]){
+			function_name := related[fieldName]
+			related_table_singular := related[fieldName]
+		}
+		
+		if(relatedOnly[fieldName]){
+			related_table_singular := relatedOnly[fieldName]
+		}
+		
+		if( field1 = "created_by" or field1 = "updated_by" ){
+			related_table_singular := "user"
+		}
+		
+		fields[field1] := {"field_name": field1, "data_type": field2, "nullability": field3, "related_table_singular": related_table_singular, "related_table_plural": field5, "related_primary_key": field6, "column_number": A_Index, "table_name_singular": s, "table_name_plural": p, "function_name_singular": function_name, "function_name_plural": toPlural( function_name ) }
+		
+		fields[field1]["related_table_plural"] := toPlural( related[fieldName] )
+		fields[field1]["model_name"] := modelName(fields[field1]["table_name_singular"])
+		fields[field1]["related_model_name"] := modelName(fields[field1]["related_table_singular"])
 	}
 	
 	return fields
+}
+
+modelName(table){
+	customModelName := customModelName(table_name_singular)
+
+	if(customModelName)
+		return customModelName
+	else 
+		return runScaffold( "? valueCC1 ?", table)
 }
 
 name_field(){
@@ -4813,14 +4943,14 @@ name_field(){
 	else if( fields["organisation_name_english"] )
 		return "organisation_name_english"
 	else if( table_name_singular = "case_user") 
-		return "user()->name"
+		return "user->name"
 	else 
 		return primary_key
 	
 	return ""
 }
 
-listController_dropdownsOnEdit( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+listController_dropdownsOnEdit( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	skip := {"created_by": 1, "updated_by": 1}
 	
 	if(related_table_singular != "" and !skip[field_name] )
@@ -4958,7 +5088,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
 	
-	data := "`tEdit`tCopy`tDelete`t1`tManual`tNULL`tNULL`n`tEdit`tCopy`tDelete`t2`tDNR`tNULL`tNULL`n`tEdit`tCopy`tDelete`t3`tMED`tNULL`tNULL`n`tEdit`tCopy`tDelete`t4`tGTS`tNULL`tNULL"
+	data := "`t`t`t`t1000`tActive`tActive`t????????????`tgreen`tcheck`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t2000`tClosed`tClosed`t????????`tred`tx`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t3000`tNot Started`tNot Started`t??????`tGreen`t`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t4000`tIn Progress`tIn Progress`t????????????`tBlue`t`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t5000`tClosed`tClosed`t??????`tRed`t`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t6000`tPending Policy Decision`tPending Policy Decision`t???????? ?????? ????????`tred`tx`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t7000`tArchived`tArchived`t???????? ??????????`tred`tx`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t8000`tArchived`tArchived`t???????? ??????????`tred`tx`t`t`t`t`t"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -5074,7 +5204,41 @@ selectController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	fileWrite( content, file )
 }
 
-scaffold_LiveWireImportController_rules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+selectArrayController(){
+	global
+	selectArrayController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+selectArrayController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	name_field := name_field()
+	primary_key := primary_key()
+	
+	name := scaffoldModel("? valueCC1 ?\Select? valueCC1 ?")
+	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %filter%, " filter ", All
+		StringReplace, content, content, %name_field%, " name_field ", All
+		StringReplace, content, content, %primary_key%, " primary_key ", All
+	}else{
+		t := "<?php`nnamespace App\Http\Livewire\? valueCC1 ?`;`n`nuse Livewire\Component`;`nuse App\Models\? valueCC1 ?`;`nuse App\Http\Livewire\LivewireSelect\LivewireSelect`;`nuse Illuminate\Support\Collection`;`n`nclass Select? valueCC1 ? extends LivewireSelect`n{`n    public $channels = [`n        ? value1 ? => [`n            'value' => ? value1 ?`,`n            'description' => '? value2 ?'`,`n            'description_dv' => '? value3 ?'`,`n        ]`,`n    ]`;`n`n    public function options($searchTerm = null) `: Collection`n    {`n        $list = []`;`n        foreach ($this->? valueS2 ? as $key => $? valueS1 ?) {`n            $name = app()->getLocale() == 'dv' ? $? valueS1 ?['description_dv'] `: $? valueS1 ?['description']`;`n            if( str_contains($name`, $searchTerm) ){`n                $list[] = [`n                    'value' => $? valueS1 ?['value']`,`n                    'description' => $name`,`n                ]`;`n            }`n        }`n`n        return collect($list)`;`n    }`n`n    public function selectedOption($searchTerm = null) `: Collection`n    {`n        $? valueS1 ? = $this->? valueS2 ?[$searchTerm]`;`n`n        $list = [`n            'value' => $? valueS1 ? ? $? valueS1 ?['value'] `: ''`,`n            'description' => $? valueS1 ? ? (app()->getLocale() == 'dv' ? $? valueS1 ?['description_dv'] `: $? valueS1 ?['description']) `: ''`,`n        ]`;`n`n        return collect($list)`;`n    }`n}`n"
+		
+		name := scaffoldModel("? valueS1 ?")
+		if( customModelName(table_name_singular) )
+			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+		
+		t := replaceMarker( scaffoldModel("? valueS1 ?"), t, 91)
+		
+		content := scaffoldModel( t )
+	}
+		
+	fileWrite( content, file )
+}
+
+scaffold_LiveWireImportController_rules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if( InStr(field3, "No") )
@@ -5085,7 +5249,7 @@ scaffold_LiveWireImportController_rules( field_name = 1, data_type = 2, nullabil
 	return t
 }
 
-scaffold_LiveWireImportController_createFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+scaffold_LiveWireImportController_createFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(field2 = "datetime" or field2 = "timestamp" )
@@ -5096,7 +5260,7 @@ scaffold_LiveWireImportController_createFields( field_name = 1, data_type = 2, n
 	return t
 }
 
-scaffold_LiveWireImportController_guesses( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+scaffold_LiveWireImportController_guesses( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(field2 = "datetime" or field2 = "timestamp" )
@@ -5149,7 +5313,7 @@ importController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	fileWrite( content, file )
 }
 
-importModel_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+importModel_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(data_type = "datetime" or data_type = "timestamp" )
@@ -5182,7 +5346,7 @@ importModel_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	fileWrite( content, file )
 }
 	
-scaffoldTableFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11, child = 0){
+scaffoldTableFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15, child = 0){
 	name := scaffoldModel("? valueS1 ?")
 	plural := scaffoldModel("? valueSH2 ?")
 	
@@ -5212,7 +5376,7 @@ scaffoldTableFields( field_name = 1, data_type = 2, nullability = 3, related_tab
 	return t
 }
 
-scaffoldFormFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11, hidden = 0 ){
+scaffoldFormFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15, hidden = 0 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
@@ -5252,8 +5416,8 @@ scaffoldFormFields( field_name = 1, data_type = 2, nullability = 3, related_tabl
 	return t
 }
 
-childListView_FormFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
-	hiddenArr := {"case_item_case_id" : 1}
+childListView_FormFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	hiddenArr := {"communication_case_id" : 1}
 	hidden := hiddenArr[table_name_singular "_" field_name]
 	return scaffoldFormFields( field_name, data_type, nullability, related_table_singular, related_table_plural, column_number, table_name_singular, table_name_plural, primary_key, hidden)
 }
@@ -5279,9 +5443,9 @@ table_fields_specific( table_name_singular ){
 
 columnLabel(table_name_singular, field_name){
 	arr := []
-	arr["case_item_from_organisation_id"] := "FROM"
-	arr["case_item_case_item_type_id"] := "TYPE"
-	arr["case_item_recieved_date"] := "RECIEVED"
+	arr["communication_from_organisation_id"] := "FROM"
+	arr["communication_case_item_type_id"] := "TYPE"
+	arr["communication_recieved_date"] := "RECIEVED"
 	
 	if(arr[table_name_singular "_" field_name])
 		return arr[table_name_singular "_" field_name]
@@ -5290,7 +5454,7 @@ columnLabel(table_name_singular, field_name){
 	
 }
 
-scaffoldTableHeaders( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+scaffoldTableHeaders( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	;~ if( field_name = name_field() )
 	if( column_number = arrayLength )
 		actions := "`                    <x-table.heading />`n"
@@ -5353,7 +5517,7 @@ runSubScaffold( functionName, withID = 0, fieldsArr = "", blacklist = 0, reverse
 		if( !withID and field["field_name"] = primary_key )
 			continue
 		
-		t := %functionName%( field["field_name"], field["data_type"], field["nullability"], field["related_table_singular"], field["related_table_plural"], field["related_primary_key"], key, field["table_name_singular"], field["table_name_plural"], primary_key, fieldsArr.Length() )
+		t := %functionName%( field["field_name"], field["data_type"], field["nullability"], field["related_table_singular"], field["related_table_plural"], field["related_primary_key"], key, field["table_name_singular"], field["table_name_plural"], field["model_name"], field["related_model_name"], field["function_name_singular"], field["function_name_plural"], primary_key, fieldsArr.Length() )
 		
 		if( !reverse ){
 			t := replaceMarker(field["field_name"], t, 1)
@@ -5365,6 +5529,10 @@ runSubScaffold( functionName, withID = 0, fieldsArr = "", blacklist = 0, reverse
 			t := replaceMarker(field["column_number"], t, 7)
 			t := replaceMarker(field["table_name_singular"], t, 8)
 			t := replaceMarker(field["table_name_plural"], t, 9)
+			t := replaceMarker(field["model_name"], t, 10)
+			t := replaceMarker(field["related_model_name"], t, 11)
+			t := replaceMarker(field["function_name_singular"], t, 12)
+			t := replaceMarker(field["function_name_plural"], t, 13)
 		}
 		output := output t
 	}
@@ -5407,7 +5575,7 @@ listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 
 ChildListView_specificFieldsArr(table_name_singular){
 	global specificFieldsArr
-	specificFieldsArr["case_item"] := ["from_organisation_id", "case_item_type_id", "recieved_date", "title"]
+	specificFieldsArr["communication"] := ["from_organisation_id", "case_item_type_id", "recieved_date", "title"]
 	;~ specificFieldsArr["case_user"] := ["user_id"]
 	specificFieldsArr["task"] := ["title", "assigned_user_id", "progress", "deadline"]
 	return specificFieldsArr[table_name_singular]
@@ -5415,17 +5583,17 @@ ChildListView_specificFieldsArr(table_name_singular){
 
 ChildListView_ShowView_fieldsArr(table_name_singular){
 	fieldsArr := {}
-	fieldsArr["case_item"] := ["from_organisation_id", "title", "content", "recieved_date"]
+	fieldsArr["communication"] := ["from_organisation_id", "title", "content", "recieved_date"]
 	return fieldsArr[ table_name_singular ]
 }
 
-childListView_TableFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+childListView_TableFields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	return scaffoldTableFields( field_name, data_type, nullability, related_table_singular, related_table_plural, related_primary_key, column_number, table_name_singular, table_name_plural, primary_key, arrayLength, 1)
 }
 
 childListView_heading( table_name_singular ){
 	arr := []
-	arr["case_item"] := "Communications / Attachments"
+	arr["communication"] := "Communications / Attachments"
 	arr["case_user"] := "People with Access"
 	
 	output := "? valueAT2 ?"
@@ -5542,7 +5710,7 @@ childListModalView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0
 	fileWrite( content, file )
 }
 
-ManageView_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+ManageView_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
 
 	if( HasVal(arr, field_name) )
@@ -5600,7 +5768,7 @@ manageView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	fileWrite( content, file )
 }
 
-ShowView_Fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+ShowView_Fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	arr := ["deleted_at"]
 
 	if( HasVal(arr, field1) )
@@ -5681,7 +5849,7 @@ showView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 	fileWrite( content, file )
 }
 
-ImportView_form_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, primary_key = 10, arrayLength = 11 ){
+ImportView_form_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
 	if(field2 = "datetime" or field2 = "timestamp")
@@ -6074,7 +6242,7 @@ load_singularToPlural(){
 	;~ singularToPlural["ward"] := "wards"
 	;~ singularToPlural["case"] := "cases"
 	;~ singularToPlural["case_item_type"] := "case_item_types"
-	;~ singularToPlural["case_item"] := "case_items"
+	;~ singularToPlural["communication"] := "communications"
 	;~ singularToPlural["case_attachment"] := "case_attachments"
 	;~ singularToPlural["case_user"] := "case_users"
 	;~ singularToPlural["comment"] := "comments"
@@ -6103,6 +6271,9 @@ tableName(name){
 	singularTableName := {}
 	singularTableName["activity_logs"] := "activity_log"
 	singularTableName["case_users"] := "task_users"
+	singularTableName["users"] := "individuals"
+	singularTableName["cases"] := "tasks"
+	singularTableName["case_user_types"] := "task_user_types"
 	
 	if( singularTableName[name] )
 		return singularTableName[name]
@@ -6147,7 +6318,7 @@ init_DB_Fields( loadName = 1, cache = 1){
 	global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
 	
 	if( loadName )
-		modelName()
+		currentTableName()
 	
 	singular := processCamelCase( singular )
 
@@ -6215,10 +6386,10 @@ durationPassed(label){
 }
 
 
-modelName(){
+currentTableName(){
 	global singular
 	
-	singular := "case_users"
+	singular := ""
 }
 
 
@@ -6264,7 +6435,7 @@ scaffoldFiles(){
 		;~ seeder()
 		;~ updateDatabaseSeeder()
 		
-		model()
+		;~ model()
 		;~ importModel()
 		
 		;~ importController()
@@ -6273,6 +6444,7 @@ scaffoldFiles(){
 		;~ selectController()
 		;~ showController()
 		
+		;~ selectArrayController()
 
 		;~ importView()
 		;~ listView()
@@ -6352,13 +6524,14 @@ scaffoldFiles(){
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
 
 	^+!`:: ; bulk
-		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "case_items", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "task_comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types"]
-		;~ bulkArr := ["tags", "checklists", "task_comments", "task_tags", "task_users"]
+		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members"]
+		;~ bulkArr := ["tags", "checklists", "comments", "task_tags", "task_users"]
 		
 		for k, v in bulkArr {
 			singular := snakeCase(v)
 		
-			init_DB_Fields(0)
+			init_DB_Fields(0, 0) ; without cache
+			;~ init_DB_Fields(0) ; with cache
 			scaffoldFiles()
 		}
 		
@@ -6578,6 +6751,41 @@ scaffoldFiles(){
 		
 		; if browser is open
 		if(WinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+			Clipboard=
+			waitClipboard()
+			if(Clipboard != ""){
+				t:= RegExReplace(Clipboard, "s).*name: ""([^""]*).*", "$1")
+				action:= RegExReplace(Clipboard, "s).*method: ""([^""]*).*", "$1")
+				StringReplace, t, t, -, , All 
+				StringReplace, t, t, ., /, All 
+				
+				model := t
+				;~ action := "List"
+				
+				WinActivate, ahk_exe Code.exe
+				WinWaitActive, ahk_exe Code.exe, , 2
+				if( WinActive("ahk_exe sublime_text.exe") or WinActive("ahk_exe Code.exe") ){
+					;~ model := snakeCase(model)
+					load_singularToPlural()
+					Send ^p
+					Sleep 200
+					Send % model
+					Clipboard := model
+					Sleep 500
+					Send {Enter}
+					Sleep 200
+					Send ^p
+					Sleep 200
+					Send % "@" action
+					Sleep 200
+					Send {Enter}
+					Clipboard := action
+				}
+				MyTT(t)
+				return
+			}
+			
+			
 			Send !d
 			waitClipboard()
 			
@@ -6610,34 +6818,34 @@ scaffoldFiles(){
 					showRoute := RegExReplace(t, "s)^([a-z\-]+)/(\d+)$", "1")
 					editRoute := RegExReplace(t, "s)^([a-z\-]+)/(\d+)/([a-z\-]+)$", "1")
 					
-					if(showRoute = "1")
-						action := "Show"
-					else if(createRoute = "1")
-						action := "Manage"
-					else if(editRoute = "1")
-						action := "Manage"
-					else
-						action := "List"
-					
-					WinActivate, ahk_exe Code.exe
-					WinWaitActive, ahk_exe Code.exe, , 2
-					if( WinActive("ahk_exe sublime_text.exe") or WinActive("ahk_exe Code.exe") ){
-						model := snakeCase(model)
-						load_singularToPlural()
-						Send ^p
-						Sleep 200
-						Send % capitalCamelCase( toSingular( model ) ) "/" action " http"
-						Clipboard := capitalCamelCase( toSingular( model ) ) "/" action " http"
-						Sleep 500
-						Send {Enter}
-						Sleep 200
-						Send ^p
-						Sleep 200
-						Send % "@render"
-						Sleep 200
-						Send {Enter}
-						;~ Clipboard := "render"
-					}
+						if(showRoute = "1")
+							action := "Show"
+						else if(createRoute = "1")
+							action := "Manage"
+						else if(editRoute = "1")
+							action := "Manage"
+						else
+							action := "List"
+						
+						WinActivate, ahk_exe Code.exe
+						WinWaitActive, ahk_exe Code.exe, , 2
+						if( WinActive("ahk_exe sublime_text.exe") or WinActive("ahk_exe Code.exe") ){
+							model := snakeCase(model)
+							load_singularToPlural()
+							Send ^p
+							Sleep 200
+							Send % capitalCamelCase( toSingular( model ) ) "/" action " http"
+							Clipboard := capitalCamelCase( toSingular( model ) ) "/" action " http"
+							Sleep 500
+							Send {Enter}
+							Sleep 200
+							Send ^p
+							Sleep 200
+							Send % "@render"
+							Sleep 200
+							Send {Enter}
+							;~ Clipboard := "render"
+						}
 				}else{
 					t:= RegExReplace(t, "s)^.*index.php/", "$1")
 
