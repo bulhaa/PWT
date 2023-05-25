@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2759,6 +2759,11 @@ else if(Stack="14v") ; disable xdebug
 		
 		file =C:\xampp\php\php.ini
 		FileRead, content, %file%
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
 		StringReplace, content, content, zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
 		
 		fileWrite( content, file )
@@ -2849,6 +2854,10 @@ else if(Stack="16h") ; merge fonts
 else if(Stack="16i") ; rtl iyyu-normal 
 	{
 		Button1_Label=rtl`:iyyu-normal
+	}
+else if(Stack="16k") ; docker 
+	{
+		Button1_Label=** Powershell commands`ndocker run -d -p 80`:80 docker/getting-started`ndocker ps`n`n`n** Docker commands`nmkdir -p code/ncit/gems`ngit clone https`://git.egov.mv/ahmed.shifau/traefik-proxy.git`ncd traefik-proxy/`ndocker network create proxy`ndocker ps`ndocker rm -f bdc9e9e4d788`ndocker compose up -d`ngit clone https`://hammadh@git.egov.mv/ncit_new/gems/task/web.git`nmkdir task`nmv web/ task/web`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     laravelsail/php82-composer`:latest     composer install --ignore-platform-reqs`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     chipaau/php`:8.1     composer install --ignore-platform-reqs`ncode .`ncd ~/code/ncit/gems/task/web/`ngit fetch origin`ngit branch -r`ngit checkout -b feature/deployment`ngit log --graph`nll`ngit pull origin feature/deployment`ngit pull origin`n`n./vendor/bin/sail up -d --build`n./vendor/bin/sail down -v`n./vendor/bin/sail artisan migrate`:fresh --seed`n`n./vendor/bin/sail artisan optimize`:clear`n./vendor/bin/sail up -d --remove-orphans`n./vendor/bin/sail logs -f laravel.test`n`nhttps`://traefik.localhost/#/http/routers`nhttps`://gems.localhost/case
 	}
 else
 	{	
@@ -2952,6 +2961,7 @@ else
 		Click 70, 284
 		Send {Home}
 		Send {Down}
+		Send {Down}
 		Send {Down}{Space}
 		Send {CtrlDown}
 		
@@ -2978,11 +2988,12 @@ else
 		Send {CtrlDown}
 		
 		Send {Down}
-		Send {Down}{Space}
-		Send {Down}{Space}
-		Send {Down}{Space}
-		Send {Down}{Space}
 		Send {Down}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		Send {Down}{Space}
+		;~ Send {Down}
 		Send {Down}{Space}
 		Send {Down}{Space}
 		Send {Down}{Space}
@@ -4135,7 +4146,7 @@ XButton2::
 				}
 			}
 				
-			;~ myTT(temp)
+			myTT(temp)
 			;~ Send {Esc}{Tab} 
 		}
 		else{
@@ -6389,7 +6400,7 @@ durationPassed(label){
 currentTableName(){
 	global singular
 	
-	singular := ""
+	singular := "profile_photos"
 }
 
 
@@ -6435,7 +6446,7 @@ scaffoldFiles(){
 		;~ seeder()
 		;~ updateDatabaseSeeder()
 		
-		;~ model()
+		model()
 		;~ importModel()
 		
 		;~ importController()
@@ -6485,8 +6496,8 @@ scaffoldFiles(){
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
-		;~ return
+		printUsingScaffold( "C", 1, -1) ; scaffold single
+		return
 		
 		;~ Send ^a
 		
@@ -6752,12 +6763,13 @@ scaffoldFiles(){
 		; if browser is open
 		if(WinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
 			Clipboard=
+			;~ Send ^a
 			waitClipboard()
 			if(Clipboard != ""){
 				t:= RegExReplace(Clipboard, "s).*name: ""([^""]*).*", "$1")
 				action:= RegExReplace(Clipboard, "s).*method: ""([^""]*).*", "$1")
 				StringReplace, t, t, -, , All 
-				StringReplace, t, t, ., /, All 
+				StringReplace, t, t, ., %A_Space%, All 
 				
 				model := t
 				;~ action := "List"
@@ -6771,12 +6783,12 @@ scaffoldFiles(){
 					Sleep 200
 					Send % model
 					Clipboard := model
-					Sleep 500
+					Sleep 1000
 					Send {Enter}
 					Sleep 200
 					Send ^p
 					Sleep 200
-					Send % "@" action
+					Send % "@:" action
 					Sleep 200
 					Send {Enter}
 					Clipboard := action
@@ -6841,7 +6853,7 @@ scaffoldFiles(){
 							Sleep 200
 							Send ^p
 							Sleep 200
-							Send % "@render"
+							Send % "@:render"
 							Sleep 200
 							Send {Enter}
 							;~ Clipboard := "render"
