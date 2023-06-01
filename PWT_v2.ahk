@@ -454,7 +454,7 @@ return
 
 
 skipFileOrFolder(src_path){
-	if(InStr(src_path, "\Notepad++Portable\") or InStr(src_path, "\selenium-js-tester\") or InStr(src_path, "\.git\") or InStr(src_path, "~") or InStr(src_path, "Thumbs.db") or InStr(src_path, "\\wdmycloud\hammadh\hammadh\") or InStr(src_path, "C:\xampp\htdocs\ecouncil\ecouncil\assets\") or InStr(src_path, "C:\xampp\htdocs\eCouncil-gitlab\web\assets\") or InStr(src_path, "C:\xampp\htdocs\ecouncil\ecouncil\protected\runtime\") or InStr(src_path, "C:\xampp\htdocs\eCouncil-gitlab\web\protected\runtime\") or InStr(src_path, ".gitattributes") or InStr(src_path, ".gitignore") or InStr(src_path, "ec.sublime-project") or InStr(src_path, "ec.sublime-workspace") or InStr(src_path, "C:\xampp\htdocs\case-manager\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager\vendor") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\vendor") or InStr(src_path, "C:\xampp\htdocs\case-manager\.vscode") or InStr(src_path, "C:\xampp\htdocs\case-manager\.env"))
+	if(InStr(src_path, "\Notepad++Portable\") or InStr(src_path, "\selenium-js-tester\") or InStr(src_path, "\.git\") or InStr(src_path, "~") or InStr(src_path, "Thumbs.db") or InStr(src_path, "\\wdmycloud\hammadh\hammadh\") or InStr(src_path, "C:\xampp\htdocs\ecouncil\ecouncil\assets\") or InStr(src_path, "C:\xampp\htdocs\eCouncil-gitlab\web\assets\") or InStr(src_path, "C:\xampp\htdocs\ecouncil\ecouncil\protected\runtime\") or InStr(src_path, "C:\xampp\htdocs\eCouncil-gitlab\web\protected\runtime\") or InStr(src_path, ".gitattributes") or InStr(src_path, ".gitignore") or InStr(src_path, "ec.sublime-project") or InStr(src_path, "ec.sublime-workspace") or InStr(src_path, "C:\xampp\htdocs\case-manager\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager\vendor") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\vendor") or InStr(src_path, "C:\xampp\htdocs\case-manager\.vscode") or InStr(src_path, "C:\xampp\htdocs\case-manager\.env") or InStr(src_path, "C:\xampp\htdocs\case-manager\app\Http\Livewire\Auth\Login.php"))
 		return 1 ; skip file
 	else
 		return 0 ; don't skip file
@@ -2842,6 +2842,7 @@ else if(Stack="16e") ; gts
 else if(Stack="16f") ; dev otp 
 	{
 		Button1_Label=https`://sso-messaging-dev.egov.mv/Alerts/Default.aspx
+		run, https`://sso-messaging-dev.egov.mv/Alerts/Default.aspx
 	}
 else if(Stack="16g") ; ahk array 
 	{
@@ -2960,6 +2961,7 @@ else
 	`::
 		Click 70, 284
 		Send {Home}
+		Send {Down}
 		Send {Down}
 		Send {Down}
 		Send {Down}{Space}
@@ -5099,7 +5101,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
 	
-	data := "`t`t`t`t1000`tActive`tActive`t????????????`tgreen`tcheck`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t2000`tClosed`tClosed`t????????`tred`tx`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t3000`tNot Started`tNot Started`t??????`tGreen`t`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t4000`tIn Progress`tIn Progress`t????????????`tBlue`t`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t5000`tClosed`tClosed`t??????`tRed`t`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t6000`tPending Policy Decision`tPending Policy Decision`t???????? ?????? ????????`tred`tx`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t7000`tArchived`tArchived`t???????? ??????????`tred`tx`tNULL`tNULL`tNULL`tNULL`tNULL`n`t Edit`t Copy`t Delete`t8000`tArchived`tArchived`t???????? ??????????`tred`tx`t`t`t`t`t"
+	data := "`t`t`t0`t1`tCase - Head of Organization`tcase-hod`n`t`t`t1`t2`tCase - Team Supervisor`tcase-team-supervisor`n`t`t`t2`t3`tCase - Handler`tcase-handler`n`t`t`t3`t4`tCase - Collaborator`tcase-collaborator`n`t`t`t4`t5`tTask - Head of Organization`ttask-hod`n`t`t`t5`t6`tTask - Team Supervisor`ttask-team-supervisor`n`t`t`t6`t7`tTask - Creator`ttask-creator`n`t`t`t7`t8`tTask - Assignee`ttask-assignee`n`t`t`t8`t9`tAccess user (readonly rights)`taccess-user`n`t`t`t9`t10`tGO Admin`tgo-admin`n`t`t`t10`t11`tNCIT Admin`tncit-admin"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -6400,7 +6402,7 @@ durationPassed(label){
 currentTableName(){
 	global singular
 	
-	singular := "profile_photos"
+	singular := ""
 }
 
 
@@ -6446,7 +6448,7 @@ scaffoldFiles(){
 		;~ seeder()
 		;~ updateDatabaseSeeder()
 		
-		model()
+		;~ model()
 		;~ importModel()
 		
 		;~ importController()
@@ -6490,14 +6492,36 @@ scaffoldFiles(){
 	return
 	
 	F1:: goToReference()
+	;~ F1:: 
+		;~ Clipboard=
+		;~ waitClipboard()
+		;~ StringSplit, Clipboard, Clipboard, `n, `r
+		
+		;~ output=
+		;~ id=0
+		;~ Loop %Clipboard0% {
+			;~ i := Clipboard%A_Index%
+		
+			;~ if( Mod(A_Index, 2) = 1)
+				;~ id++
+			
+			;if(A_Index = 9)
+				;id--
+				
+			;~ if(trim(i) != "")
+				;~ output := output id "`n"
+		;~ }
+		;~ Clipboard := output
+		;~ myTT(output)
+	;~ return
 	
 	F4:: goToPrevReference()
 	
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		printUsingScaffold( "C", 1, -1) ; scaffold single
-		return
+		;~ printUsingScaffold( "", 1, -1) ; scaffold single
+		;~ return
 		
 		;~ Send ^a
 		
@@ -6505,8 +6529,30 @@ scaffoldFiles(){
 		waitClipboard()
 		
 		;~ StringReplace, Clipboard, Clipboard, `r, , All	
-		;~ StringReplace, Clipboard, Clipboard, `                ""organisation_logo"" => null`,`n, , All	
-			
+		;~ StringReplace, Clipboard, Clipboard, `                ""organisation_logo"" => null`,`n, , All
+
+
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 9? value1 ?`,, 'role_id' => ? value4 ?,`,, All	
+
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 1`,, 'role_id' => 91`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 2`,, 'role_id' => 92`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 3`,, 'role_id' => 93`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 4`,, 'role_id' => 94`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 5`,, 'role_id' => 95`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 6`,, 'role_id' => 96`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 7`,, 'role_id' => 97`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 8`,, 'role_id' => 98`,, All	
+
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 91`,, 'role_id' => 1`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 92`,, 'role_id' => 3`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 93`,, 'role_id' => 4`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 94`,, 'role_id' => 8`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 95`,, 'role_id' => 7`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 96`,, 'role_id' => 10`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 97`,, 'role_id' => 11`,, All	
+		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 98`,, 'role_id' => 2`,, All	
+
+
 		if(Clipboard){
 			; decodeLinesAndTabs
 			content := decodeLinesAndTabs(Clipboard)
@@ -6818,9 +6864,8 @@ scaffoldFiles(){
 					Send ^v
 				}
 			}else{
-				if( InStr(t, "http://case.test") or InStr(t, "http://case-manager.test/") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") or InStr(t, "http://case-manager.localhost") ){
-					StringReplace, t, t, http://case.test/
-					StringReplace, t, t, http://case-manager.test/
+				if( InStr(t, "http://case.localhost") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") or InStr(t, "http://case-manager.localhost") ){
+					StringReplace, t, t, http://case.localhost/
 					StringReplace, t, t, https://case.te.egov.mv/
 					StringReplace, t, t, http://gemen-online.test/
 					StringReplace, t, t, http://recordsmv.ddns.net/
