@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -453,11 +453,37 @@ return
 
 
 
-skipFileOrFolder(src_path){
-	if(InStr(src_path, "\Notepad++Portable\") or InStr(src_path, "\selenium-js-tester\") or InStr(src_path, "\.git\") or InStr(src_path, "~") or InStr(src_path, "Thumbs.db") or InStr(src_path, "\\wdmycloud\hammadh\hammadh\") or InStr(src_path, "C:\xampp\htdocs\ecouncil\ecouncil\assets\") or InStr(src_path, "C:\xampp\htdocs\eCouncil-gitlab\web\assets\") or InStr(src_path, "C:\xampp\htdocs\ecouncil\ecouncil\protected\runtime\") or InStr(src_path, "C:\xampp\htdocs\eCouncil-gitlab\web\protected\runtime\") or InStr(src_path, ".gitattributes") or InStr(src_path, ".gitignore") or InStr(src_path, "ec.sublime-project") or InStr(src_path, "ec.sublime-workspace") or InStr(src_path, "C:\xampp\htdocs\case-manager\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager\vendor") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\node_modules") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\storage") or InStr(src_path, "C:\xampp\htdocs\case-manager-gitlab\vendor") or InStr(src_path, "C:\xampp\htdocs\case-manager\.vscode") or InStr(src_path, "C:\xampp\htdocs\case-manager\.env") or InStr(src_path, "C:\xampp\htdocs\case-manager\app\Http\Livewire\Auth\Login.php"))
-		return 1 ; skip file
-	else
-		return 0 ; don't skip file
+skipFileOrFolder(src_path, dest_path){
+	arr := []
+	arr.Push("\.git\")
+	arr.Push("\node_modules\")
+	arr.Push("\.vscode\")
+	arr.Push("\.gitattributes\")
+	arr.Push("\.gitignore\")
+	arr.Push("\Notepad++Portable\")
+	arr.Push("\selenium-js-tester\")
+	arr.Push("~")
+	arr.Push("\Thumbs.db\")
+	arr.Push("C:\xampp\htdocs\ecouncil\ecouncil\assets\")
+	arr.Push("C:\xampp\htdocs\ecouncil\ecouncil\protected\runtime\")
+	arr.Push("\ec.sublime-project\")
+	arr.Push("\ec.sublime-workspace\")
+	arr.Push("C:\xampp\htdocs\case-manager\storage\")
+	arr.Push("C:\xampp\htdocs\case-manager\vendor\")
+	arr.Push("C:\xampp\htdocs\case-manager\.env\")
+	arr.Push("C:\xampp\htdocs\case-manager\routes\auth.php")
+	arr.Push("C:\xampp\htdocs\case-manager\app\Http\Livewire\Auth\Login.php")
+	arr.Push("C:\xampp\htdocs\case-manager\app\Http\Livewire\Auth\")
+	arr.Push("C:\xampp\htdocs\case-manager\app\Http\Controllers\Auth\LoginController.php")
+
+	skip = 0
+	
+	Loop % arr.Length()
+		if( InStr(src_path, arr[A_Index]) or InStr(dest_path, arr[A_Index]) )
+			skip = 1
+		
+	return %skip%
+	
 }
 
 synchronizeFolders(Source, Destination){
@@ -493,6 +519,8 @@ synchronizeFoldersOneWay(Source, Destination, present = "N"){
 ;		S = Skip
 ;		D = Delete
 synchronizeCore(Source, Destination, params = "F", pAbsent = "C", present = "NC",  pAbsentChildren = "C", presentChildren = "NC", copyDuplicateChild = -1, syncChildren = -1){
+	
+	
 	StringSplit, Source, Source, \
 	duplicateSource:= Source "\" Source%Source0% "\"
 	
@@ -508,10 +536,19 @@ synchronizeCore(Source, Destination, params = "F", pAbsent = "C", present = "NC"
 
 	Loop, Files, %Source%\*.*, % params
 	{
+		;~ StringReplace, destPath, A_LoopFileFullPath, % Source, % Destination, ALL
+		;~ result := skipFileOrFolder(A_LoopFileFullPath "\", destPath "\")
+		;~ myTT(A_LoopFileFullPath)
+		;~ myTT(result)
+		;~ continue
+		
+		;~ if( InStr(A_LoopFileFullPath, "Login.php") )
+			;~ destPath := destPath
+		
 		StringReplace, destPath, A_LoopFileFullPath, % Source, % Destination, ALL
 		if( copyDuplicateChild || not InStr(A_LoopFileFullPath "\", duplicateSource))
 		{
-			if(! skipFileOrFolder(A_LoopFileFullPath))
+			if(! skipFileOrFolder(A_LoopFileFullPath "\", destPath "\"))
 			{
 				IfNotExist, % destPath
 				{
@@ -600,14 +637,14 @@ synchronizeCore(Source, Destination, params = "F", pAbsent = "C", present = "NC"
 						}
 					}
 				}
-			}
-			
-			if(syncChildren){
-				StringSplit, A_LoopFileFullPath, A_LoopFileFullPath, \
-				destPath:=Destination "\" A_LoopFileFullPath%A_LoopFileFullPath0%
-				MyTT("Back up " A_LoopFileFullPath " to " destPath)
-				synchronizeCore(A_LoopFileFullPath, destPath, "DR", pAbsent, present)
-				synchronizeCore(A_LoopFileFullPath, destPath, "FR", pAbsentChildren, presentChildren)
+				
+				if(syncChildren){
+					StringSplit, A_LoopFileFullPath, A_LoopFileFullPath, \
+					destPath:=Destination "\" A_LoopFileFullPath%A_LoopFileFullPath0%
+					MyTT("Back up " A_LoopFileFullPath " to " destPath)
+					synchronizeCore(A_LoopFileFullPath, destPath, "DR", pAbsent, present)
+					synchronizeCore(A_LoopFileFullPath, destPath, "FR", pAbsentChildren, presentChildren)
+				}
 			}
 		}
 		else
@@ -2860,6 +2897,30 @@ else if(Stack="16k") ; docker
 	{
 		Button1_Label=** Powershell commands`ndocker run -d -p 80`:80 docker/getting-started`ndocker ps`n`n`n** Docker commands`nmkdir -p code/ncit/gems`ngit clone https`://git.egov.mv/ahmed.shifau/traefik-proxy.git`ncd traefik-proxy/`ndocker network create proxy`ndocker ps`ndocker rm -f bdc9e9e4d788`ndocker compose up -d`ngit clone https`://hammadh@git.egov.mv/ncit_new/gems/task/web.git`nmkdir task`nmv web/ task/web`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     laravelsail/php82-composer`:latest     composer install --ignore-platform-reqs`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     chipaau/php`:8.1     composer install --ignore-platform-reqs`ncode .`ncd ~/code/ncit/gems/task/web/`ngit fetch origin`ngit branch -r`ngit checkout -b feature/deployment`ngit log --graph`nll`ngit pull origin feature/deployment`ngit pull origin`n`n./vendor/bin/sail up -d --build`n./vendor/bin/sail down -v`n./vendor/bin/sail artisan migrate`:fresh --seed`n`n./vendor/bin/sail artisan optimize`:clear`n./vendor/bin/sail up -d --remove-orphans`n./vendor/bin/sail logs -f laravel.test`n`nhttps`://traefik.localhost/#/http/routers`nhttps`://gems.localhost/case
 	}
+else if(Stack="16l") ; db seed with initial data 
+	{
+		Button1_Label=php artisan migrate`:fresh && php artisan db`:import-initial-data
+	}
+else if(Stack="16m") ; ncit laravel/api getting started 
+	{
+		Button1_Label=https`://git.egov.mv/getting-started/api-laravel/-/blob/develop/app/Http/Middleware/Authenticate.php
+		run, %Button1_Label%
+	}
+else if(Stack="16n") ; sentry 
+	{
+		Button1_Label=https`://sentry.tr.egov.mv/
+		run, %Button1_Label%
+	}
+else if(Stack="16o") ; scratch excel 
+	{
+		Button1_Label=https`://digitalgovmv-my.sharepoint.com/`:x`:/r/personal/hammadh_ncit_gov_mv/_layouts/15/Doc.aspx?sourcedoc=`%7B0117FB27-0862-47D1-80E2-CEF32FCA21F8`%7D&file=Book`%2030.xlsx&action=editnew&mobileredirect=true&wdNewAndOpenCt=1686209834000&ct=1686209834505&wdPreviousSession=d914636a-f196-4f0e-9806-88c171e2390f&wdOrigin=OFFICECOM-WEB.START.NEW&login_hint=hammadh`%40ncit.gov.mv&cid=e1a9b09b-742d-4370-a206-6f06a21acb0a&wdPreviousSessionSrc=HarmonyWeb
+		run, %Button1_Label%
+	}
+else if(Stack="16p") ; httpd-xampp.conf 
+	{
+		Button1_Label="C`:\xampp\apache\conf\extra\httpd-xampp.conf"
+		run, %Button1_Label%
+	}
 else
 	{	
 		EditVisible :=1
@@ -4169,11 +4230,11 @@ XButton2::
 	;~ return		
 		
 	
-		Source=C:\xampp\htdocs\case-manager
-		Destination=C:\xampp\htdocs\case-manager-gitlab
+		;~ Source=C:\xampp\htdocs\case-manager
+		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
 		
-		;~ Source=C:\xampp\htdocs\case-manager-gitlab
-		;~ Destination=C:\xampp\htdocs\case-manager
+		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		Destination=C:\xampp\htdocs\case-manager
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
@@ -5101,7 +5162,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
 	
-	data := "`t`t`t0`t1`tCase - Head of Organization`tcase-hod`n`t`t`t1`t2`tCase - Team Supervisor`tcase-team-supervisor`n`t`t`t2`t3`tCase - Handler`tcase-handler`n`t`t`t3`t4`tCase - Collaborator`tcase-collaborator`n`t`t`t4`t5`tTask - Head of Organization`ttask-hod`n`t`t`t5`t6`tTask - Team Supervisor`ttask-team-supervisor`n`t`t`t6`t7`tTask - Creator`ttask-creator`n`t`t`t7`t8`tTask - Assignee`ttask-assignee`n`t`t`t8`t9`tAccess user (readonly rights)`taccess-user`n`t`t`t9`t10`tGO Admin`tgo-admin`n`t`t`t10`t11`tNCIT Admin`tncit-admin"
+	data := "`t`t`t`t1`tMaldives`n`t Edit`t Copy`t Delete`t2`tAfghanistan`n`t Edit`t Copy`t Delete`t3`tAlbania`n`t Edit`t Copy`t Delete`t4`tAlgeria`n`t Edit`t Copy`t Delete`t5`tAndorra`n`t Edit`t Copy`t Delete`t6`tAngola`n`t Edit`t Copy`t Delete`t7`tArgentina`n`t Edit`t Copy`t Delete`t8`tArmenia`n`t Edit`t Copy`t Delete`t9`tAustralia`n`t Edit`t Copy`t Delete`t10`tAustria`n`t Edit`t Copy`t Delete`t11`tAzerbaijan`n`t Edit`t Copy`t Delete`t12`tBahamas`n`t Edit`t Copy`t Delete`t13`tBahrain`n`t Edit`t Copy`t Delete`t14`tBangladesh`n`t Edit`t Copy`t Delete`t15`tBarbados`n`t Edit`t Copy`t Delete`t16`tBelarus`n`t Edit`t Copy`t Delete`t17`tBelgium`n`t Edit`t Copy`t Delete`t18`tBelize`n`t Edit`t Copy`t Delete`t19`tBenin`n`t Edit`t Copy`t Delete`t20`tBhutan`n`t Edit`t Copy`t Delete`t21`tBolivia`n`t Edit`t Copy`t Delete`t22`tBosnia-Herzegovina`n`t Edit`t Copy`t Delete`t23`tBotswana`n`t Edit`t Copy`t Delete`t24`tBrazil`n`t Edit`t Copy`t Delete`t25`tBrunei`n`t Edit`t Copy`t Delete`t26`tBulgaria`n`t Edit`t Copy`t Delete`t27`tBurkina`n`t Edit`t Copy`t Delete`t28`tMyanmar`n`t Edit`t Copy`t Delete`t29`tBurundi`n`t Edit`t Copy`t Delete`t30`tCambodia`n`t Edit`t Copy`t Delete`t31`tCameroon`n`t Edit`t Copy`t Delete`t32`tCanada`n`t Edit`t Copy`t Delete`t33`tCape Verde Islands`n`t Edit`t Copy`t Delete`t34`tChad`n`t Edit`t Copy`t Delete`t35`tChile`n`t Edit`t Copy`t Delete`t36`tChina`n`t Edit`t Copy`t Delete`t37`tColombia`n`t Edit`t Copy`t Delete`t38`tCongo`n`t Edit`t Copy`t Delete`t39`tCosta Rica`n`t Edit`t Copy`t Delete`t40`tCroatia`n`t Edit`t Copy`t Delete`t41`tCuba`n`t Edit`t Copy`t Delete`t42`tCyprus`n`t Edit`t Copy`t Delete`t43`tCzech Republic`n`t Edit`t Copy`t Delete`t44`tDenmark`n`t Edit`t Copy`t Delete`t45`tDjibouti`n`t Edit`t Copy`t Delete`t46`tDominica`n`t Edit`t Copy`t Delete`t47`tDominican Republic`n`t Edit`t Copy`t Delete`t48`tEcuador`n`t Edit`t Copy`t Delete`t49`tEgypt`n`t Edit`t Copy`t Delete`t50`tEl Salvador`n`t Edit`t Copy`t Delete`t51`tEngland`n`t Edit`t Copy`t Delete`t52`tEritrea`n`t Edit`t Copy`t Delete`t53`tEstonia`n`t Edit`t Copy`t Delete`t54`tEthiopia`n`t Edit`t Copy`t Delete`t55`tFiji`n`t Edit`t Copy`t Delete`t56`tFinland`n`t Edit`t Copy`t Delete`t57`tFrance`n`t Edit`t Copy`t Delete`t58`tGabon`n`t Edit`t Copy`t Delete`t59`tGambia`n`t Edit`t Copy`t Delete`t60`tGeorgia`n`t Edit`t Copy`t Delete`t61`tGermany`n`t Edit`t Copy`t Delete`t62`tGhana`n`t Edit`t Copy`t Delete`t63`tGreece`n`t Edit`t Copy`t Delete`t64`tGrenada`n`t Edit`t Copy`t Delete`t65`tGuatemala`n`t Edit`t Copy`t Delete`t66`tGuinea`n`t Edit`t Copy`t Delete`t67`tGuyana`n`t Edit`t Copy`t Delete`t68`tHaiti`n`t Edit`t Copy`t Delete`t69`tNetherlands`n`t Edit`t Copy`t Delete`t70`tHonduras`n`t Edit`t Copy`t Delete`t71`tHungary`n`t Edit`t Copy`t Delete`t72`tIceland`n`t Edit`t Copy`t Delete`t73`tIndia`n`t Edit`t Copy`t Delete`t74`tIndonesia`n`t Edit`t Copy`t Delete`t75`tIran`n`t Edit`t Copy`t Delete`t76`tIraq`n`t Edit`t Copy`t Delete`t77`tIreland`n`t Edit`t Copy`t Delete`t78`tIsrael`n`t Edit`t Copy`t Delete`t79`tItaly`n`t Edit`t Copy`t Delete`t80`tJamaica`n`t Edit`t Copy`t Delete`t81`tJapan`n`t Edit`t Copy`t Delete`t82`tJordan`n`t Edit`t Copy`t Delete`t83`tKazakhstan`n`t Edit`t Copy`t Delete`t84`tKenya`n`t Edit`t Copy`t Delete`t85`tKuwait`n`t Edit`t Copy`t Delete`t86`tLaos`n`t Edit`t Copy`t Delete`t87`tLatvia`n`t Edit`t Copy`t Delete`t88`tLebanon`n`t Edit`t Copy`t Delete`t89`tLiberia`n`t Edit`t Copy`t Delete`t90`tLibyan Arab Jamahiriya`n`t Edit`t Copy`t Delete`t91`tLiechtenstein`n`t Edit`t Copy`t Delete`t92`tLithuania`n`t Edit`t Copy`t Delete`t93`tLuxembourg`n`t Edit`t Copy`t Delete`t94`tMacedonia`n`t Edit`t Copy`t Delete`t95`tMadagascar`n`t Edit`t Copy`t Delete`t96`tMalawi`n`t Edit`t Copy`t Delete`t97`tMalaysia`n`t Edit`t Copy`t Delete`t98`tMali`n`t Edit`t Copy`t Delete`t99`tMalta`n`t Edit`t Copy`t Delete`t100`tMauritania`n`t Edit`t Copy`t Delete`t101`tMauritius`n`t Edit`t Copy`t Delete`t102`tMexico`n`t Edit`t Copy`t Delete`t103`tMoldova`n`t Edit`t Copy`t Delete`t104`tMonaco`n`t Edit`t Copy`t Delete`t105`tMongolia`n`t Edit`t Copy`t Delete`t106`tMontenegro`n`t Edit`t Copy`t Delete`t107`tMorocco`n`t Edit`t Copy`t Delete`t108`tMozambique`n`t Edit`t Copy`t Delete`t109`tNamibia`n`t Edit`t Copy`t Delete`t110`tNepal`n`t Edit`t Copy`t Delete`t111`tNew Zealand`n`t Edit`t Copy`t Delete`t112`tNicaragua`n`t Edit`t Copy`t Delete`t113`tNiger`n`t Edit`t Copy`t Delete`t114`tNigeria`n`t Edit`t Copy`t Delete`t115`tKorea`, D.P.R.O.`n`t Edit`t Copy`t Delete`t116`tNorway`n`t Edit`t Copy`t Delete`t117`tOman`n`t Edit`t Copy`t Delete`t118`tPakistan`n`t Edit`t Copy`t Delete`t119`tPanama`n`t Edit`t Copy`t Delete`t120`tPapua New Guinea`n`t Edit`t Copy`t Delete`t121`tParaguay`n`t Edit`t Copy`t Delete`t122`tPeru`n`t Edit`t Copy`t Delete`t123`tPhilippines`n`t Edit`t Copy`t Delete`t124`tPoland`n`t Edit`t Copy`t Delete`t125`tPortugal`n`t Edit`t Copy`t Delete`t126`tQatar`n`t Edit`t Copy`t Delete`t127`tRomania`n`t Edit`t Copy`t Delete`t128`tRussia`n`t Edit`t Copy`t Delete`t129`tRwanda`n`t Edit`t Copy`t Delete`t130`tSaudi Arabia`n`t Edit`t Copy`t Delete`t131`tSenegal`n`t Edit`t Copy`t Delete`t132`tSerbia`n`t Edit`t Copy`t Delete`t133`tSeychelles`n`t Edit`t Copy`t Delete`t134`tSierra Leone`n`t Edit`t Copy`t Delete`t135`tSingapore`n`t Edit`t Copy`t Delete`t136`tSlovakia`n`t Edit`t Copy`t Delete`t137`tSlovenia`n`t Edit`t Copy`t Delete`t138`tSolomon Islands`n`t Edit`t Copy`t Delete`t139`tSomalia`n`t Edit`t Copy`t Delete`t140`tSouth Africa`n`t Edit`t Copy`t Delete`t141`tKorea`, Republic of`n`t Edit`t Copy`t Delete`t142`tSpain`n`t Edit`t Copy`t Delete`t143`tSri Lanka`n`t Edit`t Copy`t Delete`t144`tSudan`n`t Edit`t Copy`t Delete`t145`tSuriname`n`t Edit`t Copy`t Delete`t146`tSwaziland`n`t Edit`t Copy`t Delete`t147`tSweden`n`t Edit`t Copy`t Delete`t148`tSwitzerland`n`t Edit`t Copy`t Delete`t149`tSyria`n`t Edit`t Copy`t Delete`t150`tTaiwan`n`t Edit`t Copy`t Delete`t151`tTajikistan`n`t Edit`t Copy`t Delete`t152`tTanzania`n`t Edit`t Copy`t Delete`t153`tThailand`n`t Edit`t Copy`t Delete`t154`tTogo`n`t Edit`t Copy`t Delete`t155`tTrinidad and Tobago`n`t Edit`t Copy`t Delete`t156`tTunisia`n`t Edit`t Copy`t Delete`t157`tTurkey`n`t Edit`t Copy`t Delete`t158`tTurkmenistan`n`t Edit`t Copy`t Delete`t159`tTuvalu`n`t Edit`t Copy`t Delete`t160`tUganda`n`t Edit`t Copy`t Delete`t161`tUkraine`n`t Edit`t Copy`t Delete`t162`tUnited Arab Emirates`n`t Edit`t Copy`t Delete`t163`tUnited Kingdom`n`t Edit`t Copy`t Delete`t164`tUnited States of America`n`t Edit`t Copy`t Delete`t165`tUruguay`n`t Edit`t Copy`t Delete`t166`tUzbekistan`n`t Edit`t Copy`t Delete`t167`tVanuatu`n`t Edit`t Copy`t Delete`t168`tVenezuela`n`t Edit`t Copy`t Delete`t169`tVietnam`n`t Edit`t Copy`t Delete`t170`tSamoa`n`t Edit`t Copy`t Delete`t171`tYemen`n`t Edit`t Copy`t Delete`t172`tYugoslavia`n`t Edit`t Copy`t Delete`t173`tCongo`, The DRC`n`t Edit`t Copy`t Delete`t174`tZambia`n`t Edit`t Copy`t Delete`t175`tZimbabwe`n`t Edit`t Copy`t Delete`t176`tCayman Islands`n`t Edit`t Copy`t Delete`t177`tHong Kong`n`t Edit`t Copy`t Delete`t178`tAntigua and Barbuda`n`t Edit`t Copy`t Delete`t179`tAnguilla`n`t Edit`t Copy`t Delete`t180`tNetherlands Antilles`n`t Edit`t Copy`t Delete`t181`tAntarctica`n`t Edit`t Copy`t Delete`t182`tAmerican Samoa`n`t Edit`t Copy`t Delete`t183`tAruba`n`t Edit`t Copy`t Delete`t184`tAland Islands`n`t Edit`t Copy`t Delete`t185`tBurkina Faso`n`t Edit`t Copy`t Delete`t186`tBermuda`n`t Edit`t Copy`t Delete`t187`tBouvet Island`n`t Edit`t Copy`t Delete`t188`tCocos (Keeling) Islands`n`t Edit`t Copy`t Delete`t189`tCentral African Republic`n`t Edit`t Copy`t Delete`t190`tCote D'ivoire`n`t Edit`t Copy`t Delete`t191`tCook Islands`n`t Edit`t Copy`t Delete`t192`tChristmas Island`n`t Edit`t Copy`t Delete`t193`tWestern Sahara`n`t Edit`t Copy`t Delete`t194`tFalkland Islands (Malvians)`n`t Edit`t Copy`t Delete`t195`tMicronesia`, Federated States Of`n`t Edit`t Copy`t Delete`t196`tFaroe Islands`n`t Edit`t Copy`t Delete`t197`tGuernsey`n`t Edit`t Copy`t Delete`t198`tGibraltar`n`t Edit`t Copy`t Delete`t199`tGreenland`n`t Edit`t Copy`t Delete`t200`tGuadeloupe`n`t Edit`t Copy`t Delete`t201`tGuam`n`t Edit`t Copy`t Delete`t202`tGuinea-Bissau`n`t Edit`t Copy`t Delete`t203`tPalestine`n`t Edit`t Copy`t Delete`t204`tKyrgyzstan`n`t Edit`t Copy`t Delete`t205`tMacau`n`t Edit`t Copy`t Delete`t206`tSan Marino`n`t Edit`t Copy`t Delete`t207`tTonga`n`t Edit`t Copy`t Delete`t208`tSaint Lucia`n`t Edit`t Copy`t Delete`t209`tKiribati`n`t Edit`t Copy`t Delete`t210`tKosovo"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -6501,6 +6562,38 @@ scaffoldFiles(){
 		;~ id=0
 		;~ Loop %Clipboard0% {
 			;~ i := Clipboard%A_Index%
+			;~ StringSplit, ClipboardB, Clipboard%A_Index%, `t
+			
+			;~ outer_index := A_Index
+			
+			;~ cnt := ClipboardB0
+			;~ Loop %cnt% {
+				;~ if(A_Index < 18)
+					;~ continue
+				
+				;~ if(A_Index > 25)
+					;~ continue
+				
+				;~ i := ClipboardB%A_Index%
+				
+				;~ id := A_Index - 17
+				
+				;~ if(trim(i) = "ü")
+					;~ output := output ClipboardB26 "`t" id "`n"
+			;~ }
+		;~ }
+		;~ Clipboard := output
+		;~ myTT(output)
+	;~ return
+	
+		;~ Clipboard=
+		;~ waitClipboard()
+		;~ StringSplit, Clipboard, Clipboard, `n, `r
+		
+		;~ output=
+		;~ id=0
+		;~ Loop %Clipboard0% {
+			;~ i := Clipboard%A_Index%
 		
 			;~ if( Mod(A_Index, 2) = 1)
 				;~ id++
@@ -6520,7 +6613,7 @@ scaffoldFiles(){
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::
-		;~ printUsingScaffold( "", 1, -1) ; scaffold single
+		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
 		;~ return
 		
 		;~ Send ^a
@@ -6806,14 +6899,43 @@ scaffoldFiles(){
 	goToReference(target = ""){
 		global
 		
+		Clipboard=
+		waitClipboard()
+		
+		;~ ; replace efaas callback
+		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
+			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://case.localhost/auth/callback", all
+			omitcredentials="credentials"`: "omit"
+			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
+			Send ^v
+			Sleep 500
+			
+			Send !d
+			Send http://case.localhost/auth/login?EFAAS-DISABLE
+			Send {Enter}
+			return
+		}
+		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
+			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://ecouncil.test/ecouncil/index.php", all
+			omitcredentials="credentials"`: "omit"
+			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
+			Send ^v
+			Sleep 500
+			
+			Send !d
+			Send http://ecouncil.test/ecouncil/index.php/site/logout
+			Send {Enter}
+			return
+		}
+			
 		; if browser is open
 		if(WinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-			Clipboard=
-			;~ Send ^a
-			waitClipboard()
 			if(Clipboard != ""){
-				t:= RegExReplace(Clipboard, "s).*name: ""([^""]*).*", "$1")
+				t:= RegExReplace(Clipboard, "s).*name: ""([^""]*).*serverMemo.*", "$1")
 				action:= RegExReplace(Clipboard, "s).*method: ""([^""]*).*", "$1")
+				if( action = Clipboard)
+					action=
+				
 				StringReplace, t, t, -, , All 
 				StringReplace, t, t, ., %A_Space%, All 
 				
@@ -7198,7 +7320,8 @@ scaffoldFiles(){
 				;~ test1:=RegExReplace(tempN1 tempN4,"[^a-zA-Z0-9]","")
 				;~ test2:=RegExReplace(tempH1 tempH4,"[^a-zA-Z0-9]","")
 				
-				if( InStr(tempH1, tempN2) )
+				
+				if( Trim(tempH1) = Trim(tempN7) )
 				{
 					output:= output needle%outIndex% "`t" haystack%A_Index% "`t1`n"
 					break
