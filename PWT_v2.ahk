@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;"
+ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -468,13 +468,14 @@ skipFileOrFolder(src_path, dest_path){
 	arr.Push("C:\xampp\htdocs\ecouncil\ecouncil\protected\runtime\")
 	arr.Push("\ec.sublime-project\")
 	arr.Push("\ec.sublime-workspace\")
-	arr.Push("C:\xampp\htdocs\case-manager\storage\")
-	arr.Push("C:\xampp\htdocs\case-manager\vendor\")
-	arr.Push("C:\xampp\htdocs\case-manager\.env\")
-	arr.Push("C:\xampp\htdocs\case-manager\routes\auth.php")
-	arr.Push("C:\xampp\htdocs\case-manager\app\Http\Livewire\Auth\Login.php")
-	arr.Push("C:\xampp\htdocs\case-manager\app\Http\Livewire\Auth\")
-	arr.Push("C:\xampp\htdocs\case-manager\app\Http\Controllers\Auth\LoginController.php")
+	arr.Push("\.env\")
+	arr.Push("\vendor\")
+	arr.Push("\storage\")
+	
+	arr.Push("C:\xampp\htdocs\case-manager-gitlab\routes\auth.php")
+	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Livewire\Auth\Login.php")
+	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Livewire\Auth\")
+	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Controllers\Auth\LoginController.php")
 
 	skip = 0
 	
@@ -2899,7 +2900,7 @@ else if(Stack="16k") ; docker
 	}
 else if(Stack="16l") ; db seed with initial data 
 	{
-		Button1_Label=php artisan migrate`:fresh && php artisan db`:import-initial-data
+		Button1_Label=sail artisan migrate`:fresh && `nsail artisan db`:import-initial-data && `nsail artisan db`:import-seed-data-v2 && `nsail artisan db`:import-seed-data-v3 && `nsail artisan db`:import-seed-data-v4
 	}
 else if(Stack="16m") ; ncit laravel/api getting started 
 	{
@@ -2947,6 +2948,64 @@ else
 
 	
 	
+#if (Stack="16q") ; make case role seeder 
+	`::
+		Clipboard=
+		waitClipboard()
+		StringSplit, Clipboard, Clipboard, `n, `r
+		
+		output=
+		id=0
+		Loop %Clipboard0% {
+			i := Clipboard%A_Index%
+			StringSplit, ClipboardB, Clipboard%A_Index%, `t
+			
+			outer_index := A_Index
+			
+			cnt := ClipboardB0
+			startColumn := 21
+			Loop %cnt% {
+				if(A_Index < startColumn)
+					continue
+				
+				if(A_Index > startColumn + 7)
+					continue
+				
+				i := ClipboardB%A_Index%
+				
+				id := A_Index - startColumn + 1
+				
+				if(trim(i) = "ï¿½")
+					output := output ClipboardB1 "`t" id "`n"
+			}
+		}
+		Clipboard := output
+		myTT(output)
+	return
+	
+	;~ `::
+		Clipboard=
+		waitClipboard()
+		StringSplit, Clipboard, Clipboard, `n, `r
+		
+		output=
+		id=0
+		Loop %Clipboard0% {
+			i := Clipboard%A_Index%
+		
+			if( Mod(A_Index, 2) = 1)
+				id++
+			
+			;~ ;if(A_Index = 9)
+				;~ ;id--
+				
+			if(trim(i) != "")
+				output := output id "`n"
+		}
+		Clipboard := output
+		myTT(output)
+	return
+	
 #if (Stack="16j") ; localization 
 	`::
 		Clipboard=
@@ -2982,9 +3041,9 @@ else
 	
 #if (Stack="13t") ; laravel pretend migrate 
 	`::
-		file =C:\xampp\htdocs\case-manager\migrate.sql
+		file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\migrate.sql
 		command:= "C:\xampp\php81\php artisan migrate --pretend --no-ansi > " file
-		RunWait %comspec% /c "%command%", C:\xampp\htdocs\case-manager
+		RunWait %comspec% /c "%command%", \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
 		
 		FileRead, content, %file%
 		;~ StringReplace, content, content, `}); // group end, %route%`}); // group end
@@ -3000,7 +3059,7 @@ else
 	
 #if (Stack="13s") ; SQLite 
 	`::
-		file := "C:\xampp\htdocs\case-manager\.env"
+		file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\.env"
 		content := "APP_NAME=Case-Manager`nAPP_ENV=local`nAPP_KEY=base64`:Jx7g4xVsDQ6t3cyiacsDmuDgkhvqQi2ICgGh8cFevYA=`nAPP_DEBUG=true`nAPP_URL=http`://case-manager.test`n`nLOG_CHANNEL=stack`nLOG_DEPRECATIONS_CHANNEL=null`nLOG_LEVEL=debug`n`nDB_CONNECTION=sqlite`nDB_DATABASE=C`:\xampp\htdocs\case-manager\database.sqlite`n`n#DB_CONNECTION=mysql`n#DB_DATABASE=case_manager`nDB_HOST=127.0.0.1`nDB_PORT=3306`nDB_USERNAME=root`nDB_PASSWORD=`n`nBROADCAST_DRIVER=log`nCACHE_DRIVER=file`nFILESYSTEM_DISK=local`nQUEUE_CONNECTION=sync`nSESSION_DRIVER=file`nSESSION_LIFETIME=120`n`nMEMCACHED_HOST=127.0.0.1`n`nREDIS_HOST=127.0.0.1`nREDIS_PASSWORD=null`nREDIS_PORT=6379`n`nMAIL_MAILER=smtp`nMAIL_HOST=mailhog`nMAIL_PORT=1025`nMAIL_USERNAME=null`nMAIL_PASSWORD=null`nMAIL_ENCRYPTION=null`nMAIL_FROM_ADDRESS=""hello@example.com""`nMAIL_FROM_NAME=""${APP_NAME}""`n`nAWS_ACCESS_KEY_ID=`nAWS_SECRET_ACCESS_KEY=`nAWS_DEFAULT_REGION=us-east-1`nAWS_BUCKET=`nAWS_USE_PATH_STYLE_ENDPOINT=false`n`nPUSHER_APP_ID=`nPUSHER_APP_KEY=`nPUSHER_APP_SECRET=`nPUSHER_APP_CLUSTER=mt1`n`nMIX_PUSHER_APP_KEY=""${PUSHER_APP_KEY}""`nMIX_PUSHER_APP_CLUSTER=""${PUSHER_APP_CLUSTER}""`n"
 		
 		
@@ -3010,7 +3069,7 @@ else
 	
 #if (Stack="13r") ; mysql mode 
 	`::
-		file := "C:\xampp\htdocs\case-manager\.env"
+		file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\.env"
 		content := "APP_NAME=Case-Manager`nAPP_ENV=local`nAPP_KEY=base64`:Jx7g4xVsDQ6t3cyiacsDmuDgkhvqQi2ICgGh8cFevYA=`nAPP_DEBUG=true`nAPP_URL=http`://case-manager.test`n`nLOG_CHANNEL=stack`nLOG_DEPRECATIONS_CHANNEL=null`nLOG_LEVEL=debug`n`n#DB_CONNECTION=sqlite`n#DB_DATABASE=C`:\xampp\htdocs\case-manager\database.sqlite`n`nDB_CONNECTION=mysql`nDB_DATABASE=case_manager`nDB_HOST=127.0.0.1`nDB_PORT=3306`nDB_USERNAME=root`nDB_PASSWORD=`n`nBROADCAST_DRIVER=log`nCACHE_DRIVER=file`nFILESYSTEM_DISK=local`nQUEUE_CONNECTION=sync`nSESSION_DRIVER=file`nSESSION_LIFETIME=120`n`nMEMCACHED_HOST=127.0.0.1`n`nREDIS_HOST=127.0.0.1`nREDIS_PASSWORD=null`nREDIS_PORT=6379`n`nMAIL_MAILER=smtp`nMAIL_HOST=mailhog`nMAIL_PORT=1025`nMAIL_USERNAME=null`nMAIL_PASSWORD=null`nMAIL_ENCRYPTION=null`nMAIL_FROM_ADDRESS=""hello@example.com""`nMAIL_FROM_NAME=""${APP_NAME}""`n`nAWS_ACCESS_KEY_ID=`nAWS_SECRET_ACCESS_KEY=`nAWS_DEFAULT_REGION=us-east-1`nAWS_BUCKET=`nAWS_USE_PATH_STYLE_ENDPOINT=false`n`nPUSHER_APP_ID=`nPUSHER_APP_KEY=`nPUSHER_APP_SECRET=`nPUSHER_APP_CLUSTER=mt1`n`nMIX_PUSHER_APP_KEY=""${PUSHER_APP_KEY}""`nMIX_PUSHER_APP_CLUSTER=""${PUSHER_APP_CLUSTER}""`n"
 		
 		
@@ -3043,7 +3102,7 @@ else
 	return
 	
 	^`::
-		Click 575, 235
+		Click 692, 235
 		Sleep 100
 		
 		Send {Home}
@@ -4230,11 +4289,14 @@ XButton2::
 	;~ return		
 		
 	
-		;~ Source=C:\xampp\htdocs\case-manager
-		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
-		
 		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
-		Destination=C:\xampp\htdocs\case-manager
+		Destination=C:\xampp\htdocs\case-manager-gitlab
+		
+		;~ Source=C:\xampp\htdocs\case-manager-gitlab
+		;~ Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		
+		;~ Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		;~ Destination=C:\xampp\htdocs\case-manager
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
@@ -4437,7 +4499,7 @@ model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_s
 	model := scaffoldModel("? valueCC1 ?")
 	
 	if(related_table_singular != "" ){
-		t := "`    /**`n     * Get the ? valueL4 ? that owns the " name ".`n     */`n    public function ? valueC12 ?()`n    {`n        return $this->belongsTo(" valueCC4 "`:`:class`, '? valueS1 ?'`, '" related_primary_key "')`;`n    }`n`n    // /**`n    //  * Get the " plural " for the ? valueL4 ?.`n    //  */`n    // public function " plural_C "()`n    // {`n    //     return $this->hasMany(" model "`:`:class`, '" related_primary_key "'`, '? valueS1 ?')`;`n    // }`n`n"
+		t := "`    /**`n     * Get the ? valueL4 ? that owns the " name ".`n     */`n    public function ? valueC12 ?()`n    {`n        return $this->belongsTo(" valueCC4 "`:`:class`, '? valueS1 ?'`, '" related_primary_key "')`;`n    }`n`n    // /**`n    //  * Get the " plural " for the ? valueL4 ?.`n    //  */`n    // public function " plural_C "()`n    // {`n    //     return $this->hasMany(" model "`:`:class`, '? valueS1 ?'`, '" related_primary_key "')`;`n    // }`n`n"
 		without_id := StrReplace(field_name, "_id", "")
 		t := replaceMarker(without_id, t, 91)
 	}else
@@ -4623,7 +4685,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		customModelName := customModelName(table_name_singular)
 	
 	;~ customModelName := scaffoldModel( customModelName )
-	file =C:\xampp\htdocs\case-manager\app\Models\%customModelName%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Models\%customModelName%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -4669,7 +4731,7 @@ factory_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("? valueCC1 ?Factory")
 	
-	file =C:\xampp\htdocs\case-manager\database\factories\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\factories\%name%.php
 	fileWrite( content, file )
 }
 
@@ -4700,7 +4762,7 @@ seeder_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel("<?php`n`nnamespace Database\Seeders`;`n`nuse Illuminate\Database\Console\Seeds\WithoutModelEvents`;`nuse Illuminate\Database\Seeder`;`nuse Illuminate\Support\Facades\DB`;`nuse Illuminate\Support\Str`;`n`nclass ? valueCC1 ?Seeder extends Seeder`n{`n    /**`n     * Run the database seeds.`n     *`n     * @return void`n     */`n    public function run()`n    {`n        DB`:`:table('? valueS2 ?')->insert([`n            [`n" attributes "`n            ]`,`n        ])`;`n    }`n}`n")
 	
 	name := scaffoldModel("? valueCC1 ?Seeder")
-	file =C:\xampp\htdocs\case-manager\database\seeders\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\seeders\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4713,7 +4775,7 @@ updateDatabaseSeeder(){
 updateDatabaseSeeder_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	seeder := scaffoldModel("`            // ? valueCC1 ?Seeder`:`:class`,`n")
 	
-	file =C:\xampp\htdocs\case-manager\database\seeders\DatabaseSeeder.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\seeders\DatabaseSeeder.php
 	FileRead, content, %file%
 	StringReplace, content, content, `        ])`;, %seeder%`        ])`;
 	
@@ -4728,7 +4790,7 @@ apiController_validationRules( field_name = 1, data_type = 2, nullability = 3, r
 	if( HasVal(arr, field_name) )
 		return ""
 	
-	required := "max`:1000000000|"`
+	required := "nullable|"`
 	if( InStr(nullability, "No") )
 		required := "required|"
 	
@@ -4769,7 +4831,7 @@ apiController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueCC1 ?Controller")
-	file =C:\xampp\htdocs\case-manager\app\Http\Controllers\Api\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Controllers\Api\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4792,7 +4854,7 @@ repository_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueCC1 ?Repository")
-	file =C:\xampp\htdocs\case-manager\app\Repositories\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Repositories\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4816,9 +4878,9 @@ childListTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("ChildList? valueCC2 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	FileCreateDir, C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%
 	
-	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
 	fileWrite( content, file )
 }
 	
@@ -4841,7 +4903,7 @@ listTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("List? valueCC2 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4865,7 +4927,7 @@ manageTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("Manage? valueCC1 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4889,7 +4951,7 @@ showTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("Show? valueCC1 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	file =C:\xampp\htdocs\case-manager\tests\Feature\Livewire\%directory%\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4912,7 +4974,7 @@ policy_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueCC1 ?Policy")
-	file =C:\xampp\htdocs\case-manager\app\Policies\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Policies\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5045,7 +5107,7 @@ listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	directory := scaffoldModel("? valueCC1 ?")
 	name := scaffoldModel("? valueCC2 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%\List%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%\List%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5063,7 +5125,7 @@ listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -5092,7 +5154,7 @@ childListController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 	
 	directory := scaffoldModel("? valueCC1 ?")
 	name := scaffoldModel("? valueCC2 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%\ChildList%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%\ChildList%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5110,7 +5172,7 @@ childListController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5129,7 +5191,7 @@ childListModalController_a(table_name_singular = 1, table_name_plural = 2, rever
 	
 	directory := scaffoldModel("? valueCC1 ?")
 	name := scaffoldModel("? valueCC2 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%\ChildListModal%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%\ChildListModal%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5147,7 +5209,7 @@ childListModalController_a(table_name_singular = 1, table_name_plural = 2, rever
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5160,9 +5222,9 @@ enum(){
 	
 enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
-	file =C:\xampp\htdocs\case-manager\app\Enum\%name%Enum.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Enum\%name%Enum.php
 	
-	data := "`t`t`t`t1`tMaldives`n`t Edit`t Copy`t Delete`t2`tAfghanistan`n`t Edit`t Copy`t Delete`t3`tAlbania`n`t Edit`t Copy`t Delete`t4`tAlgeria`n`t Edit`t Copy`t Delete`t5`tAndorra`n`t Edit`t Copy`t Delete`t6`tAngola`n`t Edit`t Copy`t Delete`t7`tArgentina`n`t Edit`t Copy`t Delete`t8`tArmenia`n`t Edit`t Copy`t Delete`t9`tAustralia`n`t Edit`t Copy`t Delete`t10`tAustria`n`t Edit`t Copy`t Delete`t11`tAzerbaijan`n`t Edit`t Copy`t Delete`t12`tBahamas`n`t Edit`t Copy`t Delete`t13`tBahrain`n`t Edit`t Copy`t Delete`t14`tBangladesh`n`t Edit`t Copy`t Delete`t15`tBarbados`n`t Edit`t Copy`t Delete`t16`tBelarus`n`t Edit`t Copy`t Delete`t17`tBelgium`n`t Edit`t Copy`t Delete`t18`tBelize`n`t Edit`t Copy`t Delete`t19`tBenin`n`t Edit`t Copy`t Delete`t20`tBhutan`n`t Edit`t Copy`t Delete`t21`tBolivia`n`t Edit`t Copy`t Delete`t22`tBosnia-Herzegovina`n`t Edit`t Copy`t Delete`t23`tBotswana`n`t Edit`t Copy`t Delete`t24`tBrazil`n`t Edit`t Copy`t Delete`t25`tBrunei`n`t Edit`t Copy`t Delete`t26`tBulgaria`n`t Edit`t Copy`t Delete`t27`tBurkina`n`t Edit`t Copy`t Delete`t28`tMyanmar`n`t Edit`t Copy`t Delete`t29`tBurundi`n`t Edit`t Copy`t Delete`t30`tCambodia`n`t Edit`t Copy`t Delete`t31`tCameroon`n`t Edit`t Copy`t Delete`t32`tCanada`n`t Edit`t Copy`t Delete`t33`tCape Verde Islands`n`t Edit`t Copy`t Delete`t34`tChad`n`t Edit`t Copy`t Delete`t35`tChile`n`t Edit`t Copy`t Delete`t36`tChina`n`t Edit`t Copy`t Delete`t37`tColombia`n`t Edit`t Copy`t Delete`t38`tCongo`n`t Edit`t Copy`t Delete`t39`tCosta Rica`n`t Edit`t Copy`t Delete`t40`tCroatia`n`t Edit`t Copy`t Delete`t41`tCuba`n`t Edit`t Copy`t Delete`t42`tCyprus`n`t Edit`t Copy`t Delete`t43`tCzech Republic`n`t Edit`t Copy`t Delete`t44`tDenmark`n`t Edit`t Copy`t Delete`t45`tDjibouti`n`t Edit`t Copy`t Delete`t46`tDominica`n`t Edit`t Copy`t Delete`t47`tDominican Republic`n`t Edit`t Copy`t Delete`t48`tEcuador`n`t Edit`t Copy`t Delete`t49`tEgypt`n`t Edit`t Copy`t Delete`t50`tEl Salvador`n`t Edit`t Copy`t Delete`t51`tEngland`n`t Edit`t Copy`t Delete`t52`tEritrea`n`t Edit`t Copy`t Delete`t53`tEstonia`n`t Edit`t Copy`t Delete`t54`tEthiopia`n`t Edit`t Copy`t Delete`t55`tFiji`n`t Edit`t Copy`t Delete`t56`tFinland`n`t Edit`t Copy`t Delete`t57`tFrance`n`t Edit`t Copy`t Delete`t58`tGabon`n`t Edit`t Copy`t Delete`t59`tGambia`n`t Edit`t Copy`t Delete`t60`tGeorgia`n`t Edit`t Copy`t Delete`t61`tGermany`n`t Edit`t Copy`t Delete`t62`tGhana`n`t Edit`t Copy`t Delete`t63`tGreece`n`t Edit`t Copy`t Delete`t64`tGrenada`n`t Edit`t Copy`t Delete`t65`tGuatemala`n`t Edit`t Copy`t Delete`t66`tGuinea`n`t Edit`t Copy`t Delete`t67`tGuyana`n`t Edit`t Copy`t Delete`t68`tHaiti`n`t Edit`t Copy`t Delete`t69`tNetherlands`n`t Edit`t Copy`t Delete`t70`tHonduras`n`t Edit`t Copy`t Delete`t71`tHungary`n`t Edit`t Copy`t Delete`t72`tIceland`n`t Edit`t Copy`t Delete`t73`tIndia`n`t Edit`t Copy`t Delete`t74`tIndonesia`n`t Edit`t Copy`t Delete`t75`tIran`n`t Edit`t Copy`t Delete`t76`tIraq`n`t Edit`t Copy`t Delete`t77`tIreland`n`t Edit`t Copy`t Delete`t78`tIsrael`n`t Edit`t Copy`t Delete`t79`tItaly`n`t Edit`t Copy`t Delete`t80`tJamaica`n`t Edit`t Copy`t Delete`t81`tJapan`n`t Edit`t Copy`t Delete`t82`tJordan`n`t Edit`t Copy`t Delete`t83`tKazakhstan`n`t Edit`t Copy`t Delete`t84`tKenya`n`t Edit`t Copy`t Delete`t85`tKuwait`n`t Edit`t Copy`t Delete`t86`tLaos`n`t Edit`t Copy`t Delete`t87`tLatvia`n`t Edit`t Copy`t Delete`t88`tLebanon`n`t Edit`t Copy`t Delete`t89`tLiberia`n`t Edit`t Copy`t Delete`t90`tLibyan Arab Jamahiriya`n`t Edit`t Copy`t Delete`t91`tLiechtenstein`n`t Edit`t Copy`t Delete`t92`tLithuania`n`t Edit`t Copy`t Delete`t93`tLuxembourg`n`t Edit`t Copy`t Delete`t94`tMacedonia`n`t Edit`t Copy`t Delete`t95`tMadagascar`n`t Edit`t Copy`t Delete`t96`tMalawi`n`t Edit`t Copy`t Delete`t97`tMalaysia`n`t Edit`t Copy`t Delete`t98`tMali`n`t Edit`t Copy`t Delete`t99`tMalta`n`t Edit`t Copy`t Delete`t100`tMauritania`n`t Edit`t Copy`t Delete`t101`tMauritius`n`t Edit`t Copy`t Delete`t102`tMexico`n`t Edit`t Copy`t Delete`t103`tMoldova`n`t Edit`t Copy`t Delete`t104`tMonaco`n`t Edit`t Copy`t Delete`t105`tMongolia`n`t Edit`t Copy`t Delete`t106`tMontenegro`n`t Edit`t Copy`t Delete`t107`tMorocco`n`t Edit`t Copy`t Delete`t108`tMozambique`n`t Edit`t Copy`t Delete`t109`tNamibia`n`t Edit`t Copy`t Delete`t110`tNepal`n`t Edit`t Copy`t Delete`t111`tNew Zealand`n`t Edit`t Copy`t Delete`t112`tNicaragua`n`t Edit`t Copy`t Delete`t113`tNiger`n`t Edit`t Copy`t Delete`t114`tNigeria`n`t Edit`t Copy`t Delete`t115`tKorea`, D.P.R.O.`n`t Edit`t Copy`t Delete`t116`tNorway`n`t Edit`t Copy`t Delete`t117`tOman`n`t Edit`t Copy`t Delete`t118`tPakistan`n`t Edit`t Copy`t Delete`t119`tPanama`n`t Edit`t Copy`t Delete`t120`tPapua New Guinea`n`t Edit`t Copy`t Delete`t121`tParaguay`n`t Edit`t Copy`t Delete`t122`tPeru`n`t Edit`t Copy`t Delete`t123`tPhilippines`n`t Edit`t Copy`t Delete`t124`tPoland`n`t Edit`t Copy`t Delete`t125`tPortugal`n`t Edit`t Copy`t Delete`t126`tQatar`n`t Edit`t Copy`t Delete`t127`tRomania`n`t Edit`t Copy`t Delete`t128`tRussia`n`t Edit`t Copy`t Delete`t129`tRwanda`n`t Edit`t Copy`t Delete`t130`tSaudi Arabia`n`t Edit`t Copy`t Delete`t131`tSenegal`n`t Edit`t Copy`t Delete`t132`tSerbia`n`t Edit`t Copy`t Delete`t133`tSeychelles`n`t Edit`t Copy`t Delete`t134`tSierra Leone`n`t Edit`t Copy`t Delete`t135`tSingapore`n`t Edit`t Copy`t Delete`t136`tSlovakia`n`t Edit`t Copy`t Delete`t137`tSlovenia`n`t Edit`t Copy`t Delete`t138`tSolomon Islands`n`t Edit`t Copy`t Delete`t139`tSomalia`n`t Edit`t Copy`t Delete`t140`tSouth Africa`n`t Edit`t Copy`t Delete`t141`tKorea`, Republic of`n`t Edit`t Copy`t Delete`t142`tSpain`n`t Edit`t Copy`t Delete`t143`tSri Lanka`n`t Edit`t Copy`t Delete`t144`tSudan`n`t Edit`t Copy`t Delete`t145`tSuriname`n`t Edit`t Copy`t Delete`t146`tSwaziland`n`t Edit`t Copy`t Delete`t147`tSweden`n`t Edit`t Copy`t Delete`t148`tSwitzerland`n`t Edit`t Copy`t Delete`t149`tSyria`n`t Edit`t Copy`t Delete`t150`tTaiwan`n`t Edit`t Copy`t Delete`t151`tTajikistan`n`t Edit`t Copy`t Delete`t152`tTanzania`n`t Edit`t Copy`t Delete`t153`tThailand`n`t Edit`t Copy`t Delete`t154`tTogo`n`t Edit`t Copy`t Delete`t155`tTrinidad and Tobago`n`t Edit`t Copy`t Delete`t156`tTunisia`n`t Edit`t Copy`t Delete`t157`tTurkey`n`t Edit`t Copy`t Delete`t158`tTurkmenistan`n`t Edit`t Copy`t Delete`t159`tTuvalu`n`t Edit`t Copy`t Delete`t160`tUganda`n`t Edit`t Copy`t Delete`t161`tUkraine`n`t Edit`t Copy`t Delete`t162`tUnited Arab Emirates`n`t Edit`t Copy`t Delete`t163`tUnited Kingdom`n`t Edit`t Copy`t Delete`t164`tUnited States of America`n`t Edit`t Copy`t Delete`t165`tUruguay`n`t Edit`t Copy`t Delete`t166`tUzbekistan`n`t Edit`t Copy`t Delete`t167`tVanuatu`n`t Edit`t Copy`t Delete`t168`tVenezuela`n`t Edit`t Copy`t Delete`t169`tVietnam`n`t Edit`t Copy`t Delete`t170`tSamoa`n`t Edit`t Copy`t Delete`t171`tYemen`n`t Edit`t Copy`t Delete`t172`tYugoslavia`n`t Edit`t Copy`t Delete`t173`tCongo`, The DRC`n`t Edit`t Copy`t Delete`t174`tZambia`n`t Edit`t Copy`t Delete`t175`tZimbabwe`n`t Edit`t Copy`t Delete`t176`tCayman Islands`n`t Edit`t Copy`t Delete`t177`tHong Kong`n`t Edit`t Copy`t Delete`t178`tAntigua and Barbuda`n`t Edit`t Copy`t Delete`t179`tAnguilla`n`t Edit`t Copy`t Delete`t180`tNetherlands Antilles`n`t Edit`t Copy`t Delete`t181`tAntarctica`n`t Edit`t Copy`t Delete`t182`tAmerican Samoa`n`t Edit`t Copy`t Delete`t183`tAruba`n`t Edit`t Copy`t Delete`t184`tAland Islands`n`t Edit`t Copy`t Delete`t185`tBurkina Faso`n`t Edit`t Copy`t Delete`t186`tBermuda`n`t Edit`t Copy`t Delete`t187`tBouvet Island`n`t Edit`t Copy`t Delete`t188`tCocos (Keeling) Islands`n`t Edit`t Copy`t Delete`t189`tCentral African Republic`n`t Edit`t Copy`t Delete`t190`tCote D'ivoire`n`t Edit`t Copy`t Delete`t191`tCook Islands`n`t Edit`t Copy`t Delete`t192`tChristmas Island`n`t Edit`t Copy`t Delete`t193`tWestern Sahara`n`t Edit`t Copy`t Delete`t194`tFalkland Islands (Malvians)`n`t Edit`t Copy`t Delete`t195`tMicronesia`, Federated States Of`n`t Edit`t Copy`t Delete`t196`tFaroe Islands`n`t Edit`t Copy`t Delete`t197`tGuernsey`n`t Edit`t Copy`t Delete`t198`tGibraltar`n`t Edit`t Copy`t Delete`t199`tGreenland`n`t Edit`t Copy`t Delete`t200`tGuadeloupe`n`t Edit`t Copy`t Delete`t201`tGuam`n`t Edit`t Copy`t Delete`t202`tGuinea-Bissau`n`t Edit`t Copy`t Delete`t203`tPalestine`n`t Edit`t Copy`t Delete`t204`tKyrgyzstan`n`t Edit`t Copy`t Delete`t205`tMacau`n`t Edit`t Copy`t Delete`t206`tSan Marino`n`t Edit`t Copy`t Delete`t207`tTonga`n`t Edit`t Copy`t Delete`t208`tSaint Lucia`n`t Edit`t Copy`t Delete`t209`tKiribati`n`t Edit`t Copy`t Delete`t210`tKosovo"
+	data := "`t`t`t`t1`tMaldives`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t2`tAfghanistan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t3`tAlbania`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t4`tAlgeria`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t5`tAndorra`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t6`tAngola`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t7`tArgentina`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t8`tArmenia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t9`tAustralia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t10`tAustria`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t11`tAzerbaijan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t12`tBahamas`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t13`tBahrain`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t14`tBangladesh`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t15`tBarbados`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t16`tBelarus`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t17`tBelgium`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t18`tBelize`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t19`tBenin`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t20`tBhutan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t21`tBolivia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t22`tBosnia-Herzegovina`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t23`tBotswana`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t24`tBrazil`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t25`tBrunei`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t26`tBulgaria`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t27`tBurkina`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t28`tMyanmar`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t29`tBurundi`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t30`tCambodia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t31`tCameroon`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t32`tCanada`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t33`tCape Verde Islands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t34`tChad`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t35`tChile`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t36`tChina`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t37`tColombia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t38`tCongo`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t39`tCosta Rica`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t40`tCroatia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t41`tCuba`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t42`tCyprus`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t43`tCzech Republic`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t44`tDenmark`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t45`tDjibouti`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t46`tDominica`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t47`tDominican Republic`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t48`tEcuador`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t49`tEgypt`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t50`tEl Salvador`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t51`tEngland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t52`tEritrea`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t53`tEstonia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t54`tEthiopia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t55`tFiji`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t56`tFinland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t57`tFrance`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t58`tGabon`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t59`tGambia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t60`tGeorgia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t61`tGermany`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t62`tGhana`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t63`tGreece`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t64`tGrenada`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t65`tGuatemala`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t66`tGuinea`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t67`tGuyana`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t68`tHaiti`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t69`tNetherlands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t70`tHonduras`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t71`tHungary`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t72`tIceland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t73`tIndia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t74`tIndonesia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t75`tIran`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t76`tIraq`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t77`tIreland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t78`tIsrael`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t79`tItaly`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t80`tJamaica`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t81`tJapan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t82`tJordan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t83`tKazakhstan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t84`tKenya`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t85`tKuwait`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t86`tLaos`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t87`tLatvia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t88`tLebanon`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t89`tLiberia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t90`tLibyan Arab Jamahiriya`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t91`tLiechtenstein`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t92`tLithuania`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t93`tLuxembourg`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t94`tMacedonia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t95`tMadagascar`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t96`tMalawi`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t97`tMalaysia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t98`tMali`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t99`tMalta`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t100`tMauritania`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t101`tMauritius`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t102`tMexico`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t103`tMoldova`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t104`tMonaco`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t105`tMongolia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t106`tMontenegro`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t107`tMorocco`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t108`tMozambique`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t109`tNamibia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t110`tNepal`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t111`tNew Zealand`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t112`tNicaragua`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t113`tNiger`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t114`tNigeria`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t115`tKorea`, D.P.R.O.`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t116`tNorway`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t117`tOman`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t118`tPakistan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t119`tPanama`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t120`tPapua New Guinea`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t121`tParaguay`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t122`tPeru`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t123`tPhilippines`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t124`tPoland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t125`tPortugal`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t126`tQatar`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t127`tRomania`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t128`tRussia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t129`tRwanda`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t130`tSaudi Arabia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t131`tSenegal`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t132`tSerbia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t133`tSeychelles`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t134`tSierra Leone`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t135`tSingapore`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t136`tSlovakia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t137`tSlovenia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t138`tSolomon Islands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t139`tSomalia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t140`tSouth Africa`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t141`tKorea`, Republic of`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t142`tSpain`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t143`tSri Lanka`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t144`tSudan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t145`tSuriname`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t146`tSwaziland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t147`tSweden`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t148`tSwitzerland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t149`tSyria`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t150`tTaiwan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t151`tTajikistan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t152`tTanzania`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t153`tThailand`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t154`tTogo`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t155`tTrinidad and Tobago`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t156`tTunisia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t157`tTurkey`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t158`tTurkmenistan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t159`tTuvalu`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t160`tUganda`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t161`tUkraine`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t162`tUnited Arab Emirates`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t163`tUnited Kingdom`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t164`tUnited States of America`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t165`tUruguay`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t166`tUzbekistan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t167`tVanuatu`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t168`tVenezuela`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t169`tVietnam`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t170`tSamoa`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t171`tYemen`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t172`tYugoslavia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t173`tCongo`, The DRC`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t174`tZambia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t175`tZimbabwe`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t176`tCayman Islands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t177`tHong Kong`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t178`tAntigua and Barbuda`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t179`tAnguilla`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t180`tNetherlands Antilles`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t181`tAntarctica`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t182`tAmerican Samoa`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t183`tAruba`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t184`tAland Islands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t185`tBurkina Faso`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t186`tBermuda`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t187`tBouvet Island`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t188`tCocos (Keeling) Islands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t189`tCentral African Republic`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t190`tCote D'ivoire`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t191`tCook Islands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t192`tChristmas Island`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t193`tWestern Sahara`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t194`tFalkland Islands (Malvians)`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t195`tMicronesia`, Federated States Of`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t196`tFaroe Islands`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t197`tGuernsey`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t198`tGibraltar`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t199`tGreenland`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t200`tGuadeloupe`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t201`tGuam`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t202`tGuinea-Bissau`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t203`tPalestine`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t204`tKyrgyzstan`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t205`tMacau`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t206`tSan Marino`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t207`tTonga`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t208`tSaint Lucia`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t209`tKiribati`n`tï¿½Edit`tï¿½Copy`tï¿½Delete`t210`tKosovo"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -5203,7 +5265,7 @@ manageController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel( t )
 	
 	name := scaffoldModel("? valueCC1 ?\Manage? valueCC1 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5225,7 +5287,7 @@ showController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel( t )
 	
 	name := scaffoldModel("? valueCC1 ?\Show? valueCC1 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5254,7 +5316,7 @@ selectController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	primary_key := primary_key()
 	
 	name := scaffoldModel("? valueCC1 ?\Select? valueCC1 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5288,7 +5350,7 @@ selectArrayController_a(table_name_singular = 1, table_name_plural = 2, reverse 
 	primary_key := primary_key()
 	
 	name := scaffoldModel("? valueCC1 ?\Select? valueCC1 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5358,7 +5420,7 @@ importController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	guesses := runSubScaffold( "scaffold_LiveWireImportController_guesses")
 	
 	name := scaffoldModel("? valueCC1 ?\Import? valueCC2 ?")
-	file =C:\xampp\htdocs\case-manager\app\Http\Livewire\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5382,7 +5444,7 @@ importController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	}
 	
 	directory := scaffoldModel("? valueCC1 ?")
-	FileCreateDir, C:\xampp\htdocs\case-manager\app\Http\Livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
 		
 	fileWrite( content, file )
 }
@@ -5415,7 +5477,7 @@ importModel_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel("<?php`n`nnamespace App\Imports`;`n`nuse Carbon\Carbon`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Support\Facades\Hash`;`nuse Maatwebsite\Excel\Concerns\ToModel`;`nuse PhpOffice\PhpSpreadsheet\Shared\Date`;`n`nclass ? valueCC2 ?Import implements ToModel`n{`n    /**`n     * @param array $row`n     *`n     * @return ? valueCC1 ?|null`n     */`n    public function model(array $row)`n    {`n        if($row[12] == ""last_activity_date"")`n            return null`;`n        `n        return new ? valueCC1 ?([`n" fields "        ])`;`n    }`n}")
 	
 	name := scaffoldModel("? valueCC2 ?Import")
-	file =C:\xampp\htdocs\case-manager\app\Imports\%name%.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Imports\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5629,7 +5691,7 @@ listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%\list-%name%.blade.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\list-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5642,7 +5704,7 @@ listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 		content := scaffoldModel("<div class=""pt-16 mx-auto px-2 sm`:px-4 md`:px-8"">`n    {{-- Breadcrumbs --}}`n    <div class=""pt-2"">`n        <div class=""text-sm mb-2"">`n            <a class=""text-blue-600"" href=""{{ route('home') }}"">`n                Home`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ route('? valueSH2 ?') }}"">`n                ? valueAT2 ?`n            </a>`n        </div>`n    </div>`n`n    <h1 class=""text-2xl font-semibold text-gray-900"">? valueAT2 ?</h1>`n`n    <div class=""py-4 space-y-4"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <div class=""w-2/4 flex space-x-4"">`n                <x-input.text wire`:model=""filters.search"" placeholder=""Search ? valueAT2 ?..."" />`n`n                <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link>`n            </div>`n`n            <div class=""space-x-2 flex items-center"">`n                @if ($showAdvanced)`n                <div class=""sm`:grid sm`:grid-cols-3 sm`:gap-4 sm`:items-start  sm`:border-gray-200 "">`n                    <label for=""perPage"" class=""block text-sm font-medium leading-5 text-gray-700 sm`:mt-px sm`:pt-2"">`n                        Per Page`n                    </label>`n`n                    <div class=""mt-1 sm`:mt-0 sm`:col-span-2"">`n                        <div class=""flex"">`n                            <select class=""form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus`:outline-none focus`:shadow-outline-blue focus`:border-blue-300 sm`:text-sm sm`:leading-5"" wire`:model=""perPage"" id=""perPage"">`n                                <option value=""10"">10</option>`n                                <option value=""25"">25</option>`n                                <option value=""50"">50</option>`n                            </select>`n                        </div>`n                    </div>`n                </div>`n`n`n                <x-dropdown label=""Bulk Actions"">`n                    <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                        <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                    </x-dropdown.item>`n`n                    <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                        <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                    </x-dropdown.item>`n                </x-dropdown>`n`n                <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                @endif`n`n                <x-button.primary wire`:click=""create""><x-icon.plus/> New</x-button.primary>`n            </div>`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n`n        <!-- ? valueAT2 ? Table -->`n        <div class=""flex-col space-y-4 backdrop-blur-lg`n        [ bg-gradient-to-b from-white/60 to-white/30 ]`n        [ border-[1px] border-solid border-white border-opacity-30 ]`n        [ shadow-lg ]"">`n            <x-table>`n                <x-slot name=""head"">`n                    <x-table.heading class=""pr-0 w-8"">`n                        <x-input.checkbox wire`:model=""selectPage"" />`n                    </x-table.heading>`n" table_headers "                </x-slot>`n`n                <x-slot name=""body"">`n                    @if ($selectPage)`n                    <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                        <x-table.cell colspan=""6"">`n                            @unless ($selectAll)`n                            <div>`n                                <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                                <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                            </div>`n                            @else`n                            <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                            @endif`n                        </x-table.cell>`n                    </x-table.row>`n                    @endif`n`n                    @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->" primary_key " }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->" primary_key " }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                    @endforelse`n                </x-slot>`n            </x-table>`n`n            {!! pagination( $? valueS2 ? ) !!}`n        </div>`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['" primary_key "'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "`n                </div>`n`n                <div class=""text-right"">`n                    <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                    <x-button.primary type=""submit"">Save</x-button.primary>`n`n                </div>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n</div>`n")
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -5692,7 +5754,7 @@ childListView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%\child-list-%name%.blade.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\child-list-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5706,7 +5768,7 @@ childListView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel("<div class=""mt-10 w-full"">`n`n    <div class=""pb-0 bg-white p-5 rounded-t-lg"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <h1 class=""text-lg font-semibold text-gray-900"">" heading "</h1>`n`n            <div class=""flex justify-end space-x-4"">`n                <div class=""w-2/4 flex space-x-4 pb-1"">`n                    <x-input.text wire`:model=""filters.search"" placeholder=""Search..."" />`n`n                    {{-- <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link> --}}`n                </div>`n`n                <div class=""space-x-2 flex items-center"">`n                    @if ($showAdvanced)`n                    <x-input.group borderless paddingless for=""perPage"" label=""Per Page"">`n                        <x-input.select wire`:model=""perPage"" id=""perPage"">`n                            <option value=""10"">10</option>`n                            <option value=""25"">25</option>`n                            <option value=""50"">50</option>`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-dropdown label=""Bulk Actions"">`n                        <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                            <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                        </x-dropdown.item>`n`n                        <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                            <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                        </x-dropdown.item>`n                    </x-dropdown>`n`n                    <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                    @endif`n`n                    <x-button.primary wire`:click=""create"" class=""px-2""><x-icon.plus/></x-button.primary>`n                </div>`n            </div>`n`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n    </div>`n`n    <!-- ? valueAT2 ? Table -->`n    <div class=""flex-col space-y-4 backdrop-blur-lg`n            [ bg-white ]`n            [ border-[1px] border-solid border-white border-opacity-30 ]`n            [ shadow-md ] rounded-b-lg"" x-data=""{ @for ($i=0`; $i<count($? valueS2 ?)+1`; $i++) open{{ $i }}`: false`, @endfor }"">`n        <x-table>`n            <x-slot name=""head"">`n                <x-table.heading class=""pr-0 w-8"">`n                    <x-input.checkbox wire`:model=""selectPage"" />`n                </x-table.heading>`n" table_headers "                    <x-table.heading />`n            </x-slot>`n`n            <x-slot name=""body"">`n                @if ($selectPage)`n                <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                    <x-table.cell colspan=""6"">`n                        @unless ($selectAll)`n                        <div>`n                            <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                            <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                        </div>`n                        @else`n                        <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                        @endif`n                    </x-table.cell>`n                </x-table.row>`n                @endif`n`n                @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row class=""bg-white"" wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->id }}"" x-on`:click=""open{{ $loop->index }} = !open{{ $loop->index }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->id }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    <tr x-show=""open{{ $loop->index }}"">`n                        <td class="""" colspan=""8"">`n                            <div x-transition`:enter=""transition ease-out duration-100""`n                            x-transition`:enter-start=""transform opacity-0 scale-95"" x-transition`:enter-end=""transform opacity-100 scale-100""`n                            x-transition`:leave=""transition ease-in duration-75"" x-transition`:leave-start=""transform opacity-100 scale-100""`n                            x-transition`:leave-end=""transform opacity-0 scale-95"">`n`n                                <div class=""bg-white inline-block min-w-full overflow-hidden px-13 pt-10 rounded-lg shadow"">`n                                    <div class=""flex flex-wrap -mx-3 mb-10 float-right"">`n                                        <a href=""{{ route('? valueSH2 ?.show'`, $? valueS1 ?['id']) }}"">`n                                            <x-button.link class=""bg-transparent text-secondary m-5 mb-0"">`n                                                <div class=""flex space-x-2 items-center"">`n                                                    <x-icon.eye/>`n                                                    <span></span>`n                                                </div>`n                                            </x-button.link>`n                                        </a>`n                                        <x-button.link class=""bg-transparent text-secondary m-5 mb-0"" wire`:click=""edit({{ $? valueS1 ?['id'] }})"" >`n                                            <div class=""flex space-x-2 items-center"">`n                                                <x-icon.pencil/>`n                                                <span></span>`n                                            </div>`n                                        </x-button.link>`n                                    </div>`n                                    <div class=""flex flex-wrap -mx-3 mb-6 "">`n                                        <div class=""md`:w-full px-3 mb-6"">`n                                            <span class=""font-bold"">{{ $? valueS1 ?->title }}</span>`n                                        </div>`n`n                                        <div class=""md`:w-full px-3 mb-6 inline-flex space-x-2 text-sm leading-5"">`n                                            {{ $? valueS1 ?->content }}`n                                        </div>`n                                    </div>`n                                </div>`n                            </div>`n                        </td>`n                    </tr>`n                @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                @endforelse`n            </x-slot>`n        </x-table>`n`n        {!! pagination( $? valueS2 ? ) !!}`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['id'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "                </div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Save</x-button.primary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n`n</div>`n")
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5728,7 +5790,7 @@ childListCompactView_a(table_name_singular = 1, table_name_plural = 2, reverse =
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%\child-list-%name%.blade.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\child-list-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5742,7 +5804,7 @@ childListCompactView_a(table_name_singular = 1, table_name_plural = 2, reverse =
 		content := scaffoldModel("<div class=""w-full py-2"">`n`n    <div class=""pb-0 bg-white rounded-t-lg"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <h1 class=""text-gray-900 text-sm "">Tags</h1>`n`n            <div class=""flex justify-end space-x-4"">`n                {{-- <div class=""w-2/4 flex space-x-4 pb-1"">`n                    <x-input.text wire`:model=""filters.search"" placeholder=""Search..."" />`n`n                    <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link>`n                </div>`n`n                <div class=""space-x-2 flex items-center"">`n                    @if ($showAdvanced)`n                    <x-input.group borderless paddingless for=""perPage"" label=""Per Page"">`n                        <x-input.select wire`:model=""perPage"" id=""perPage"">`n                            <option value=""10"">10</option>`n                            <option value=""25"">25</option>`n                            <option value=""50"">50</option>`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-dropdown label=""Bulk Actions"">`n                        <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                            <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                        </x-dropdown.item>`n`n                        <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                            <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                        </x-dropdown.item>`n                    </x-dropdown>`n`n                    <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                    @endif`n`n                    <x-button.primary wire`:click=""create"" class=""px-2""><x-icon.plus/></x-button.primary>`n                </div> --}}`n            </div>`n`n        </div>`n`n    </div>`n`n    <!-- ? valueAT2 ? Table -->`n    <div class="""">`n        <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n            <div class=""flex items-center space-x-1 ng-star-inserted"">`n                @forelse ($? valueS2 ? as $? valueS1 ?)`n                    @php`n                        $color = $? valueS1 ?->tag ? colorForName($? valueS1 ?->tag->getName()) `: 'gray'`;`n                    @endphp`n                    <div wire`:click=""edit({{ $? valueS1 ?['id'] }})"" class=""flex flex-0 items-center justify-center h-8 rounded-md ring-offset-1 ring-bg-card ring-offset-transparent bg-{{ $color }}-100 text-{{ $color }}-800 ng-star-inserted cursor-pointer px-2"">`n                        <div class=""text-md font-semibold"" title=""{{ $? valueS1 ?->tag ? $? valueS1 ?->tag->getName() `: '' }}"">`n                            {{ $? valueS1 ?->tag->getName() }}`n                        </div>`n                    </div>`n                @empty`n                @endforelse`n                <div wire`:click=""create"" class=""flex flex-0 items-center justify-center w-8 h-8 rounded-md ring-offset-1 ring-bg-card ring-offset-transparent ng-star-inserted bg-blue-100 text-blue-800 cursor-pointer"">`n                    <div class=""text-md font-semibold"">`n                        +`n                    </div>`n                </div>`n                <div class=""hidden bg-red-100 text-red-800 bg-orange-100 text-orange-800 bg-amber-100 text-amber-800 bg-yellow-100 text-yellow-800 bg-lime-100 text-lime-800 bg-green-100 text-green-800 bg-emerald-100 text-emerald-800 bg-teal-100 text-teal-800 bg-cyan-100 text-cyan-800 bg-sky-100 text-sky-800 bg-blue-100 text-blue-800 bg-indigo-100 text-indigo-800 bg-violet-100 text-violet-800 bg-purple-100 text-purple-800 bg-fuchsia-100 text-fuchsia-800 bg-pink-100 text-pink-800 bg-rose-100 text-rose-800`n                bg-red-200 text-red-500 bg-orange-200 text-orange-500 bg-amber-200 text-amber-500 bg-yellow-200 text-yellow-500 bg-lime-200 text-lime-500 bg-green-200 text-green-500 bg-emerald-200 text-emerald-500 bg-teal-200 text-teal-500 bg-cyan-200 text-cyan-500 bg-sky-200 text-sky-500 bg-blue-200 text-blue-500 bg-indigo-200 text-indigo-500 bg-violet-200 text-violet-500 bg-purple-200 text-purple-500 bg-fuchsia-200 text-fuchsia-500 bg-pink-200 text-pink-500 bg-rose-200 text-rose-500""></div>`n            </div>`n        </span>`n    </div>`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n        @this.on('triggerDelete'`, ? valueS1 ?Id => {`n            Swal.fire({`n                title`: 'Are You Sure?'`,`n                text`: 'Tag will be detached!'`,`n                type`: ""warning""`,`n                showCancelButton`: true`,`n                confirmButtonColor`: '#d33'`,`n                cancelButtonColor`: '#3085d6'`,`n                confirmButtonText`: 'Detach!'`n            }).then((result) => {`n                if (result.value) {`n                    @this.call('delete'`,? valueS1 ?Id)`n                } else {`n                    console.log(""Canceled"")`;`n                }`n            })`;`n        })`;`n    })`n</script>`n@endpush`n")
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5764,7 +5826,7 @@ childListModalView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%\child-list-modal-%name%.blade.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\child-list-modal-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5778,7 +5840,7 @@ childListModalView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0
 		content := scaffoldModel("<div class=""w-full py-2"">`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">{{ __('Delete ? valueAT1 ?') }}</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">{{ __('Are you sure you? This action is irreversible') }}.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">{{ __('Cancel') }}</x-button.secondary>`n`n                <x-button.primary type=""submit"">{{ __('Delete') }}</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['id'] ? __('Edit ? valueAT1 ?') `: '' }} </x-slot>`n`n            <x-slot name=""content"">`n                @if ($editing['id'])`n                    <div x-data=""{ @for ($i=0`; $i<count($? valueS2 ?)+1`; $i++) open{{ $i }}`: false`, @endfor }"">`n                        <x-table>`n                            <x-slot name=""head"">`n                                <x-table.heading sortable multi-column wire`:click=""sortBy('tag_id')"" `:direction=""$sorts['tag_id'] ?? null"" class="""">{{ __('Tag') }}</x-table.heading>`n                                <x-table.heading />`n                            </x-slot>`n`n                            <x-slot name=""body"">`n                                @forelse ($? valueS2 ? as $? valueS1 ?)`n                                    <x-table.row class="""" wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->id }}"" x-on`:click=""open{{ $loop->index }} = !open{{ $loop->index }}"">`n                                        <x-table.cell>`n                                            <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n                                                {{ $? valueS1 ?->tag ? $? valueS1 ?->tag->getName() `: '' }}`n                                            </span>`n                                        </x-table.cell>`n`n                                        <x-table.cell>`n                                            <x-button.link class=""text-secondary m-2"" wire`:click=""$emit('triggerDelete'`,{{ $? valueS1 ?['id'] }})"" >`n                                                <div class=""flex space-x-2 items-center"">`n                                                    <x-icon.trash/>`n                                                    <span></span>`n                                                </div>`n                                            </x-button.link>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @empty`n                                    <x-table.row>`n                                        <x-table.cell colspan=""11"">`n                                            <div class=""flex justify-center items-center space-x-2"">`n                                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">{{ __('No Tags found') }}...</span>`n                                            </div>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @endforelse`n                            </x-slot>`n                        </x-table>`n`n                        {!! pagination( $? valueS2 ? ) !!}`n                    </div>`n                @else`n`t`t`t`t`t<div class=""flex flex-wrap -mx-3 mb-6"">`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                            <div class=""rtl`:iyyu-normal text-lg font-bold"">`n                                {{ __('Attach ? valueAT1 ?') }}`n                            </div>`n                        </div>`n`n" form_fields "`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0 pt-10"">`n                            <x-button.primary type=""submit"">{{ __('Save') }}</x-button.primary>`n                        </div>`n`n                    </div>`n                @endif`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">{{ __('Cancel') }}</x-button.secondary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n        @this.on('triggerDelete'`, ? valueS1 ?Id => {`n            Swal.fire({`n                title`: '{{ __(""Are You Sure?"") }}'`,`n                text`: '{{ __(""Tag will be detached"") }}!'`,`n                type`: ""warning""`,`n                showCancelButton`: true`,`n                confirmButtonColor`: '#d33'`,`n                cancelButtonColor`: '#3085d6'`,`n                cancelButtonText`: '{{ __(""Cancel"") }}!'`,`n                confirmButtonText`: '{{ __(""Detach"") }}!'`n            }).then((result) => {`n                if (result.value) {`n                    @this.call('delete'`,? valueS1 ?Id)`n                } else {`n                    console.log(""Canceled"")`;`n                }`n            })`;`n        })`;`n    })`n</script>`n@endpush`n")
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5829,7 +5891,7 @@ manageView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	form_fields := runSubScaffold( "scaffoldFormFields", 0, fieldsArr )
 
 	name := scaffoldModel("? valueSH1 ?\manage-? valueSH1 ?")
-	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%name%.blade.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%name%.blade.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5908,7 +5970,7 @@ showView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 	sub_list := ShowView_subList( table_name_singular, table_name_plural )
 
 	name := scaffoldModel("? valueSH1 ?\show-? valueSH1 ?")
-	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%name%.blade.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%name%.blade.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5945,7 +6007,7 @@ importView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 
 	
 	name := scaffoldModel("? valueSH1 ?\import-? valueSH2 ?")
-	file =C:\xampp\htdocs\case-manager\resources\views\livewire\%name%.blade.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%name%.blade.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5957,7 +6019,7 @@ importView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	}
 	
 	directory := scaffoldModel("? valueSH1 ?")
-	FileCreateDir, C:\xampp\htdocs\case-manager\resources\views\livewire\%directory%
+	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
 
 	fileWrite( content, file )
 }
@@ -5970,7 +6032,7 @@ updateRoutesFile(){
 updateRoutesFile_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	route := scaffoldModel("`    Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n        Route`:`:get('/'`, App\Http\Livewire\? valueCC1 ?\List? valueCC2 ?`:`:class)->name('? valueSH2 ?')`;`n        Route`:`:get('/create'`, App\Http\Livewire\? valueCC1 ?\Manage? valueCC1 ?`:`:class)->name('? valueSH2 ?.create')`;`n        Route`:`:get('/{? valueC1 ?}/edit'`, App\Http\Livewire\? valueCC1 ?\Manage? valueCC1 ?`:`:class)->name('? valueSH2 ?.edit')`;`n        Route`:`:get('/{? valueC1 ?}'`, App\Http\Livewire\? valueCC1 ?\Show? valueCC1 ?`:`:class)->name('? valueSH2 ?.show')`;`n    })`;`n`n")
 	
-	file =C:\xampp\htdocs\case-manager\routes\web.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\routes\web.php
 	FileRead, content, %file%
 	StringReplace, content, content, `}); // group end, %route%`}); // group end
 	
@@ -5985,7 +6047,7 @@ updateApiRoutes(){
 updateApiRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	route := scaffoldModel("`    Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n        Route`:`:get('/'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'index'])->name('api.? valueSH2 ?')`;`n        Route`:`:post('/store'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'store'])->name('api.? valueSH2 ?.store')`;`n        Route`:`:post('/{? valueS1 ?}/update'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'update'])->name('api.? valueSH2 ?.update')`;`n        Route`:`:get('/{? valueS1 ?}'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'show'])->name('api.? valueSH2 ?.show')`;`n    })`;`n`n")
 	
-	file =C:\xampp\htdocs\case-manager\routes\web.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\routes\web.php
 	FileRead, content, %file%
 	StringReplace, content, content, // add API routes here, %route%// add API routes here
 	
@@ -6000,7 +6062,7 @@ updatePermissions(){
 updatePermissions_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	permissions := scaffoldModel("`            // ? valueS1 ?`n            [`n                'name' => '? valueS1 ?.view_any'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.create'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.view'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.update'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.delete'`,`n            ]`,`n`n")
 	
-	file =C:\xampp\htdocs\case-manager\database\seeders\PermissionSeeder.php
+	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\seeders\PermissionSeeder.php
 	FileRead, content, %file%
 	StringReplace, content, content, `            // add new permissions here, %permissions%`            // add new permissions here
 	
@@ -6015,14 +6077,14 @@ updateSidebar(){
 updateSidebar_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	;~ item := scaffoldModel("`    '? valueAT2 ?' => [`n        'name' => '? valueAT2 ?'`,`n        'route' => '? valueSH2 ?'`,`n        'icon' => 'clipboard-list'`,`n    ]`,`n")
 	
-	;~ file := "C:\xampp\htdocs\case-manager\resources\views\layouts\app.blade.php"
+	;~ file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\layouts\app.blade.php"
 	;~ FileRead, content, %file%
 	;~ StringReplace, content, content, `r,
 	;~ StringReplace, content, content, `    // add new menu items here, %item%`    // add new menu items here, All
 	
 	item := scaffoldModel("`                    <a href=""{{ route('? valueSH2 ?') }}"" class=""block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode`:bg-transparent dark-mode`:hover`:bg-gray-600 dark-mode`:focus`:bg-gray-600 dark-mode`:focus`:text-white dark-mode`:hover`:text-white dark-mode`:text-gray-200 md`:mt-0 hover`:text-gray-900 focus`:text-gray-900 hover`:bg-gray-200 focus`:bg-gray-200 focus`:outline-none focus`:shadow-outline"">? valueAT2 ?</a>`n")
 	
-	file := "C:\xampp\htdocs\case-manager\resources\views\layouts\sidebar\desktop.blade.php"
+	file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\layouts\sidebar\desktop.blade.php"
 	FileRead, content, %file%
 	StringReplace, content, content, `r,
 	StringReplace, content, content, `                    <!-- Insert new menu items here -->, %item%`                    <!-- Insert new menu items here -->, All
@@ -6115,7 +6177,7 @@ getDataTypesByHttp(){
 		if(location = "ncit_laptop")
 			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/structure&db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost:8080/phpmyadmin/index.php?route=/table/structure&db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -6171,7 +6233,7 @@ getRelationsByHttp(){
 		if(location = "ncit_laptop")
 			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/relation&db=case_manager&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost:8080/phpmyadmin/index.php?route=/table/relation&db=case_manager&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -6553,60 +6615,6 @@ scaffoldFiles(){
 	return
 	
 	F1:: goToReference()
-	;~ F1:: 
-		;~ Clipboard=
-		;~ waitClipboard()
-		;~ StringSplit, Clipboard, Clipboard, `n, `r
-		
-		;~ output=
-		;~ id=0
-		;~ Loop %Clipboard0% {
-			;~ i := Clipboard%A_Index%
-			;~ StringSplit, ClipboardB, Clipboard%A_Index%, `t
-			
-			;~ outer_index := A_Index
-			
-			;~ cnt := ClipboardB0
-			;~ Loop %cnt% {
-				;~ if(A_Index < 18)
-					;~ continue
-				
-				;~ if(A_Index > 25)
-					;~ continue
-				
-				;~ i := ClipboardB%A_Index%
-				
-				;~ id := A_Index - 17
-				
-				;~ if(trim(i) = "ü")
-					;~ output := output ClipboardB26 "`t" id "`n"
-			;~ }
-		;~ }
-		;~ Clipboard := output
-		;~ myTT(output)
-	;~ return
-	
-		;~ Clipboard=
-		;~ waitClipboard()
-		;~ StringSplit, Clipboard, Clipboard, `n, `r
-		
-		;~ output=
-		;~ id=0
-		;~ Loop %Clipboard0% {
-			;~ i := Clipboard%A_Index%
-		
-			;~ if( Mod(A_Index, 2) = 1)
-				;~ id++
-			
-			;if(A_Index = 9)
-				;id--
-				
-			;~ if(trim(i) != "")
-				;~ output := output id "`n"
-		;~ }
-		;~ Clipboard := output
-		;~ myTT(output)
-	;~ return
 	
 	F4:: goToPrevReference()
 	
@@ -6934,12 +6942,12 @@ scaffoldFiles(){
 				t:= RegExReplace(Clipboard, "s).*name: ""([^""]*).*serverMemo.*", "$1")
 				action:= RegExReplace(Clipboard, "s).*method: ""([^""]*).*", "$1")
 				if( action = Clipboard)
-					action=
+					action=render
 				
-				StringReplace, t, t, -, , All 
-				StringReplace, t, t, ., %A_Space%, All 
+				;~ StringReplace, t, t, -, , All 
+				;~ StringReplace, t, t, ., %A_Space%, All 
 				
-				model := t
+				model := allTitleCase(t)
 				;~ action := "List"
 				
 				WinActivate, ahk_exe Code.exe
@@ -6986,12 +6994,13 @@ scaffoldFiles(){
 					Send ^v
 				}
 			}else{
-				if( InStr(t, "http://case.localhost") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") or InStr(t, "http://case-manager.localhost") ){
+				if( InStr(t, "http://case.localhost") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") or InStr(t, "http://case-manager.localhost") or InStr(t, "https://casemanager.localhost") ){
 					StringReplace, t, t, http://case.localhost/
 					StringReplace, t, t, https://case.te.egov.mv/
 					StringReplace, t, t, http://gemen-online.test/
 					StringReplace, t, t, http://recordsmv.ddns.net/
 					StringReplace, t, t, http://case-manager.localhost/
+					StringReplace, t, t, https://casemanager.localhost/
 					model := RegExReplace(t, "s)^([a-z\-]+).*", "$1")
 					createRoute := RegExReplace(t, "s)^([a-z\-]+)/([a-z\-]+)$", "1")
 					showRoute := RegExReplace(t, "s)^([a-z\-]+)/(\d+)$", "1")
@@ -7320,8 +7329,7 @@ scaffoldFiles(){
 				;~ test1:=RegExReplace(tempN1 tempN4,"[^a-zA-Z0-9]","")
 				;~ test2:=RegExReplace(tempH1 tempH4,"[^a-zA-Z0-9]","")
 				
-				
-				if( Trim(tempH1) = Trim(tempN7) )
+				if( capitalCase(Trim(tempH4)) = capitalCase(Trim(tempN1)) and capitalCase(Trim(tempH3)) = capitalCase(Trim(tempN2)) )
 				{
 					output:= output needle%outIndex% "`t" haystack%A_Index% "`t1`n"
 					break
