@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;"
+ncitStacks:= "case manager wireframe figma,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2900,7 +2900,7 @@ else if(Stack="16k") ; docker
 	}
 else if(Stack="16l") ; db seed with initial data 
 	{
-		Button1_Label=sail artisan migrate`:fresh && `nsail artisan db`:import-initial-data && `nsail artisan db`:import-seed-data-v2 && `nsail artisan db`:import-seed-data-v3 && `nsail artisan db`:import-seed-data-v4
+		Button1_Label=sail artisan migrate`:fresh && `nsail artisan db`:import-initial-data && `nsail artisan db`:import-seed-data-v2 && `nsail artisan db`:import-seed-data-v3 && `nsail artisan db`:import-seed-data-v4 && `nsail artisan db`:import-seed-data-v5 && `nsail artisan db`:import-seed-data-v6
 	}
 else if(Stack="16m") ; ncit laravel/api getting started 
 	{
@@ -2975,7 +2975,7 @@ else
 				
 				id := A_Index - startColumn + 1
 				
-				if(trim(i) = "�")
+				if(trim(i) = "y")
 					output := output ClipboardB1 "`t" id "`n"
 			}
 		}
@@ -4290,13 +4290,15 @@ XButton2::
 		
 	
 		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		Destination=C:\xampp\htdocs\case-manager
+		
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		
+		Source=C:\xampp\htdocs\case-manager
 		Destination=C:\xampp\htdocs\case-manager-gitlab
 		
 		;~ Source=C:\xampp\htdocs\case-manager-gitlab
 		;~ Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
-		
-		;~ Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
-		;~ Destination=C:\xampp\htdocs\case-manager
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
@@ -4465,12 +4467,16 @@ model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_t
 }
 
 model_nullable( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
-	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
 	
 	if(table_name_plural = "case_users" and field_name = "task_user_type_id")
 		t := ""
 	else if( InStr(nullability, "Yes") )
-		t := "`        '? valueS1 ?' => ''`,`n"
+		t := "`        '? value1 ?' => ''`,`n"
 	else
 		t := ""
 	
@@ -4599,13 +4605,13 @@ opposite_relations(table_name_plural){
 model_properties( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	
 	if( InStr(data_type, "varchar") || InStr(data_type, "char") )
-		t := "` * @property string $? valueS1 ?`n"
+		t := "` * @property string $? value1 ?`n"
 	else if( InStr(data_type, "bigint") || InStr(data_type, "int"))
-		t := "` * @property integer $? valueS1 ?`n"
+		t := "` * @property integer $? value1 ?`n"
 	else if( InStr(data_type, "enum") )
-		t := "` * @property enum $? valueS1 ?`n"
+		t := "` * @property enum $? value1 ?`n"
 	else
-		t := "` * @property " data_type " $? valueS1 ?`n"
+		t := "` * @property " data_type " $? value1 ?`n"
 	
 	return t
 }
@@ -4655,13 +4661,22 @@ model_ActivitylogOptions(){
 }
 
 
+model_fillable( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	return "`        '? value1 ?'`,`n"
+}
+
+
 model(){
 	global
-	model_a( table_name_singular, table_name_plural, reverse, primary_key )
+	model_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
 }
 	
-model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
-	
+model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
 	includes := model_includes()
 	properties := runSubScaffold( "model_properties", 1)
 	inheritance := model_inheritance()
@@ -4671,10 +4686,16 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 	appends := runSubScaffold( "model_appends")
 	validationRules := runSubScaffold( "model_validationRules")
 	nullable := runSubScaffold( "model_nullable")
-	name_field := "`        return $this->" name_field() "`;`n"
-	fillable := scaffoldFields("`        '? valueS1 ?'`,`n")
-	keys := scaffoldFields("`            '? value1 ?'`,`n")
 	dvFields := runSubScaffold( "model_dvFields")
+	
+	set_created_by := fields["created_by"] ? "`n            $model->created_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	set_created_at := fields["created_at"] ? "`n            $model->created_at = now()`;" : ""
+	set_updated_by := fields["updated_by"] ? "`n            $model->updated_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	set_updated_at := fields["updated_at"] ? "`n            $model->updated_at = now()`;" : ""
+	
+	name_field := "`        return $this->" name_field() "`;`n"
+	fillable := runSubScaffold( "model_fillable")
+	keys := scaffoldFields("`            '? value1 ?'`,`n")
 	dateGettersAndSetters := runSubScaffold( "model_dateGettersAndSetters")
 	relations := runSubScaffold( "model_relations", 1)
 	opposite_relations := opposite_relations(table_name_plural)
@@ -4704,7 +4725,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance "" activitylogOptions "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '" tableName "'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {`n            $model->created_by = optional(CauserResolver`:`:resolve())->id`;`n        })`;`n        static`:`:updating(function ($model) {`n            $model->updated_by = optional(CauserResolver`:`:resolve())->id`;`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
+		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance  activitylogOptions "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '" tableName "'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {" set_created_by " " set_created_at "`n        })`;`n        static`:`:updating(function ($model) {" set_updated_by " " set_updated_at "`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
 
 		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
 		content := scaffoldModel( t )
@@ -5224,7 +5245,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Enum\%name%Enum.php
 	
-	data := "`t`t`t`t1`tMaldives`n`t�Edit`t�Copy`t�Delete`t2`tAfghanistan`n`t�Edit`t�Copy`t�Delete`t3`tAlbania`n`t�Edit`t�Copy`t�Delete`t4`tAlgeria`n`t�Edit`t�Copy`t�Delete`t5`tAndorra`n`t�Edit`t�Copy`t�Delete`t6`tAngola`n`t�Edit`t�Copy`t�Delete`t7`tArgentina`n`t�Edit`t�Copy`t�Delete`t8`tArmenia`n`t�Edit`t�Copy`t�Delete`t9`tAustralia`n`t�Edit`t�Copy`t�Delete`t10`tAustria`n`t�Edit`t�Copy`t�Delete`t11`tAzerbaijan`n`t�Edit`t�Copy`t�Delete`t12`tBahamas`n`t�Edit`t�Copy`t�Delete`t13`tBahrain`n`t�Edit`t�Copy`t�Delete`t14`tBangladesh`n`t�Edit`t�Copy`t�Delete`t15`tBarbados`n`t�Edit`t�Copy`t�Delete`t16`tBelarus`n`t�Edit`t�Copy`t�Delete`t17`tBelgium`n`t�Edit`t�Copy`t�Delete`t18`tBelize`n`t�Edit`t�Copy`t�Delete`t19`tBenin`n`t�Edit`t�Copy`t�Delete`t20`tBhutan`n`t�Edit`t�Copy`t�Delete`t21`tBolivia`n`t�Edit`t�Copy`t�Delete`t22`tBosnia-Herzegovina`n`t�Edit`t�Copy`t�Delete`t23`tBotswana`n`t�Edit`t�Copy`t�Delete`t24`tBrazil`n`t�Edit`t�Copy`t�Delete`t25`tBrunei`n`t�Edit`t�Copy`t�Delete`t26`tBulgaria`n`t�Edit`t�Copy`t�Delete`t27`tBurkina`n`t�Edit`t�Copy`t�Delete`t28`tMyanmar`n`t�Edit`t�Copy`t�Delete`t29`tBurundi`n`t�Edit`t�Copy`t�Delete`t30`tCambodia`n`t�Edit`t�Copy`t�Delete`t31`tCameroon`n`t�Edit`t�Copy`t�Delete`t32`tCanada`n`t�Edit`t�Copy`t�Delete`t33`tCape Verde Islands`n`t�Edit`t�Copy`t�Delete`t34`tChad`n`t�Edit`t�Copy`t�Delete`t35`tChile`n`t�Edit`t�Copy`t�Delete`t36`tChina`n`t�Edit`t�Copy`t�Delete`t37`tColombia`n`t�Edit`t�Copy`t�Delete`t38`tCongo`n`t�Edit`t�Copy`t�Delete`t39`tCosta Rica`n`t�Edit`t�Copy`t�Delete`t40`tCroatia`n`t�Edit`t�Copy`t�Delete`t41`tCuba`n`t�Edit`t�Copy`t�Delete`t42`tCyprus`n`t�Edit`t�Copy`t�Delete`t43`tCzech Republic`n`t�Edit`t�Copy`t�Delete`t44`tDenmark`n`t�Edit`t�Copy`t�Delete`t45`tDjibouti`n`t�Edit`t�Copy`t�Delete`t46`tDominica`n`t�Edit`t�Copy`t�Delete`t47`tDominican Republic`n`t�Edit`t�Copy`t�Delete`t48`tEcuador`n`t�Edit`t�Copy`t�Delete`t49`tEgypt`n`t�Edit`t�Copy`t�Delete`t50`tEl Salvador`n`t�Edit`t�Copy`t�Delete`t51`tEngland`n`t�Edit`t�Copy`t�Delete`t52`tEritrea`n`t�Edit`t�Copy`t�Delete`t53`tEstonia`n`t�Edit`t�Copy`t�Delete`t54`tEthiopia`n`t�Edit`t�Copy`t�Delete`t55`tFiji`n`t�Edit`t�Copy`t�Delete`t56`tFinland`n`t�Edit`t�Copy`t�Delete`t57`tFrance`n`t�Edit`t�Copy`t�Delete`t58`tGabon`n`t�Edit`t�Copy`t�Delete`t59`tGambia`n`t�Edit`t�Copy`t�Delete`t60`tGeorgia`n`t�Edit`t�Copy`t�Delete`t61`tGermany`n`t�Edit`t�Copy`t�Delete`t62`tGhana`n`t�Edit`t�Copy`t�Delete`t63`tGreece`n`t�Edit`t�Copy`t�Delete`t64`tGrenada`n`t�Edit`t�Copy`t�Delete`t65`tGuatemala`n`t�Edit`t�Copy`t�Delete`t66`tGuinea`n`t�Edit`t�Copy`t�Delete`t67`tGuyana`n`t�Edit`t�Copy`t�Delete`t68`tHaiti`n`t�Edit`t�Copy`t�Delete`t69`tNetherlands`n`t�Edit`t�Copy`t�Delete`t70`tHonduras`n`t�Edit`t�Copy`t�Delete`t71`tHungary`n`t�Edit`t�Copy`t�Delete`t72`tIceland`n`t�Edit`t�Copy`t�Delete`t73`tIndia`n`t�Edit`t�Copy`t�Delete`t74`tIndonesia`n`t�Edit`t�Copy`t�Delete`t75`tIran`n`t�Edit`t�Copy`t�Delete`t76`tIraq`n`t�Edit`t�Copy`t�Delete`t77`tIreland`n`t�Edit`t�Copy`t�Delete`t78`tIsrael`n`t�Edit`t�Copy`t�Delete`t79`tItaly`n`t�Edit`t�Copy`t�Delete`t80`tJamaica`n`t�Edit`t�Copy`t�Delete`t81`tJapan`n`t�Edit`t�Copy`t�Delete`t82`tJordan`n`t�Edit`t�Copy`t�Delete`t83`tKazakhstan`n`t�Edit`t�Copy`t�Delete`t84`tKenya`n`t�Edit`t�Copy`t�Delete`t85`tKuwait`n`t�Edit`t�Copy`t�Delete`t86`tLaos`n`t�Edit`t�Copy`t�Delete`t87`tLatvia`n`t�Edit`t�Copy`t�Delete`t88`tLebanon`n`t�Edit`t�Copy`t�Delete`t89`tLiberia`n`t�Edit`t�Copy`t�Delete`t90`tLibyan Arab Jamahiriya`n`t�Edit`t�Copy`t�Delete`t91`tLiechtenstein`n`t�Edit`t�Copy`t�Delete`t92`tLithuania`n`t�Edit`t�Copy`t�Delete`t93`tLuxembourg`n`t�Edit`t�Copy`t�Delete`t94`tMacedonia`n`t�Edit`t�Copy`t�Delete`t95`tMadagascar`n`t�Edit`t�Copy`t�Delete`t96`tMalawi`n`t�Edit`t�Copy`t�Delete`t97`tMalaysia`n`t�Edit`t�Copy`t�Delete`t98`tMali`n`t�Edit`t�Copy`t�Delete`t99`tMalta`n`t�Edit`t�Copy`t�Delete`t100`tMauritania`n`t�Edit`t�Copy`t�Delete`t101`tMauritius`n`t�Edit`t�Copy`t�Delete`t102`tMexico`n`t�Edit`t�Copy`t�Delete`t103`tMoldova`n`t�Edit`t�Copy`t�Delete`t104`tMonaco`n`t�Edit`t�Copy`t�Delete`t105`tMongolia`n`t�Edit`t�Copy`t�Delete`t106`tMontenegro`n`t�Edit`t�Copy`t�Delete`t107`tMorocco`n`t�Edit`t�Copy`t�Delete`t108`tMozambique`n`t�Edit`t�Copy`t�Delete`t109`tNamibia`n`t�Edit`t�Copy`t�Delete`t110`tNepal`n`t�Edit`t�Copy`t�Delete`t111`tNew Zealand`n`t�Edit`t�Copy`t�Delete`t112`tNicaragua`n`t�Edit`t�Copy`t�Delete`t113`tNiger`n`t�Edit`t�Copy`t�Delete`t114`tNigeria`n`t�Edit`t�Copy`t�Delete`t115`tKorea`, D.P.R.O.`n`t�Edit`t�Copy`t�Delete`t116`tNorway`n`t�Edit`t�Copy`t�Delete`t117`tOman`n`t�Edit`t�Copy`t�Delete`t118`tPakistan`n`t�Edit`t�Copy`t�Delete`t119`tPanama`n`t�Edit`t�Copy`t�Delete`t120`tPapua New Guinea`n`t�Edit`t�Copy`t�Delete`t121`tParaguay`n`t�Edit`t�Copy`t�Delete`t122`tPeru`n`t�Edit`t�Copy`t�Delete`t123`tPhilippines`n`t�Edit`t�Copy`t�Delete`t124`tPoland`n`t�Edit`t�Copy`t�Delete`t125`tPortugal`n`t�Edit`t�Copy`t�Delete`t126`tQatar`n`t�Edit`t�Copy`t�Delete`t127`tRomania`n`t�Edit`t�Copy`t�Delete`t128`tRussia`n`t�Edit`t�Copy`t�Delete`t129`tRwanda`n`t�Edit`t�Copy`t�Delete`t130`tSaudi Arabia`n`t�Edit`t�Copy`t�Delete`t131`tSenegal`n`t�Edit`t�Copy`t�Delete`t132`tSerbia`n`t�Edit`t�Copy`t�Delete`t133`tSeychelles`n`t�Edit`t�Copy`t�Delete`t134`tSierra Leone`n`t�Edit`t�Copy`t�Delete`t135`tSingapore`n`t�Edit`t�Copy`t�Delete`t136`tSlovakia`n`t�Edit`t�Copy`t�Delete`t137`tSlovenia`n`t�Edit`t�Copy`t�Delete`t138`tSolomon Islands`n`t�Edit`t�Copy`t�Delete`t139`tSomalia`n`t�Edit`t�Copy`t�Delete`t140`tSouth Africa`n`t�Edit`t�Copy`t�Delete`t141`tKorea`, Republic of`n`t�Edit`t�Copy`t�Delete`t142`tSpain`n`t�Edit`t�Copy`t�Delete`t143`tSri Lanka`n`t�Edit`t�Copy`t�Delete`t144`tSudan`n`t�Edit`t�Copy`t�Delete`t145`tSuriname`n`t�Edit`t�Copy`t�Delete`t146`tSwaziland`n`t�Edit`t�Copy`t�Delete`t147`tSweden`n`t�Edit`t�Copy`t�Delete`t148`tSwitzerland`n`t�Edit`t�Copy`t�Delete`t149`tSyria`n`t�Edit`t�Copy`t�Delete`t150`tTaiwan`n`t�Edit`t�Copy`t�Delete`t151`tTajikistan`n`t�Edit`t�Copy`t�Delete`t152`tTanzania`n`t�Edit`t�Copy`t�Delete`t153`tThailand`n`t�Edit`t�Copy`t�Delete`t154`tTogo`n`t�Edit`t�Copy`t�Delete`t155`tTrinidad and Tobago`n`t�Edit`t�Copy`t�Delete`t156`tTunisia`n`t�Edit`t�Copy`t�Delete`t157`tTurkey`n`t�Edit`t�Copy`t�Delete`t158`tTurkmenistan`n`t�Edit`t�Copy`t�Delete`t159`tTuvalu`n`t�Edit`t�Copy`t�Delete`t160`tUganda`n`t�Edit`t�Copy`t�Delete`t161`tUkraine`n`t�Edit`t�Copy`t�Delete`t162`tUnited Arab Emirates`n`t�Edit`t�Copy`t�Delete`t163`tUnited Kingdom`n`t�Edit`t�Copy`t�Delete`t164`tUnited States of America`n`t�Edit`t�Copy`t�Delete`t165`tUruguay`n`t�Edit`t�Copy`t�Delete`t166`tUzbekistan`n`t�Edit`t�Copy`t�Delete`t167`tVanuatu`n`t�Edit`t�Copy`t�Delete`t168`tVenezuela`n`t�Edit`t�Copy`t�Delete`t169`tVietnam`n`t�Edit`t�Copy`t�Delete`t170`tSamoa`n`t�Edit`t�Copy`t�Delete`t171`tYemen`n`t�Edit`t�Copy`t�Delete`t172`tYugoslavia`n`t�Edit`t�Copy`t�Delete`t173`tCongo`, The DRC`n`t�Edit`t�Copy`t�Delete`t174`tZambia`n`t�Edit`t�Copy`t�Delete`t175`tZimbabwe`n`t�Edit`t�Copy`t�Delete`t176`tCayman Islands`n`t�Edit`t�Copy`t�Delete`t177`tHong Kong`n`t�Edit`t�Copy`t�Delete`t178`tAntigua and Barbuda`n`t�Edit`t�Copy`t�Delete`t179`tAnguilla`n`t�Edit`t�Copy`t�Delete`t180`tNetherlands Antilles`n`t�Edit`t�Copy`t�Delete`t181`tAntarctica`n`t�Edit`t�Copy`t�Delete`t182`tAmerican Samoa`n`t�Edit`t�Copy`t�Delete`t183`tAruba`n`t�Edit`t�Copy`t�Delete`t184`tAland Islands`n`t�Edit`t�Copy`t�Delete`t185`tBurkina Faso`n`t�Edit`t�Copy`t�Delete`t186`tBermuda`n`t�Edit`t�Copy`t�Delete`t187`tBouvet Island`n`t�Edit`t�Copy`t�Delete`t188`tCocos (Keeling) Islands`n`t�Edit`t�Copy`t�Delete`t189`tCentral African Republic`n`t�Edit`t�Copy`t�Delete`t190`tCote D'ivoire`n`t�Edit`t�Copy`t�Delete`t191`tCook Islands`n`t�Edit`t�Copy`t�Delete`t192`tChristmas Island`n`t�Edit`t�Copy`t�Delete`t193`tWestern Sahara`n`t�Edit`t�Copy`t�Delete`t194`tFalkland Islands (Malvians)`n`t�Edit`t�Copy`t�Delete`t195`tMicronesia`, Federated States Of`n`t�Edit`t�Copy`t�Delete`t196`tFaroe Islands`n`t�Edit`t�Copy`t�Delete`t197`tGuernsey`n`t�Edit`t�Copy`t�Delete`t198`tGibraltar`n`t�Edit`t�Copy`t�Delete`t199`tGreenland`n`t�Edit`t�Copy`t�Delete`t200`tGuadeloupe`n`t�Edit`t�Copy`t�Delete`t201`tGuam`n`t�Edit`t�Copy`t�Delete`t202`tGuinea-Bissau`n`t�Edit`t�Copy`t�Delete`t203`tPalestine`n`t�Edit`t�Copy`t�Delete`t204`tKyrgyzstan`n`t�Edit`t�Copy`t�Delete`t205`tMacau`n`t�Edit`t�Copy`t�Delete`t206`tSan Marino`n`t�Edit`t�Copy`t�Delete`t207`tTonga`n`t�Edit`t�Copy`t�Delete`t208`tSaint Lucia`n`t�Edit`t�Copy`t�Delete`t209`tKiribati`n`t�Edit`t�Copy`t�Delete`t210`tKosovo"
+	data := "`t�Edit`t�Copy`t�Delete`t1`tCase View Any`tcase_view_any`tCase View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t2`tCase Create`tcase_create`tCase Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t3`tCase View`tcase_view`tCase View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t4`tCase Update`tcase_update`tCase Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t5`tCase Delete`tcase_delete`tCase Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t6`tOrganisation View Any`torganisation_view_any`tOrganisation View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t7`tOrganisation Create`torganisation_create`tOrganisation Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t8`tOrganisation View`torganisation_view`tOrganisation View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t9`tOrganisation Update`torganisation_update`tOrganisation Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t10`tOrganisation Delete`torganisation_delete`tOrganisation Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t11`tOrganisation Type View Any`torganisation_type_view_any`tOrganisation Type View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t12`tOrganisation Type Create`torganisation_type_create`tOrganisation Type Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t13`tOrganisation Type View`torganisation_type_view`tOrganisation Type View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t14`tOrganisation Type Update`torganisation_type_update`tOrganisation Type Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t15`tOrganisation Type Delete`torganisation_type_delete`tOrganisation Type Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t16`tCountry View Any`tcountry_view_any`tCountry View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t17`tCountry Create`tcountry_create`tCountry Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t18`tCountry View`tcountry_view`tCountry View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t19`tCountry Update`tcountry_update`tCountry Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t20`tCountry Delete`tcountry_delete`tCountry Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t21`tTeam View Any`tteam_view_any`tTeam View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t22`tTeam Create`tteam_create`tTeam Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t23`tTeam View`tteam_view`tTeam View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t24`tTeam Update`tteam_update`tTeam Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t25`tTeam Delete`tteam_delete`tTeam Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t26`tStatus View Any`tstatus_view_any`tStatus View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t27`tStatus Create`tstatus_create`tStatus Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t28`tStatus View`tstatus_view`tStatus View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t29`tStatus Update`tstatus_update`tStatus Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t30`tStatus Delete`tstatus_delete`tStatus Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t31`tChannel View Any`tchannel_view_any`tChannel View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t32`tChannel Create`tchannel_create`tChannel Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t33`tChannel View`tchannel_view`tChannel View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t34`tChannel Update`tchannel_update`tChannel Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t35`tChannel Delete`tchannel_delete`tChannel Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t36`tPriority View Any`tpriority_view_any`tPriority View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t37`tPriority Create`tpriority_create`tPriority Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t38`tPriority View`tpriority_view`tPriority View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t39`tPriority Update`tpriority_update`tPriority Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t40`tPriority Delete`tpriority_delete`tPriority Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t41`tCommunication View Any`tcommunication_view_any`tCommunication View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t42`tCommunication Create`tcommunication_create`tCommunication Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t43`tCommunication View`tcommunication_view`tCommunication View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t44`tCommunication Update`tcommunication_update`tCommunication Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t45`tCommunication Delete`tcommunication_delete`tCommunication Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t46`tCommunication Type View Any`tcommunication_type_view_any`tCommunication Type View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t47`tCommunication Type Create`tcommunication_type_create`tCommunication Type Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t48`tCommunication Type View`tcommunication_type_view`tCommunication Type View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t49`tCommunication Type Update`tcommunication_type_update`tCommunication Type Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t50`tCommunication Type Delete`tcommunication_type_delete`tCommunication Type Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t51`tTask View Any`ttask_view_any`tTask View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t52`tTask Create`ttask_create`tTask Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t53`tTask View`ttask_view`tTask View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t54`tTask Update`ttask_update`tTask Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t55`tTask Delete`ttask_delete`tTask Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t56`tTask User View Any`ttask_user_view_any`tTask User View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t57`tTask User Create`ttask_user_create`tTask User Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t58`tTask User View`ttask_user_view`tTask User View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t59`tTask User Update`ttask_user_update`tTask User Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t60`tTask User Delete`ttask_user_delete`tTask User Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t61`tCase User Type View Any`tcase_user_type_view_any`tCase User Type View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t62`tCase User Type Create`tcase_user_type_create`tCase User Type Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t63`tCase User Type View`tcase_user_type_view`tCase User Type View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t64`tCase User Type Update`tcase_user_type_update`tCase User Type Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t65`tCase User Type Delete`tcase_user_type_delete`tCase User Type Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t66`tIndividual View Any`tindividual_view_any`tIndividual View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t67`tIndividual Create`tindividual_create`tIndividual Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t68`tIndividual View`tindividual_view`tIndividual View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t69`tIndividual Update`tindividual_update`tIndividual Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t70`tIndividual Delete`tindividual_delete`tIndividual Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t71`tRole View Any`trole_view_any`tRole View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t72`tRole Create`trole_create`tRole Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t73`tRole View`trole_view`tRole View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t74`tRole Update`trole_update`tRole Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t75`tRole Delete`trole_delete`tRole Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t76`t? valueCC1 ? View Any`t? valueS1 ?_view_any`t? valueCC1 ? View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t77`t? valueCC1 ? Create`t? valueS1 ?_create`t? valueCC1 ? Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t78`t? valueCC1 ? View`t? valueS1 ?_view`t? valueCC1 ? View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t79`t? valueCC1 ? Update`t? valueS1 ?_update`t? valueCC1 ? Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t80`t? valueCC1 ? Delete`t? valueS1 ?_delete`t? valueCC1 ? Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t81`tRole ? valueCC1 ? View Any`trole_? valueS1 ?_view_any`tRole ? valueCC1 ? View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t82`tRole ? valueCC1 ? Create`trole_? valueS1 ?_create`tRole ? valueCC1 ? Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t83`tRole ? valueCC1 ? View`trole_? valueS1 ?_view`tRole ? valueCC1 ? View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t84`tRole ? valueCC1 ? Update`trole_? valueS1 ?_update`tRole ? valueCC1 ? Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t85`tRole ? valueCC1 ? Delete`trole_? valueS1 ?_delete`tRole ? valueCC1 ? Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t86`tUser Role View Any`tuser_role_view_any`tUser Role View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t87`tUser Role Create`tuser_role_create`tUser Role Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t88`tUser Role View`tuser_role_view`tUser Role View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t89`tUser Role Update`tuser_role_update`tUser Role Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t90`tUser Role Delete`tuser_role_delete`tUser Role Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t91`tAudit View Any`taudit_view_any`tAudit View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t92`tAudit Create`taudit_create`tAudit Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t93`tAudit View`taudit_view`tAudit View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t94`tAudit Update`taudit_update`tAudit Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t95`tAudit Delete`taudit_delete`tAudit Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t96`tActivity Log View Any`tactivity_log_view_any`tActivity Log View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t97`tActivity Log View`tactivity_log_view`tActivity Log View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t98`tActivity Log Update`tactivity_log_update`tActivity Log Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t99`tTag View Any`ttag_view_any`tTag View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t100`tTag Create`ttag_create`tTag Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t101`tTag View`ttag_view`tTag View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t102`tTag Update`ttag_update`tTag Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t103`tTag Delete`ttag_delete`tTag Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t104`tChecklist View Any`tchecklist_view_any`tChecklist View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t105`tChecklist Create`tchecklist_create`tChecklist Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t106`tChecklist View`tchecklist_view`tChecklist View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t107`tChecklist Update`tchecklist_update`tChecklist Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t108`tChecklist Delete`tchecklist_delete`tChecklist Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t109`tComment View Any`tcomment_view_any`tComment View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t110`tComment Create`tcomment_create`tComment Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t111`tComment View`tcomment_view`tComment View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t112`tComment Update`tcomment_update`tComment Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t113`tComment Delete`tcomment_delete`tComment Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t114`tTask Tag View Any`ttask_tag_view_any`tTask Tag View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t115`tTask Tag Create`ttask_tag_create`tTask Tag Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t116`tTask Tag View`ttask_tag_view`tTask Tag View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t117`tTask Tag Update`ttask_tag_update`tTask Tag Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t118`tTask Tag Delete`ttask_tag_delete`tTask Tag Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t124`tSensitivity View Any`tsensitivity_view_any`tSensitivity View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t125`tSensitivity Create`tsensitivity_create`tSensitivity Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t126`tSensitivity View`tsensitivity_view`tSensitivity View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t127`tSensitivity Update`tsensitivity_update`tSensitivity Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t128`tSensitivity Delete`tsensitivity_delete`tSensitivity Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t129`tAttachment View Any`tattachment_view_any`tAttachment View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t130`tAttachment Create`tattachment_create`tAttachment Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t131`tAttachment View`tattachment_view`tAttachment View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t132`tAttachment Update`tattachment_update`tAttachment Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t133`tAttachment Delete`tattachment_delete`tAttachment Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t134`tCase Supervisor`tcase_supervisor`tCase Supervisor`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t135`tTask Supervisor`ttask_supervisor`tTask Supervisor`tNULL`tNULL`tNULL"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -5678,10 +5699,10 @@ runSubScaffold( functionName, withID = 0, fieldsArr = "", blacklist = 0, reverse
 	
 listView(){
 	global
-	listView_a( table_name_singular, table_name_plural, reverse, primary_key )
+	listView_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
 }
 	
-listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
+listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
 	fieldsArr := ShowView_fieldsArr( table_name_singular )
 	table_fieldsArr := table_fields( table_name_singular )
 	
@@ -5955,10 +5976,10 @@ ShowView_fieldsMoreArr(table_name_singular){
 
 showView(){
 	global
-	showView_a( table_name_singular, table_name_plural, reverse, primary_key )
+	showView_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
 }
 	
-showView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id"){
+showView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
 	fieldsArr := ShowView_fieldsArr( table_name_singular )
 	
 	before := ShowView_before( table_name_singular, table_name_plural )
@@ -6329,70 +6350,11 @@ load_singularToPlural(){
 	global singularToPlural, pluralToSingular
 	
 	singularToPlural := {}
-	;~ singularToPlural["contact_information_type"] := "contact_information_types"
-	;~ singularToPlural["atoll"] := "atolls"
-	;~ singularToPlural["island"] := "islands"
-	;~ singularToPlural["country"] := "countries"
-	;~ singularToPlural["operation_type"] := "operation_types"
-	;~ singularToPlural["organisation_type"] := "organisation_types"
-	;~ singularToPlural["operation_log"] := "operation_logs"
-	;~ singularToPlural["user_organisation"] := "user_organisations"
-	;~ singularToPlural["business_entity_type"] := "business_entity_types"
-	;~ singularToPlural["business_entity"] := "business_entities"
-	;~ singularToPlural["user"] := "users"
-	;~ singularToPlural["password_reset"] := "password_resets"
-	;~ singularToPlural["document_type"] := "document_types"
-	;~ singularToPlural["file"] := "files"
-	;~ singularToPlural["failed_job"] := "failed_jobs"
-	;~ singularToPlural["personal_access_token"] := "personal_access_tokens"
-	;~ singularToPlural["action"] := "actions"
-	;~ singularToPlural["location_type"] := "location_types"
-	;~ singularToPlural["location"] := "locations"
-	;~ singularToPlural["auditlogactiontype"] := "auditlogactiontypes"
-	;~ singularToPlural["auditlogdatatype"] := "auditlogdatatypes"
-	;~ singularToPlural["auditlog"] := "auditlogs"
-	;~ singularToPlural["business_entity_contact_information"] := "business_entity_contact_informations"
-	;~ singularToPlural["business_entity_document"] := "business_entity_documents"
-	;~ singularToPlural["business_entity_location_type"] := "business_entity_location_types"
-	;~ singularToPlural["business_entity_location"] := "business_entity_locations"
-	;~ singularToPlural["errorlog"] := "errorlog"
-	;~ singularToPlural["gender_type"] := "gender_types"
-	;~ singularToPlural["individual"] := "individuals"
-	;~ singularToPlural["link_type"] := "link_types"
-	;~ singularToPlural["role"] := "roles"
-	;~ singularToPlural["navigation_link"] := "navigation_links"
-	;~ singularToPlural["organisation"] := "organisations"
-	;~ singularToPlural["request_state"] := "request_states"
-	;~ singularToPlural["sequence_number_type"] := "sequence_number_types"
-	;~ singularToPlural["request_type"] := "request_types"
-	;~ singularToPlural["request"] := "requests"
-	;~ singularToPlural["request_document"] := "request_documents"
-	;~ singularToPlural["request_types_allowed_request_state_transition"] := "request_types_allowed_request_state_transitions"
-	;~ singularToPlural["request_type_specific_document_type"] := "request_type_specific_document_types"
-	;~ singularToPlural["role_action"] := "role_action"
-	;~ singularToPlural["sequence_number_next_number"] := "sequence_number_next_numbers"
-	;~ singularToPlural["sso_user_state"] := "sso_user_state"
-	;~ singularToPlural["user_group"] := "user_groups"
-	;~ singularToPlural["user_assigned_user_group"] := "user_assigned_user_groups"
-	;~ singularToPlural["user_group_role"] := "user_group_roles"
-	;~ singularToPlural["ward"] := "wards"
-	;~ singularToPlural["case"] := "cases"
-	;~ singularToPlural["case_item_type"] := "case_item_types"
-	;~ singularToPlural["communication"] := "communications"
-	;~ singularToPlural["case_attachment"] := "case_attachments"
-	;~ singularToPlural["case_user"] := "case_users"
-	;~ singularToPlural["comment"] := "comments"
-	;~ singularToPlural["gems_mail"] := "gems_mails"
-	;~ singularToPlural["task"] := "tasks"
 	singularToPlural["status"] := "statuses"
 	singularToPlural["task_status"] := "task_statuses"
 	singularToPlural["confidentiality_class"] := "confidentiality_classes"
-	singularToPlural["sensitivity"] := "sensitivities"
-	;~ singularToPlural["origin"] := "origins"
-	;~ singularToPlural["priority"] := "priorities"
-	;~ singularToPlural["team"] := "teams"
-
 	singularToPlural["address"] := "addresses"
+	singularToPlural["file_data"] := "file_data"
 	
 	pluralToSingular := {}
 	
@@ -6410,6 +6372,9 @@ tableName(name){
 	singularTableName["users"] := "individuals"
 	singularTableName["cases"] := "tasks"
 	singularTableName["case_user_types"] := "task_user_types"
+	singularTableName["role_permissions"] := "permission_role"
+	singularTableName["notification_types"] := "notification_categories"
+	singularTableName["user_roles"] := "member_roles"
 	
 	if( singularTableName[name] )
 		return singularTableName[name]
@@ -6538,9 +6503,6 @@ scaffoldFiles(){
 	if( !DB_Fields )
 		myTT("DB table not found")
 	else{
-		
-
-	
 		;~ apiController()
 		;~ repository()
 		;~ updateApiRoutes()
@@ -6682,7 +6644,7 @@ scaffoldFiles(){
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
 
 	^+!`:: ; bulk
-		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members"]
+		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members", "atolls", "islands"]
 		;~ bulkArr := ["tags", "checklists", "comments", "task_tags", "task_users"]
 		
 		for k, v in bulkArr {
@@ -6953,7 +6915,7 @@ scaffoldFiles(){
 				WinActivate, ahk_exe Code.exe
 				WinWaitActive, ahk_exe Code.exe, , 2
 				if( WinActive("ahk_exe sublime_text.exe") or WinActive("ahk_exe Code.exe") ){
-					;~ model := snakeCase(model)
+					model := capitalCamelCase(model)
 					load_singularToPlural()
 					Send ^p
 					Sleep 200
@@ -7329,7 +7291,9 @@ scaffoldFiles(){
 				;~ test1:=RegExReplace(tempN1 tempN4,"[^a-zA-Z0-9]","")
 				;~ test2:=RegExReplace(tempH1 tempH4,"[^a-zA-Z0-9]","")
 				
-				if( capitalCase(Trim(tempH4)) = capitalCase(Trim(tempN1)) and capitalCase(Trim(tempH3)) = capitalCase(Trim(tempN2)) )
+				;~ if( capitalCase(Trim(tempN1)) = capitalCase(Trim(tempH3)) )
+				;~ if( capitalCase(Trim(tempN6)) = capitalCase(Trim(tempH2)) )
+				if( capitalCase(Trim(tempN28)) = capitalCase(Trim(tempH4)) and capitalCase(Trim(tempN34)) = capitalCase(Trim(tempH3)) )
 				{
 					output:= output needle%outIndex% "`t" haystack%A_Index% "`t1`n"
 					break
