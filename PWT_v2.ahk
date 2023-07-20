@@ -51,7 +51,7 @@ soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tic
 seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
 jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
 ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
-eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;sync eCouncil folders,15bd;purify,11z;new role,13j;ecouncil roles,13l;"
+eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;purify,11z;new role,13j;ecouncil roles,13l;"
 gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
 laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;tailwind website,13p;deploy case management,13q;mysql mode,13r;SQLite,13s;laravel pretend migrate,13t;laravel seed db,13u;laravel clear view cache,13v;composer dump autoload,13w;dump laravel data,13x;livewire docs,14c;php,14n;data to seeder,14r;php artisan optimize:clear,14y;"
 nodeJsStacks:= "regenerate js and css,15bb,npm run watch;chai builder tailwinds,14i;tailwinds themeforest,14j;"
@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "case manager wireframe figma,14e;teams,14f;otrs demo,14g;outlook,14h;case manager local,14k;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;"
+ncitStacks:= "teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;case manager docker,16t;case manager local,14k;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -471,6 +471,7 @@ skipFileOrFolder(src_path, dest_path){
 	arr.Push("\.env\")
 	arr.Push("\vendor\")
 	arr.Push("\storage\")
+	arr.Push("\composer.lock\")
 	
 	arr.Push("C:\xampp\htdocs\case-manager-gitlab\routes\auth.php")
 	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Livewire\Auth\Login.php")
@@ -2742,8 +2743,8 @@ else if(Stack="14j") ; tailwinds themeforest list
 	}
 else if(Stack="14k") ; case manager local 
 	{
-		Button1_Label=http`://case-manager.test/login
-		run, http`://case-manager.test/login
+		Button1_Label=http`://case.localhost`:8080/auth/login?EFAAS-DISABLE=1
+		run, %Button1_Label%
 	}
 else if(Stack="14l") ; gemen online local 
 	{
@@ -2922,6 +2923,23 @@ else if(Stack="16p") ; httpd-xampp.conf
 		Button1_Label="C`:\xampp\apache\conf\extra\httpd-xampp.conf"
 		run, %Button1_Label%
 	}
+else if(Stack="16r") ; db scripts to production 
+	{
+		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2023\Pending
+	}
+else if(Stack="16s") ; ecouncil TE error log 
+	{
+		Button1_Label=tail /var/log/nginx/error.log
+	}
+else if(Stack="16t") ; case docker 
+	{
+		Button1_Label=https`://casemanager.localhost/auth/login?EFAAS-DISABLE=1
+		run, %Button1_Label%
+	}
+else if(Stack="16u") ; docker sail up 
+	{
+		Button1_Label=sail up -d --remove-orphans
+	}
 else
 	{	
 		EditVisible :=1
@@ -2947,6 +2965,43 @@ else
 
 
 	
+	
+#if (Stack="16x") ; sync to ecouncil gitlab 
+	`::
+		Source=C:\xampp\htdocs\ecouncil\ecouncil
+		Destination=C:\xampp\htdocs\eCouncil-gitlab\web
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+
+		MyTT("Done Synching")
+		MyTT("Done Synching")
+		MsgBox Done Synching
+	return
+	
+#if (Stack="16w") ; sync from case gitlab 
+	`::
+		Source=C:\xampp\htdocs\case-manager-gitlab
+		Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+
+		MyTT("Done Synching")
+		MyTT("Done Synching")
+		MsgBox Done Synching
+	return
+	
+#if (Stack="16v") ; sync to case gitlab 
+	`::
+		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		Destination=C:\xampp\htdocs\case-manager
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		
+		Source=C:\xampp\htdocs\case-manager
+		Destination=C:\xampp\htdocs\case-manager-gitlab
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+
+		MyTT("Done Synching")
+		MyTT("Done Synching")
+		MsgBox Done Synching
+	return
 	
 #if (Stack="16q") ; make case role seeder 
 	`::
@@ -4280,7 +4335,7 @@ XButton2::
 	}
 
 
-#if (Stack="15bd") ; sync eCouncil folders 
+#if (Stack="15bd") ; sync folders 
 	`::
 	
 		;~ StringReplace, clipboard, clipboard, `r, , All
@@ -4297,11 +4352,14 @@ XButton2::
 		Source=C:\xampp\htdocs\case-manager
 		Destination=C:\xampp\htdocs\case-manager-gitlab
 		
+		
 		;~ Source=C:\xampp\htdocs\case-manager-gitlab
 		;~ Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
 		
+		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
+
 		
 		;~ Source=C:\xampp\htdocs\eCouncil-gitlab\web
 		;~ Destination=C:\xampp\htdocs\ecouncil\ecouncil
@@ -5245,7 +5303,7 @@ enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
 	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Enum\%name%Enum.php
 	
-	data := "`t�Edit`t�Copy`t�Delete`t1`tCase View Any`tcase_view_any`tCase View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t2`tCase Create`tcase_create`tCase Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t3`tCase View`tcase_view`tCase View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t4`tCase Update`tcase_update`tCase Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t5`tCase Delete`tcase_delete`tCase Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t6`tOrganisation View Any`torganisation_view_any`tOrganisation View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t7`tOrganisation Create`torganisation_create`tOrganisation Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t8`tOrganisation View`torganisation_view`tOrganisation View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t9`tOrganisation Update`torganisation_update`tOrganisation Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t10`tOrganisation Delete`torganisation_delete`tOrganisation Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t11`tOrganisation Type View Any`torganisation_type_view_any`tOrganisation Type View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t12`tOrganisation Type Create`torganisation_type_create`tOrganisation Type Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t13`tOrganisation Type View`torganisation_type_view`tOrganisation Type View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t14`tOrganisation Type Update`torganisation_type_update`tOrganisation Type Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t15`tOrganisation Type Delete`torganisation_type_delete`tOrganisation Type Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t16`tCountry View Any`tcountry_view_any`tCountry View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t17`tCountry Create`tcountry_create`tCountry Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t18`tCountry View`tcountry_view`tCountry View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t19`tCountry Update`tcountry_update`tCountry Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t20`tCountry Delete`tcountry_delete`tCountry Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t21`tTeam View Any`tteam_view_any`tTeam View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t22`tTeam Create`tteam_create`tTeam Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t23`tTeam View`tteam_view`tTeam View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t24`tTeam Update`tteam_update`tTeam Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t25`tTeam Delete`tteam_delete`tTeam Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t26`tStatus View Any`tstatus_view_any`tStatus View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t27`tStatus Create`tstatus_create`tStatus Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t28`tStatus View`tstatus_view`tStatus View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t29`tStatus Update`tstatus_update`tStatus Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t30`tStatus Delete`tstatus_delete`tStatus Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t31`tChannel View Any`tchannel_view_any`tChannel View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t32`tChannel Create`tchannel_create`tChannel Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t33`tChannel View`tchannel_view`tChannel View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t34`tChannel Update`tchannel_update`tChannel Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t35`tChannel Delete`tchannel_delete`tChannel Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t36`tPriority View Any`tpriority_view_any`tPriority View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t37`tPriority Create`tpriority_create`tPriority Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t38`tPriority View`tpriority_view`tPriority View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t39`tPriority Update`tpriority_update`tPriority Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t40`tPriority Delete`tpriority_delete`tPriority Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t41`tCommunication View Any`tcommunication_view_any`tCommunication View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t42`tCommunication Create`tcommunication_create`tCommunication Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t43`tCommunication View`tcommunication_view`tCommunication View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t44`tCommunication Update`tcommunication_update`tCommunication Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t45`tCommunication Delete`tcommunication_delete`tCommunication Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t46`tCommunication Type View Any`tcommunication_type_view_any`tCommunication Type View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t47`tCommunication Type Create`tcommunication_type_create`tCommunication Type Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t48`tCommunication Type View`tcommunication_type_view`tCommunication Type View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t49`tCommunication Type Update`tcommunication_type_update`tCommunication Type Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t50`tCommunication Type Delete`tcommunication_type_delete`tCommunication Type Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t51`tTask View Any`ttask_view_any`tTask View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t52`tTask Create`ttask_create`tTask Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t53`tTask View`ttask_view`tTask View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t54`tTask Update`ttask_update`tTask Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t55`tTask Delete`ttask_delete`tTask Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t56`tTask User View Any`ttask_user_view_any`tTask User View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t57`tTask User Create`ttask_user_create`tTask User Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t58`tTask User View`ttask_user_view`tTask User View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t59`tTask User Update`ttask_user_update`tTask User Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t60`tTask User Delete`ttask_user_delete`tTask User Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t61`tCase User Type View Any`tcase_user_type_view_any`tCase User Type View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t62`tCase User Type Create`tcase_user_type_create`tCase User Type Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t63`tCase User Type View`tcase_user_type_view`tCase User Type View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t64`tCase User Type Update`tcase_user_type_update`tCase User Type Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t65`tCase User Type Delete`tcase_user_type_delete`tCase User Type Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t66`tIndividual View Any`tindividual_view_any`tIndividual View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t67`tIndividual Create`tindividual_create`tIndividual Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t68`tIndividual View`tindividual_view`tIndividual View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t69`tIndividual Update`tindividual_update`tIndividual Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t70`tIndividual Delete`tindividual_delete`tIndividual Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t71`tRole View Any`trole_view_any`tRole View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t72`tRole Create`trole_create`tRole Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t73`tRole View`trole_view`tRole View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t74`tRole Update`trole_update`tRole Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t75`tRole Delete`trole_delete`tRole Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t76`t? valueCC1 ? View Any`t? valueS1 ?_view_any`t? valueCC1 ? View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t77`t? valueCC1 ? Create`t? valueS1 ?_create`t? valueCC1 ? Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t78`t? valueCC1 ? View`t? valueS1 ?_view`t? valueCC1 ? View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t79`t? valueCC1 ? Update`t? valueS1 ?_update`t? valueCC1 ? Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t80`t? valueCC1 ? Delete`t? valueS1 ?_delete`t? valueCC1 ? Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t81`tRole ? valueCC1 ? View Any`trole_? valueS1 ?_view_any`tRole ? valueCC1 ? View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t82`tRole ? valueCC1 ? Create`trole_? valueS1 ?_create`tRole ? valueCC1 ? Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t83`tRole ? valueCC1 ? View`trole_? valueS1 ?_view`tRole ? valueCC1 ? View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t84`tRole ? valueCC1 ? Update`trole_? valueS1 ?_update`tRole ? valueCC1 ? Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t85`tRole ? valueCC1 ? Delete`trole_? valueS1 ?_delete`tRole ? valueCC1 ? Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t86`tUser Role View Any`tuser_role_view_any`tUser Role View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t87`tUser Role Create`tuser_role_create`tUser Role Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t88`tUser Role View`tuser_role_view`tUser Role View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t89`tUser Role Update`tuser_role_update`tUser Role Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t90`tUser Role Delete`tuser_role_delete`tUser Role Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t91`tAudit View Any`taudit_view_any`tAudit View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t92`tAudit Create`taudit_create`tAudit Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t93`tAudit View`taudit_view`tAudit View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t94`tAudit Update`taudit_update`tAudit Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t95`tAudit Delete`taudit_delete`tAudit Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t96`tActivity Log View Any`tactivity_log_view_any`tActivity Log View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t97`tActivity Log View`tactivity_log_view`tActivity Log View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t98`tActivity Log Update`tactivity_log_update`tActivity Log Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t99`tTag View Any`ttag_view_any`tTag View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t100`tTag Create`ttag_create`tTag Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t101`tTag View`ttag_view`tTag View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t102`tTag Update`ttag_update`tTag Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t103`tTag Delete`ttag_delete`tTag Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t104`tChecklist View Any`tchecklist_view_any`tChecklist View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t105`tChecklist Create`tchecklist_create`tChecklist Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t106`tChecklist View`tchecklist_view`tChecklist View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t107`tChecklist Update`tchecklist_update`tChecklist Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t108`tChecklist Delete`tchecklist_delete`tChecklist Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t109`tComment View Any`tcomment_view_any`tComment View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t110`tComment Create`tcomment_create`tComment Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t111`tComment View`tcomment_view`tComment View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t112`tComment Update`tcomment_update`tComment Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t113`tComment Delete`tcomment_delete`tComment Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t114`tTask Tag View Any`ttask_tag_view_any`tTask Tag View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t115`tTask Tag Create`ttask_tag_create`tTask Tag Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t116`tTask Tag View`ttask_tag_view`tTask Tag View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t117`tTask Tag Update`ttask_tag_update`tTask Tag Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t118`tTask Tag Delete`ttask_tag_delete`tTask Tag Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t124`tSensitivity View Any`tsensitivity_view_any`tSensitivity View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t125`tSensitivity Create`tsensitivity_create`tSensitivity Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t126`tSensitivity View`tsensitivity_view`tSensitivity View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t127`tSensitivity Update`tsensitivity_update`tSensitivity Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t128`tSensitivity Delete`tsensitivity_delete`tSensitivity Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t129`tAttachment View Any`tattachment_view_any`tAttachment View Any`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t130`tAttachment Create`tattachment_create`tAttachment Create`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t131`tAttachment View`tattachment_view`tAttachment View`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t132`tAttachment Update`tattachment_update`tAttachment Update`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t133`tAttachment Delete`tattachment_delete`tAttachment Delete`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t134`tCase Supervisor`tcase_supervisor`tCase Supervisor`tNULL`tNULL`tNULL`n`t�Edit`t�Copy`t�Delete`t135`tTask Supervisor`ttask_supervisor`tTask Supervisor`tNULL`tNULL`tNULL"
+	data := "`tEdit`tCopy`tDelete`t1`tcase assigned`tNULL`tNULL`n`tEdit`tCopy`tDelete`t2`ttask assigned`tNULL`tNULL"
 	data := RegExReplace(data, "`n$", "")
 		
 	comments := runScaffold("` * @method static self ? valueS6 ?()`n", data)
@@ -6874,26 +6932,26 @@ scaffoldFiles(){
 		
 		;~ ; replace efaas callback
 		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
-			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://case.localhost/auth/callback", all
+			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://case.localhost:8080/auth/callback", all
 			omitcredentials="credentials"`: "omit"
 			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
 			Send ^v
 			Sleep 500
 			
 			Send !d
-			Send http://case.localhost/auth/login?EFAAS-DISABLE
+			Send http://case.localhost:8080/auth/login?EFAAS-DISABLE
 			Send {Enter}
 			return
 		}
 		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
-			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://ecouncil.test/ecouncil/index.php", all
+			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://ecouncil.test:8080/ecouncil/index.php", all
 			omitcredentials="credentials"`: "omit"
 			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
 			Send ^v
 			Sleep 500
 			
 			Send !d
-			Send http://ecouncil.test/ecouncil/index.php/site/logout
+			Send http://ecouncil.test:8080/ecouncil/index.php/site/logout
 			Send {Enter}
 			return
 		}
