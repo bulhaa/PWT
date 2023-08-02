@@ -65,7 +65,7 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;case manager docker,16t;case manager local,14k;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;"
+ncitStacks:= "teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;case manager local,17c;case manager local mix,14k;case manager docker,16t;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2743,7 +2743,7 @@ else if(Stack="14j") ; tailwinds themeforest list
 	}
 else if(Stack="14k") ; case manager local 
 	{
-		Button1_Label=http`://case.localhost`:8080/auth/login?EFAAS-DISABLE=1
+		Button1_Label=http`://localhost`:3000/auth/login?EFAAS-DISABLE=1
 		run, %Button1_Label%
 	}
 else if(Stack="14l") ; gemen online local 
@@ -2901,7 +2901,7 @@ else if(Stack="16k") ; docker
 	}
 else if(Stack="16l") ; db seed with initial data 
 	{
-		Button1_Label=sail artisan migrate`:fresh && `nsail artisan db`:import-initial-data && `nsail artisan db`:import-seed-data-v2 && `nsail artisan db`:import-seed-data-v3 && `nsail artisan db`:import-seed-data-v4 && `nsail artisan db`:import-seed-data-v5 && `nsail artisan db`:import-seed-data-v6
+		Button1_Label=php artisan migrate`:fresh`nphp artisan db`:import-initial-data`nphp artisan db`:import-seed-data-v2`nphp artisan db`:import-seed-data-v3`nphp artisan db`:import-seed-data-v4`nphp artisan db`:import-seed-data-v5`nphp artisan db`:import-seed-data-v6`nphp artisan db`:import-seed-data-v7
 	}
 else if(Stack="16m") ; ncit laravel/api getting started 
 	{
@@ -2926,6 +2926,7 @@ else if(Stack="16p") ; httpd-xampp.conf
 else if(Stack="16r") ; db scripts to production 
 	{
 		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2023\Pending
+		run, %Button1_Label%
 	}
 else if(Stack="16s") ; ecouncil TE error log 
 	{
@@ -2939,6 +2940,27 @@ else if(Stack="16t") ; case docker
 else if(Stack="16u") ; docker sail up 
 	{
 		Button1_Label=sail up -d --remove-orphans
+	}
+else if(Stack="16y") ; wsl --shutdown 
+	{
+		Button1_Label=wsl --shutdown
+	}
+else if(Stack="16z") ; gitkraken 
+	{
+		Button1_Label=gitkraken
+	}
+else if(Stack="17a") ; assign drive letter to network path 
+	{
+		Button1_Label=net use X`: \\wsl.localhost\Ubuntu-22.04\`n
+	}
+else if(Stack="17b") ; npx mix watch 
+	{
+		Button1_Label=npx mix watch
+	}
+else if(Stack="17c") ; case manager local 
+	{
+		Button1_Label=http`://case.localhost`:8080/auth/login?EFAAS-DISABLE=1 
+		run, %Button1_Label%
 	}
 else
 	{	
@@ -2990,9 +3012,9 @@ else
 	
 #if (Stack="16v") ; sync to case gitlab 
 	`::
-		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
-		Destination=C:\xampp\htdocs\case-manager
-		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		;~ Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		;~ Destination=C:\xampp\htdocs\case-manager
+		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 		
 		Source=C:\xampp\htdocs\case-manager
 		Destination=C:\xampp\htdocs\case-manager-gitlab
@@ -3136,7 +3158,6 @@ else
 	`::
 		Click 70, 284
 		Send {Home}
-		Send {Down}
 		Send {Down}
 		Send {Down}
 		Send {Down}{Space}
@@ -4145,7 +4166,7 @@ XButton2::
 	
 #if (Stack="15bo") ; make new stack 
 	`::
-		stackPrefix := "16"
+		stackPrefix := "17"
 		newStackAsc := 97
 		
 		Loop 27 {
@@ -4344,13 +4365,13 @@ XButton2::
 	;~ return		
 		
 	
-		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
-		Destination=C:\xampp\htdocs\case-manager
+		;~ Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		;~ Destination=C:\xampp\htdocs\case-manager
 		
-		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 		
-		Source=C:\xampp\htdocs\case-manager
-		Destination=C:\xampp\htdocs\case-manager-gitlab
+		;~ Source=C:\xampp\htdocs\case-manager
+		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
 		
 		
 		;~ Source=C:\xampp\htdocs\case-manager-gitlab
@@ -4361,8 +4382,8 @@ XButton2::
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
 
 		
-		;~ Source=C:\xampp\htdocs\eCouncil-gitlab\web
-		;~ Destination=C:\xampp\htdocs\ecouncil\ecouncil
+		Source=C:\xampp\htdocs\eCouncil-gitlab\web
+		Destination=C:\xampp\htdocs\ecouncil\ecouncil
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
@@ -7014,13 +7035,14 @@ scaffoldFiles(){
 					Send ^v
 				}
 			}else{
-				if( InStr(t, "http://case.localhost") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") or InStr(t, "http://case-manager.localhost") or InStr(t, "https://casemanager.localhost") ){
+				if( InStr(t, "http://case.localhost") or InStr(t, "https://case.te.egov.mv/") or InStr(t, "http://gemen-online.test/") or InStr(t, "http://recordsmv.ddns.net/") or InStr(t, "http://case-manager.localhost") or InStr(t, "https://casemanager.localhost") or InStr(t, "http://localhost:3000") ){
 					StringReplace, t, t, http://case.localhost/
 					StringReplace, t, t, https://case.te.egov.mv/
 					StringReplace, t, t, http://gemen-online.test/
 					StringReplace, t, t, http://recordsmv.ddns.net/
 					StringReplace, t, t, http://case-manager.localhost/
 					StringReplace, t, t, https://casemanager.localhost/
+					StringReplace, t, t, http://localhost:3000/
 					model := RegExReplace(t, "s)^([a-z\-]+).*", "$1")
 					createRoute := RegExReplace(t, "s)^([a-z\-]+)/([a-z\-]+)$", "1")
 					showRoute := RegExReplace(t, "s)^([a-z\-]+)/(\d+)$", "1")
