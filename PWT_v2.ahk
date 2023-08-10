@@ -65,7 +65,11 @@ sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
 yiiStacks:= "yii app end,13b;yii base url,13e;"
 vbStacks:= "c# to vb,13h;"
 phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-ncitStacks:= "teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,14y;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;case manager local,17c;case manager local mix,14k;case manager docker,16t;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;"
+
+ncitStacks := ncitStacks "case manager docker,16t;"
+ncitStacks := ncitStacks "case manager local,17c;"
+ncitStacks := ncitStacks "case manager local mix,14k;"
+ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -477,6 +481,9 @@ skipFileOrFolder(src_path, dest_path){
 	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Livewire\Auth\Login.php")
 	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Livewire\Auth\")
 	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Controllers\Auth\LoginController.php")
+	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Helpers\hasPermission.php")
+	arr.Push("C:\xampp\htdocs\case-manager-gitlab\webpack.mix.js")
+	arr.Push("C:\xampp\htdocs\case-manager-gitlab\app\Http\Livewire\Individual\FetchModalIndividuals.php")
 
 	skip = 0
 	
@@ -2868,7 +2875,7 @@ else if(Stack="16d") ; apache vhost
 	{
 		run, EXPLORER.EXE /select`, "C:\xampp\apache\conf\extra\httpd-vhosts.conf"
 	}
-else if(Stack="14y") ; mysql general_log 
+else if(Stack="17g") ; mysql general_log 
 	{
 		Button1_Label=SET global general_log = 1`;`nSHOW VARIABLES like 'general`%'`;
 		run, EXPLORER.EXE /select`, "C:\xampp\mysql\data\DESKTOP-JAF1A1H.log"
@@ -2901,7 +2908,7 @@ else if(Stack="16k") ; docker
 	}
 else if(Stack="16l") ; db seed with initial data 
 	{
-		Button1_Label=php artisan migrate`:fresh`nphp artisan db`:import-initial-data`nphp artisan db`:import-seed-data-v2`nphp artisan db`:import-seed-data-v3`nphp artisan db`:import-seed-data-v4`nphp artisan db`:import-seed-data-v5`nphp artisan db`:import-seed-data-v6`nphp artisan db`:import-seed-data-v7
+		Button1_Label=php artisan migrate`:fresh`nphp artisan db`:import-initial-data`nphp artisan db`:import-seed-data-v2`nphp artisan db`:import-seed-data-v3`nphp artisan db`:import-seed-data-v4`nphp artisan db`:import-seed-data-v5`nphp artisan db`:import-seed-data-v6`nphp artisan db`:import-seed-data-v7`nphp artisan db`:import-seed-data-v8`nphp artisan db`:import-seed-data-v9
 	}
 else if(Stack="16m") ; ncit laravel/api getting started 
 	{
@@ -2962,6 +2969,16 @@ else if(Stack="17c") ; case manager local
 		Button1_Label=http`://case.localhost`:8080/auth/login?EFAAS-DISABLE=1 
 		run, %Button1_Label%
 	}
+else if(Stack="17d") ; case TE 
+	{
+		Button1_Label=https`://case.te.egov.mv/auth/login?EFAAS-DISABLE=1
+		run, %Button1_Label%
+	}
+else if(Stack="17e") ; dev purchase requests 
+	{
+		Button1_Label=https`://docs.google.com/spreadsheets/d/1Jpz5A8VAtzTx8P0M5vHLAKHLLicaHsqPmVeH51vsX3Q/edit#gid=0
+		run, %Button1_Label%
+	}
 else
 	{	
 		EditVisible :=1
@@ -2988,6 +3005,30 @@ else
 
 	
 	
+#if (Stack="17f") ; excel cell to single line 
+	`::
+		Clipboard=
+		waitClipboard()
+		clip_bkp := Clipboard
+		
+		Send {Esc}
+		Sleep 500
+		
+		Clipboard=
+		waitClipboard()
+		Clipboard := clip_bkp
+		Sleep 500
+		
+		StringReplace, Clipboard, Clipboard, `", , All
+		Clipboard := Trim(Clipboard)
+		StringReplace, Clipboard, Clipboard, `n, , All
+		StringReplace, Clipboard, Clipboard, `r, , All
+		Send ^v
+		Sleep 500
+		Send {Down}
+		return
+	return
+	
 #if (Stack="16x") ; sync to ecouncil gitlab 
 	`::
 		Source=C:\xampp\htdocs\ecouncil\ecouncil
@@ -3012,9 +3053,9 @@ else
 	
 #if (Stack="16v") ; sync to case gitlab 
 	`::
-		;~ Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
-		;~ Destination=C:\xampp\htdocs\case-manager
-		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		Destination=C:\xampp\htdocs\case-manager
+		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 		
 		Source=C:\xampp\htdocs\case-manager
 		Destination=C:\xampp\htdocs\case-manager-gitlab
@@ -4374,16 +4415,16 @@ XButton2::
 		;~ Destination=C:\xampp\htdocs\case-manager-gitlab
 		
 		
-		;~ Source=C:\xampp\htdocs\case-manager-gitlab
-		;~ Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		Source=C:\xampp\htdocs\case-manager-gitlab
+		Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
 		
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
 
 		
-		Source=C:\xampp\htdocs\eCouncil-gitlab\web
-		Destination=C:\xampp\htdocs\ecouncil\ecouncil
+		;~ Source=C:\xampp\htdocs\eCouncil-gitlab\web
+		;~ Destination=C:\xampp\htdocs\ecouncil\ecouncil
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
 		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
@@ -6661,7 +6702,7 @@ scaffoldFiles(){
 	
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
-	`::
+	`::		
 		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
 		;~ return
 		
@@ -7371,8 +7412,11 @@ scaffoldFiles(){
 				;~ test1:=RegExReplace(tempN1 tempN4,"[^a-zA-Z0-9]","")
 				;~ test2:=RegExReplace(tempH1 tempH4,"[^a-zA-Z0-9]","")
 				
+				t1 := capitalCase(Trim(tempN1))
+				t2 := capitalCase(Trim(tempH3))
+				
 				;~ if( capitalCase(Trim(tempN1)) = capitalCase(Trim(tempH3)) )
-				;~ if( capitalCase(Trim(tempN6)) = capitalCase(Trim(tempH2)) )
+				;~ if( capitalCase(Trim(tempN6)) = capitalCase(Trim(tempH2)) and capitalCase(Trim(tempN32)) = capitalCase(Trim(tempH4)) )
 				if( capitalCase(Trim(tempN28)) = capitalCase(Trim(tempH4)) and capitalCase(Trim(tempN34)) = capitalCase(Trim(tempH3)) )
 				{
 					output:= output needle%outIndex% "`t" haystack%A_Index% "`t1`n"
