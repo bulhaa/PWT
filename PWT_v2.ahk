@@ -69,7 +69,7 @@ phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
 ncitStacks := ncitStacks "case manager local,17c;"
 ncitStacks := ncitStacks "case manager docker,16t;"
 ncitStacks := ncitStacks "case manager local mix,14k;"
-ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;"
+ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2341,8 +2341,8 @@ if(Stack="15am") ; scaffolding mode
 		init_DB_Fields()
 		scaffoldFiles()
 		
-		;~ init_DB_Fields(1, 0)
-		;~ myTT("refreshed")
+		init_DB_Fields(1, 0)
+		myTT("refreshed")
 		
 		Button1_Label=`t`tscaffold_template = ? value1 ?`n`t`tprintUsingScaffold("")`n`n
 	}
@@ -2779,8 +2779,8 @@ else if(Stack="14p") ; gemen online TE
 	}
 else if(Stack="14q") ; eCouncil DB scripts 
 	{
-		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2022\Pending
-		Run, \\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2022\Pending
+		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2023\Pending
+		Run, \\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2023\Pending
 	}
 else if(Stack="14r") ; data to seeder 
 	{
@@ -2979,6 +2979,16 @@ else if(Stack="17e") ; dev purchase requests
 		Button1_Label=https`://docs.google.com/spreadsheets/d/1Jpz5A8VAtzTx8P0M5vHLAKHLLicaHsqPmVeH51vsX3Q/edit#gid=0
 		run, %Button1_Label%
 	}
+else if(Stack="17h") ; GEMS API local 
+	{
+		Button1_Label=http`://gems_api.test`:8080/
+		run, %Button1_Label%
+	}
+else if(Stack="17i") ; GEMS file erd 
+	{
+		Button1_Label=https`://drive.google.com/file/d/1u9BVFIc19LZdGK2TPU0NModo4Crnqf3I/view?ts=65081321
+		run, %Button1_Label%
+	}
 else
 	{	
 		EditVisible :=1
@@ -3043,7 +3053,7 @@ else
 #if (Stack="16w") ; sync from case gitlab 
 	`::
 		Source=C:\xampp\htdocs\case-manager-gitlab
-		Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		Destination=C:\xampp\htdocs\case-manager
 		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
 		MyTT("Done Synching")
@@ -3053,9 +3063,9 @@ else
 	
 #if (Stack="16v") ; sync to case gitlab 
 	`::
-		Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
-		Destination=C:\xampp\htdocs\case-manager
-		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
+		;~ Source=C:\xampp\htdocs\gems_api
+		;~ Destination=C:\xampp\htdocs\case-manager
+		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 		
 		Source=C:\xampp\htdocs\case-manager
 		Destination=C:\xampp\htdocs\case-manager-gitlab
@@ -3159,9 +3169,9 @@ else
 	
 #if (Stack="13t") ; laravel pretend migrate 
 	`::
-		file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\migrate.sql
+		file =C:\xampp\htdocs\gems_api\migrate.sql
 		command:= "C:\xampp\php81\php artisan migrate --pretend --no-ansi > " file
-		RunWait %comspec% /c "%command%", \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		RunWait %comspec% /c "%command%", C:\xampp\htdocs\gems_api
 		
 		FileRead, content, %file%
 		;~ StringReplace, content, content, `}); // group end, %route%`}); // group end
@@ -3177,7 +3187,7 @@ else
 	
 #if (Stack="13s") ; SQLite 
 	`::
-		file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\.env"
+		file := "C:\xampp\htdocs\gems_api\.env"
 		content := "APP_NAME=Case-Manager`nAPP_ENV=local`nAPP_KEY=base64`:Jx7g4xVsDQ6t3cyiacsDmuDgkhvqQi2ICgGh8cFevYA=`nAPP_DEBUG=true`nAPP_URL=http`://case-manager.test`n`nLOG_CHANNEL=stack`nLOG_DEPRECATIONS_CHANNEL=null`nLOG_LEVEL=debug`n`nDB_CONNECTION=sqlite`nDB_DATABASE=C`:\xampp\htdocs\case-manager\database.sqlite`n`n#DB_CONNECTION=mysql`n#DB_DATABASE=case_manager`nDB_HOST=127.0.0.1`nDB_PORT=3306`nDB_USERNAME=root`nDB_PASSWORD=`n`nBROADCAST_DRIVER=log`nCACHE_DRIVER=file`nFILESYSTEM_DISK=local`nQUEUE_CONNECTION=sync`nSESSION_DRIVER=file`nSESSION_LIFETIME=120`n`nMEMCACHED_HOST=127.0.0.1`n`nREDIS_HOST=127.0.0.1`nREDIS_PASSWORD=null`nREDIS_PORT=6379`n`nMAIL_MAILER=smtp`nMAIL_HOST=mailhog`nMAIL_PORT=1025`nMAIL_USERNAME=null`nMAIL_PASSWORD=null`nMAIL_ENCRYPTION=null`nMAIL_FROM_ADDRESS=""hello@example.com""`nMAIL_FROM_NAME=""${APP_NAME}""`n`nAWS_ACCESS_KEY_ID=`nAWS_SECRET_ACCESS_KEY=`nAWS_DEFAULT_REGION=us-east-1`nAWS_BUCKET=`nAWS_USE_PATH_STYLE_ENDPOINT=false`n`nPUSHER_APP_ID=`nPUSHER_APP_KEY=`nPUSHER_APP_SECRET=`nPUSHER_APP_CLUSTER=mt1`n`nMIX_PUSHER_APP_KEY=""${PUSHER_APP_KEY}""`nMIX_PUSHER_APP_CLUSTER=""${PUSHER_APP_CLUSTER}""`n"
 		
 		
@@ -3187,7 +3197,7 @@ else
 	
 #if (Stack="13r") ; mysql mode 
 	`::
-		file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\.env"
+		file := "C:\xampp\htdocs\gems_api\.env"
 		content := "APP_NAME=Case-Manager`nAPP_ENV=local`nAPP_KEY=base64`:Jx7g4xVsDQ6t3cyiacsDmuDgkhvqQi2ICgGh8cFevYA=`nAPP_DEBUG=true`nAPP_URL=http`://case-manager.test`n`nLOG_CHANNEL=stack`nLOG_DEPRECATIONS_CHANNEL=null`nLOG_LEVEL=debug`n`n#DB_CONNECTION=sqlite`n#DB_DATABASE=C`:\xampp\htdocs\case-manager\database.sqlite`n`nDB_CONNECTION=mysql`nDB_DATABASE=case_manager`nDB_HOST=127.0.0.1`nDB_PORT=3306`nDB_USERNAME=root`nDB_PASSWORD=`n`nBROADCAST_DRIVER=log`nCACHE_DRIVER=file`nFILESYSTEM_DISK=local`nQUEUE_CONNECTION=sync`nSESSION_DRIVER=file`nSESSION_LIFETIME=120`n`nMEMCACHED_HOST=127.0.0.1`n`nREDIS_HOST=127.0.0.1`nREDIS_PASSWORD=null`nREDIS_PORT=6379`n`nMAIL_MAILER=smtp`nMAIL_HOST=mailhog`nMAIL_PORT=1025`nMAIL_USERNAME=null`nMAIL_PASSWORD=null`nMAIL_ENCRYPTION=null`nMAIL_FROM_ADDRESS=""hello@example.com""`nMAIL_FROM_NAME=""${APP_NAME}""`n`nAWS_ACCESS_KEY_ID=`nAWS_SECRET_ACCESS_KEY=`nAWS_DEFAULT_REGION=us-east-1`nAWS_BUCKET=`nAWS_USE_PATH_STYLE_ENDPOINT=false`n`nPUSHER_APP_ID=`nPUSHER_APP_KEY=`nPUSHER_APP_SECRET=`nPUSHER_APP_CLUSTER=mt1`n`nMIX_PUSHER_APP_KEY=""${PUSHER_APP_KEY}""`nMIX_PUSHER_APP_CLUSTER=""${PUSHER_APP_CLUSTER}""`n"
 		
 		
@@ -4406,7 +4416,7 @@ XButton2::
 	;~ return		
 		
 	
-		;~ Source=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		;~ Source=C:\xampp\htdocs\gems_api
 		;~ Destination=C:\xampp\htdocs\case-manager
 		
 		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
@@ -4416,7 +4426,7 @@ XButton2::
 		
 		
 		Source=C:\xampp\htdocs\case-manager-gitlab
-		Destination=\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web
+		Destination=C:\xampp\htdocs\gems_api
 		
 		
 		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
@@ -4826,7 +4836,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		customModelName := customModelName(table_name_singular)
 	
 	;~ customModelName := scaffoldModel( customModelName )
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Models\%customModelName%.php
+	file =C:\xampp\htdocs\gems_api\app\Models\%customModelName%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -4872,7 +4882,7 @@ factory_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("? valueCC1 ?Factory")
 	
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\factories\%name%.php
+	file =C:\xampp\htdocs\gems_api\database\factories\%name%.php
 	fileWrite( content, file )
 }
 
@@ -4903,7 +4913,7 @@ seeder_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel("<?php`n`nnamespace Database\Seeders`;`n`nuse Illuminate\Database\Console\Seeds\WithoutModelEvents`;`nuse Illuminate\Database\Seeder`;`nuse Illuminate\Support\Facades\DB`;`nuse Illuminate\Support\Str`;`n`nclass ? valueCC1 ?Seeder extends Seeder`n{`n    /**`n     * Run the database seeds.`n     *`n     * @return void`n     */`n    public function run()`n    {`n        DB`:`:table('? valueS2 ?')->insert([`n            [`n" attributes "`n            ]`,`n        ])`;`n    }`n}`n")
 	
 	name := scaffoldModel("? valueCC1 ?Seeder")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\seeders\%name%.php
+	file =C:\xampp\htdocs\gems_api\database\seeders\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4916,7 +4926,7 @@ updateDatabaseSeeder(){
 updateDatabaseSeeder_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	seeder := scaffoldModel("`            // ? valueCC1 ?Seeder`:`:class`,`n")
 	
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\seeders\DatabaseSeeder.php
+	file =C:\xampp\htdocs\gems_api\database\seeders\DatabaseSeeder.php
 	FileRead, content, %file%
 	StringReplace, content, content, `        ])`;, %seeder%`        ])`;
 	
@@ -4954,15 +4964,48 @@ customModelName(table_name_singular){
 	return customModelName[table_name_singular]
 }
 
-apiController(){
+
+gemsApi_apiController_allowedIncludes( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	if( related_table_singular )
+		t := "'? valueC12 ?'`, "
+	
+	return t
+}
+
+
+gemsApi_apiController_allowedFilters( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	blacklist := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(blacklist, field_name) )
+		return ""
+	
+	if( InStr(data_type, "varchar(") )
+		t := "            // AllowedFilter`:`:partial('? value1 ?')`,`n"
+	
+	return t
+}
+
+
+gemsApi_apiController(){
 	global
-	apiController_a( table_name_singular, table_name_plural, reverse )
+	gemsApi_apiController_a( table_name_singular, table_name_plural, reverse )
 }
 	
-apiController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+gemsApi_apiController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	validationRules := runSubScaffold( "apiController_validationRules")
+	allowedIncludes := runSubScaffold( "gemsApi_apiController_allowedIncludes")
+	allowedFilters := runSubScaffold( "gemsApi_apiController_allowedFilters")
 	
-	t := "<?php`n`nnamespace App\Http\Controllers\Api`;`n`nuse App\Http\Controllers\Controller`;`nuse App\Models\? valueCC1 ?`;`nuse Symfony\Component\HttpFoundation\Response`;`nuse Illuminate\Http\Request`;`nuse Illuminate\Support\Facades\Validator`;`nuse App\Repositories\? valueCC91 ?Repository`;`n`nclass ? valueCC91 ?Controller extends Controller`n{`n    /** @var ? valueCC91 ?Repository $? valueS1 ?Repository*/`n    private $? valueS1 ?Repository`;`n`n    protected $routePath = '? valueS1 ?'`;`n    protected $viewPath = '? valueS1 ?'`;`n`n    public function __construct(? valueCC91 ?Repository $? valueS1 ?Repo)`n    {`n        $this->? valueS1 ?Repository = $? valueS1 ?Repo`;`n    }`n`n    /**`n     * Display a listing of the resource.`n     * https`://? valueS1 ?.te.egov.mv/api/? valueSH2 ??page=1&filter[priority_id]=2000&orderBy=-id`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function index(Request $request)`n    {`n        $filters = $request->get('filter'`, array())`;`n        $orderBy = $request->get('orderBy'`, null)`;`n        $? valueS2 ? = $this->? valueS1 ?Repository->paginate(10`, ['*']`, $filters`, $orderBy)`;`n`n        return response()->json([`n                'data' => $? valueS2 ?`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    protected function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    /**`n     * Show the form for creating a new resource.`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function create()`n    // {`n    //     $item = new ? valueCC1 ?()`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_uri = ""/? valueS1 ?""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Store a newly created resource in storage.`n     *`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function store(Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'data' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $item = new ? valueCC1 ?`;`n`n        $item->fill($request->validate($this->rules()))`;`n        $item->save()`;`n        return response()->json([`n                'data' => $item`,`n            ]`, Response`:`:HTTP_CREATED)`;`n    }`n`n    /**`n     * Display the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function show($id)`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n        return view(""? valueS1 ?.show""`, compact('? valueS1 ?'))`;`n    }`n`n    /**`n     * Show the form for editing the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function edit($id)`n    // {`n    //     $item = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_method = 'PATCH'`;`n    //     $item->_uri = ""/? valueS1 ?/$item->id""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Update the specified resource in storage.`n     *`n     * @param int $id`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function update(? valueCC1 ? $? valueS1 ?`, Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'data' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $? valueS1 ?->update($request->validate($this->rules()))`;`n        return response()->json([`n                'data' => $? valueS1 ?`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    /**`n     * Remove the specified resource from storage.`n     *`n     * @param int $id`n     * @return \Illuminate\Routing\Redirector`n     */`n    // public function destroy($id)`n    // {`n    //     ? valueCC1 ?`:`:destroy($id)`;`n    //     return redirect(""/? valueS1 ?"")`;`n    // }`n}`n"
+	t := "<?php`n`nnamespace App\Http\Controllers\Documents`;`n`nuse App\Http\Controllers\Controller`;`nuse App\Http\Resources\? valueCC1 ?Resource`;`nuse App\Models\? valueCC1 ?`;`nuse Symfony\Component\HttpFoundation\Response`;`nuse Illuminate\Http\Request`;`nuse Illuminate\Support\Facades\Validator`;`nuse App\Repositories\? valueCC91 ?Repository`;`nuse Spatie\QueryBuilder\AllowedFilter`;`nuse Spatie\QueryBuilder\QueryBuilder`;`n`nclass ? valueCC91 ?Controller extends Controller`n{`n    /** @var ? valueCC91 ?Repository $? valueS1 ?Repository*/`n    private $? valueS1 ?Repository`;`n`n    protected $routePath = '? valueS1 ?'`;`n    protected $viewPath = '? valueS1 ?'`;`n`n    public function __construct(? valueCC91 ?Repository $? valueS1 ?Repo)`n    {`n        $this->? valueS1 ?Repository = $? valueS1 ?Repo`;`n    }`n`n    /**`n     * Display a listing of the resource.`n     * https`://gems.te.egov.mv/api/? valueSH2 ??page=1&filter[priority_id]=2000&orderBy=-id`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function index(Request $request)`n    {`n        // $this->authorize('viewAny'`, ? valueCC1 ?`:`:class)`;`n`n        $? valueS2 ? = ? valueCC1 ?`:`:query()`;`n`n        $allowedFilters = [`n            AllowedFilter`:`:exact('id')`,`n" allowedFilters "            'created_at'`,`n            'updated_at'`,`n        ]`;`n`n        $allowedSorts = ['id'`, 'created_at'`, 'updated_at']`;`n`n        $allowedIncludes = [" allowedIncludes "]`;`n`n        $query = QueryBuilder`:`:for($? valueS2 ?)`n            ->allowedFields((new ? valueCC1 ?())->getFields())`n            ->allowedIncludes($allowedIncludes)`n            ->allowedFilters($allowedFilters)`n            ->allowedSorts($allowedSorts)`;`n`n        return ? valueCC1 ?Resource`:`:collection($query->paginate())`;`n    }`n`n    protected function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    /**`n     * Show the form for creating a new resource.`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function create()`n    // {`n    //     $item = new ? valueCC1 ?()`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_uri = ""/? valueS1 ?""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Store a newly created resource in storage.`n     *`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function store(Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'errors' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $? valueS1 ? = new ? valueCC1 ?`;`n        $? valueS1 ?->fill($request->validate($this->rules()))`;`n        $? valueS1 ?->save()`;`n        `n        $? valueS1 ?->load('senderOrg'`, 'senderTeam'`, 'senderIndiv'`, 'createdByOrg'`, 'createdByTeam')`;`n`n        return response()->json([`n                'data' => new ? valueCC1 ?Resource($? valueS1 ?)`,`n            ]`, Response`:`:HTTP_CREATED)`;`n    }`n`n    /**`n     * Display the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function show($id)`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n        $? valueS1 ?->load('senderOrg'`, 'senderTeam'`, 'senderIndiv'`, 'createdByOrg'`, 'createdByTeam'`, '? valueS1 ?Type')`;`n        return response()->json([`n                'data' => new ? valueCC1 ?Resource($? valueS1 ?)`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    /**`n     * Show the form for editing the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function edit($id)`n    // {`n    //     $item = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_method = 'PATCH'`;`n    //     $item->_uri = ""/? valueS1 ?/$item->id""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Update the specified resource in storage.`n     *`n     * @param int $id`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function update(? valueCC1 ? $? valueS1 ?`, Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'errors' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $? valueS1 ?->update($request->validate($this->rules()))`;`n`n        $? valueS1 ?->load('senderOrg'`, 'senderTeam'`, 'senderIndiv'`, 'createdByOrg'`, 'createdByTeam')`;`n`n        return response()->json([`n                'data' => new ? valueCC1 ?Resource($? valueS1 ?)`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    /**`n     * Remove the specified resource from storage.`n     *`n     * @param int $id`n     * @return \Illuminate\Routing\Redirector`n     */`n    // public function destroy($id)`n    // {`n    //     ? valueCC1 ?`:`:destroy($id)`;`n    //     return redirect(""/? valueS1 ?"")`;`n    // }`n}`n"
 	
 	if( customModelName(table_name_singular) )
 		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -4972,7 +5015,30 @@ apiController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueCC1 ?Controller")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Controllers\Api\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Controllers\Documents\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+apiController(){
+	global
+	apiController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+apiController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	validationRules := runSubScaffold( "apiController_validationRules")
+	
+	t := "<?php`n`nnamespace App\Http\Controllers\Documents`;`n`nuse App\Http\Controllers\Controller`;`nuse App\Models\? valueCC1 ?`;`nuse Symfony\Component\HttpFoundation\Response`;`nuse Illuminate\Http\Request`;`nuse Illuminate\Support\Facades\Validator`;`nuse App\Repositories\? valueCC91 ?Repository`;`n`nclass ? valueCC91 ?Controller extends Controller`n{`n    /** @var ? valueCC91 ?Repository $? valueS1 ?Repository*/`n    private $? valueS1 ?Repository`;`n`n    protected $routePath = '? valueS1 ?'`;`n    protected $viewPath = '? valueS1 ?'`;`n`n    public function __construct(? valueCC91 ?Repository $? valueS1 ?Repo)`n    {`n        $this->? valueS1 ?Repository = $? valueS1 ?Repo`;`n    }`n`n    /**`n     * Display a listing of the resource.`n     * https`://? valueS1 ?.te.egov.mv/api/? valueSH2 ??page=1&filter[priority_id]=2000&orderBy=-id`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function index(Request $request)`n    {`n        $filters = $request->get('filter'`, array())`;`n        $orderBy = $request->get('orderBy'`, null)`;`n        $? valueS2 ? = $this->? valueS1 ?Repository->paginate(10`, ['*']`, $filters`, $orderBy)`;`n`n        return response()->json([`n                'data' => $? valueS2 ?`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    protected function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    /**`n     * Show the form for creating a new resource.`n     *`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function create()`n    // {`n    //     $item = new ? valueCC1 ?()`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_uri = ""/? valueS1 ?""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Store a newly created resource in storage.`n     *`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function store(Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'data' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $item = new ? valueCC1 ?`;`n`n        $item->fill($request->validate($this->rules()))`;`n        $item->save()`;`n        return response()->json([`n                'data' => $item`,`n            ]`, Response`:`:HTTP_CREATED)`;`n    }`n`n    /**`n     * Display the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    public function show($id)`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n        return view(""? valueS1 ?.show""`, compact('? valueS1 ?'))`;`n    }`n`n    /**`n     * Show the form for editing the specified resource.`n     *`n     * @param int $id`n     * @return \Illuminate\Contracts\View\View`n     */`n    // public function edit($id)`n    // {`n    //     $item = ? valueCC1 ?`:`:query()->findOrFail($id)`;`n    //     $item->_token = csrf_token()`;`n    //     $item->_method = 'PATCH'`;`n    //     $item->_uri = ""/? valueS1 ?/$item->id""`;`n    //     return view(""? valueS1 ?.edit""`, compact('item'))`;`n    // }`n`n    /**`n     * Update the specified resource in storage.`n     *`n     * @param int $id`n     * @param Request $request`n     * @return \Illuminate\Routing\Redirector`n     */`n    public function update(? valueCC1 ? $? valueS1 ?`, Request $request)`n    {`n        $validator = Validator`:`:make($request->all()`, $this->rules())`;`n        if ($validator->fails()) {`n            return response()->json([`n                    'data' => $validator->errors()`,`n                ]`, Response`:`:HTTP_BAD_REQUEST)`;`n        }`n`n        $? valueS1 ?->update($request->validate($this->rules()))`;`n        return response()->json([`n                'data' => $? valueS1 ?`,`n            ]`, Response`:`:HTTP_OK)`;`n    }`n`n    /**`n     * Remove the specified resource from storage.`n     *`n     * @param int $id`n     * @return \Illuminate\Routing\Redirector`n     */`n    // public function destroy($id)`n    // {`n    //     ? valueCC1 ?`:`:destroy($id)`;`n    //     return redirect(""/? valueS1 ?"")`;`n    // }`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueCC1 ?Controller")
+	file =C:\xampp\htdocs\gems_api\app\Http\Controllers\Documents\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -4995,11 +5061,78 @@ repository_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueCC1 ?Repository")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Repositories\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Repositories\%name%.php
 	
 	fileWrite( content, file )
 }
+
+
+resource_OASchema( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
 	
+	;~ blacklist := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	;~ if( HasVal(blacklist, field_name) )
+		;~ return ""
+	
+	if( related_table_singular )
+		t := "` *     @OA\Property(property=""? valueS12 ?""`, ref=""#/components/schemas/? valueCC11 ?Resource"")`,`n"
+	else if( InStr(data_type, "bigint(") )
+		t := "` *     @OA\Property(property=""? value1 ?""`, type=""integer"")`,`n"
+	else if( InStr(data_type, "timestamp") )
+		t := "` *     @OA\Property(property=""? value1 ?""`, type=""string""`, format=""date-time"")`,`n"
+	else if( InStr(data_type, "date") )
+		t := "` *     @OA\Property(property=""? value1 ?""`, type=""string""`, format=""date"")`,`n"
+	else
+		t := "` *     @OA\Property(property=""? value1 ?""`, type=""string"")`,`n"
+	
+	return t
+}
+
+
+resource_toArray( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	;~ blacklist := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	;~ if( HasVal(blacklist, field_name) )
+		;~ return ""
+	
+	if( related_table_singular )
+		t := "`            '? valueS12 ?' => new ? valueCC11 ?Resource($this->whenLoaded('? valueC11 ?'))`,`n"
+	else if( InStr(data_type, "timestamp") )
+		t := "`            '? value1 ?' => $this?->? value1 ??->toDateTimeString()`,`n"
+	else
+		t := "`            '? value1 ?' => $this?->? value1 ?`,`n"
+	
+	return t
+}
+
+
+resource(){
+	global
+	resource_a( table_name_singular, table_name_plural, reverse )
+}
+	
+resource_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	OASchema := runSubScaffold( "resource_OASchema", 1)
+	toArray := runSubScaffold( "resource_toArray", 1)
+	
+	t := "<?php`n`nnamespace App\Http\Resources`;`n`nuse Illuminate\Http\Request`;`nuse Illuminate\Http\Resources\Json\JsonResource`;`n`n/**`n * @OA\Schema(`n *     schema=""? valueCC1 ?Resource""`,`n *`n" OASchema " * )`n */`nclass ? valueCC1 ?Resource extends JsonResource`n{`n    /**`n     * Transform the resource into an array.`n     *`n     * @return array<string`, mixed>`n     */`n    public function toArray(Request $request)`: array`n    {`n        return [`n" toArray "        ]`;`n    }`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueCC1 ?Resource")
+	file =C:\xampp\htdocs\gems_api\app\Http\Resources\%name%.php
+	
+	fileWrite( content, file )
+}
+
 childListTest(){
 	global
 	childListTest_a( table_name_singular, table_name_plural, reverse )
@@ -5019,9 +5152,9 @@ childListTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("ChildList? valueCC2 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\tests\Feature\Livewire\%directory%
 	
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
+	file =C:\xampp\htdocs\gems_api\tests\Feature\Livewire\%directory%\%name%.php
 	fileWrite( content, file )
 }
 	
@@ -5044,7 +5177,7 @@ listTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("List? valueCC2 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
+	file =C:\xampp\htdocs\gems_api\tests\Feature\Livewire\%directory%\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5068,7 +5201,7 @@ manageTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("Manage? valueCC1 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
+	file =C:\xampp\htdocs\gems_api\tests\Feature\Livewire\%directory%\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5092,7 +5225,7 @@ showTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	name := scaffoldModel("Show? valueCC1 ?Test")
 	directory := scaffoldModel("? valueCC1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\tests\Feature\Livewire\%directory%\%name%.php
+	file =C:\xampp\htdocs\gems_api\tests\Feature\Livewire\%directory%\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5115,7 +5248,7 @@ policy_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueCC1 ?Policy")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Policies\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Policies\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5248,7 +5381,7 @@ listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	
 	directory := scaffoldModel("? valueCC1 ?")
 	name := scaffoldModel("? valueCC2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%\List%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%directory%\List%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5266,7 +5399,7 @@ listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\app\Http\Livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -5295,7 +5428,7 @@ childListController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 	
 	directory := scaffoldModel("? valueCC1 ?")
 	name := scaffoldModel("? valueCC2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%\ChildList%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%directory%\ChildList%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5313,7 +5446,7 @@ childListController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\app\Http\Livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5332,7 +5465,7 @@ childListModalController_a(table_name_singular = 1, table_name_plural = 2, rever
 	
 	directory := scaffoldModel("? valueCC1 ?")
 	name := scaffoldModel("? valueCC2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%\ChildListModal%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%directory%\ChildListModal%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5350,7 +5483,7 @@ childListModalController_a(table_name_singular = 1, table_name_plural = 2, rever
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\app\Http\Livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5363,7 +5496,7 @@ enum(){
 	
 enum_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	name := scaffoldModel("? valueCC2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Enum\%name%Enum.php
+	file =C:\xampp\htdocs\gems_api\app\Enum\%name%Enum.php
 	
 	data := "`tEdit`tCopy`tDelete`t1`tcase assigned`tNULL`tNULL`n`tEdit`tCopy`tDelete`t2`ttask assigned`tNULL`tNULL"
 	data := RegExReplace(data, "`n$", "")
@@ -5406,7 +5539,7 @@ manageController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel( t )
 	
 	name := scaffoldModel("? valueCC1 ?\Manage? valueCC1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5428,7 +5561,7 @@ showController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel( t )
 	
 	name := scaffoldModel("? valueCC1 ?\Show? valueCC1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5457,7 +5590,7 @@ selectController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	primary_key := primary_key()
 	
 	name := scaffoldModel("? valueCC1 ?\Select? valueCC1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%name%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5491,7 +5624,7 @@ selectArrayController_a(table_name_singular = 1, table_name_plural = 2, reverse 
 	primary_key := primary_key()
 	
 	name := scaffoldModel("? valueCC1 ?\Select? valueCC1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%name%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5561,7 +5694,7 @@ importController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	guesses := runSubScaffold( "scaffold_LiveWireImportController_guesses")
 	
 	name := scaffoldModel("? valueCC1 ?\Import? valueCC2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Http\Livewire\%name%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5585,7 +5718,7 @@ importController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	}
 	
 	directory := scaffoldModel("? valueCC1 ?")
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Http\Livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\app\Http\Livewire\%directory%
 		
 	fileWrite( content, file )
 }
@@ -5618,7 +5751,7 @@ importModel_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel("<?php`n`nnamespace App\Imports`;`n`nuse Carbon\Carbon`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Support\Facades\Hash`;`nuse Maatwebsite\Excel\Concerns\ToModel`;`nuse PhpOffice\PhpSpreadsheet\Shared\Date`;`n`nclass ? valueCC2 ?Import implements ToModel`n{`n    /**`n     * @param array $row`n     *`n     * @return ? valueCC1 ?|null`n     */`n    public function model(array $row)`n    {`n        if($row[12] == ""last_activity_date"")`n            return null`;`n        `n        return new ? valueCC1 ?([`n" fields "        ])`;`n    }`n}")
 	
 	name := scaffoldModel("? valueCC2 ?Import")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\app\Imports\%name%.php
+	file =C:\xampp\htdocs\gems_api\app\Imports\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -5832,7 +5965,7 @@ listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\list-%name%.blade.php
+	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%\list-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5845,7 +5978,7 @@ listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 		content := scaffoldModel("<div class=""pt-16 mx-auto px-2 sm`:px-4 md`:px-8"">`n    {{-- Breadcrumbs --}}`n    <div class=""pt-2"">`n        <div class=""text-sm mb-2"">`n            <a class=""text-blue-600"" href=""{{ route('home') }}"">`n                Home`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ route('? valueSH2 ?') }}"">`n                ? valueAT2 ?`n            </a>`n        </div>`n    </div>`n`n    <h1 class=""text-2xl font-semibold text-gray-900"">? valueAT2 ?</h1>`n`n    <div class=""py-4 space-y-4"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <div class=""w-2/4 flex space-x-4"">`n                <x-input.text wire`:model=""filters.search"" placeholder=""Search ? valueAT2 ?..."" />`n`n                <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link>`n            </div>`n`n            <div class=""space-x-2 flex items-center"">`n                @if ($showAdvanced)`n                <div class=""sm`:grid sm`:grid-cols-3 sm`:gap-4 sm`:items-start  sm`:border-gray-200 "">`n                    <label for=""perPage"" class=""block text-sm font-medium leading-5 text-gray-700 sm`:mt-px sm`:pt-2"">`n                        Per Page`n                    </label>`n`n                    <div class=""mt-1 sm`:mt-0 sm`:col-span-2"">`n                        <div class=""flex"">`n                            <select class=""form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus`:outline-none focus`:shadow-outline-blue focus`:border-blue-300 sm`:text-sm sm`:leading-5"" wire`:model=""perPage"" id=""perPage"">`n                                <option value=""10"">10</option>`n                                <option value=""25"">25</option>`n                                <option value=""50"">50</option>`n                            </select>`n                        </div>`n                    </div>`n                </div>`n`n`n                <x-dropdown label=""Bulk Actions"">`n                    <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                        <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                    </x-dropdown.item>`n`n                    <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                        <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                    </x-dropdown.item>`n                </x-dropdown>`n`n                <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                @endif`n`n                <x-button.primary wire`:click=""create""><x-icon.plus/> New</x-button.primary>`n            </div>`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n`n        <!-- ? valueAT2 ? Table -->`n        <div class=""flex-col space-y-4 backdrop-blur-lg`n        [ bg-gradient-to-b from-white/60 to-white/30 ]`n        [ border-[1px] border-solid border-white border-opacity-30 ]`n        [ shadow-lg ]"">`n            <x-table>`n                <x-slot name=""head"">`n                    <x-table.heading class=""pr-0 w-8"">`n                        <x-input.checkbox wire`:model=""selectPage"" />`n                    </x-table.heading>`n" table_headers "                </x-slot>`n`n                <x-slot name=""body"">`n                    @if ($selectPage)`n                    <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                        <x-table.cell colspan=""6"">`n                            @unless ($selectAll)`n                            <div>`n                                <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                                <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                            </div>`n                            @else`n                            <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                            @endif`n                        </x-table.cell>`n                    </x-table.row>`n                    @endif`n`n                    @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->" primary_key " }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->" primary_key " }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                    @endforelse`n                </x-slot>`n            </x-table>`n`n            {!! pagination( $? valueS2 ? ) !!}`n        </div>`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['" primary_key "'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "`n                </div>`n`n                <div class=""text-right"">`n                    <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                    <x-button.primary type=""submit"">Save</x-button.primary>`n`n                </div>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n</div>`n")
 	}
 	
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -5895,7 +6028,7 @@ childListView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\child-list-%name%.blade.php
+	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%\child-list-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5909,7 +6042,7 @@ childListView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 		content := scaffoldModel("<div class=""mt-10 w-full"">`n`n    <div class=""pb-0 bg-white p-5 rounded-t-lg"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <h1 class=""text-lg font-semibold text-gray-900"">" heading "</h1>`n`n            <div class=""flex justify-end space-x-4"">`n                <div class=""w-2/4 flex space-x-4 pb-1"">`n                    <x-input.text wire`:model=""filters.search"" placeholder=""Search..."" />`n`n                    {{-- <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link> --}}`n                </div>`n`n                <div class=""space-x-2 flex items-center"">`n                    @if ($showAdvanced)`n                    <x-input.group borderless paddingless for=""perPage"" label=""Per Page"">`n                        <x-input.select wire`:model=""perPage"" id=""perPage"">`n                            <option value=""10"">10</option>`n                            <option value=""25"">25</option>`n                            <option value=""50"">50</option>`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-dropdown label=""Bulk Actions"">`n                        <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                            <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                        </x-dropdown.item>`n`n                        <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                            <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                        </x-dropdown.item>`n                    </x-dropdown>`n`n                    <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                    @endif`n`n                    <x-button.primary wire`:click=""create"" class=""px-2""><x-icon.plus/></x-button.primary>`n                </div>`n            </div>`n`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n    </div>`n`n    <!-- ? valueAT2 ? Table -->`n    <div class=""flex-col space-y-4 backdrop-blur-lg`n            [ bg-white ]`n            [ border-[1px] border-solid border-white border-opacity-30 ]`n            [ shadow-md ] rounded-b-lg"" x-data=""{ @for ($i=0`; $i<count($? valueS2 ?)+1`; $i++) open{{ $i }}`: false`, @endfor }"">`n        <x-table>`n            <x-slot name=""head"">`n                <x-table.heading class=""pr-0 w-8"">`n                    <x-input.checkbox wire`:model=""selectPage"" />`n                </x-table.heading>`n" table_headers "                    <x-table.heading />`n            </x-slot>`n`n            <x-slot name=""body"">`n                @if ($selectPage)`n                <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                    <x-table.cell colspan=""6"">`n                        @unless ($selectAll)`n                        <div>`n                            <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                            <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                        </div>`n                        @else`n                        <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                        @endif`n                    </x-table.cell>`n                </x-table.row>`n                @endif`n`n                @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row class=""bg-white"" wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->id }}"" x-on`:click=""open{{ $loop->index }} = !open{{ $loop->index }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->id }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    <tr x-show=""open{{ $loop->index }}"">`n                        <td class="""" colspan=""8"">`n                            <div x-transition`:enter=""transition ease-out duration-100""`n                            x-transition`:enter-start=""transform opacity-0 scale-95"" x-transition`:enter-end=""transform opacity-100 scale-100""`n                            x-transition`:leave=""transition ease-in duration-75"" x-transition`:leave-start=""transform opacity-100 scale-100""`n                            x-transition`:leave-end=""transform opacity-0 scale-95"">`n`n                                <div class=""bg-white inline-block min-w-full overflow-hidden px-13 pt-10 rounded-lg shadow"">`n                                    <div class=""flex flex-wrap -mx-3 mb-10 float-right"">`n                                        <a href=""{{ route('? valueSH2 ?.show'`, $? valueS1 ?['id']) }}"">`n                                            <x-button.link class=""bg-transparent text-secondary m-5 mb-0"">`n                                                <div class=""flex space-x-2 items-center"">`n                                                    <x-icon.eye/>`n                                                    <span></span>`n                                                </div>`n                                            </x-button.link>`n                                        </a>`n                                        <x-button.link class=""bg-transparent text-secondary m-5 mb-0"" wire`:click=""edit({{ $? valueS1 ?['id'] }})"" >`n                                            <div class=""flex space-x-2 items-center"">`n                                                <x-icon.pencil/>`n                                                <span></span>`n                                            </div>`n                                        </x-button.link>`n                                    </div>`n                                    <div class=""flex flex-wrap -mx-3 mb-6 "">`n                                        <div class=""md`:w-full px-3 mb-6"">`n                                            <span class=""font-bold"">{{ $? valueS1 ?->title }}</span>`n                                        </div>`n`n                                        <div class=""md`:w-full px-3 mb-6 inline-flex space-x-2 text-sm leading-5"">`n                                            {{ $? valueS1 ?->content }}`n                                        </div>`n                                    </div>`n                                </div>`n                            </div>`n                        </td>`n                    </tr>`n                @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                @endforelse`n            </x-slot>`n        </x-table>`n`n        {!! pagination( $? valueS2 ? ) !!}`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['id'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "                </div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Save</x-button.primary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n`n</div>`n")
 	}
 	
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5931,7 +6064,7 @@ childListCompactView_a(table_name_singular = 1, table_name_plural = 2, reverse =
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\child-list-%name%.blade.php
+	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%\child-list-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5945,7 +6078,7 @@ childListCompactView_a(table_name_singular = 1, table_name_plural = 2, reverse =
 		content := scaffoldModel("<div class=""w-full py-2"">`n`n    <div class=""pb-0 bg-white rounded-t-lg"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <h1 class=""text-gray-900 text-sm "">Tags</h1>`n`n            <div class=""flex justify-end space-x-4"">`n                {{-- <div class=""w-2/4 flex space-x-4 pb-1"">`n                    <x-input.text wire`:model=""filters.search"" placeholder=""Search..."" />`n`n                    <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link>`n                </div>`n`n                <div class=""space-x-2 flex items-center"">`n                    @if ($showAdvanced)`n                    <x-input.group borderless paddingless for=""perPage"" label=""Per Page"">`n                        <x-input.select wire`:model=""perPage"" id=""perPage"">`n                            <option value=""10"">10</option>`n                            <option value=""25"">25</option>`n                            <option value=""50"">50</option>`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-dropdown label=""Bulk Actions"">`n                        <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                            <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                        </x-dropdown.item>`n`n                        <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                            <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                        </x-dropdown.item>`n                    </x-dropdown>`n`n                    <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                    @endif`n`n                    <x-button.primary wire`:click=""create"" class=""px-2""><x-icon.plus/></x-button.primary>`n                </div> --}}`n            </div>`n`n        </div>`n`n    </div>`n`n    <!-- ? valueAT2 ? Table -->`n    <div class="""">`n        <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n            <div class=""flex items-center space-x-1 ng-star-inserted"">`n                @forelse ($? valueS2 ? as $? valueS1 ?)`n                    @php`n                        $color = $? valueS1 ?->tag ? colorForName($? valueS1 ?->tag->getName()) `: 'gray'`;`n                    @endphp`n                    <div wire`:click=""edit({{ $? valueS1 ?['id'] }})"" class=""flex flex-0 items-center justify-center h-8 rounded-md ring-offset-1 ring-bg-card ring-offset-transparent bg-{{ $color }}-100 text-{{ $color }}-800 ng-star-inserted cursor-pointer px-2"">`n                        <div class=""text-md font-semibold"" title=""{{ $? valueS1 ?->tag ? $? valueS1 ?->tag->getName() `: '' }}"">`n                            {{ $? valueS1 ?->tag->getName() }}`n                        </div>`n                    </div>`n                @empty`n                @endforelse`n                <div wire`:click=""create"" class=""flex flex-0 items-center justify-center w-8 h-8 rounded-md ring-offset-1 ring-bg-card ring-offset-transparent ng-star-inserted bg-blue-100 text-blue-800 cursor-pointer"">`n                    <div class=""text-md font-semibold"">`n                        +`n                    </div>`n                </div>`n                <div class=""hidden bg-red-100 text-red-800 bg-orange-100 text-orange-800 bg-amber-100 text-amber-800 bg-yellow-100 text-yellow-800 bg-lime-100 text-lime-800 bg-green-100 text-green-800 bg-emerald-100 text-emerald-800 bg-teal-100 text-teal-800 bg-cyan-100 text-cyan-800 bg-sky-100 text-sky-800 bg-blue-100 text-blue-800 bg-indigo-100 text-indigo-800 bg-violet-100 text-violet-800 bg-purple-100 text-purple-800 bg-fuchsia-100 text-fuchsia-800 bg-pink-100 text-pink-800 bg-rose-100 text-rose-800`n                bg-red-200 text-red-500 bg-orange-200 text-orange-500 bg-amber-200 text-amber-500 bg-yellow-200 text-yellow-500 bg-lime-200 text-lime-500 bg-green-200 text-green-500 bg-emerald-200 text-emerald-500 bg-teal-200 text-teal-500 bg-cyan-200 text-cyan-500 bg-sky-200 text-sky-500 bg-blue-200 text-blue-500 bg-indigo-200 text-indigo-500 bg-violet-200 text-violet-500 bg-purple-200 text-purple-500 bg-fuchsia-200 text-fuchsia-500 bg-pink-200 text-pink-500 bg-rose-200 text-rose-500""></div>`n            </div>`n        </span>`n    </div>`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n        @this.on('triggerDelete'`, ? valueS1 ?Id => {`n            Swal.fire({`n                title`: 'Are You Sure?'`,`n                text`: 'Tag will be detached!'`,`n                type`: ""warning""`,`n                showCancelButton`: true`,`n                confirmButtonColor`: '#d33'`,`n                cancelButtonColor`: '#3085d6'`,`n                confirmButtonText`: 'Detach!'`n            }).then((result) => {`n                if (result.value) {`n                    @this.call('delete'`,? valueS1 ?Id)`n                } else {`n                    console.log(""Canceled"")`;`n                }`n            })`;`n        })`;`n    })`n</script>`n@endpush`n")
 	}
 	
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -5967,7 +6100,7 @@ childListModalView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%\child-list-modal-%name%.blade.php
+	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%\child-list-modal-%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -5981,7 +6114,7 @@ childListModalView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0
 		content := scaffoldModel("<div class=""w-full py-2"">`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">{{ __('Delete ? valueAT1 ?') }}</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">{{ __('Are you sure you? This action is irreversible') }}.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">{{ __('Cancel') }}</x-button.secondary>`n`n                <x-button.primary type=""submit"">{{ __('Delete') }}</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['id'] ? __('Edit ? valueAT1 ?') `: '' }} </x-slot>`n`n            <x-slot name=""content"">`n                @if ($editing['id'])`n                    <div x-data=""{ @for ($i=0`; $i<count($? valueS2 ?)+1`; $i++) open{{ $i }}`: false`, @endfor }"">`n                        <x-table>`n                            <x-slot name=""head"">`n                                <x-table.heading sortable multi-column wire`:click=""sortBy('tag_id')"" `:direction=""$sorts['tag_id'] ?? null"" class="""">{{ __('Tag') }}</x-table.heading>`n                                <x-table.heading />`n                            </x-slot>`n`n                            <x-slot name=""body"">`n                                @forelse ($? valueS2 ? as $? valueS1 ?)`n                                    <x-table.row class="""" wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->id }}"" x-on`:click=""open{{ $loop->index }} = !open{{ $loop->index }}"">`n                                        <x-table.cell>`n                                            <span href=""#"" class=""inline-flex space-x-2 truncate text-sm leading-5"">`n                                                {{ $? valueS1 ?->tag ? $? valueS1 ?->tag->getName() `: '' }}`n                                            </span>`n                                        </x-table.cell>`n`n                                        <x-table.cell>`n                                            <x-button.link class=""text-secondary m-2"" wire`:click=""$emit('triggerDelete'`,{{ $? valueS1 ?['id'] }})"" >`n                                                <div class=""flex space-x-2 items-center"">`n                                                    <x-icon.trash/>`n                                                    <span></span>`n                                                </div>`n                                            </x-button.link>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @empty`n                                    <x-table.row>`n                                        <x-table.cell colspan=""11"">`n                                            <div class=""flex justify-center items-center space-x-2"">`n                                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">{{ __('No Tags found') }}...</span>`n                                            </div>`n                                        </x-table.cell>`n                                    </x-table.row>`n                                @endforelse`n                            </x-slot>`n                        </x-table>`n`n                        {!! pagination( $? valueS2 ? ) !!}`n                    </div>`n                @else`n`t`t`t`t`t<div class=""flex flex-wrap -mx-3 mb-6"">`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0"">`n                            <div class=""rtl`:iyyu-normal text-lg font-bold"">`n                                {{ __('Attach ? valueAT1 ?') }}`n                            </div>`n                        </div>`n`n" form_fields "`n                        <div class=""0w-full md`:w-1/2 px-3 mb-6 md`:mb-0 pt-10"">`n                            <x-button.primary type=""submit"">{{ __('Save') }}</x-button.primary>`n                        </div>`n`n                    </div>`n                @endif`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">{{ __('Cancel') }}</x-button.secondary>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n`n</div>`n`n@push('styles')`n<link rel=""stylesheet"" href=""https`://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"">`n@endpush`n`n@push('scripts')`n<script src=""https`://cdn.jsdelivr.net/npm/sweetalert2@10""></script>`n<script src=""https`://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js""></script>`n<script type=""text/javascript"">`n    document.addEventListener('DOMContentLoaded'`, function () {`n`n        @this.on('triggerDelete'`, ? valueS1 ?Id => {`n            Swal.fire({`n                title`: '{{ __(""Are You Sure?"") }}'`,`n                text`: '{{ __(""Tag will be detached"") }}!'`,`n                type`: ""warning""`,`n                showCancelButton`: true`,`n                confirmButtonColor`: '#d33'`,`n                cancelButtonColor`: '#3085d6'`,`n                cancelButtonText`: '{{ __(""Cancel"") }}!'`,`n                confirmButtonText`: '{{ __(""Detach"") }}!'`n            }).then((result) => {`n                if (result.value) {`n                    @this.call('delete'`,? valueS1 ?Id)`n                } else {`n                    console.log(""Canceled"")`;`n                }`n            })`;`n        })`;`n    })`n</script>`n@endpush`n")
 	}
 	
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%
 	
 	
 	fileWrite( content, file )
@@ -6032,7 +6165,7 @@ manageView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	form_fields := runSubScaffold( "scaffoldFormFields", 0, fieldsArr )
 
 	name := scaffoldModel("? valueSH1 ?\manage-? valueSH1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%name%.blade.php
+	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%name%.blade.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6111,7 +6244,7 @@ showView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 	sub_list := ShowView_subList( table_name_singular, table_name_plural )
 
 	name := scaffoldModel("? valueSH1 ?\show-? valueSH1 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%name%.blade.php
+	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%name%.blade.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6148,7 +6281,7 @@ importView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 
 	
 	name := scaffoldModel("? valueSH1 ?\import-? valueSH2 ?")
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%name%.blade.php
+	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%name%.blade.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6160,7 +6293,7 @@ importView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	}
 	
 	directory := scaffoldModel("? valueSH1 ?")
-	FileCreateDir, \\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%
 
 	fileWrite( content, file )
 }
@@ -6173,7 +6306,7 @@ updateRoutesFile(){
 updateRoutesFile_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	route := scaffoldModel("`    Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n        Route`:`:get('/'`, App\Http\Livewire\? valueCC1 ?\List? valueCC2 ?`:`:class)->name('? valueSH2 ?')`;`n        Route`:`:get('/create'`, App\Http\Livewire\? valueCC1 ?\Manage? valueCC1 ?`:`:class)->name('? valueSH2 ?.create')`;`n        Route`:`:get('/{? valueC1 ?}/edit'`, App\Http\Livewire\? valueCC1 ?\Manage? valueCC1 ?`:`:class)->name('? valueSH2 ?.edit')`;`n        Route`:`:get('/{? valueC1 ?}'`, App\Http\Livewire\? valueCC1 ?\Show? valueCC1 ?`:`:class)->name('? valueSH2 ?.show')`;`n    })`;`n`n")
 	
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\routes\web.php
+	file =C:\xampp\htdocs\gems_api\routes\web.php
 	FileRead, content, %file%
 	StringReplace, content, content, `}); // group end, %route%`}); // group end
 	
@@ -6186,10 +6319,15 @@ updateApiRoutes(){
 }
 	
 updateApiRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
-	route := scaffoldModel("`    Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n        Route`:`:get('/'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'index'])->name('api.? valueSH2 ?')`;`n        Route`:`:post('/store'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'store'])->name('api.? valueSH2 ?.store')`;`n        Route`:`:post('/{? valueS1 ?}/update'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'update'])->name('api.? valueSH2 ?.update')`;`n        Route`:`:get('/{? valueS1 ?}'`, [App\Http\Controllers\Api\? valueCC1 ?Controller`:`:class`, 'show'])->name('api.? valueSH2 ?.show')`;`n    })`;`n`n")
+	include := scaffoldModel("use App\Http\Controllers\Documents\? valueCC1 ?Controller`;`n")
 	
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\routes\web.php
+	route := scaffoldModel("Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n    Route`:`:get('/'`, [App\Http\Controllers\Documents\? valueCC1 ?Controller`:`:class`, 'index'])->name('documents.? valueSH2 ?')`;`n    Route`:`:post('/store'`, [App\Http\Controllers\Documents\? valueCC1 ?Controller`:`:class`, 'store'])->name('documents.? valueSH2 ?.store')`;`n    Route`:`:post('/{? valueS1 ?}/update'`, [App\Http\Controllers\Documents\? valueCC1 ?Controller`:`:class`, 'update'])->name('documents.? valueSH2 ?.update')`;`n    Route`:`:get('/{? valueS1 ?}'`, [App\Http\Controllers\Documents\? valueCC1 ?Controller`:`:class`, 'show'])->name('documents.? valueSH2 ?.show')`;`n})`;`n`n")
+	
+	file =C:\xampp\htdocs\gems_api\routes\api.php
 	FileRead, content, %file%
+	
+	StringReplace, content, content, `r, , All
+	StringReplace, content, content, <?php`n, <?php`n%include%
 	StringReplace, content, content, // add API routes here, %route%// add API routes here
 	
 	fileWrite( content, file )
@@ -6203,7 +6341,7 @@ updatePermissions(){
 updatePermissions_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	permissions := scaffoldModel("`            // ? valueS1 ?`n            [`n                'name' => '? valueS1 ?.view_any'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.create'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.view'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.update'`,`n            ]`,`n            [`n                'name' => '? valueS1 ?.delete'`,`n            ]`,`n`n")
 	
-	file =\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\database\seeders\PermissionSeeder.php
+	file =C:\xampp\htdocs\gems_api\database\seeders\PermissionSeeder.php
 	FileRead, content, %file%
 	StringReplace, content, content, `            // add new permissions here, %permissions%`            // add new permissions here
 	
@@ -6218,14 +6356,14 @@ updateSidebar(){
 updateSidebar_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	;~ item := scaffoldModel("`    '? valueAT2 ?' => [`n        'name' => '? valueAT2 ?'`,`n        'route' => '? valueSH2 ?'`,`n        'icon' => 'clipboard-list'`,`n    ]`,`n")
 	
-	;~ file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\layouts\app.blade.php"
+	;~ file := "C:\xampp\htdocs\gems_api\resources\views\layouts\app.blade.php"
 	;~ FileRead, content, %file%
 	;~ StringReplace, content, content, `r,
 	;~ StringReplace, content, content, `    // add new menu items here, %item%`    // add new menu items here, All
 	
 	item := scaffoldModel("`                    <a href=""{{ route('? valueSH2 ?') }}"" class=""block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode`:bg-transparent dark-mode`:hover`:bg-gray-600 dark-mode`:focus`:bg-gray-600 dark-mode`:focus`:text-white dark-mode`:hover`:text-white dark-mode`:text-gray-200 md`:mt-0 hover`:text-gray-900 focus`:text-gray-900 hover`:bg-gray-200 focus`:bg-gray-200 focus`:outline-none focus`:shadow-outline"">? valueAT2 ?</a>`n")
 	
-	file := "\\wsl.localhost\Ubuntu-22.04\home\hammadh\code\ncit\gems\task\web\resources\views\layouts\sidebar\desktop.blade.php"
+	file := "C:\xampp\htdocs\gems_api\resources\views\layouts\sidebar\desktop.blade.php"
 	FileRead, content, %file%
 	StringReplace, content, content, `r,
 	StringReplace, content, content, `                    <!-- Insert new menu items here -->, %item%`                    <!-- Insert new menu items here -->, All
@@ -6316,9 +6454,9 @@ getDataTypesByHttp(){
 	
 	if(!cache[name] and name and name != "s"){
 		if(location = "ncit_laptop")
-			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=gemfiles&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost:8080/phpmyadmin/index.php?route=/table/structure&db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost:8080/phpmyadmin/index.php?route=/table/structure&db=gemfiles&table=%name%, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -6372,9 +6510,9 @@ getRelationsByHttp(){
 	
 	if(!cache[name] and name and name != "s"){
 		if(location = "ncit_laptop")
-			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=case_manager&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=gemfiles&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost:8080/phpmyadmin/index.php?route=/table/relation&db=case_manager&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost:8080/phpmyadmin/index.php?route=/table/relation&db=gemfiles&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -6475,6 +6613,7 @@ load_singularToPlural(){
 	singularToPlural["confidentiality_class"] := "confidentiality_classes"
 	singularToPlural["address"] := "addresses"
 	singularToPlural["file_data"] := "file_data"
+	singularToPlural["team_access"] := "team_accesses"
 	
 	pluralToSingular := {}
 	
@@ -6623,8 +6762,11 @@ scaffoldFiles(){
 	if( !DB_Fields )
 		myTT("DB table not found")
 	else{
+		;~ gemsApi_apiController()
+	
 		;~ apiController()
 		;~ repository()
+		;~ resource()
 		;~ updateApiRoutes()
 	
 		
@@ -6703,6 +6845,9 @@ scaffoldFiles(){
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
 	`::		
+		;~ printUsingScaffold( "", 1, -1) ; scaffold single
+		;~ return
+		
 		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
 		;~ return
 		
@@ -6764,7 +6909,8 @@ scaffoldFiles(){
 	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
 
 	^+!`:: ; bulk
-		bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members", "atolls", "islands"]
+		;~ bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members", "atolls", "islands"]
+		bulkArr := ["tags", "document-types", "field-types", "documents", "team-accesses", "recipients", "doc-tags", "related-docs", "files", "versions", "tags", "document-types"]
 		;~ bulkArr := ["tags", "checklists", "comments", "task_tags", "task_users"]
 		
 		for k, v in bulkArr {
@@ -7596,11 +7742,11 @@ scaffoldFiles(){
 			replaceClipboard=1
 		}
 		
-		;~ source := putSpacesInCamelCase(source)
+		source := putSpacesInCamelCase(source)
 		
-		;~ StringReplace, source, source, _, %A_Space%, All
-		;~ StringReplace, source, source, -, %A_Space%, All
-		;~ StringReplace, source, source, ., %A_Space%, All
+		StringReplace, source, source, _, %A_Space%, All
+		StringReplace, source, source, -, %A_Space%, All
+		StringReplace, source, source, ., %A_Space%, All
 		StringReplace, source, source, %A_Space%%A_Space%, %A_Space%, All
 		source := RegExReplace(source, "\W+", " ")
 		source := Trim(source)
