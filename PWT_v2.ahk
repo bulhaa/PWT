@@ -69,7 +69,7 @@ phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
 ncitStacks := ncitStacks "case manager local,17c;"
 ncitStacks := ncitStacks "case manager docker,16t;"
 ncitStacks := ncitStacks "case manager local mix,14k;"
-ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;"
+ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2341,8 +2341,8 @@ if(Stack="15am") ; scaffolding mode
 		init_DB_Fields()
 		scaffoldFiles()
 		
-		init_DB_Fields(1, 0)
-		myTT("refreshed")
+		;~ init_DB_Fields(1, 0)
+		;~ myTT("refreshed")
 		
 		Button1_Label=`t`tscaffold_template = ? value1 ?`n`t`tprintUsingScaffold("")`n`n
 	}
@@ -2987,6 +2987,25 @@ else if(Stack="17h") ; GEMS API local
 else if(Stack="17i") ; GEMS file erd 
 	{
 		Button1_Label=https`://drive.google.com/file/d/1u9BVFIc19LZdGK2TPU0NModo4Crnqf3I/view?ts=65081321
+		run, %Button1_Label%
+	}
+else if(Stack="17j") ; old folder 
+	{
+		Button1_Label=C`:\Windows.olds\Users\user\Documents\DataCenter Drive\Hammadh
+		run, %Button1_Label%
+	}
+else if(Stack="17k") ; ncit network ip settings 
+	{
+		Button1_Label=10.241.3.82
+	}
+else if(Stack="17l") ; htdocs 
+	{
+		Button1_Label=C`:\xampp\htdocs
+		run, %Button1_Label%
+	}
+else if(Stack="17m") ; ecouncil git 
+	{
+		Button1_Label=https`://git.egov.mv/NCIT/ecouncil/-/commits/ham-dev?ref_type=heads
 		run, %Button1_Label%
 	}
 else
@@ -6848,6 +6867,9 @@ scaffoldFiles(){
 		;~ printUsingScaffold( "", 1, -1) ; scaffold single
 		;~ return
 		
+		printUsingScaffold( "MA", 1, 2) ; 
+		return
+		
 		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
 		;~ return
 		
@@ -7140,14 +7162,14 @@ scaffoldFiles(){
 		
 		;~ ; replace efaas callback
 		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
-			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://case.localhost:8080/auth/callback", all
+			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://gemen-reporting.test/oauth/callback", all
 			omitcredentials="credentials"`: "omit"
 			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
 			Send ^v
 			Sleep 500
 			
 			Send !d
-			Send http://case.localhost:8080/auth/login?EFAAS-DISABLE
+			Send http://gemen-reporting.test
 			Send {Enter}
 			return
 		}
