@@ -70,6 +70,7 @@ ncitStacks := ncitStacks "case manager local,17c;"
 ncitStacks := ncitStacks "case manager docker,16t;"
 ncitStacks := ncitStacks "case manager local mix,14k;"
 ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;"
+;~ ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;ffmpeg concat video files,17h,merge join;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2819,7 +2820,7 @@ else if(Stack="14v") ; disable xdebug
 		Sleep 500
 		
 		if(requireWinActive("ahk_exe xampp-control.exe")){
-			Click 366, 115
+			Click 436, 139
 		}
 	}
 else if(Stack="14w") ; enable xdebug 
@@ -2841,7 +2842,7 @@ else if(Stack="14w") ; enable xdebug
 		Sleep 500
 		
 		if(requireWinActive("ahk_exe xampp-control.exe")){
-			Click 366, 115
+			Click 436, 139
 		}
 	}
 else if(Stack="14x") ; php ini 
@@ -3007,6 +3008,10 @@ else if(Stack="17m") ; ecouncil git
 	{
 		Button1_Label=https`://git.egov.mv/NCIT/ecouncil/-/commits/ham-dev?ref_type=heads
 		run, %Button1_Label%
+	}
+else if(Stack="17h") ; ffmpeg concat video files 
+	{
+		Button1_Label=`;~ file '¿ value1 ¿'`n`n`;~ cd C`:\Users\Hammadh`n`;~ C`:\Users\Hammadh\Downloads\ffmpeg-2023-06-21-git-1bcb8a7338-full_build\bin\ffmpeg -safe 0 -f concat -i C`:\Users\Hammadh\mylist.txt -c copy output.mp4`n`n`t+```:`: Send ¿ value1 ¿{Left 3}+{Left}`n
 	}
 else
 	{	
@@ -5323,23 +5328,26 @@ load_fields(){
 		without_id := StrReplace(field1, "_id", "")
 		function_name := without_id
 		related_table_singular := field4
+		related_table_plural := field5
 		
 		if(related[fieldName]){
 			function_name := related[fieldName]
 			related_table_singular := related[fieldName]
+			related_table_plural := toPlural( related[fieldName] )
 		}
 		
 		if(relatedOnly[fieldName]){
 			related_table_singular := relatedOnly[fieldName]
+			related_table_plural := toPlural( related[fieldName] )
 		}
 		
 		if( field1 = "created_by" or field1 = "updated_by" ){
 			related_table_singular := "user"
 		}
 		
-		fields[field1] := {"field_name": field1, "data_type": field2, "nullability": field3, "related_table_singular": related_table_singular, "related_table_plural": field5, "related_primary_key": field6, "column_number": A_Index, "table_name_singular": s, "table_name_plural": p, "function_name_singular": function_name, "function_name_plural": toPlural( function_name ) }
+		fields[field1] := {"field_name": field1, "data_type": field2, "nullability": field3, "related_table_singular": related_table_singular, "related_table_plural": related_table_plural, "related_primary_key": field6, "column_number": A_Index, "table_name_singular": s, "table_name_plural": p, "function_name_singular": function_name, "function_name_plural": toPlural( function_name ) }
 		
-		fields[field1]["related_table_plural"] := toPlural( related[fieldName] )
+		;~ fields[field1]["related_table_plural"] := toPlural( related[fieldName] )
 		fields[field1]["model_name"] := modelName(fields[field1]["table_name_singular"])
 		fields[field1]["related_model_name"] := modelName(fields[field1]["related_table_singular"])
 	}
@@ -5985,6 +5993,40 @@ listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
 	file =C:\xampp\htdocs\gems_api\resources\views\livewire\%directory%\list-%name%.blade.php
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %table_headers%, " table_headers "
+		StringReplace, content, content, %table_rows%, " table_rows "
+		StringReplace, content, content, %form_fields%, " form_fields "
+	}else{
+	
+		content := scaffoldModel("<div class=""pt-16 mx-auto px-2 sm`:px-4 md`:px-8"">`n    {{-- Breadcrumbs --}}`n    <div class=""pt-2"">`n        <div class=""text-sm mb-2"">`n            <a class=""text-blue-600"" href=""{{ route('home') }}"">`n                Home`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ route('? valueSH2 ?') }}"">`n                ? valueAT2 ?`n            </a>`n        </div>`n    </div>`n`n    <h1 class=""text-2xl font-semibold text-gray-900"">? valueAT2 ?</h1>`n`n    <div class=""py-4 space-y-4"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <div class=""w-2/4 flex space-x-4"">`n                <x-input.text wire`:model=""filters.search"" placeholder=""Search ? valueAT2 ?..."" />`n`n                <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link>`n            </div>`n`n            <div class=""space-x-2 flex items-center"">`n                @if ($showAdvanced)`n                <div class=""sm`:grid sm`:grid-cols-3 sm`:gap-4 sm`:items-start  sm`:border-gray-200 "">`n                    <label for=""perPage"" class=""block text-sm font-medium leading-5 text-gray-700 sm`:mt-px sm`:pt-2"">`n                        Per Page`n                    </label>`n`n                    <div class=""mt-1 sm`:mt-0 sm`:col-span-2"">`n                        <div class=""flex"">`n                            <select class=""form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus`:outline-none focus`:shadow-outline-blue focus`:border-blue-300 sm`:text-sm sm`:leading-5"" wire`:model=""perPage"" id=""perPage"">`n                                <option value=""10"">10</option>`n                                <option value=""25"">25</option>`n                                <option value=""50"">50</option>`n                            </select>`n                        </div>`n                    </div>`n                </div>`n`n`n                <x-dropdown label=""Bulk Actions"">`n                    <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                        <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                    </x-dropdown.item>`n`n                    <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                        <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                    </x-dropdown.item>`n                </x-dropdown>`n`n                <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                @endif`n`n                <x-button.primary wire`:click=""create""><x-icon.plus/> New</x-button.primary>`n            </div>`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n`n        <!-- ? valueAT2 ? Table -->`n        <div class=""flex-col space-y-4 backdrop-blur-lg`n        [ bg-gradient-to-b from-white/60 to-white/30 ]`n        [ border-[1px] border-solid border-white border-opacity-30 ]`n        [ shadow-lg ]"">`n            <x-table>`n                <x-slot name=""head"">`n                    <x-table.heading class=""pr-0 w-8"">`n                        <x-input.checkbox wire`:model=""selectPage"" />`n                    </x-table.heading>`n" table_headers "                </x-slot>`n`n                <x-slot name=""body"">`n                    @if ($selectPage)`n                    <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                        <x-table.cell colspan=""6"">`n                            @unless ($selectAll)`n                            <div>`n                                <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                                <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                            </div>`n                            @else`n                            <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                            @endif`n                        </x-table.cell>`n                    </x-table.row>`n                    @endif`n`n                    @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->" primary_key " }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->" primary_key " }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                    @endforelse`n                </x-slot>`n            </x-table>`n`n            {!! pagination( $? valueS2 ? ) !!}`n        </div>`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['" primary_key "'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "`n                </div>`n`n                <div class=""text-right"">`n                    <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                    <x-button.primary type=""submit"">Save</x-button.primary>`n`n                </div>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n</div>`n")
+	}
+	
+	FileCreateDir, C:\xampp\htdocs\charity\resources\views\livewire\%directory%
+	
+	fileWrite( content, file )
+}
+
+listView_filters(){
+	global
+	listView_filters_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
+}
+	
+listView_filters_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
+	fieldsArr := ShowView_fieldsArr( table_name_singular )
+	table_fieldsArr := table_fields( table_name_singular )
+	
+	table_headers := runSubScaffold( "scaffoldTableHeaders", 1, table_fieldsArr)
+	table_rows := runSubScaffold( "scaffoldTableFields", 1, table_fieldsArr)
+	form_fields := runSubScaffold( "scaffoldFormFields", 0 )
+
+	directory := scaffoldModel("? valueSH1 ?")
+	name := scaffoldModel("? valueSH2 ?")
+	file =C:\xampp\htdocs\charity\resources\views\livewire\%directory%\list-%name%.blade.php
+	
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -6827,6 +6869,7 @@ scaffoldFiles(){
 
 		;~ importView()
 		;~ listView()
+		;~ listView_filters()
 		;~ manageView()
 		;~ showView()
 		
