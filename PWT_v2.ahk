@@ -2966,7 +2966,7 @@ else if(Stack="17b") ; npx mix watch
 	}
 else if(Stack="17c") ; case manager local 
 	{
-		Button1_Label=http`://case.localhost`:8080/auth/login?EFAAS-DISABLE=1 
+		Button1_Label=http`://case.localhost/auth/login?EFAAS-DISABLE=1 
 		run, %Button1_Label%
 	}
 else if(Stack="17d") ; case TE 
@@ -6867,11 +6867,11 @@ scaffoldFiles(){
 		;~ printUsingScaffold( "", 1, -1) ; scaffold single
 		;~ return
 		
-		printUsingScaffold( "MA", 1, 2) ; 
-		return
-		
-		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
+		;~ printUsingScaffold( "MA", 1, 2) ; 
 		;~ return
+		
+		printUsingScaffold( "C", 1, -1) ; scaffold single
+		return
 		
 		;~ Send ^a
 		
