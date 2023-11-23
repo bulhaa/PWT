@@ -69,7 +69,7 @@ phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
 ncitStacks := ncitStacks "case manager local,17c;"
 ncitStacks := ncitStacks "case manager docker,16t;"
 ncitStacks := ncitStacks "case manager local mix,14k;"
-ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;"
+ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -2819,7 +2819,7 @@ else if(Stack="14v") ; disable xdebug
 		Sleep 500
 		
 		if(requireWinActive("ahk_exe xampp-control.exe")){
-			Click 436, 139
+			Click 366, 115 
 		}
 	}
 else if(Stack="14w") ; enable xdebug 
@@ -2841,7 +2841,7 @@ else if(Stack="14w") ; enable xdebug
 		Sleep 500
 		
 		if(requireWinActive("ahk_exe xampp-control.exe")){
-			Click 436, 139
+			Click 366, 115 
 		}
 	}
 else if(Stack="14x") ; php ini 
@@ -2878,7 +2878,7 @@ else if(Stack="16d") ; apache vhost
 else if(Stack="17g") ; mysql general_log 
 	{
 		Button1_Label=SET global general_log = 1`;`nSHOW VARIABLES like 'general`%'`;
-		run, EXPLORER.EXE /select`, "C:\xampp\mysql\data\DESKTOP-JAF1A1H.log"
+		run, EXPLORER.EXE /select`, "C:\xampp\mysql\data\DESKTOP-RUJA87S.log"
 	}
 else if(Stack="16e") ; gts 
 	{
@@ -3012,6 +3012,11 @@ else if(Stack="17n") ; ffmpeg concat video files
 	{
 		Button1_Label=`;~ file '¿ value1 ¿'`n`n`;~ cd C`:\Users\Hammadh`n`;~ C`:\Users\Hammadh\Downloads\ffmpeg-2023-06-21-git-1bcb8a7338-full_build\bin\ffmpeg -safe 0 -f concat -i C`:\Users\Hammadh\mylist.txt -c copy output.mp4`n`n`t+```:`: Send ¿ value1 ¿{Left 3}+{Left}`n
 	}
+else if(Stack="17o") ; ecouncil db 
+	{
+		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&db=ecouncil_ecouncil_r2&table=addresses&pos=0
+		run, %Button1_Label%
+	}
 else
 	{	
 		EditVisible :=1
@@ -3037,6 +3042,27 @@ else
 
 
 	
+	
+#if (Stack="17p") ; ecouncil prod deployment 
+	^1::
+		Clipboard=sudo ls`n%clip_two%`n
+		myTT("sudo ls and password")
+	return
+	
+	^2::
+		Clipboard=cd /var/www`nsudo rm eCouncil.zip`nsudo zip -r eCouncil.zip eCouncil`n
+		myTT("backup")
+	return
+	
+	^3::
+		Clipboard=cd /var/www`nsudo service apache2 stop`nsudo chown -R admin_hammadh`:www-data eCouncil`nsudo chmod -R 755 eCouncil`nsudo rm -r /var/www/eCouncil/web/protected/runtime/views/*`n
+		myTT("stop server")
+	return
+	
+	^4::
+		Clipboard=sudo chown -R www-data`:www-data eCouncil/web/protected/runtime`nsudo chown -R www-data`:www-data eCouncil/web/assets`nsudo service apache2 start
+		myTT("start server")
+	return
 	
 #if (Stack="17f") ; excel cell to single line 
 	`::
@@ -7204,6 +7230,18 @@ scaffoldFiles(){
 		
 		;~ ; replace efaas callback
 		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
+			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://case.localhost/oauth/callback", all
+			omitcredentials="credentials"`: "omit"
+			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
+			Send ^v
+			Sleep 500
+			
+			Send !d
+			Send http://case.localhost/auth/login?EFAAS-DISABLE=1
+			Send {Enter}
+			return
+		}
+		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
 			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://gemen-reporting.test/oauth/callback", all
 			omitcredentials="credentials"`: "omit"
 			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
@@ -7216,7 +7254,7 @@ scaffoldFiles(){
 			return
 		}
 		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
-			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://ecouncil.test:8080/ecouncil/index.php", all
+			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://ecouncil.test/ecouncil/index.php", all
 			omitcredentials="credentials"`: "omit"
 			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
 			Send ^v
@@ -9095,8 +9133,8 @@ return
 		old_clip:=Clipboard
 		Clipboard:=clip_two
 		Sleep 100
-		Send ^v
-		;~ SendInput {Raw}%clip_bkp%
+		;~ Send ^v
+		SendInput {Raw}%clip_two%
 		Sleep 100
 		Clipboard:=old_clip
 	return
