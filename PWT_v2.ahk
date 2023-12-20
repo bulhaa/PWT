@@ -1,5 +1,5 @@
 ;~ 10.241.12.140
-Process, Close, dota2.exe
+;~ Process, Close, dota2.exe
 ;~ Process, Close, explorer.exe
 
 ;~ iniClipList= one`t`ttwo`n`nthree`tfour`n
@@ -2801,16 +2801,16 @@ else if(Stack="14u") ; laravel test run group
 	}
 else if(Stack="14v") ; disable xdebug 
 	{
-		FileCopy, C:\xampp\php\php.ini, C:\xampp\php\php.ini.bkp
+		FileCopy, C:\xampp\php81\php.ini, C:\xampp\php81\php.ini.bkp
 		
-		file =C:\xampp\php\php.ini
+		file =C:\xampp\php81\php.ini
 		FileRead, content, %file%
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
+		StringReplace, content, content, zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
 		
 		fileWrite( content, file )
 		
@@ -2824,15 +2824,15 @@ else if(Stack="14v") ; disable xdebug
 	}
 else if(Stack="14w") ; enable xdebug 
 	{
-		FileCopy, C:\xampp\php\php.ini, C:\xampp\php\php.ini.bkp
+		FileCopy, C:\xampp\php81\php.ini, C:\xampp\php81\php.ini.bkp
 		
-		file =C:\xampp\php\php.ini
+		file =C:\xampp\php81\php.ini
 		FileRead, content, %file%
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
 		
 		fileWrite( content, file )
 		
@@ -3161,7 +3161,7 @@ else
 	
 #if (Stack="16v") ; sync to case gitlab 
 	`::
-		;~ Source=C:\xampp\htdocs\gems_api
+		;~ Source=C:\xampp\htdocs\viyaFSM
 		;~ Destination=C:\xampp\htdocs\case-manager
 		;~ synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 		
@@ -5686,6 +5686,41 @@ listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	fileWrite( content, file )
 }
 
+viya_listController(){
+	global
+	viya_listController_a( table_name_singular, table_name_plural, reverse )
+}
+	
+viya_listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ relations := runSubScaffold( "scaffold_ListController_relations")
+	;~ dropdownsOnEdit := runSubScaffold( "listController_dropdownsOnEdit")
+	name_field := name_field()
+	
+	directory := scaffoldModel("? valueCC1 ?")
+	name := scaffoldModel("? valueCC1 ?")
+	file =C:\xampp\htdocs\viyaFSM\app\Livewire\Reports\%name%.php
+
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`n`nnamespace App\Livewire\Reports`;`n`nuse App\Helpers\CommonFunctions`;`nuse App\Helpers\ListHelpers`;`nuse Livewire\Component`;`n`nclass ? valueCC1 ? extends Component`n{`n`n`n  public function mount()`n  {`n  }`n`n  public function render()`n  {`n    return view('livewire.reports.? valueSH1 ?')`;`n  }`n`n}`n"
+		
+		if( customModelName(table_name_singular) )
+			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+		
+		t := replaceMarker( table_name_singular, t, 91)
+		
+		content := scaffoldModel( t )
+	}
+	
+	FileCreateDir, C:\xampp\htdocs\viyaFSM\app\Livewire\Reports
+	
+	fileWrite( content, file )
+}
+
 searchQuery(table_name_singular){
 	arr := []
 	arr["case_user"] := "$query->whereHas('user'`, function (Builder $query) use ($search) {`n                    $query->where('name'`, 'like'`, '`%'.$search.'`%')`;`n                })"
@@ -6260,7 +6295,40 @@ listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_
 		content := scaffoldModel("<div class=""pt-16 mx-auto px-2 sm`:px-4 md`:px-8"">`n    {{-- Breadcrumbs --}}`n    <div class=""pt-2"">`n        <div class=""text-sm mb-2"">`n            <a class=""text-blue-600"" href=""{{ route('home') }}"">`n                Home`n            </a>`n            >`n            <a class=""text-blue-600"" href=""{{ route('? valueSH2 ?') }}"">`n                ? valueAT2 ?`n            </a>`n        </div>`n    </div>`n`n    <h1 class=""text-2xl font-semibold text-gray-900"">? valueAT2 ?</h1>`n`n    <div class=""py-4 space-y-4"">`n        <!-- Top Bar -->`n        <div class=""flex justify-between"">`n            <div class=""w-2/4 flex space-x-4"">`n                <x-input.text wire`:model=""filters.search"" placeholder=""Search ? valueAT2 ?..."" />`n`n                <x-button.link wire`:click=""toggleShowAdvanced"">@if ($showAdvanced) Hide @endif Advanced...</x-button.link>`n            </div>`n`n            <div class=""space-x-2 flex items-center"">`n                @if ($showAdvanced)`n                <div class=""sm`:grid sm`:grid-cols-3 sm`:gap-4 sm`:items-start  sm`:border-gray-200 "">`n                    <label for=""perPage"" class=""block text-sm font-medium leading-5 text-gray-700 sm`:mt-px sm`:pt-2"">`n                        Per Page`n                    </label>`n`n                    <div class=""mt-1 sm`:mt-0 sm`:col-span-2"">`n                        <div class=""flex"">`n                            <select class=""form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus`:outline-none focus`:shadow-outline-blue focus`:border-blue-300 sm`:text-sm sm`:leading-5"" wire`:model=""perPage"" id=""perPage"">`n                                <option value=""10"">10</option>`n                                <option value=""25"">25</option>`n                                <option value=""50"">50</option>`n                            </select>`n                        </div>`n                    </div>`n                </div>`n`n`n                <x-dropdown label=""Bulk Actions"">`n                    <x-dropdown.item type=""button"" wire`:click=""exportSelected"" class=""flex items-center space-x-2"">`n                        <x-icon.download class=""text-cool-gray-400""/> <span>Export</span>`n                    </x-dropdown.item>`n`n                    <x-dropdown.item type=""button"" wire`:click=""$toggle('showDeleteModal')"" class=""flex items-center space-x-2"">`n                        <x-icon.trash class=""text-cool-gray-400""/> <span>Delete</span>`n                    </x-dropdown.item>`n                </x-dropdown>`n`n                <livewire`:? valueSH1 ?.import-? valueSH2 ? />`n                @endif`n`n                <x-button.primary wire`:click=""create""><x-icon.plus/> New</x-button.primary>`n            </div>`n        </div>`n`n        <!-- Advanced Search -->`n        <div>`n            @if ($showAdvanced)`n            <div class=""bg-cool-gray-200 p-4 rounded shadow-inner flex relative"">`n                <?php /* <div class=""w-1/2 pr-2 space-y-4"">`n                    <x-input.group inline for=""filter-status"" label=""Status"">`n                        <x-input.select wire`:model=""filters.status"" id=""filter-status"">`n                            <option value="""" disabled>Select Status...</option>`n`n                            @foreach (App\Models\? valueCC1 ?`:`:STATUSES as $value => $label)`n                            <option value=""{{ $value }}"">{{ $label }}</option>`n                            @endforeach`n                        </x-input.select>`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-min"" label=""Minimum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-min"" id=""filter-amount-min"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-amount-max"" label=""Maximum Amount"">`n                        <x-input.money wire`:model.lazy=""filters.amount-max"" id=""filter-amount-max"" />`n                    </x-input.group>`n                </div> */ ?>`n`n                <div class=""w-1/2 pl-2 space-y-4"">`n                    <x-input.group inline for=""filter-created_at-min"" label=""Minimum Date"">`n                        <x-input.date wire`:model=""filters.created_at-min"" id=""filter-created_at-min"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-input.group inline for=""filter-created_at-max"" label=""Maximum Date"">`n                        <x-input.date wire`:model=""filters.created_at-max"" id=""filter-created_at-max"" placeholder=""MM/DD/YYYY"" />`n                    </x-input.group>`n`n                    <x-button.link wire`:click=""resetFilters"" class=""absolute right-0 bottom-0 p-4"">Reset Filters</x-button.link>`n                </div>`n            </div>`n            @endif`n        </div>`n`n        <!-- ? valueAT2 ? Table -->`n        <div class=""flex-col space-y-4 backdrop-blur-lg`n        [ bg-gradient-to-b from-white/60 to-white/30 ]`n        [ border-[1px] border-solid border-white border-opacity-30 ]`n        [ shadow-lg ]"">`n            <x-table>`n                <x-slot name=""head"">`n                    <x-table.heading class=""pr-0 w-8"">`n                        <x-input.checkbox wire`:model=""selectPage"" />`n                    </x-table.heading>`n" table_headers "                </x-slot>`n`n                <x-slot name=""body"">`n                    @if ($selectPage)`n                    <x-table.row class=""bg-cool-gray-200"" wire`:key=""row-message"">`n                        <x-table.cell colspan=""6"">`n                            @unless ($selectAll)`n                            <div>`n                                <span>You have selected <strong>{{ $? valueS2 ?->count() }}</strong> ? valueS2 ?`, do you want to select all <strong>{{ $? valueS2 ?->total() }}</strong>?</span>`n                                <x-button.link wire`:click=""selectAll"" class=""ml-1 text-blue-600"">Select All</x-button.link>`n                            </div>`n                            @else`n                            <span>You are currently selecting all <strong>{{ $? valueS2 ?->total() }}</strong> ? valueS2 ?.</span>`n                            @endif`n                        </x-table.cell>`n                    </x-table.row>`n                    @endif`n`n                    @forelse ($? valueS2 ? as $? valueS1 ?)`n                    <x-table.row wire`:loading.class.delay=""opacity-50"" wire`:key=""row-{{ $? valueS1 ?->" primary_key " }}"" class=""cursor-pointer"">`n                        <x-table.cell class=""pr-0"">`n                            <x-input.checkbox wire`:model=""selected"" value=""{{ $? valueS1 ?->" primary_key " }}"" />`n                        </x-table.cell>`n`n" table_rows "                    </x-table.row>`n                    @empty`n                    <x-table.row>`n                        <x-table.cell colspan=""11"">`n                            <div class=""flex justify-center items-center space-x-2"">`n                                <x-icon.inbox class=""h-8 w-8 text-cool-gray-400"" />`n                                <span class=""font-medium py-8 text-cool-gray-400 text-xl"">No ? valueAT2 ? found...</span>`n                            </div>`n                        </x-table.cell>`n                    </x-table.row>`n                    @endforelse`n                </x-slot>`n            </x-table>`n`n            {!! pagination( $? valueS2 ? ) !!}`n        </div>`n    </div>`n`n    <!-- Delete ? valueAT2 ? Modal -->`n    <form wire`:submit.prevent=""deleteSelected"">`n        <x-modal.confirmation wire`:model.defer=""showDeleteModal"">`n            <x-slot name=""title"">Delete ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""py-8 text-cool-gray-700"">Are you sure you? This action is irreversible.</div>`n            </x-slot>`n`n            <x-slot name=""footer"">`n                <x-button.secondary wire`:click=""$set('showDeleteModal'`, false)"">Cancel</x-button.secondary>`n`n                <x-button.primary type=""submit"">Delete</x-button.primary>`n            </x-slot>`n        </x-modal.confirmation>`n    </form>`n`n    <!-- Save ? valueAT1 ? Modal -->`n    <form wire`:submit.prevent=""save"">`n        <x-modal.dialog wire`:model.defer=""showEditModal"" `:maxWidth=""'5xl'"">`n            <x-slot name=""title"">{{ $editing['" primary_key "'] ? 'Edit' `: 'Create' }} ? valueAT1 ?</x-slot>`n`n            <x-slot name=""content"">`n                <div class=""flex flex-wrap -mx-3 mb-6"">`n" form_fields "`n                </div>`n`n                <div class=""text-right"">`n                    <x-button.secondary wire`:click=""$set('showEditModal'`, false)"">Cancel</x-button.secondary>`n`n                    <x-button.primary type=""submit"">Save</x-button.primary>`n`n                </div>`n            </x-slot>`n        </x-modal.dialog>`n    </form>`n</div>`n")
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\charity\resources\views\livewire\%directory%
+	FileCreateDir, C:\xampp\htdocs\viyaFSM\resources\views\livewire\%directory%
+	
+	fileWrite( content, file )
+}
+
+viya_listView(){
+	global
+	viya_listView_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
+}
+	
+viya_listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
+	;~ fieldsArr := ShowView_fieldsArr( table_name_singular )
+	;~ table_fieldsArr := table_fields( table_name_singular )
+	
+	;~ table_headers := runSubScaffold( "scaffoldTableHeaders", 1, table_fieldsArr)
+	;~ table_rows := runSubScaffold( "scaffoldTableFields", 1, table_fieldsArr)
+	;~ form_fields := runSubScaffold( "scaffoldFormFields", 0 )
+
+	directory := scaffoldModel("? valueSH1 ?")
+	name := scaffoldModel("? valueSH1 ?")
+	file =C:\xampp\htdocs\viyaFSM\resources\views\livewire\reports\%name%.blade.php
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %table_headers%, " table_headers "
+		StringReplace, content, content, %table_rows%, " table_rows "
+		StringReplace, content, content, %form_fields%, " form_fields "
+	}else{
+	
+		content := scaffoldModel("@section('title'`, '? valueAT1 ? - Reports')`n@section('sub-title'`, '')`n`n`n<div class=""panel-body"">`n  <div class=""row"">`n    <div class=""col-md-6"">`n      <div class=""form-group"">`n        <label for=""cboFund"" class=""label-sm"">Fund Centre`:</label>`n        <select name=""cboFund"" id=""cboFund"" type=""dropdown-toggle"" class=""form-control"" wire`:model.live=""selectedFund"">`n          {{-- onchange=""fundChange()""> --}}`n          @foreach($funds as $fund)`n            <option value=""{{ $fund->fundid }}"">{{ $fund->fundcode }}</option>`n          @endforeach`n        </select>`n`n        <span id=""RequiredFieldValidator4"" class="" errmsg   "" style=""visibility`:hidden`;"">Required!</span>`n        <div>Selected fund`: {{ $selectedFund }}</div>`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n        <label for=""txtReqNo"" class=""label-sm"">Purchase Order No`:</label>`n        <input name=""txtReqNo"" type=""text"" readonly=""readonly"" id=""txtReqNo"" class="" form-control "">`n      </div>`n    </div>`n  </div>`n`n`n</div>`n")
+	}
+	
+	FileCreateDir, C:\xampp\htdocs\viyaFSM\resources\views\livewire\reports
 	
 	fileWrite( content, file )
 }
@@ -6280,7 +6348,7 @@ listView_filters_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, 
 
 	directory := scaffoldModel("? valueSH1 ?")
 	name := scaffoldModel("? valueSH2 ?")
-	file =C:\xampp\htdocs\charity\resources\views\livewire\%directory%\list-%name%.blade.php
+	file =C:\xampp\htdocs\viyaFSM\resources\views\livewire\%directory%\list-%name%.blade.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6645,6 +6713,26 @@ updateApiRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	StringReplace, content, content, `r, , All
 	StringReplace, content, content, <?php`n, <?php`n%include%
 	StringReplace, content, content, // add API routes here, %route%    // add API routes here
+	
+	fileWrite( content, file )
+}
+	
+viya_updateRoutes(){
+	global
+	viya_updateRoutes_a( table_name_singular, table_name_plural, reverse )
+}
+	
+viya_updateRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	include := scaffoldModel("use App\Livewire\Reports\? valueCC1 ?`;`n")
+	
+	route := scaffoldModel("`  Route`:`:get('/? valueSH1 ?' `, ? valueCC1 ?`:`:class )`;`n")
+	
+	file =C:\xampp\htdocs\viyaFSM\routes\web.php
+	FileRead, content, %file%
+	
+	StringReplace, content, content, `r, , All
+	StringReplace, content, content, <?php`n, <?php`n%include%
+	StringReplace, content, content, // add routes here, %route%// add routes here
 	
 	fileWrite( content, file )
 }
@@ -7150,12 +7238,18 @@ scaffoldFiles(){
 		
 		;~ model()
 		
+		
+		;~ viya_listController()
+		;~ viya_listView()
+		
+		;~ viya_updateRoutes()
+		
 
 		if(reverse)
 			myTT("reverse")
 		else
 			myTT("scaffold done")
-	}
+	;~ }
 }
 
 #if (Stack="15am") ; scaffolding mode 
@@ -7694,7 +7788,7 @@ scaffoldFiles(){
 			
 			waitClipboard()
 			StringReplace, clipboard, clipboard, <x-, , All
-			StringSplit, clipboard,clipboard, >:'`"%A_Space%()`,;
+			StringSplit, clipboard,clipboard, >:'`"%A_Space%()@`,;
 			t1:=clipboard%clipboard0%
 			len1 := StrLen(t1) + 1
 			
@@ -7706,7 +7800,7 @@ scaffoldFiles(){
 			Sleep 100
 			Send +{End}
 			waitClipboard()
-			StringSplit, clipboard,clipboard, >:'`"%A_Space%()`,;
+			StringSplit, clipboard,clipboard, >:'`"%A_Space%()@`,;
 
 			len2 := StrLen(clipboard1) + len1 - 1
 			ref := t1 clipboard1
@@ -7714,7 +7808,7 @@ scaffoldFiles(){
 			; select the reference
 			;~ Send {Left %len1%}+{Right %len2%}
 			
-			if(! WinActive("ahk_exe sublime_text.exe") and ! WinActive("ahk_exe Code.exe")){
+			if(! WinActive("ahk_exe sublime_text.exe") and ! WinActive("ahk_exe Code.exe") and ! WinActive("ahk_exe Cursor.exe")){
 			;~ if(location="NCIT"){
 				StringReplace, ref, ref, ~, , All
 				StringReplace, ref, ref, /, \, All
