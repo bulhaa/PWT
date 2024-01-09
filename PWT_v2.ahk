@@ -7258,7 +7258,7 @@ livewire(){
 currentTableName(){
 	global singular
 	
-	singular := "Individual"
+	singular := ""
 }
 
 
@@ -7335,17 +7335,45 @@ scaffoldFiles(){
 	
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
-	`::		
-		t := Clipboard
-		StringReplace, t, t, % "`n", % "", All
-		StringReplace, t, t, % "`r", % "", All
-		Clipboard := t
-		Sleep 100
-		Send ^v
+	;~ F2::
+		;~ reposition
+		Send {Enter}
+		waitClipboard()
+		Send {Esc}
+		
+		if( requireWinActive("ahk_exe Code.exe") ){
+			Send ^!l
+			Sleep 100
+			Send ^f
+			Sleep 100
+			Send {Enter}
+			Sleep 100
+			;~ Send {F3}
+			;~ Sleep 100
+			;~ Send +{F3}
+			Sleep 100
+			Send {Esc}
+			Send {Home}
+			Send +{End}
+			Send ^v
+			Sleep 500
+			Send {Left 2}
+			Send `, 1
+			Send ^!l
+		}
 	return
 	
-		;~ printUsingScaffold( "", 1, -1) ; scaffold single
-		;~ return
+	`::		
+		;~ t := Clipboard
+		;~ StringReplace, t, t, % "`n", % "", All
+		;~ StringReplace, t, t, % "`r", % "", All
+		;~ Clipboard := t
+		;~ Sleep 100
+		;~ Send ^v
+	;~ return
+	
+		printUsingScaffold( "", 1, -1) ; scaffold single
+		return
 		
 		;~ printUsingScaffold( "MA", 1, 2) ; 
 		;~ return
@@ -7648,6 +7676,18 @@ scaffoldFiles(){
 		waitClipboard()
 		
 		;~ ; replace efaas callback
+		if( InStr(Clipboard, "https://workspace.localhost/auth/callback") ){
+			StringReplace, Clipboard, Clipboard, "https`://workspace.localhost/auth/callback", "http`://gems-ws-app.test/auth/callback", all
+			omitcredentials="credentials"`: "omit"
+			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
+			Send ^v
+			Sleep 500
+			
+			Send !d
+			Send http://gems-ws-app.test/
+			Send {Enter}
+			return
+		}
 		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
 			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://case.localhost/auth/callback", all
 			omitcredentials="credentials"`: "omit"
