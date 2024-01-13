@@ -3692,13 +3692,14 @@ else
 	
 #if (Stack="12x") ; string replace 
 	`::
-		Send ^a
-		Sleep 100
-		waitClipboard()
+		;~ Send ^a
+		;~ Sleep 100
+		;~ waitClipboard()
 		t := Clipboard
 		;~ t:= RegExReplace(t, "s)(\R).{21,21}(.*\R)", "$1$2")
 		;~ t:= RegExReplace(t, ")(\R).{21,21}(.*\R)", "$1$2")
-		StringReplace, t, t, % ",", % "`t", All
+		StringReplace, t, t, % "`n", % "", All
+		StringReplace, t, t, % "`r", % "", All
 		Clipboard := t
 		Sleep 100
 		Send ^v
@@ -3919,7 +3920,17 @@ return
 	`:: 
 		waitClipboard()
 		v_12l := Clipboard
+		Sleep 100
 		Send ? value1 ?
+		Sleep 100
+		Send {Enter}
+		Sleep 500
+		
+		Click, 2
+		Sleep 100
+		waitClipboard()
+		scaffold_template := Clipboard
+		Send {Esc}
 	return
 	
 #if (Stack="12i") ; Remove Lines 
@@ -5188,9 +5199,9 @@ ws_gemsAPI_apiController(){
 ws_gemsAPI_apiController_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	;~ validationRules := runSubScaffold( "apiController_validationRules")
 	allowedIncludes := runSubScaffold( "gemsApi_apiController_allowedIncludes")
-	;~ allowedFilters := runSubScaffold( "gemsApi_apiController_allowedFilters")
+	allowedFilters := runSubScaffold( "gemsApi_apiController_allowedFilters")
 	
-	t := "<?php`n`nnamespace App\Http\Controllers`;`n`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Http\Request`;`nuse Illuminate\Http\Response`;`nuse Spatie\QueryBuilder\QueryBuilder`;`nuse App\Http\Resources\? valueCC1 ?Resource`;`nuse App\Http\Requests\Store? valueCC1 ?Request`;`nuse App\Http\Requests\Update? valueCC1 ?Request`;`nuse Illuminate\Http\Resources\Json\AnonymousResourceCollection`;`n`nclass ? valueCC1 ?Controller extends Controller`n{`n    /**`n     * @OA\Get(`n     *     path=""/? valueS2 ?""`,`n     *`n     *     @OA\Response(`n     *         response=""200""`,`n     *         description=""The data""`n     *     )`n     * )`n     */`n    public function index()`: AnonymousResourceCollection`n    {`n        $? valueS2 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)`n            ->with(" allowedIncludes ")`n            ->jsonPaginate()`;`n        return ? valueCC1 ?Resource`:`:collection($? valueS2 ?)`;`n    }`n`n    public function show($id)`: ? valueCC1 ?Resource`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->findOrFail($id)`;`n`n        return new ? valueCC1 ?Resource($? valueS1 ?)`;`n    }`n`n    public function store(Store? valueCC1 ?Request $request)`: ? valueCC1 ?Resource`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->create(array_merge($request->validated()`, ['is_verified' => false]))`;`n`n        return new ? valueCC1 ?Resource($? valueS1 ?)`;`n    }`n`n    public function update(Update? valueCC1 ?Request $request`, $id)`: ? valueCC1 ?Resource`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->findOrFail($id)`;`n        $? valueS1 ?->fill($request->validated())`;`n        $? valueS1 ?->save()`;`n`n        return new ? valueCC1 ?Resource($? valueS1 ?)`;`n    }`n`n    public function destroy($id)`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->findOrFail($id)`;`n        $? valueS1 ?->delete()`;`n`n        return response(content`: null`, status`: Response`:`:HTTP_NO_CONTENT)`;`n    }`n`n    public function current(Request $request)`n    {`n        return (new ? valueCC1 ?Resource($request->currentTenant()))->response()->setStatusCode(Response`:`:HTTP_OK)`;`n    }`n}`n"
+	t := "<?php`n`nnamespace App\Http\Controllers`;`n`nuse App\Http\Controllers\Controller`;`nuse App\Http\Resources\? valueCC1 ?Resource`;`nuse App\Models\? valueCC1 ?`;`nuse Illuminate\Http\Request`;`nuse Illuminate\Http\Response`;`nuse Illuminate\Support\Facades\Validator`;`nuse App\Repositories\? valueCC1 ?Repository`;`nuse Spatie\QueryBuilder\AllowedFilter`;`nuse Spatie\QueryBuilder\QueryBuilder`;`nuse App\Http\Requests\Store? valueCC1 ?Request`;`nuse App\Http\Requests\Update? valueCC1 ?Request`;`nuse Illuminate\Http\Resources\Json\AnonymousResourceCollection`;`n`nclass ? valueCC1 ?Controller extends Controller`n{`n`n    /**`n     * @OA\Get(`n     *     path=""/? valueS2 ?""`,`n     *`n     *     @OA\Response(`n     *         response=""200""`,`n     *         description=""The data""`n     *     )`n     * )`n     */`n    public function index()`: AnonymousResourceCollection`n    {`n        $allowedFilters = [`n            AllowedFilter`:`:exact('id')`,`n" allowedFilters "            'created_at'`,`n            'updated_at'`,`n        ]`;`n`n        $allowedSorts = ['id'`, 'created_at'`, 'updated_at']`;`n`n        $allowedIncludes = [" allowedIncludes "]`;`n`n        $? valueS2 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)`n            ->allowedFields((new ? valueCC1 ?())->keys())`n            ->allowedIncludes($allowedIncludes)`n            ->allowedFilters($allowedFilters)`n            ->allowedSorts($allowedSorts)`n            ->jsonPaginate()`;`n        return ? valueCC1 ?Resource`:`:collection($? valueS2 ?)`;`n    }`n`n    public function show($id)`: ? valueCC1 ?Resource`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->findOrFail($id)`;`n        $? valueS1 ?->load(" allowedIncludes ")`;`n`n        return new ? valueCC1 ?Resource($? valueS1 ?)`;`n    }`n`n    public function store(Store? valueCC1 ?Request $request)`: ? valueCC1 ?Resource`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->create(array_merge($request->validated()`, ['is_verified' => false]))`;`n`n        return new ? valueCC1 ?Resource($? valueS1 ?)`;`n    }`n`n    public function update(Update? valueCC1 ?Request $request`, $id)`: ? valueCC1 ?Resource`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->findOrFail($id)`;`n        $? valueS1 ?->fill($request->validated())`;`n        $? valueS1 ?->save()`;`n`n        return new ? valueCC1 ?Resource($? valueS1 ?)`;`n    }`n`n    public function destroy($id)`n    {`n        $? valueS1 ? = QueryBuilder`:`:for(? valueCC1 ?`:`:class)->findOrFail($id)`;`n        $? valueS1 ?->delete()`;`n`n        return response(content`: null`, status`: Response`:`:HTTP_NO_CONTENT)`;`n    }`n`n    public function current(Request $request)`n    {`n        return (new ? valueCC1 ?Resource($request->currentTenant()))->response()->setStatusCode(Response`:`:HTTP_OK)`;`n    }`n}`n"
 	
 	if( customModelName(table_name_singular) )
 		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -5261,7 +5272,7 @@ resource_OASchema( field_name = 1, data_type = 2, nullability = 3, related_table
 		;~ return ""
 	
 	if( related_table_singular )
-		t := "` *     @OA\Property(property=""? valueS12 ?""`, ref=""#/components/schemas/? valueCC11 ?Resource"")`,`n"
+		t := "` *     @OA\Property(property=""? value1 ?""`, type=""integer"")`,`n` *     @OA\Property(property=""? valueS12 ?""`, ref=""#/components/schemas/? valueCC11 ?Resource"")`,`n"
 	else if( InStr(data_type, "bigint(") )
 		t := "` *     @OA\Property(property=""? value1 ?""`, type=""integer"")`,`n"
 	else if( InStr(data_type, "timestamp") )
@@ -5284,7 +5295,8 @@ resource_toArray( field_name = 1, data_type = 2, nullability = 3, related_table_
 		;~ return ""
 	
 	if( related_table_singular )
-		t := "`            '? valueS12 ?' => new ? valueCC11 ?Resource($this->whenLoaded('? valueC12 ?'))`,`n"
+		t := "`            '? value1 ?' => $this?->? value1 ?`,`n`            '? valueS12 ?' => $this?->relationLoaded('? valueC12 ?') ? new ? valueCC11 ?Resource($this->? valueC12 ?) `: null`,`n"
+		;~ t := "`            '? value1 ?' => $this?->? value1 ?`,`n`            '? valueS12 ?' => new ? valueCC11 ?Resource($this->whenLoaded('? valueC12 ?'))`,`n"
 	else if( InStr(data_type, "timestamp") )
 		t := "`            '? value1 ?' => $this?->? value1 ??->toDateTimeString()`,`n"
 	else
@@ -5430,12 +5442,66 @@ apiTest_list_fields( field_name = 1, data_type = 2, nullability = 3, related_tab
 }
 
 
+apiTest_list_includes( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	if( related_table_singular )
+		t := "? valueC12 ?`,"
+	
+	return t
+}
+
+
 apiTest_list(){
 	;~ nullable := runSubScaffold( "apiTest_list")
 	fields := runSubScaffold( "apiTest_list_fields", 1)
+	fields := RegExReplace(fields, "`n$", "")
+	;~ fields := scaffoldFields("`                        '? value1 ?'`,`n")
+	includes := runSubScaffold( "apiTest_list_includes")
+	includes := RegExReplace(includes, "`,$", "")
+	
+	t := "`    /**`n     * can list ? valueS2 ?`n     *`n     * @test`n     *`n     */`n    public function can_get_list_of_? valueS2 ?()`: void`n    {`n        ? valueCC1 ?`:`:factory(7)->create()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)->havingPermission('? valueS2 ?.list')`;`n        $response = $this->getJson('/? valueS2 ??page[size]=2&page[number]=2&'.`n            'include=" includes "')`;`n        $response->assertOk()->assertJson([`n            'meta' => [`n                'total' => 8`,`n                'per_page' => 2`,`n                'current_page' => 2`,`n            ]`,`n        ])->assertJsonStructure([`n                'data' => [`n                    [`n" fields "`n                    ]`,`n                ]`,`n            ])`;`n        $this->assertCount(2`, $response->json('data'))`;`n    }"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	return scaffoldModel(t)
+}
+
+
+apiTest_view_data( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	;~ blacklist := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	;~ if( HasVal(blacklist, field_name) )
+		;~ return ""
+	
+	if( related_table_singular )
+		;~ t := "`                '? value1 ?' => $" name "->? value1 ?`,`n                '? valueS12 ?' => (new \App\Http\Resources\? valueCC11 ?Resource($" name "?->? valueC12 ?))->toArray(request())`,`n"
+		t := "`                '? value1 ?' => $" name "->? value1 ?`,`n`                '? valueS12 ?' => $" name "->? valueS1 ?`n                    ? (new \App\Http\Resources\? valueCC11 ?Resource($" name "?->? valueC12 ?))->toArray(request()) `: null`,`n"
+	else if( InStr(data_type, "timestamp") )
+		t := "`                '? value1 ?' => $" name "->? value1 ??->toDateTimeString()`,`n"
+	else
+		t := "`                '? value1 ?' => $" name "->? value1 ?`,`n"
+	
+	return t
+}
+
+	
+apiTest_view(){
+	;~ nullable := runSubScaffold( "apiTest_list")
+	data := runSubScaffold( "apiTest_view_data", 1)
 	;~ fields := scaffoldFields("`                        '? value1 ?'`,`n")
 	
-	t := "`    /**`n     * can list ? valueS2 ?`n     *`n     * @test`n     *`n     * @group now`n     */`n    public function can_get_list_of_? valueS2 ?()`: void`n    {`n        ? valueCC1 ?`:`:factory(7)->create()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->getJson('/? valueS2 ??page[size]=2&page[number]=2')`;`n        $response->assertOk()->assertJson([`n            'meta' => [`n                'total' => 7`,`n                'per_page' => 2`,`n                'current_page' => 2`,`n            ]`,`n        ])`n            ->assertJsonStructure([`n                'data' => [`n                    [`n" fields "`n                    ]`,`n                ]`,`n            ])`;`n        $this->assertCount(2`, $response->json('data'))`;`n    }"
+	t := "`    /**`n     * can view ? valueS1 ?`n     *`n     * @test`n     *`n     */`n    public function can_view_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->create()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)->havingPermission('? valueS2 ?.show')`;`n        $response = $this->getJson('/? valueS2 ?/'.$? valueS1 ?->id)`;`n        $response->assertOk()->assertJson([`n            'data' => [`n" data "`n            ]`,`n        ])`;`n    }`n"
 	
 	if( customModelName(table_name_singular) )
 		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -5445,6 +5511,43 @@ apiTest_list(){
 	return scaffoldModel(t)
 }
 	
+	
+apiTest_store_request( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	;~ blacklist := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	;~ if( HasVal(blacklist, field_name) )
+		;~ return ""
+	
+	;~ if( related_table_singular )
+		;~ t := "`                '? value1 ?' => $" name "->? value1 ?`,`n                '? valueS12 ?' => (new \App\Http\Resources\? valueCC11 ?Resource($" name "?->? valueC12 ?))->toArray(request())`,`n"
+		;~ t := "`                '? value1 ?' => $" name "->? value1 ?`,`n`                '? valueS12 ?' => $" name "->? valueS1 ?`n                    ? (new \App\Http\Resources\? valueCC11 ?Resource($" name "?->? valueC12 ?))->toArray(request()) `: null`,`n"
+	;~ else if( InStr(data_type, "timestamp") )
+		;~ t := "`                '? value1 ?' => $" name "->? value1 ??->toDateTimeString()`,`n"
+	;~ else
+		t := "`            '? value1 ?' => $" name "->? value1 ?`,`n"
+	
+	return t
+}
+
+	
+apiTest_store(){
+	;~ nullable := runSubScaffold( "apiTest_list")
+	data := runSubScaffold( "apiTest_store_request", 0)
+	;~ fields := scaffoldFields("`                        '? value1 ?'`,`n")
+	
+	t := "`     /**`n     * can store an ? valueS1 ?.`n     *`n     * @test`n     * @group now`n     */`n    public function can_store_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->make()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)->havingPermission('? valueS2 ?.store')`;`n        $response = $this->postJson('/? valueS2 ?'`, [`n" data "`n        ])`;`n`n        $response->assertCreated()->assertJson([`n            'data' => [`n                '? valueS1 ?_type' => [`n                    'id' => $? valueS1 ?->? valueS1 ?Type->id`,`n                    'name' => $? valueS1 ?->? valueS1 ?Type->name_en`,`n                    'name_dhivehi' => $? valueS1 ?->? valueS1 ?Type->name_dv`,`n                    'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->updated_at)`,`n                ]`,`n                'registration_number' => $? valueS1 ?->registration_number`,`n                'moft_sap_number' => $? valueS1 ?->moft_sap_number`,`n                'code' => $? valueS1 ?->code_en`,`n                'code_dhivehi' => $? valueS1 ?->code_dv`,`n                'name' => $? valueS1 ?->name_en`,`n                'name_dhivehi' => $? valueS1 ?->name_dv`,`n                'origin_country' => [`n                    'id' => $? valueS1 ?->country->id`,`n                    'name' => $? valueS1 ?->country->name_en`,`n                    'name_dhivehi' => $? valueS1 ?->country->name_dv`,`n                    'nationality' => $? valueS1 ?->country->nationality_en`,`n                    'nationality_dhivehi' => $? valueS1 ?->country->nationality_dv`,`n                    'dialing_code' => $? valueS1 ?->country->dialing_code`,`n                    'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($? valueS1 ?->country->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->updated_at)`,`n                ]`,`n                'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->active_from)`,`n                'active_to' => null`,`n            ]`,`n        ])`;`n        $this->assertDatabaseHas('? valueS2 ?'`, [`n            'id' => $response->json('data.id')`,`n            '? valueS1 ?_type_id' => $? valueS1 ?->? valueS1 ?Type->id`,`n            'registration_number' => $? valueS1 ?->registration_number`,`n            'moft_sap_number' => $? valueS1 ?->moft_sap_number`,`n            'code_en' => $? valueS1 ?->code_en`,`n            'code_dv' => $? valueS1 ?->code_dv`,`n            'name_en' => $? valueS1 ?->name_en`,`n            'name_dv' => $? valueS1 ?->name_dv`,`n            'origin_country_id' => $? valueS1 ?->country->id`,`n            'active_from' => Date`:`:dateTimeFormat($? valueS1 ?->active_from)`,`n            'active_to' => null`,`n        ])`;`n    }`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	return scaffoldModel(t)
+}
+	
+	
 apiTest(){
 	global
 	apiTest_a( table_name_singular, table_name_plural, reverse )
@@ -5452,9 +5555,11 @@ apiTest(){
 	
 apiTest_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	apiTest_list := apiTest_list()
+	apiTest_view := apiTest_view()
+	apiTest_store := apiTest_store()
 	;~ fields := scaffoldFields("        '? valueS1 ?',`n")
 	
-	t := "<?php`n`nnamespace Tests\Feature`;`n`nuse App\Models\? valueCC1 ?`;`nuse App\Models\User`;`nuse App\Support\Date`;`nuse Illuminate\Foundation\Testing\DatabaseTransactions`;`nuse Illuminate\Foundation\Testing\WithFaker`;`nuse Tests\TestCase`;`n`n/**`n * @group ? valueS1 ?`n */`nclass ? valueCC1 ?Test extends TestCase`n{`n    use DatabaseTransactions`, withFaker`;`n`n    " apiTest_list "`n`n    /**`n     * can view ? valueS1 ?`n     *`n     * @test`n     */`n    public function can_view_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->create(['parent_id' => null])`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->getJson('/? valueS2 ?/'.$? valueS1 ?->id)`;`n        $response->assertOk()->assertJson([`n            'data' => [`n                'id' => $? valueS1 ?->id`,`n                '? valueS1 ?_type' => [`n                    'id' => $? valueS1 ?->? valueS1 ?Type->id`,`n                    'name' => $? valueS1 ?->? valueS1 ?Type->name_en`,`n                    'name_dhivehi' => $? valueS1 ?->? valueS1 ?Type->name_dv`,`n                    'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->updated_at)`,`n                ]`,`n                'registration_number' => $? valueS1 ?->registration_number`,`n                'moft_sap_number' => $? valueS1 ?->moft_sap_number`,`n                'code' => $? valueS1 ?->code_en`,`n                'code_dhivehi' => $? valueS1 ?->code_dv`,`n                'name' => $? valueS1 ?->name_en`,`n                'name_dhivehi' => $? valueS1 ?->name_dv`,`n                'origin_country' => [`n                    'id' => $? valueS1 ?->country->id`,`n                    'name' => $? valueS1 ?->country->name_en`,`n                    'name_dhivehi' => $? valueS1 ?->country->name_dv`,`n                    'nationality' => $? valueS1 ?->country->nationality_en`,`n                    'nationality_dhivehi' => $? valueS1 ?->country->nationality_dv`,`n                    'dialing_code' => $? valueS1 ?->country->dialing_code`,`n                    'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($? valueS1 ?->country->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->updated_at)`,`n                ]`,`n                'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->active_from)`,`n                'active_to' => Date`:`:dateTimeFormat($? valueS1 ?->active_to)`,`n                'created_at' => Date`:`:dateTimeFormat($? valueS1 ?->created_at)`,`n                'updated_at' => Date`:`:dateTimeFormat($? valueS1 ?->updated_at)`,`n            ]`,`n        ])`;`n    }`n`n    /**`n     * can store an ? valueS1 ?.`n     *`n     * @test`n     */`n    public function can_store_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->make()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->postJson('/? valueS2 ?'`, [`n            '? valueS1 ?_type_id' => $? valueS1 ?->? valueS1 ?Type->id`,`n            'registration_number' => $? valueS1 ?->registration_number`,`n            'moft_sap_number' => $? valueS1 ?->moft_sap_number`,`n            'code' => $? valueS1 ?->code_en`,`n            'code_dhivehi' => $? valueS1 ?->code_dv`,`n            'name' => $? valueS1 ?->name_en`,`n            'name_dhivehi' => $? valueS1 ?->name_dv`,`n            'origin_country_id' => $? valueS1 ?->country->id`,`n            'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->active_from)`,`n        ])`;`n`n        $response->assertCreated()->assertJson([`n            'data' => [`n                '? valueS1 ?_type' => [`n                    'id' => $? valueS1 ?->? valueS1 ?Type->id`,`n                    'name' => $? valueS1 ?->? valueS1 ?Type->name_en`,`n                    'name_dhivehi' => $? valueS1 ?->? valueS1 ?Type->name_dv`,`n                    'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($? valueS1 ?->? valueS1 ?Type->updated_at)`,`n                ]`,`n                'registration_number' => $? valueS1 ?->registration_number`,`n                'moft_sap_number' => $? valueS1 ?->moft_sap_number`,`n                'code' => $? valueS1 ?->code_en`,`n                'code_dhivehi' => $? valueS1 ?->code_dv`,`n                'name' => $? valueS1 ?->name_en`,`n                'name_dhivehi' => $? valueS1 ?->name_dv`,`n                'origin_country' => [`n                    'id' => $? valueS1 ?->country->id`,`n                    'name' => $? valueS1 ?->country->name_en`,`n                    'name_dhivehi' => $? valueS1 ?->country->name_dv`,`n                    'nationality' => $? valueS1 ?->country->nationality_en`,`n                    'nationality_dhivehi' => $? valueS1 ?->country->nationality_dv`,`n                    'dialing_code' => $? valueS1 ?->country->dialing_code`,`n                    'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($? valueS1 ?->country->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($? valueS1 ?->country->updated_at)`,`n                ]`,`n                'active_at' => Date`:`:dateTimeFormat($? valueS1 ?->active_from)`,`n                'active_to' => null`,`n            ]`,`n        ])`;`n        $this->assertDatabaseHas('? valueS2 ?'`, [`n            'id' => $response->json('data.id')`,`n            '? valueS1 ?_type_id' => $? valueS1 ?->? valueS1 ?Type->id`,`n            'registration_number' => $? valueS1 ?->registration_number`,`n            'moft_sap_number' => $? valueS1 ?->moft_sap_number`,`n            'code_en' => $? valueS1 ?->code_en`,`n            'code_dv' => $? valueS1 ?->code_dv`,`n            'name_en' => $? valueS1 ?->name_en`,`n            'name_dv' => $? valueS1 ?->name_dv`,`n            'origin_country_id' => $? valueS1 ?->country->id`,`n            'active_from' => Date`:`:dateTimeFormat($? valueS1 ?->active_from)`,`n            'active_to' => null`,`n        ])`;`n    }`n`n    /**`n     * can update an ? valueS1 ?.`n     *`n     * @test`n     */`n    public function can_update_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->create(['active_to' => null])`;`n        $new? valueCC1 ? = ? valueCC1 ?`:`:factory()->make()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->putJson('/? valueS2 ?/'.$? valueS1 ?->id`, [`n            '? valueS1 ?_type_id' => $new? valueCC1 ?->? valueS1 ?Type->id`,`n            'registration_number' => $new? valueCC1 ?->registration_number`,`n            'moft_sap_number' => $new? valueCC1 ?->moft_sap_number`,`n            'code' => $new? valueCC1 ?->code_en`,`n            'code_dhivehi' => $new? valueCC1 ?->code_dv`,`n            'name' => $new? valueCC1 ?->name_en`,`n            'name_dhivehi' => $new? valueCC1 ?->name_dv`,`n            'origin_country_id' => $new? valueCC1 ?->country->id`,`n            'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->active_from)`,`n        ])`;`n`n        $response->assertOk()->assertJson([`n            'data' => [`n                '? valueS1 ?_type' => [`n                    'id' => $new? valueCC1 ?->? valueS1 ?Type->id`,`n                    'name' => $new? valueCC1 ?->? valueS1 ?Type->name_en`,`n                    'name_dhivehi' => $new? valueCC1 ?->? valueS1 ?Type->name_dv`,`n                    'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->updated_at)`,`n                ]`,`n                'registration_number' => $new? valueCC1 ?->registration_number`,`n                'moft_sap_number' => $new? valueCC1 ?->moft_sap_number`,`n                'code' => $new? valueCC1 ?->code_en`,`n                'code_dhivehi' => $new? valueCC1 ?->code_dv`,`n                'name' => $new? valueCC1 ?->name_en`,`n                'name_dhivehi' => $new? valueCC1 ?->name_dv`,`n                'origin_country' => [`n                    'id' => $new? valueCC1 ?->country->id`,`n                    'name' => $new? valueCC1 ?->country->name_en`,`n                    'name_dhivehi' => $new? valueCC1 ?->country->name_dv`,`n                    'nationality' => $new? valueCC1 ?->country->nationality_en`,`n                    'nationality_dhivehi' => $new? valueCC1 ?->country->nationality_dv`,`n                    'dialing_code' => $new? valueCC1 ?->country->dialing_code`,`n                    'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->updated_at)`,`n                ]`,`n                'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->active_from)`,`n                'active_to' => null`,`n            ]`,`n        ])`;`n        $this->assertDatabaseHas('? valueS2 ?'`, [`n            'id' => $response->json('data.id')`,`n            '? valueS1 ?_type_id' => $new? valueCC1 ?->? valueS1 ?Type->id`,`n            'registration_number' => $new? valueCC1 ?->registration_number`,`n            'moft_sap_number' => $new? valueCC1 ?->moft_sap_number`,`n            'code_en' => $new? valueCC1 ?->code_en`,`n            'code_dv' => $new? valueCC1 ?->code_dv`,`n            'name_en' => $new? valueCC1 ?->name_en`,`n            'name_dv' => $new? valueCC1 ?->name_dv`,`n            'origin_country_id' => $new? valueCC1 ?->country->id`,`n            'active_from' => Date`:`:dateTimeFormat($new? valueCC1 ?->active_from)`,`n            'active_to' => null`,`n        ])`;`n    }`n`n    /**`n     * can delete a ? valueS1 ?.`n     *`n     * @test`n     */`n    public function can_delete_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->create()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->deleteJson('/? valueS2 ?/'.$? valueS1 ?->id)`;`n        $response->assertNoContent()`;`n        $this->assertDatabaseMissing('? valueS2 ?'`, ['id' => $? valueS1 ?->id])`;`n    }`n`n    /**`n     * can view current tenant ? valueS1 ?`n     *`n     * @test`n     */`n    public function can_view_current_tenant_? valueS1 ?()`: void`n    {`n        ? valueCC1 ?`:`:factory()->active()->create()`;`n        $currentTenant = ? valueCC1 ?`:`:factory()->active()->create()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->setTenant($currentTenant)->getJson('/current-tenant-? valueS1 ?')`;`n        $response->assertOk()->assertJson([`n            'data' => [`n                'id' => $currentTenant->id`,`n                '? valueS1 ?_type' => [`n                    'id' => $currentTenant->? valueS1 ?Type->id`,`n                    'name' => $currentTenant->? valueS1 ?Type->name_en`,`n                    'name_dhivehi' => $currentTenant->? valueS1 ?Type->name_dv`,`n                    'active_at' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->updated_at)`,`n                ]`,`n                'registration_number' => $currentTenant->registration_number`,`n                'moft_sap_number' => $currentTenant->moft_sap_number`,`n                'code' => $currentTenant->code_en`,`n                'code_dhivehi' => $currentTenant->code_dv`,`n                'name' => $currentTenant->name_en`,`n                'name_dhivehi' => $currentTenant->name_dv`,`n                'origin_country' => [`n                    'id' => $currentTenant->country->id`,`n                    'name' => $currentTenant->country->name_en`,`n                    'name_dhivehi' => $currentTenant->country->name_dv`,`n                    'nationality' => $currentTenant->country->nationality_en`,`n                    'nationality_dhivehi' => $currentTenant->country->nationality_dv`,`n                    'dialing_code' => $currentTenant->country->dialing_code`,`n                    'active_at' => Date`:`:dateTimeFormat($currentTenant->country->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($currentTenant->country->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($currentTenant->country->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($currentTenant->country->updated_at)`,`n                ]`,`n                'active_at' => Date`:`:dateTimeFormat($currentTenant->active_from)`,`n                'active_to' => Date`:`:dateTimeFormat($currentTenant->active_to)`,`n                'created_at' => Date`:`:dateTimeFormat($currentTenant->created_at)`,`n                'updated_at' => Date`:`:dateTimeFormat($currentTenant->updated_at)`,`n            ]`,`n        ])`;`n    }`n}`n"
+	t := "<?php`n`nnamespace Tests\Feature`;`n`nuse App\Models\? valueCC1 ?`;`nuse App\Models\User`;`nuse App\Support\Date`;`nuse Illuminate\Foundation\Testing\DatabaseTransactions`;`nuse Illuminate\Foundation\Testing\WithFaker`;`nuse Tests\TestCase`;`n`n/**`n * @group ? valueS1 ?`n */`nclass ? valueCC1 ?Test extends TestCase`n{`n    use DatabaseTransactions`, withFaker`;`n`n" apiTest_list "`n`n" apiTest_view "`n    `n" apiTest_store "`n`n    /**`n     * can update an ? valueS1 ?.`n     *`n     * @test`n     */`n    public function can_update_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->create(['active_to' => null])`;`n        $new? valueCC1 ? = ? valueCC1 ?`:`:factory()->make()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->putJson('/? valueS2 ?/'.$? valueS1 ?->id`, [`n            '? valueS1 ?_type_id' => $new? valueCC1 ?->? valueS1 ?Type->id`,`n            'registration_number' => $new? valueCC1 ?->registration_number`,`n            'moft_sap_number' => $new? valueCC1 ?->moft_sap_number`,`n            'code' => $new? valueCC1 ?->code_en`,`n            'code_dhivehi' => $new? valueCC1 ?->code_dv`,`n            'name' => $new? valueCC1 ?->name_en`,`n            'name_dhivehi' => $new? valueCC1 ?->name_dv`,`n            'origin_country_id' => $new? valueCC1 ?->country->id`,`n            'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->active_from)`,`n        ])`;`n`n        $response->assertOk()->assertJson([`n            'data' => [`n                '? valueS1 ?_type' => [`n                    'id' => $new? valueCC1 ?->? valueS1 ?Type->id`,`n                    'name' => $new? valueCC1 ?->? valueS1 ?Type->name_en`,`n                    'name_dhivehi' => $new? valueCC1 ?->? valueS1 ?Type->name_dv`,`n                    'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->? valueS1 ?Type->updated_at)`,`n                ]`,`n                'registration_number' => $new? valueCC1 ?->registration_number`,`n                'moft_sap_number' => $new? valueCC1 ?->moft_sap_number`,`n                'code' => $new? valueCC1 ?->code_en`,`n                'code_dhivehi' => $new? valueCC1 ?->code_dv`,`n                'name' => $new? valueCC1 ?->name_en`,`n                'name_dhivehi' => $new? valueCC1 ?->name_dv`,`n                'origin_country' => [`n                    'id' => $new? valueCC1 ?->country->id`,`n                    'name' => $new? valueCC1 ?->country->name_en`,`n                    'name_dhivehi' => $new? valueCC1 ?->country->name_dv`,`n                    'nationality' => $new? valueCC1 ?->country->nationality_en`,`n                    'nationality_dhivehi' => $new? valueCC1 ?->country->nationality_dv`,`n                    'dialing_code' => $new? valueCC1 ?->country->dialing_code`,`n                    'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->country->updated_at)`,`n                ]`,`n                'active_at' => Date`:`:dateTimeFormat($new? valueCC1 ?->active_from)`,`n                'active_to' => null`,`n            ]`,`n        ])`;`n        $this->assertDatabaseHas('? valueS2 ?'`, [`n            'id' => $response->json('data.id')`,`n            '? valueS1 ?_type_id' => $new? valueCC1 ?->? valueS1 ?Type->id`,`n            'registration_number' => $new? valueCC1 ?->registration_number`,`n            'moft_sap_number' => $new? valueCC1 ?->moft_sap_number`,`n            'code_en' => $new? valueCC1 ?->code_en`,`n            'code_dv' => $new? valueCC1 ?->code_dv`,`n            'name_en' => $new? valueCC1 ?->name_en`,`n            'name_dv' => $new? valueCC1 ?->name_dv`,`n            'origin_country_id' => $new? valueCC1 ?->country->id`,`n            'active_from' => Date`:`:dateTimeFormat($new? valueCC1 ?->active_from)`,`n            'active_to' => null`,`n        ])`;`n    }`n`n    /**`n     * can delete a ? valueS1 ?.`n     *`n     * @test`n     */`n    public function can_delete_? valueS1 ?()`: void`n    {`n        $? valueS1 ? = ? valueCC1 ?`:`:factory()->create()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->deleteJson('/? valueS2 ?/'.$? valueS1 ?->id)`;`n        $response->assertNoContent()`;`n        $this->assertDatabaseMissing('? valueS2 ?'`, ['id' => $? valueS1 ?->id])`;`n    }`n`n    /**`n     * can view current tenant ? valueS1 ?`n     *`n     * @test`n     */`n    public function can_view_current_tenant_? valueS1 ?()`: void`n    {`n        ? valueCC1 ?`:`:factory()->active()->create()`;`n        $currentTenant = ? valueCC1 ?`:`:factory()->active()->create()`;`n        $user = User`:`:factory()->create()`;`n        $this->actingAs($user)`;`n        $response = $this->setTenant($currentTenant)->getJson('/current-tenant-? valueS1 ?')`;`n        $response->assertOk()->assertJson([`n            'data' => [`n                'id' => $currentTenant->id`,`n                '? valueS1 ?_type' => [`n                    'id' => $currentTenant->? valueS1 ?Type->id`,`n                    'name' => $currentTenant->? valueS1 ?Type->name_en`,`n                    'name_dhivehi' => $currentTenant->? valueS1 ?Type->name_dv`,`n                    'active_at' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($currentTenant->? valueS1 ?Type->updated_at)`,`n                ]`,`n                'registration_number' => $currentTenant->registration_number`,`n                'moft_sap_number' => $currentTenant->moft_sap_number`,`n                'code' => $currentTenant->code_en`,`n                'code_dhivehi' => $currentTenant->code_dv`,`n                'name' => $currentTenant->name_en`,`n                'name_dhivehi' => $currentTenant->name_dv`,`n                'origin_country' => [`n                    'id' => $currentTenant->country->id`,`n                    'name' => $currentTenant->country->name_en`,`n                    'name_dhivehi' => $currentTenant->country->name_dv`,`n                    'nationality' => $currentTenant->country->nationality_en`,`n                    'nationality_dhivehi' => $currentTenant->country->nationality_dv`,`n                    'dialing_code' => $currentTenant->country->dialing_code`,`n                    'active_at' => Date`:`:dateTimeFormat($currentTenant->country->active_from)`,`n                    'active_to' => Date`:`:dateTimeFormat($currentTenant->country->active_to)`,`n                    'created_at' => Date`:`:dateTimeFormat($currentTenant->country->created_at)`,`n                    'updated_at' => Date`:`:dateTimeFormat($currentTenant->country->updated_at)`,`n                ]`,`n                'active_at' => Date`:`:dateTimeFormat($currentTenant->active_from)`,`n                'active_to' => Date`:`:dateTimeFormat($currentTenant->active_to)`,`n                'created_at' => Date`:`:dateTimeFormat($currentTenant->created_at)`,`n                'updated_at' => Date`:`:dateTimeFormat($currentTenant->updated_at)`,`n            ]`,`n        ])`;`n    }`n}`n"
 	
 	if( customModelName(table_name_singular) )
 		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -6691,9 +6796,9 @@ updateApiRoutes(){
 }
 	
 updateApiRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
-	;~ include := scaffoldModel("use App\Http\Controllers\? valueCC1 ?Controller`;`n")
+	include := scaffoldModel("use App\Http\Controllers\? valueCC1 ?Controller`;`n")
 	
-	route := scaffoldModel("`    Route`:`:group(['prefix' => '? valueSH2 ?']`, function () {`n        Route`:`:get('/'`, [? valueCC1 ?Controller`:`:class`, 'index'])->name('? valueSH2 ?.list')`;`n        Route`:`:post('/store'`, [? valueCC1 ?Controller`:`:class`, 'store'])->name('? valueSH2 ?.store')`;`n        Route`:`:get('/{? valueS1 ?}'`, [? valueCC1 ?Controller`:`:class`, 'show'])->name('? valueSH2 ?.show')`;`n        Route`:`:put('/{? valueS1 ?}/update'`, [? valueCC1 ?Controller`:`:class`, 'update'])->name('? valueSH2 ?.update')`;`n        Route`:`:delete('/{? valueS1 ?}'`, [? valueCC1 ?Controller`:`:class`, 'destroy'])->name('? valueSH2 ?.destroy')`;`n    })`;`n")
+	route := scaffoldModel("`    Route`:`:get('/? valueS2 ?'`, [? valueCC1 ?Controller`:`:class`, 'index'])->name('? valueS2 ?.list')`;`n    Route`:`:get('/? valueS2 ?/{id}'`, [? valueCC1 ?Controller`:`:class`, 'show'])->name('? valueS2 ?.show')`;`n    Route`:`:post('/? valueS2 ?'`, [? valueCC1 ?Controller`:`:class`, 'store'])->name('? valueS2 ?.store')`;`n    Route`:`:put('/? valueS2 ?/{id}'`, [? valueCC1 ?Controller`:`:class`, 'update'])->name('? valueS2 ?.update')`;`n    Route`:`:delete('/? valueS2 ?/{id}'`, [? valueCC1 ?Controller`:`:class`, 'destroy'])->name('? valueS2 ?.destroy')`;`n")
 	
 	file =C:\xampp\htdocs\gems-ws-api\routes\api.php
 	FileRead, content, %file%
@@ -7326,12 +7431,13 @@ scaffoldFiles(){
 	if( !DB_Fields )
 		myTT("DB table not found")
 	else{
+		;~ gemsApi_apiController()
 		;~ ws_gemsAPI_apiController_a()
 	
 		;~ resource()
 		;~ updateApiRoutes()
 	
-		;~ apiTest()	
+		;~ apiTest()
 
 		;~ factory()
 		
@@ -7374,11 +7480,60 @@ scaffoldFiles(){
 	
 	F4:: goToPrevReference()
 	
+	~^q::
+		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
+			; run repeat command in vscode
+			Click 1878, 965
+			Sleep 100
+			Click 1878, 965
+			Sleep 100
+			Send {Up}
+			Sleep 100
+			Send {Enter}
+		}
+	return
+	
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
+	;~ F2::
+		;~ reposition
+		Send {Enter}
+		waitClipboard()
+		Send {Esc}
+		
+		if( requireWinActive("ahk_exe Code.exe") ){
+			Send ^!l
+			Sleep 100
+			Send ^f
+			Sleep 100
+			Send {Enter}
+			Sleep 100
+			;~ Send {F3}
+			;~ Sleep 100
+			;~ Send +{F3}
+			Sleep 100
+			Send {Esc}
+			Send {Home}
+			Send +{End}
+			Send ^v
+			Sleep 500
+			Send {Left 2}
+			Send `, 1
+			Send ^!l
+		}
+	return
+	
 	`::		
-		;~ printUsingScaffold( "", 1, -1) ; scaffold single
-		;~ return
+		;~ t := Clipboard
+		;~ StringReplace, t, t, % "`n", % "", All
+		;~ StringReplace, t, t, % "`r", % "", All
+		;~ Clipboard := t
+		;~ Sleep 100
+		;~ Send ^v
+	;~ return
+	
+		printUsingScaffold( "", 1, -1) ; scaffold single
+		return
 		
 		;~ printUsingScaffold( "MA", 1, 2) ; 
 		;~ return
@@ -7682,6 +7837,18 @@ scaffoldFiles(){
 		waitClipboard()
 		
 		;~ ; replace efaas callback
+		if( InStr(Clipboard, "https://workspace.localhost/auth/callback") ){
+			StringReplace, Clipboard, Clipboard, "https`://workspace.localhost/auth/callback", "http`://gems-ws-app.test/auth/callback", all
+			omitcredentials="credentials"`: "omit"
+			StringReplace, Clipboard, Clipboard, %omitcredentials%, , all
+			Send ^v
+			Sleep 500
+			
+			Send !d
+			Send http://gems-ws-app.test/
+			Send {Enter}
+			return
+		}
 		if( InStr(Clipboard, "https://gems.localhost/case/auth/callback") ){
 			StringReplace, Clipboard, Clipboard, "https`://gems.localhost/case/auth/callback", "http`://case.localhost/auth/callback", all
 			omitcredentials="credentials"`: "omit"
