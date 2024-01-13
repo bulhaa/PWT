@@ -69,7 +69,7 @@ phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
 ncitStacks := ncitStacks "case manager local,17c;"
 ncitStacks := ncitStacks "case manager docker,16t;"
 ncitStacks := ncitStacks "case manager local mix,14k;"
-ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;"
+ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -3018,6 +3018,10 @@ else if(Stack="17o") ; ecouncil db
 		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&db=ecouncil_ecouncil_r2&table=addresses&pos=0
 		run, %Button1_Label%
 	}
+else if(Stack="17s") ; job application 
+	{
+		Button1_Label=Hammadh`nAbdul Rahman`nhammadhu.ar@gmail.com`n+9607838533`nDhilleege`nMale'`nKaafu`n20048`nhttps`://github.com/bulhaa?tab=repositories`nhttps`://www.linkedin.com/in/hammadh-abdul-rahman-18b5b9119/`nPassionate Software developer with 7 years experience
+	}
 else
 	{	
 		EditVisible :=1
@@ -3043,6 +3047,44 @@ else
 
 
 	
+	
+#if (Stack="17u") ; click and preserve mouse position 
+	`::
+		MouseGetPos, MouseX, MouseY
+		Click 1762, 169
+		MouseMove, %MouseX%, %MouseY%
+	return
+	
+#if (Stack="17t") ; snap 
+	`::
+		;snap
+		WinWait, BlueStacks App Player, 
+		IfWinNotActive, BlueStacks App Player, , WinActivate, BlueStacks App Player, 
+		WinWaitActive, BlueStacks App Player, 
+		
+		Loop 100 {
+			
+			Click 825, 181
+			;~ waitPixel(-1, -1, 682, 89, "0x3C3631", 0)
+			Sleep 1000
+			Click 980, 91
+			Sleep 1000
+			Click 1188, 85
+			Sleep 1000
+			Click 791, 666
+			Sleep 1000
+			Click 773, 892
+			Sleep 1000
+			Click 1002, 558
+			Sleep 3000
+			;~ Click 1002, 558
+			;~ Sleep 100
+			Click 695, 85
+			Sleep 1000
+			Click 684, 86
+			Sleep 1000
+		}
+	return
 	
 #if (Stack="17r") ; reposition 
 	F2::
@@ -5639,9 +5681,11 @@ viya_listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 	;~ dropdownsOnEdit := runSubScaffold( "listController_dropdownsOnEdit")
 	name_field := name_field()
 	
-	directory := scaffoldModel("? valueCC1 ?")
+	;~ directory := scaffoldModel("? valueCC1 ?")
+	directory := scaffoldDirectory("? valueCC1 ?")
+	viewDirectory := scaffoldDirectory("? valueSH1 ?")
 	name := scaffoldModel("? valueCC1 ?")
-	file =C:\xampp\htdocs\viyaFSM\app\Livewire\Reports\%name%.php
+	file =C:\xampp\htdocs\viyaFSM\app\Livewire\%directory%\%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5649,7 +5693,7 @@ viya_listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 		
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`n`nnamespace App\Livewire\Reports`;`n`nuse App\Helpers\CommonFunctions`;`nuse App\Helpers\ListHelpers`;`nuse Livewire\Component`;`n`nclass ? valueCC1 ? extends Component`n{`n`n`n  public function mount()`n  {`n  }`n`n  public function render()`n  {`n    return view('livewire.reports.? valueSH1 ?')`;`n  }`n`n}`n"
+		t := "<?php`n`nnamespace App\Livewire\" directory "`;`n`nuse App\Helpers\CommonFunctions`;`nuse App\Helpers\ListHelpers`;`nuse Livewire\Component`;`n`nclass ? valueCC1 ? extends Component`n{`n`n`n  public function mount()`n  {`n  }`n`n  public function render()`n  {`n    return view('livewire." viewDirectory ".? valueSH1 ?')`;`n  }`n`n}`n"
 		
 		if( customModelName(table_name_singular) )
 			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -5659,7 +5703,7 @@ viya_listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\viyaFSM\app\Livewire\Reports
+	FileCreateDir, C:\xampp\htdocs\viyaFSM\app\Livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -6256,9 +6300,10 @@ viya_listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, pri
 	;~ table_rows := runSubScaffold( "scaffoldTableFields", 1, table_fieldsArr)
 	;~ form_fields := runSubScaffold( "scaffoldFormFields", 0 )
 
-	directory := scaffoldModel("? valueSH1 ?")
+	directory := scaffoldDirectory("? valueSH1 ?")
+	
 	name := scaffoldModel("? valueSH1 ?")
-	file =C:\xampp\htdocs\viyaFSM\resources\views\livewire\reports\%name%.blade.php
+	file =C:\xampp\htdocs\viyaFSM\resources\views\livewire\%directory%\%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -6268,10 +6313,10 @@ viya_listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, pri
 		StringReplace, content, content, %form_fields%, " form_fields "
 	}else{
 	
-		content := scaffoldModel("@section('title'`, '? valueAT1 ? - Reports')`n@section('sub-title'`, '')`n`n`n<div class=""panel-body"">`n  <div class=""row"">`n    <div class=""col-md-6"">`n      <div class=""form-group"">`n        <label for=""cboFund"" class=""label-sm"">Fund Centre`:</label>`n        <select name=""cboFund"" id=""cboFund"" type=""dropdown-toggle"" class=""form-control"" wire`:model.live=""selectedFund"">`n          {{-- onchange=""fundChange()""> --}}`n          @foreach($funds as $fund)`n            <option value=""{{ $fund->fundid }}"">{{ $fund->fundcode }}</option>`n          @endforeach`n        </select>`n`n        <span id=""RequiredFieldValidator4"" class="" errmsg   "" style=""visibility`:hidden`;"">Required!</span>`n        <div>Selected fund`: {{ $selectedFund }}</div>`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n        <label for=""txtReqNo"" class=""label-sm"">Purchase Order No`:</label>`n        <input name=""txtReqNo"" type=""text"" readonly=""readonly"" id=""txtReqNo"" class="" form-control "">`n      </div>`n    </div>`n  </div>`n`n`n</div>`n")
+		content := scaffoldModel("@section('title'`, '? valueAT1 ? - Purchase Order')`n@section('sub-title'`, '')`n`n`n<div class=""panel-body"">`n  <div class=""row"">`n    <div class=""col-md-6"">`n      <div class=""form-group"">`n        <label for=""cboFund"" class=""label-sm"">Fund Centre`:</label>`n        <select name=""cboFund"" id=""cboFund"" type=""dropdown-toggle"" class=""form-control"" wire`:model.live=""selectedFund"">`n          {{-- onchange=""fundChange()""> --}}`n          @foreach($funds as $fund)`n            <option value=""{{ $fund->fundid }}"">{{ $fund->fundcode }}</option>`n          @endforeach`n        </select>`n`n        <span id=""RequiredFieldValidator4"" class="" errmsg   "" style=""visibility`:hidden`;"">Required!</span>`n        <div>Selected fund`: {{ $selectedFund }}</div>`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n        <label for=""txtReqNo"" class=""label-sm"">Purchase Order No`:</label>`n        <input name=""txtReqNo"" type=""text"" readonly=""readonly"" id=""txtReqNo"" class="" form-control "">`n      </div>`n    </div>`n  </div>`n`n`n</div>`n")
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\viyaFSM\resources\views\livewire\reports
+	FileCreateDir, C:\xampp\htdocs\viyaFSM\resources\views\livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -6666,15 +6711,16 @@ viya_updateRoutes(){
 }
 	
 viya_updateRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
-	include := scaffoldModel("use App\Livewire\Reports\? valueCC1 ?`;`n")
+	directory := scaffoldDirectory("? valueCC1 ?")
+	include := scaffoldModel("use App\Livewire\" directory "\? valueCC1 ?`;`n")
 	
-	route := scaffoldModel("`  Route`:`:get('/? valueSH1 ?' `, ? valueCC1 ?`:`:class )`;`n")
+	route := scaffoldModel("`  Route`:`:get('/? valueSH1 ?'`, ? valueCC1 ?`:`:class)`;`n")
 	
 	file =C:\xampp\htdocs\viyaFSM\routes\web.php
 	FileRead, content, %file%
 	
 	StringReplace, content, content, `r, , All
-	StringReplace, content, content, <?php`n, <?php`n%include%
+	StringReplace, content, content, // add includes here, %include%// add includes here
 	StringReplace, content, content, // add routes here, %route%// add routes here
 	
 	fileWrite( content, file )
@@ -6962,6 +7008,7 @@ load_singularToPlural(){
 	singularToPlural["file_data"] := "file_data"
 	singularToPlural["temp_file_data"] := "temp_file_data"
 	singularToPlural["team_access"] := "team_accesses"
+	singularToPlural["po_status"] := "po_statuses"
 	
 	pluralToSingular := {}
 	
@@ -7020,6 +7067,105 @@ setGlobal(variableName, value){
 	
 	%variableName% := value
 }
+
+pixelMatch(color1 , color2)
+{
+	;~ SetFormat, IntegerFast, hex
+	r1 := (color1 >> 16) & 0xFF
+	g1 := (color1 >> 8) & 0xFF
+	b1 := (color1) & 0xFF
+	
+	r2 := (color2 >> 16) & 0xFF
+	g2 := (color2 >> 8) & 0xFF
+	b2 := (color2) & 0xFF
+	
+	if(Abs(r1 - r2) > 10)
+		return 0
+
+	if(Abs(g1 - g2) > 10)
+		return 0
+
+	if(Abs(b1 - b2) > 10)
+		return 0
+
+	return 1
+}
+
+sendTelegramMessage(message){
+	;~ message := uri_encode(message)
+	;~ UrlDownloadToFile https://api.telegram.org/bot487001546:AAFzzCHokflhF9aSzK5mdXe-6Cat6L50WAA/sendMessage?chat_id=@playmvpro&text=%message%, %A_ScriptDir%\telegram.html
+}
+
+
+waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
+	global botStatus
+	;~ 139, 265, "0x00A6FF", 0, 20, 1293, 264, "0x00A6FF"
+			loop {
+				loopIterations := 1
+				if(x1 != "-1"){
+					Click %x1%, %y1%
+					loopIterations := 15
+				}
+				
+				
+				Loop %loopIterations% {
+					botStatus := 1
+					PixelGetColor, color, %x2%, %y2% ; 0x00A6FF ; wait for button to load
+					if((pixelMatch(color1, color) or color = 0x00A6FF or color = 0x00A8FF or color = 0x00AAFF or color = 0x00B6FF or color = 0x1997F4 or (color = "0xBA7412") or color = color1 or color = color1 or color = color1 or color = color1 or color = color1 or color = color1) and not_true = 0)
+						return 1 
+						;~ 0xF7C418
+					
+					if( (!pixelMatch(color1, color)) and not_true = 1)
+						return 1
+					
+					else if(x3 != -1){
+						PixelGetColor, color, %x3%, %y3% ; 0x00A6FF ; wait for button to load
+						;~ if(((color2 = color or 0x00A8FF = color or 0x00A6FF = color or 0x00AAFF = color)) and not_true = 0)
+						if((( pixelMatch(color2, color) or color = 0xB97510 or color = 0xB97610 or color = 0xB97710 or color = 0xB87510 or color = 0xBA7510 or color = 0xBA7710 or color = 0xB67510 or color = 0xB87711 or color = 0x009CE2 or color = color2 or color = color2 or color = color2 or color = color2 or color = color2 or color = color2)) and not_true = 0)
+							return 2
+						
+						PixelGetColor, color, 179, 382 ; 0x00BAFF ; wait for button to load
+						if(color = 0x00BAFF or color = 0x00BAFF)
+							return 3
+					}
+					Sleep 100
+				}
+				
+				;~ if(x1 = "-1")
+					;~ Sleep 100
+					
+				if(A_Index > duration){
+					PixelGetColor, color, 797, 693
+					if(color = "0xFFC300"){
+						Click 797, 693 ;network reconnect
+						Sleep 5000
+					}	
+					
+					requireWinActive(blueName " ahk_exe Bluestacks.exe")
+					
+					if( WinExist( "Debugging] ahk_class SciTEWindow") ){
+						PixelGetColor, color, %x2%, %y2% ; 0x00A6FF ; wait for button to load
+						Clipboard := color
+						MouseMove, %x2%, %y2%
+						myTT("fail 2")
+					}
+					
+					if(stopOnFail)
+						SoundBeep
+					;~ Sleep 1000
+					;~ SoundBeep
+					;~ Sleep 1000
+					;~ SoundBeep
+					;~ Sleep 1000
+					;~ myTT("fail 2")
+					sendTelegramMessage("could not find matching pixel")
+					if(stopOnFail)
+						color := color
+					return 0
+				}
+			}
+}
+
 
 
 init_DB_Fields( loadName = 1, cache = 1){
@@ -7149,11 +7295,25 @@ livewire(){
 		;~ updateSidebar()
 }
 
+scaffoldDirectory(template, skip = 0){
+	directoryName := directoryName()
+	
+	if( skip )
+		return template
+	
+	return runScaffold( template, directoryName)
+}
+
+
+directoryName(){
+	return "Purchase Order"
+}
+
 
 currentTableName(){
 	global singular
 	
-	singular := "individual"
+	singular := ""
 }
 
 
@@ -7173,7 +7333,7 @@ scaffoldFiles(){
 	
 		;~ apiTest()	
 
-		factory()
+		;~ factory()
 		
 		;~ seeder()
 		;~ updateDatabaseSeeder()
@@ -7191,7 +7351,7 @@ scaffoldFiles(){
 			myTT("reverse")
 		else
 			myTT("scaffold done")
-	;~ }
+	}
 }
 
 #if (Stack="15am") ; scaffolding mode 
@@ -7490,10 +7650,11 @@ scaffoldFiles(){
 			Sleep 100
 			;~ Send !d
 			;~ Send ^v{Enter}
-			Send ^{Left}
-			Send ^+{Right}
+			;~ Send ^{Left}
+			;~ Send ^+{Right}
+			Send ^a
 			Send ^v
-			Sleep 500
+			;~ Sleep 500
 			
 			;~ run, % Clipboard
 			;~ SendInput {Raw}%Clipboard%
