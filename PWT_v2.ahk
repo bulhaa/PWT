@@ -1,80 +1,18 @@
-;~ 10.241.12.140
-;~ Process, Close, dota2.exe
-;~ Process, Close, explorer.exe
-
-;~ iniClipList= one`t`ttwo`n`nthree`tfour`n
-
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
-g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
+new_g_configurations := ", dbCache_members, dbCache_primaryKey_members"
+g_configurations()
 
-g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_communications, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_communications, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_comments, dbCache_primaryKey_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types, dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations"
+iniClipList()
 
-StringReplace, g_configurations, g_configurations, %A_Space%, , All
-StringSplit, g_configurations, g_configurations, `,
-Loop, read, %A_ScriptDir%\PWT_v2.ini
-{
-	if(A_Index = 1 or Trim(A_LoopReadLine) = "" or StrLen(A_LoopReadLine) < 3 )
-		continue
-	
-	p := InStr( A_LoopReadLine, "=")
-	n := SubStr(A_LoopReadLine, 1, p-1)
-	v := SubStr(A_LoopReadLine, p+1)
-	a := A_Index
-	
-	t := n
-	%t% := decodeLinesAndTabs(v)
-	%t%backup := %t%
-}
-
-if(location = "ERROR")
-	MsgBox Could not load location
-
-;~ StringSplit, clipList, clipList, `n, `r
 clipList_A_Index := 0
 	
-if(iniClipList != ""){
-	clipList .= "`n" iniClipList
-}
-
-;~ Stack := "15am" ; scaffolding mode
-
 recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-coreStacks:= "Send datetime,15a;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
-personalStacks:= "r,12r;c,12v;a,11y;right click,13m;records mv notes,14b;"
-infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;windows host file,13o;gitlab git.egov.mv,14d;"
-soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
-seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
-jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
-ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
-eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;purify,11z;new role,13j;ecouncil roles,13l;"
-gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
-laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;tailwind website,13p;deploy case management,13q;mysql mode,13r;SQLite,13s;laravel pretend migrate,13t;laravel seed db,13u;laravel clear view cache,13v;composer dump autoload,13w;dump laravel data,13x;livewire docs,14c;php,14n;data to seeder,14r;php artisan optimize:clear,14y;"
-nodeJsStacks:= "regenerate js and css,15bb,npm run watch;chai builder tailwinds,14i;tailwinds themeforest,14j;"
-sisStacks:= "SIS Agency User,15bf;push MakudiOnline to git,12m;SIS Admin User,13a;"
-chromeStacks:= "Sample login page,15bg;"
-etukuriStacks:= "laravel test assert success,15bj;laravel test assert fail,15bk;laravel form field,15bl;database seeder changes,15bi;laravel scaffolding with generators,12t;"
-cSharpStacks:= "c# use dbcontext,15bm;"
-sheriStacks:= "sheri bandwidth usage,12y;clock in to SalonIris,12z;"
-fileZillaStacks:= "filezilla convert local path to ftp path,12w;"
-sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
-yiiStacks:= "yii app end,13b;yii base url,13e;"
-vbStacks:= "c# to vb,13h;"
-phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
-
-ncitStacks := ncitStacks "case manager local,17c;"
-ncitStacks := ncitStacks "case manager docker,16t;"
-ncitStacks := ncitStacks "case manager local mix,14k;"
-ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;"
-
-
-allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
-
-zStacks:= allStacks
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;"
+loadStacks()
 
 
 SetTitleMatchMode, 1
@@ -678,6 +616,10 @@ MyTT(TT, loggingStyle = 0) {
 	global TTStore
 	global currWin
 	global suspendClicks
+	global suspendTT
+	
+	if(suspendTT)
+		return
 	
 	if(loggingStyle)
 		TT := TT ": " %TT%
@@ -704,7 +646,6 @@ return
 
 
 #IfWinExist, Active Window Info ahk_class AutoHotkeyGUI
-
 	~LButton::myTT("Control click to copy click coordinates")
 	
 	$^LButton::
@@ -772,496 +713,288 @@ ExitApp
 
 
 #IfWinNotActive, ahk_class AutoHotkeyGUI
-!F1::
-	TT_showing = 0
-	if(switch="")
-		switch = 1
-	
-	; sign into Google Chrome
-	if(Stack="12z"){
-		if(switch=1){
-			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")){
-				Sleep 1000
-				if(requireWinActive("Disable developer mode extensions ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 10)){
-					Sleep 1000
-					Send {Esc}
-					Sleep 100
-					
-					Click 1869, 53
-					Sleep 100
-					Click 143, 341
-					if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
-						Sleep 500
-						if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
-							Sleep 1000
-							Click 786, 605
-							Sleep 100
-							Send Hammadh
-							Sleep 100
-							Click 505, 260
-							Sleep 100
-							Click 102, 563
-							Sleep 100
-							
-							
-							Click 786, 605
-						}
-					}
-				}
-			}
-		}else if(switch=2){
-			if(requireWinActive("Welcome to Chrome - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-				Sleep 1000
-				;~ Click 1056, 715
-				Click 890, 692
-				
-				if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-					Sleep 2000
-					Send freestyle.reunion
-					Sleep 100
-					Click 1131, 756
-				}
-			}
-		}else if(switch=3){
-			if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-				Click 1105, 633
-				Sleep 1000
-			}
-			if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
-				Sleep 1000
-				if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
-					
-					Sleep 1000
-					Click 64, 444
-					
-					if(requireWinActive("Settings - Sync and Google services - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-						Click 1275, 243
-						Sleep 100
-						Click 856, 294
-						Sleep 100
-						Click 1149, 359
-						if(requireWinActive("Settings - Manage sync - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-							Sleep 100
-							Click 1274, 229
-							Sleep 100
-							Send {Tab}{Space}
-							Send {Tab}{Space}
-							Send {Tab}{Space}
-							Send {Tab}{Space}
-							Send {Tab}{Space}
-							Send {Tab}{Space}
-							Send {Tab}{Space}
-							Send {Tab}
-							Send {Tab}{Space}
-							
-							Sleep 1000
-							Send !d
-							Sleep 100
-							Send gmail.com
-							Sleep 100
-							Send {Enter}
-						}
-					}
-				}
-			}
-		}else{
-			switch = 0
-			myTT("Reloaded")
-			Reload
-		}
+	!F1::
+		TT_showing = 0
+		if(switch="")
+			switch = 1
 		
-		switch++
+		wizard()
 	return
+
+	wizard(){
+		signIntoGoogleChrome() ; sign into Google Chrome
+		;~ addPropetyInfoToWdmyCloud() ; add propety info to WDMyCloud
+		;~ addRoomInfo() ; add room info 
+		;~ addBookingComImagesToWdmyCloud() ; add booking.com images to WDMyCloud
+		;~ addRoomInfo2() ; add room info 2
+		;~ addPropetyInfoToSoleasia() ; add propety info to soleasia
 	}
-
-	; add propety info to WDMyCloud
-	if(switch=1)
-		switch = 2
-	;~ if(switch = 1){
-		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		;~ myTT("Check if correct island")
-		;~ Clipboard=
-	;~ }else 
-	if(switch = 2){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		myTT("Get Property name")
-		Clipboard=
-	}else if(switch = 3){
-		if(Clipboard = ""){
-			myTT("Get Property name")
-			switch--
-			return
-		}
-		
-		; Property already present?
-		if(InStr(g_propertynames, "`n" Clipboard "`n")){
-			MsgBox Property already present
-			switch--
-			return
-		}else{
-			g_propertynames := g_propertynames "`n" Clipboard
-		}
-
-		t := "\\wdmycloud\soleasia\Bhutan\Paro\Paro\" Clipboard ".docx"
-		FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % t
-		run % t
-		myTT("Template Copied")
-	}else if(switch=4){
-		requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")
-		myTT("Open property pictures and ensure console is open")
-	}else if(switch=5){
-		myTT("Get Property Info")
-		Stack:="11h"
-		Manager()
-		;~ if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")){
-			Click 178, 769 ; console
-			Sleep 1000
-			Click 47, 1005 ; input field
-			Sleep 500
-			Send ^a^v
-			Send {Enter}
-		;~ }
-		
-		Sleep 100
-		
-		;~ oldT=
-		;~ Loop {
-			;~ oldClipboard := Clipboard
-			;~ Sleep 100
-			;~ t := mergeClipboard()
-			;~ Send {Esc}
-			;~ if(oldT = t){
-				;~ Clipboard := oldClipboard
-				;~ break
-			;~ }
-			;~ oldT := t
-			;~ Sleep 100
-		;~ }
-		;~ myTT("done " t " oldT " oldT)
-	}else if(switch = 6){
-		temp := chr(254)
-		clipWareHouse1=
-		clipWareHouse2=
-		clipWareHouse3=
-		StringReplace, Clipboard, Clipboard, `n, , All
-		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
-		StringSplit, clipWareHouse, Clipboard, %temp%,
-
-		Clipboard := clipWareHouse1
-		goToEndOfCliplist()
-		mergeClipboard(0)
-		
-		Stack:="15h"
-		WinActivate, ahk_class OpusApp ahk_exe WINWORD.EXE
-		myTT("Fill property template ")
-		Manager()
-		switch+=2
-		;~ switch+=5
-	;~ }else if(switch=4){
-		;~ WinActivate, Property Information.docx - Microsoft Word ahk_class OpusApp ahk_exe WINWORD.EXE
-		;~ myTT("Get Island name")
-	;~ }else if(switch=5){
-		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		;~ myTT("Add Island")
-	}else if(switch = 9){
-		WinActivate, Property Information.docx - Microsoft Word ahk_class OpusApp ahk_exe WINWORD.EXE
-		myTT("Get Property info")
-	}else if(switch = 10){
-		missingFields=
-		replaceWithSpliter("Property Information")
-		replaceWithSpliter("Holding Company *")
-		replaceWithSpliter("Property Name *")
-		replaceWithSpliter("Property Type* (current types [ Beach Hotel, City Hotel, Apartment, Island Beach Resort, Villa, Cottage, Farm ], new types also allowed) ")
-		replaceWithSpliter("Atoll")
-		replaceWithSpliter("Islands *")
-		replaceWithSpliter("Address *")
-		replaceWithSpliter("Zip/Post Code")
-		replaceWithSpliter("Rating *")
-		replaceWithSpliter("Payment Type (possible values [direct to hotel, payment at hotel as cash, payment through Soleasia ]) multiple values excepted")
-		replaceWithSpliter("Property Overview")
-		replaceWithSpliter("Overview *")
-		replaceWithSpliter("Pre-Pay Policy *")
-		replaceWithSpliter("Cancellation Policy *")
-		replaceWithSpliter("Property Space")
-		replaceWithSpliter("Guest Access")
-		replaceWithSpliter("Guest Interactions")
-		replaceWithSpliter("Neighbor Overview")
-		replaceWithSpliter("Getting Around")
-		replaceWithSpliter("Other things")
-		replaceWithSpliter("House Rules")
-
-		if(missingFields!=""){
-			MsgBox %missingFields%
-			StringReplace, missingFields, missingFields, Couldn't%A_Space%find%A_Space%, , All
-			Clipboard:=missingFields
-			switch--
-		}
-		
-		StringReplace, Clipboard, Clipboard, `n, % chr(255), All
-		StringReplace, Clipboard, Clipboard, % chr(253), `n, All
-		goToEndOfCliplist()
-		mergeClipboard(0)
-	}else if(switch = 11){
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		myTT("Add Property")
-		step=1
-		Stack:="15b"
-		Manager()
-	;~ }else if(switch=9){
-		;~ Stack:="11j"
-		;~ Manager()
-		;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		;~ myTT("Get image list")
-	}else if(switch = 12){
-		Clipboard:=clipWareHouse3
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
-		
-		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
-		{
-			FileDelete, %A_LoopFileFullPath%
-		}
-		
-		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
-		{
-			FileRemoveDir, %A_LoopFileFullPath%, 1
-		}
-			
-		myTT("Delete Images")
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	;~ }else if(switch = 11){
-	;~ }else if(switch=12){
-		;~ Stack:="11i"
-		;~ myTT("Get Property amenities list")
-		;~ Manager()
-	}else if(switch = 13){
-		Click 254, 409 ; Click upload
-		if(requireWinActive("Open ahk_class #32770 ahk_exe chrome.exe")){
-			Sleep 500
-			Click 372, 43 ; Go to New Folder from URL bar
-			;~ Send !{Up} ; Go to New Folder from URL bar
-			Sleep 500
-			; MouseMove, 199, 117 ; Open New Folder
-			; Click, 2
-			Send +{Tab} ; files area
-			Sleep 100
-			Send {End}{Home} ; Open New Folder
-			;~ Sleep 100
-			;~ Send {Down}
-			;~ Sleep 100
-			;~ Send {Up}
-			Sleep 100
-			Send {Enter}
-			Sleep 500
-			; MouseMove, 199, 117 ; choose
-			; Click 2
-			Send {Home} ; choose
-			Sleep 100
-			Send {Enter}
-			
-			Sleep 1000
-			
-			;~ ; upload gallery images
-			;~ ; y := y + 59
-
-			;~ ; Click 678, 573 ; feature image button
-			;~ ; Click 685, 632 ; gallery image button
-			;~ ; Click 685, %y%
-			;~ Send {Tab}
-			;~ Sleep 100
-			;~ Send {Enter}
-			Click 254, 409 ; Click upload
-			
-			if(requireWinActive("Open ahk_class #32770 ahk_exe chrome.exe")){
-				Sleep 500
-				Click 372, 43 ; Go to New Folder from URL bar
-				;~ Send !{Up} ; Go to New Folder from URL bar
-				Sleep 500
-				Send +{Tab} ; files area
-				Sleep 100
-				Send {End}{Home} ; Open New Folder
-				Sleep 100
-				Send {Right}
-				Sleep 100
-				Send +{End}
-				Sleep 100
-				Send {Enter}
-				;~ Click, 199, 117 ; Select New Folder
-				;~ Sleep 500
-				;~ Send ^a
-				;~ Sleep 100
-				;~ Send {Ctrl down}
-				;~ Sleep 100
-				;~ Click 233, 152 ; deselect New Folder
-				;~ Sleep 100
-				;~ Send {Ctrl up}
-				;~ Sleep 100
-				;~ Send {Enter}
-				Sleep 100
-				;~ if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-					;~ Sleep 100
-					;~ Send {End}
-					;~ Sleep 500
-					;~ Click 1362, 1019
-				;~ }
-			}
-		}
-	}else if(switch = 14){
-		Clipboard:=clipWareHouse2
-		Stack:="15d"
-		myTT("tick property amenitites")
-		tickPropertyAmenitites()
-		Manager()
-		Sleep 500
-		
-		if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-			Send ^+j
-			Sleep 1000
-			Send ^v
-			Sleep 500
-			;~ Send {Enter}
-			Sleep 500
-			;~ Send ^+j
-			Sleep 500
-		}
-	}else if(switch = 15){
-		switch = 0
-		clipList=
-		Reload
-		myTT("Reloaded")
-	}
-	switch++
-return
-
-
-
-	; add room info
-	;~ switch = 5
-	if(switch=1){
-		requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")
-		myTT("Open room pictures and ensure console is open")
-	}else if(switch=2){
-		myTT("Get room info")
-		Stack:="11e"
-		Manager()
-		;~ if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")){
-			Click 185, 774 ; console
-			Sleep 1000
-			Click 36, 1036 ; input field
-			Sleep 500
-			Send ^a^v
-			Send {Enter}
-		;~ }
-		
-		Sleep 100
-		
-		oldT=
-		Loop {
-			oldClipboard := Clipboard
-			Sleep 100
-			t := mergeClipboard()
-			Send {Esc}
-			if(oldT = t){
-				Clipboard := oldClipboard
-				break
-			}
-			oldT := t
-			Sleep 100
-		}
-		myTT("done " t " oldT " oldT)
-	}else if(switch=3){
-		temp := chr(254)
-		clipWareHouse1=
-		clipWareHouse2=
-		clipWareHouse3=
-		StringReplace, Clipboard, Clipboard, `n, , All
-		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
-		StringSplit, clipWareHouse, Clipboard, %temp%,
-
-		Clipboard := clipWareHouse1
-		goToEndOfCliplist()
-		mergeClipboard(0)
-		
-		StringSplit, clipWareHouse1A, clipWareHouse1, `n,
-		Clipboard := clipWareHouse1A1
-		
-		
-		; need to add room type?
-		if(!InStr(g_roomtypes, "`n" clipWareHouse1A1 "`n")){
-			g_roomtypes := g_roomtypes clipWareHouse1A1 "`n"
-			myTT("Add type")
-			Clipboard =nonAjaxHttpQwzx(`n`t"post"`,`n"https`://www.soleasia.com/bookingadmin/properties/roomtypesave"`,`n{ `n    '_method'`: "POST"`,`n    'data[Property][search]'`: "cenie"`,`n    'data[Property][user]'`: "155"`,`n    'name'`: "%clipWareHouse1A1%"`,`n    'am_id'`: ""`n }`n)`n//.done(function( data ) {console.log(data)`;`n// })`;`n`n`nfunction nonAjaxHttpQwzx(method`, url`, data) {`n    'use strict'`;`n    var form`;`n`n    form = $('<form />'`, {`n        action`: url`,`n        method`: method`,`n        style`: 'display`: none`;'`n    })`;`n`n    var data = data`;`n`n    if (typeof data !== 'undefined' && data !== null) {`n        $.each(data`, function (name`, value) {`n            $('<input />'`, {`n                type`: 'hidden'`,`n                name`: name`,`n                value`: value`n            }).appendTo(form)`;`n        })`;`n    }`n    form.appendTo('body').submit()`;`n}
-		}else{
-			myTT("Add Room")
-		}
-		
-		Stack:="15c"
-		WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		Manager()
-	}else if(switch=4){
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
 	
-		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
-		{
-			FileDelete, %A_LoopFileFullPath%
-		}
+	signIntoGoogleChrome(){
+		global
 		
-		Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
-		{
-			FileRemoveDir, %A_LoopFileFullPath%, 1
+		; sign into Google Chrome
+		if(Stack="12z"){
+			if(switch=1){
+				if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")){
+					Sleep 1000
+					if(requireWinActive("Disable developer mode extensions ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", , 10)){
+						Sleep 1000
+						Send {Esc}
+						Sleep 100
+						
+						Click 1869, 53
+						Sleep 100
+						Click 143, 341
+						if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
+							Sleep 500
+							if(requireWinActive("Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "New Tab - Google Chrome")){
+								Sleep 1000
+								Click 786, 605
+								Sleep 100
+								Send Hammadh
+								Sleep 100
+								Click 505, 260
+								Sleep 100
+								Click 102, 563
+								Sleep 100
+								
+								
+								Click 786, 605
+							}
+						}
+					}
+				}
+			}else if(switch=2){
+				if(requireWinActive("Welcome to Chrome - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+					Sleep 1000
+					;~ Click 1056, 715
+					Click 890, 692
+					
+					if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+						Sleep 2000
+						Send freestyle.reunion
+						Sleep 100
+						Click 1131, 756
+					}
+				}
+			}else if(switch=3){
+				if(requireWinActive("Sign in - Google Accounts - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+					Click 1105, 633
+					Sleep 1000
+				}
+				if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
+					Sleep 1000
+					if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Google Chrome")){
+						
+						Sleep 1000
+						Click 64, 444
+						
+						if(requireWinActive("Settings - Sync and Google services - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+							Click 1275, 243
+							Sleep 100
+							Click 856, 294
+							Sleep 100
+							Click 1149, 359
+							if(requireWinActive("Settings - Manage sync - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+								Sleep 100
+								Click 1274, 229
+								Sleep 100
+								Send {Tab}{Space}
+								Send {Tab}{Space}
+								Send {Tab}{Space}
+								Send {Tab}{Space}
+								Send {Tab}{Space}
+								Send {Tab}{Space}
+								Send {Tab}{Space}
+								Send {Tab}
+								Send {Tab}{Space}
+								
+								Sleep 1000
+								Send !d
+								Sleep 100
+								Send gmail.com
+								Sleep 100
+								Send {Enter}
+							}
+						}
+					}
+				}
+			}else{
+				switch = 0
+				myTT("Reloaded")
+				Reload
+			}
+			
+			switch++
+		return
 		}
+	}
+	
+	addPropetyInfoToWdmyCloud(){
+		; add propety info to WDMyCloud
+		if(switch=1)
+			switch = 2
+		;~ if(switch = 1){
+			;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+			;~ myTT("Check if correct island")
+			;~ Clipboard=
+		;~ }else 
+		if(switch = 2){
+			WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+			myTT("Get Property name")
+			Clipboard=
+		}else if(switch = 3){
+			if(Clipboard = ""){
+				myTT("Get Property name")
+				switch--
+				return
+			}
 			
-		myTT("Delete Images")
-		Clipboard:=clipWareHouse2
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	}else if(switch=5){
-		Clipboard:=clipWareHouse3
-		Stack:="15f"
-		tickRoomAmenities()
-		myTT("Tick amenities")
-		Manager()
-		
-		if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-			Send ^+j
-			Sleep 500
-			Send ^v
-			Sleep 100
-			Send {Enter}
-			Sleep 100
-			Send ^+j
-			Sleep 500
-			
-			; Click 1066, 110
-			; Sleep 100
-			; Send {Home}
-			; Sleep 500
-			; Send {PGDN}
-			; Sleep 500
+			; Property already present?
+			if(InStr(g_propertynames, "`n" Clipboard "`n")){
+				MsgBox Property already present
+				switch--
+				return
+			}else{
+				g_propertynames := g_propertynames "`n" Clipboard
+			}
 
-			; PixelGetColor, color, 677, 423 ; check if choose file button is present here
-			; if(color = "0xECECEC")
-				; y=423
-			; else{
-				; PixelGetColor, color, 677, 453 ; check if choose file button is present here
-				; if(color = "0xECECEC")
-					; y=453
-				; else{
-					; PixelGetColor, color, 677, 483 ; check if choose file button is present here
-					; if(color = "0xEEEEEE")
-						; y=483
-					; else{
-						; PixelGetColor, color, 677, 569 ; check if choose file button is present here
-						; if(color = "0xEEEEEE")
-							; y=569
-					; }
-				; }
-			; }
-			; Click 678, %y%
-			Send {Enter}
+			t := "\\wdmycloud\soleasia\Bhutan\Paro\Paro\" Clipboard ".docx"
+			FileCopy, C:\Users\sheesu.-sheesu-\Documents\Property Information.docx, % t
+			run % t
+			myTT("Template Copied")
+		}else if(switch=4){
+			requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")
+			myTT("Open property pictures and ensure console is open")
+		}else if(switch=5){
+			myTT("Get Property Info")
+			Stack:="11h"
+			Manager()
+			;~ if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")){
+				Click 178, 769 ; console
+				Sleep 1000
+				Click 47, 1005 ; input field
+				Sleep 500
+				Send ^a^v
+				Send {Enter}
+			;~ }
 			
+			Sleep 100
+			
+			;~ oldT=
+			;~ Loop {
+				;~ oldClipboard := Clipboard
+				;~ Sleep 100
+				;~ t := mergeClipboard()
+				;~ Send {Esc}
+				;~ if(oldT = t){
+					;~ Clipboard := oldClipboard
+					;~ break
+				;~ }
+				;~ oldT := t
+				;~ Sleep 100
+			;~ }
+			;~ myTT("done " t " oldT " oldT)
+		}else if(switch = 6){
+			temp := chr(254)
+			clipWareHouse1=
+			clipWareHouse2=
+			clipWareHouse3=
+			StringReplace, Clipboard, Clipboard, `n, , All
+			StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+			StringSplit, clipWareHouse, Clipboard, %temp%,
+
+			Clipboard := clipWareHouse1
+			goToEndOfCliplist()
+			mergeClipboard(0)
+			
+			Stack:="15h"
+			WinActivate, ahk_class OpusApp ahk_exe WINWORD.EXE
+			myTT("Fill property template ")
+			Manager()
+			switch+=2
+			;~ switch+=5
+		;~ }else if(switch=4){
+			;~ WinActivate, Property Information.docx - Microsoft Word ahk_class OpusApp ahk_exe WINWORD.EXE
+			;~ myTT("Get Island name")
+		;~ }else if(switch=5){
+			;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			;~ myTT("Add Island")
+		}else if(switch = 9){
+			WinActivate, Property Information.docx - Microsoft Word ahk_class OpusApp ahk_exe WINWORD.EXE
+			myTT("Get Property info")
+		}else if(switch = 10){
+			missingFields=
+			replaceWithSpliter("Property Information")
+			replaceWithSpliter("Holding Company *")
+			replaceWithSpliter("Property Name *")
+			replaceWithSpliter("Property Type* (current types [ Beach Hotel, City Hotel, Apartment, Island Beach Resort, Villa, Cottage, Farm ], new types also allowed) ")
+			replaceWithSpliter("Atoll")
+			replaceWithSpliter("Islands *")
+			replaceWithSpliter("Address *")
+			replaceWithSpliter("Zip/Post Code")
+			replaceWithSpliter("Rating *")
+			replaceWithSpliter("Payment Type (possible values [direct to hotel, payment at hotel as cash, payment through Soleasia ]) multiple values excepted")
+			replaceWithSpliter("Property Overview")
+			replaceWithSpliter("Overview *")
+			replaceWithSpliter("Pre-Pay Policy *")
+			replaceWithSpliter("Cancellation Policy *")
+			replaceWithSpliter("Property Space")
+			replaceWithSpliter("Guest Access")
+			replaceWithSpliter("Guest Interactions")
+			replaceWithSpliter("Neighbor Overview")
+			replaceWithSpliter("Getting Around")
+			replaceWithSpliter("Other things")
+			replaceWithSpliter("House Rules")
+
+			if(missingFields!=""){
+				MsgBox %missingFields%
+				StringReplace, missingFields, missingFields, Couldn't%A_Space%find%A_Space%, , All
+				Clipboard:=missingFields
+				switch--
+			}
+			
+			StringReplace, Clipboard, Clipboard, `n, % chr(255), All
+			StringReplace, Clipboard, Clipboard, % chr(253), `n, All
+			goToEndOfCliplist()
+			mergeClipboard(0)
+		}else if(switch = 11){
+			WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			myTT("Add Property")
+			step=1
+			Stack:="15b"
+			Manager()
+		;~ }else if(switch=9){
+			;~ Stack:="11j"
+			;~ Manager()
+			;~ WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			;~ myTT("Get image list")
+		}else if(switch = 12){
+			Clipboard:=clipWareHouse3
+			WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+			
+			Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
+			{
+				FileDelete, %A_LoopFileFullPath%
+			}
+			
+			Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
+			{
+				FileRemoveDir, %A_LoopFileFullPath%, 1
+			}
+				
+			myTT("Delete Images")
+			Stack:="15g"
+			myTT("Download images")
+			Manager()
+		;~ }else if(switch = 11){
+		;~ }else if(switch=12){
+			;~ Stack:="11i"
+			;~ myTT("Get Property amenities list")
+			;~ Manager()
+		}else if(switch = 13){
+			Click 254, 409 ; Click upload
 			if(requireWinActive("Open ahk_class #32770 ahk_exe chrome.exe")){
 				Sleep 500
 				Click 372, 43 ; Go to New Folder from URL bar
@@ -1293,9 +1026,10 @@ return
 				;~ ; Click 678, 573 ; feature image button
 				;~ ; Click 685, 632 ; gallery image button
 				;~ ; Click 685, %y%
-				Send {Tab}
-				Sleep 100
-				Send {Enter}
+				;~ Send {Tab}
+				;~ Sleep 100
+				;~ Send {Enter}
+				Click 254, 409 ; Click upload
 				
 				if(requireWinActive("Open ahk_class #32770 ahk_exe chrome.exe")){
 					Sleep 500
@@ -1323,49 +1057,273 @@ return
 					;~ Sleep 100
 					;~ Send {Enter}
 					Sleep 100
-					if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
-						Sleep 100
-						Send {End}
+					;~ if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+						;~ Sleep 100
+						;~ Send {End}
+						;~ Sleep 500
+						;~ Click 1362, 1019
+					;~ }
+				}
+			}
+		}else if(switch = 14){
+			Clipboard:=clipWareHouse2
+			Stack:="15d"
+			myTT("tick property amenitites")
+			tickPropertyAmenitites()
+			Manager()
+			Sleep 500
+			
+			if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+				Send ^+j
+				Sleep 1000
+				Send ^v
+				Sleep 500
+				;~ Send {Enter}
+				Sleep 500
+				;~ Send ^+j
+				Sleep 500
+			}
+		}else if(switch = 15){
+			switch = 0
+			clipList=
+			Reload
+			myTT("Reloaded")
+		}
+		switch++
+
+	}
+
+	addRoomInfo(){
+		; add room info
+		;~ switch = 5
+		if(switch=1){
+			requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")
+			myTT("Open room pictures and ensure console is open")
+		}else if(switch=2){
+			myTT("Get room info")
+			Stack:="11e"
+			Manager()
+			;~ if(requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "", 2, "Soleasia Admin Panel - Google Chrome")){
+				Click 185, 774 ; console
+				Sleep 1000
+				Click 36, 1036 ; input field
+				Sleep 500
+				Send ^a^v
+				Send {Enter}
+			;~ }
+			
+			Sleep 100
+			
+			oldT=
+			Loop {
+				oldClipboard := Clipboard
+				Sleep 100
+				t := mergeClipboard()
+				Send {Esc}
+				if(oldT = t){
+					Clipboard := oldClipboard
+					break
+				}
+				oldT := t
+				Sleep 100
+			}
+			myTT("done " t " oldT " oldT)
+		}else if(switch=3){
+			temp := chr(254)
+			clipWareHouse1=
+			clipWareHouse2=
+			clipWareHouse3=
+			StringReplace, Clipboard, Clipboard, `n, , All
+			StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+			StringSplit, clipWareHouse, Clipboard, %temp%,
+
+			Clipboard := clipWareHouse1
+			goToEndOfCliplist()
+			mergeClipboard(0)
+			
+			StringSplit, clipWareHouse1A, clipWareHouse1, `n,
+			Clipboard := clipWareHouse1A1
+			
+			
+			; need to add room type?
+			if(!InStr(g_roomtypes, "`n" clipWareHouse1A1 "`n")){
+				g_roomtypes := g_roomtypes clipWareHouse1A1 "`n"
+				myTT("Add type")
+				Clipboard =nonAjaxHttpQwzx(`n`t"post"`,`n"https`://www.soleasia.com/bookingadmin/properties/roomtypesave"`,`n{ `n    '_method'`: "POST"`,`n    'data[Property][search]'`: "cenie"`,`n    'data[Property][user]'`: "155"`,`n    'name'`: "%clipWareHouse1A1%"`,`n    'am_id'`: ""`n }`n)`n//.done(function( data ) {console.log(data)`;`n// })`;`n`n`nfunction nonAjaxHttpQwzx(method`, url`, data) {`n    'use strict'`;`n    var form`;`n`n    form = $('<form />'`, {`n        action`: url`,`n        method`: method`,`n        style`: 'display`: none`;'`n    })`;`n`n    var data = data`;`n`n    if (typeof data !== 'undefined' && data !== null) {`n        $.each(data`, function (name`, value) {`n            $('<input />'`, {`n                type`: 'hidden'`,`n                name`: name`,`n                value`: value`n            }).appendTo(form)`;`n        })`;`n    }`n    form.appendTo('body').submit()`;`n}
+			}else{
+				myTT("Add Room")
+			}
+			
+			Stack:="15c"
+			WinActivate, Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			Manager()
+		}else if(switch=4){
+			WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+		
+			Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, F
+			{
+				FileDelete, %A_LoopFileFullPath%
+			}
+			
+			Loop, Files, C:\Users\sheesu.-sheesu-\Desktop\SoleAsia\New folder\*.*, D
+			{
+				FileRemoveDir, %A_LoopFileFullPath%, 1
+			}
+				
+			myTT("Delete Images")
+			Clipboard:=clipWareHouse2
+			Stack:="15g"
+			myTT("Download images")
+			Manager()
+		}else if(switch=5){
+			Clipboard:=clipWareHouse3
+			Stack:="15f"
+			tickRoomAmenities()
+			myTT("Tick amenities")
+			Manager()
+			
+			if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+				Send ^+j
+				Sleep 500
+				Send ^v
+				Sleep 100
+				Send {Enter}
+				Sleep 100
+				Send ^+j
+				Sleep 500
+				
+				; Click 1066, 110
+				; Sleep 100
+				; Send {Home}
+				; Sleep 500
+				; Send {PGDN}
+				; Sleep 500
+
+				; PixelGetColor, color, 677, 423 ; check if choose file button is present here
+				; if(color = "0xECECEC")
+					; y=423
+				; else{
+					; PixelGetColor, color, 677, 453 ; check if choose file button is present here
+					; if(color = "0xECECEC")
+						; y=453
+					; else{
+						; PixelGetColor, color, 677, 483 ; check if choose file button is present here
+						; if(color = "0xEEEEEE")
+							; y=483
+						; else{
+							; PixelGetColor, color, 677, 569 ; check if choose file button is present here
+							; if(color = "0xEEEEEE")
+								; y=569
+						; }
+					; }
+				; }
+				; Click 678, %y%
+				Send {Enter}
+				
+				if(requireWinActive("Open ahk_class #32770 ahk_exe chrome.exe")){
+					Sleep 500
+					Click 372, 43 ; Go to New Folder from URL bar
+					;~ Send !{Up} ; Go to New Folder from URL bar
+					Sleep 500
+					; MouseMove, 199, 117 ; Open New Folder
+					; Click, 2
+					Send +{Tab} ; files area
+					Sleep 100
+					Send {End}{Home} ; Open New Folder
+					;~ Sleep 100
+					;~ Send {Down}
+					;~ Sleep 100
+					;~ Send {Up}
+					Sleep 100
+					Send {Enter}
+					Sleep 500
+					; MouseMove, 199, 117 ; choose
+					; Click 2
+					Send {Home} ; choose
+					Sleep 100
+					Send {Enter}
+					
+					Sleep 1000
+					
+					;~ ; upload gallery images
+					;~ ; y := y + 59
+
+					;~ ; Click 678, 573 ; feature image button
+					;~ ; Click 685, 632 ; gallery image button
+					;~ ; Click 685, %y%
+					Send {Tab}
+					Sleep 100
+					Send {Enter}
+					
+					if(requireWinActive("Open ahk_class #32770 ahk_exe chrome.exe")){
 						Sleep 500
-						Click 1362, 1019
+						Click 372, 43 ; Go to New Folder from URL bar
+						;~ Send !{Up} ; Go to New Folder from URL bar
+						Sleep 500
+						Send +{Tab} ; files area
+						Sleep 100
+						Send {End}{Home} ; Open New Folder
+						Sleep 100
+						Send {Right}
+						Sleep 100
+						Send +{End}
+						Sleep 100
+						Send {Enter}
+						;~ Click, 199, 117 ; Select New Folder
+						;~ Sleep 500
+						;~ Send ^a
+						;~ Sleep 100
+						;~ Send {Ctrl down}
+						;~ Sleep 100
+						;~ Click 233, 152 ; deselect New Folder
+						;~ Sleep 100
+						;~ Send {Ctrl up}
+						;~ Sleep 100
+						;~ Send {Enter}
+						Sleep 100
+						if(requireWinActive("Soleasia Admin Panel - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")){
+							Sleep 100
+							Send {End}
+							Sleep 500
+							Click 1362, 1019
+						}
 					}
 				}
 			}
+			Reload
+		}else{
+			switch = 0
+			myTT("Reloaded")
+			Reload
 		}
-		Reload
-	}else{
-		switch = 0
-		myTT("Reloaded")
-		Reload
+		
+		switch++
 	}
-	
-	switch++
-return
 
-
-	; add booking.com images to WDMyCloud
-	if(switch = 1){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
-		Stack:="13d"
-		myTT("Get Property images")
-		Manager()
-	}else if(switch = 2){
-		StringReplace, Clipboard, Clipboard, `n, , All
-		StringReplace, Clipboard, Clipboard, % chr(255), `n, All
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
-		myTT("Delete Images")
-	}else if(switch = 3){
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	}else if(switch = 4){
-		switch = 0
-		clipList=
-		Reload
-		myTT("Reloaded")
+	addBookingComImagesToWdmyCloud(){
+		; add booking.com images to WDMyCloud
+		if(switch = 1){
+			WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe, , Soleasia Admin Panel - Google Chrome
+			Stack:="13d"
+			myTT("Get Property images")
+			Manager()
+		}else if(switch = 2){
+			StringReplace, Clipboard, Clipboard, `n, , All
+			StringReplace, Clipboard, Clipboard, % chr(255), `n, All
+			WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+			myTT("Delete Images")
+		}else if(switch = 3){
+			Stack:="15g"
+			myTT("Download images")
+			Manager()
+		}else if(switch = 4){
+			switch = 0
+			clipList=
+			Reload
+			myTT("Reloaded")
+		}
+		switch++
 	}
-	switch++
-return
 
 
 
@@ -1374,68 +1332,69 @@ return
 	;~ Send {Space}
 ;~ return
 
-
-	; add room info
-	if(switch="")
-		switch = 1
-	
-	if(switch=1){
-		Send ^f
-		gosub, fetchValue
-		Send ^v{Enter}
-	}else if(switch=2){
-		switch = 0
-		gosub, fetchValue
-		Send ^v{Tab}
-		Sleep 200
-		gosub, fetchValue
-		Send ^v{Tab}
+	addRoomInfo2(){
+		; add room info
+		if(switch="")
+			switch = 1
+		
+		if(switch=1){
+			Send ^f
+			gosub, fetchValue
+			Send ^v{Enter}
+		}else if(switch=2){
+			switch = 0
+			gosub, fetchValue
+			Send ^v{Tab}
+			Sleep 200
+			gosub, fetchValue
+			Send ^v{Tab}
+		}
+		
+		switch++
 	}
-	
-	switch++
-return
 
-
-	; add propety info to soleasia
-	if(switch=1){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		myTT("Add Property")
-		Stack:="15b"
-		Manager()
-	}else if(switch=2){
-		Stack:="11j"
-		Manager()
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		myTT("Get image list")
-	}else if(switch=3){
-		WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
-		myTT("Delete Images")
-	}else if(switch=4){
-		Stack:="15g"
-		myTT("Download images")
-		Manager()
-	}else if(switch=5){
-		Stack:="11i"
-		myTT("Get Property amenities list")
-		Manager()
-	}else if(switch=6){
-		Stack:="15d"
-		myTT("tick property amenitites")
-		Manager()
-	}else if(switch=7){
-		WinActivate, Property Information.docx - Word ahk_class OpusApp ahk_exe WINWORD.EXE
-		myTT("Get Island name")
-	}else if(switch=8){
-		WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
-		myTT("Add Island")
-	}else if(switch=9){
-		WinActivate, Property Information.docx - Word ahk_class OpusApp ahk_exe WINWORD.EXE
-		myTT("Get Property info")
-	}else if(switch=10){
-		Reload
+	addPropetyInfoToSoleasia(){
+		; add propety info to soleasia
+		if(switch=1){
+			WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			myTT("Add Property")
+			Stack:="15b"
+			Manager()
+		}else if(switch=2){
+			Stack:="11j"
+			Manager()
+			WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			myTT("Get image list")
+		}else if(switch=3){
+			WinActivate, New folder ahk_class CabinetWClass ahk_exe explorer.exe
+			myTT("Delete Images")
+		}else if(switch=4){
+			Stack:="15g"
+			myTT("Download images")
+			Manager()
+		}else if(switch=5){
+			Stack:="11i"
+			myTT("Get Property amenities list")
+			Manager()
+		}else if(switch=6){
+			Stack:="15d"
+			myTT("tick property amenitites")
+			Manager()
+		}else if(switch=7){
+			WinActivate, Property Information.docx - Word ahk_class OpusApp ahk_exe WINWORD.EXE
+			myTT("Get Island name")
+		}else if(switch=8){
+			WinActivate, ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe
+			myTT("Add Island")
+		}else if(switch=9){
+			WinActivate, Property Information.docx - Word ahk_class OpusApp ahk_exe WINWORD.EXE
+			myTT("Get Property info")
+		}else if(switch=10){
+			Reload
+		}
+		switch++
 	}
-	switch++
-return
+
 
 shiftwin( nthWindow ) {
 	WinGet, WindowList, List
@@ -2655,7 +2614,7 @@ else if(Stack="13l") ; ecouncil roles
 	{
 		Button1_Label=SELECT r.role_id`, r.role_key`, r.name`, r.description`, r.is_system_role`, r.context_id`, a.action_id`, a.controller_action`, a.description`, a.name`, a.active FROM ``roles`` r`nJOIN role_action ra ON r.``role_id`` = ra.``role_id```nJOIN actions a ON ra.action_id = a.action_id`nWHERE a.controller_action LIKE 'houseRegistrations/addMoreResidents'
 	}
-else if(Stack="13j") ;
+else if(Stack="13j") ; new role
 	{
 		Button1_Label=SELECT * FROM ``roles`` ORDER BY ``roles``.``role_id`` DESC limit 10`;`nSELECT * FROM ``actions`` ORDER BY ``action_id`` DESC limit 10`;`nSELECT * FROM ``navigation_links`` ORDER BY ``navigation_link_id`` DESC limit 10`;
 	}
@@ -3018,6 +2977,18 @@ else if(Stack="17o") ; ecouncil db
 		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&db=ecouncil_ecouncil_r2&table=addresses&pos=0
 		run, %Button1_Label%
 	}
+else if(Stack="17s") ; job application 
+	{
+		Button1_Label=Hammadh`nAbdul Rahman`nhammadhu.ar@gmail.com`n+9607838533`nDhilleege`nMale'`nKaafu`n20048`nhttps`://github.com/bulhaa?tab=repositories`nhttps`://www.linkedin.com/in/hammadh-abdul-rahman-18b5b9119/`nPassionate Software developer with 7 years experience
+	}
+else if(Stack="17y") ; some random ip 
+	{
+		Button1_Label=10.241.12.140
+	}
+else if(Stack="17z") ; kill process 
+	{
+		Button1_Label=`;~ Process`, Close`, dota2.exe`n
+	}
 else
 	{	
 		EditVisible :=1
@@ -3044,6 +3015,265 @@ else
 
 	
 	
+#if (Stack="18e") ; array has value 
+	HasVal(haystack, needle) {
+		if !(IsObject(haystack)) || (haystack.Length() = 0)
+			return 0
+		for index, value in haystack
+			if (value = needle)
+				return index
+		return 0
+	}
+	
+#if (Stack="18d") ; table name 
+
+	tableName(name){
+		;~ global singularTableName
+		
+		singularTableName := {}
+		singularTableName["activity_logs"] := "activity_log"
+		singularTableName["case_users"] := "task_users"
+		singularTableName["users"] := "individuals"
+		singularTableName["cases"] := "tasks"
+		singularTableName["case_user_types"] := "task_user_types"
+		singularTableName["role_permissions"] := "permission_role"
+		singularTableName["notification_types"] := "notification_categories"
+		singularTableName["user_roles"] := "member_roles"
+		
+		if( singularTableName[name] )
+			return singularTableName[name]
+		else
+			return name
+	}
+		
+#if (Stack="18c") ; singular to plural 
+
+	load_singularToPlural(){
+		global singularToPlural, pluralToSingular
+		
+		singularToPlural := {}
+		singularToPlural["status"] := "statuses"
+		singularToPlural["task_status"] := "task_statuses"
+		singularToPlural["confidentiality_class"] := "confidentiality_classes"
+		singularToPlural["address"] := "addresses"
+		singularToPlural["file_data"] := "file_data"
+		singularToPlural["temp_file_data"] := "temp_file_data"
+		singularToPlural["team_access"] := "team_accesses"
+		singularToPlural["po_status"] := "po_statuses"
+		
+		pluralToSingular := {}
+		
+		for index, value in singularToPlural
+			pluralToSingular[value] := index
+		
+	}
+	
+#if (Stack="18b") ; wizard 
+	wizard()
+	
+#if (Stack="18a") ; functions 
+
+	loadStacks(){
+		global
+		coreStacks:= "Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
+		personalStacks:= "r,12r;c,12v;a,11y;right click,13m;records mv notes,14b;"
+		infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;windows host file,13o;gitlab git.egov.mv,14d;"
+		soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
+		seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
+		jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
+		ttsStacks:= "Grab Articles for TTS Reader mode,15m;"
+		eCouncilStacks:= "push eCouncil to git,15y;eCouncil training URL,15z;purify,11z;new role,13j;ecouncil roles,13l;"
+		gitStacks:= "Git commands,15ab;Git GUI,11a;Git export log to csv,12g;"
+		laravelStacks:= "laravel make events,15an;laravel make notification,15ao;laravel make test,15ap;laravel refresh classes,15ar;laravel refresh database seed,15as,db;laravel run a specific seeder,15at;laravel clear configuration,15au;laravel create policy,15av;laravel test increase memory limit,15aw;laravel dd session,15ax;laravel run selected test,15ay;laravel remove block comments,15az;laravel add block comments,15ba;laravel open test output in chrome,15be;request in chrome to laravel,11u;php var_dump to console,12o;php null check,12p;laravel make migration,12s;tailwind website,13p;deploy case management,13q;mysql mode,13r;SQLite,13s;laravel pretend migrate,13t;laravel seed db,13u;laravel clear view cache,13v;composer dump autoload,13w;dump laravel data,13x;livewire docs,14c;php,14n;data to seeder,14r;php artisan optimize:clear,14y;"
+		nodeJsStacks:= "regenerate js and css,15bb,npm run watch;chai builder tailwinds,14i;tailwinds themeforest,14j;"
+		sisStacks:= "SIS Agency User,15bf;push MakudiOnline to git,12m;SIS Admin User,13a;"
+		chromeStacks:= "Sample login page,15bg;"
+		etukuriStacks:= "laravel test assert success,15bj;laravel test assert fail,15bk;laravel form field,15bl;database seeder changes,15bi;laravel scaffolding with generators,12t;"
+		cSharpStacks:= "c# use dbcontext,15bm;"
+		sheriStacks:= "sheri bandwidth usage,12y;clock in to SalonIris,12z;"
+		fileZillaStacks:= "filezilla convert local path to ftp path,12w;"
+		sublimeStacks:= "add watch expression to xdebug in sublime,12a;"
+		yiiStacks:= "yii app end,13b;yii base url,13e;"
+		vbStacks:= "c# to vb,13h;"
+		phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
+
+		ncitStacks := ncitStacks "case manager local,17c;"
+		ncitStacks := ncitStacks "case manager docker,16t;"
+		ncitStacks := ncitStacks "case manager local mix,14k;"
+		ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;repeat Command In Vscode,17v;remove surrounding quotes,17w;init DB Fields,17x;some random ip,17y;kill process,17z;" newStacks
+
+
+		allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
+
+		zStacks:= allStacks
+	}
+
+
+	iniClipList(){
+		global
+		;~ iniClipList= one`t`ttwo`n`nthree`tfour`n
+		if(iniClipList != ""){
+			clipList .= "`n" iniClipList
+		}
+	}
+
+	g_configurations(){
+		global
+				
+		;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
+		g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
+
+		g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_communications, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_communications, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_comments, dbCache_primaryKey_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types"
+		
+		load_g_configurations()
+	}
+	
+	load_g_configurations(){
+		global
+		StringReplace, g_configurations, g_configurations, %A_Space%, , All
+		StringSplit, g_configurations, g_configurations, `,
+		Loop, read, %A_ScriptDir%\PWT_v2.ini
+		{
+			if(A_Index = 1 or Trim(A_LoopReadLine) = "" or StrLen(A_LoopReadLine) < 3 )
+				continue
+			
+			p := InStr( A_LoopReadLine, "=")
+			n := SubStr(A_LoopReadLine, 1, p-1)
+			v := SubStr(A_LoopReadLine, p+1)
+			a := A_Index
+			
+			t := n
+			%t% := decodeLinesAndTabs(v)
+			%t%backup := %t%
+		}
+		
+		if(location = "ERROR")
+			MsgBox Could not load location
+	}
+
+
+#if (Stack="17x") ; init DB Fields 
+
+	init_DB_Fields( loadName = 1, cache = 1){
+		global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
+		
+		if( loadName )
+			currentTableName()
+		
+		singular := processCamelCase( singular )
+
+		load_singularToPlural()
+		
+		result := singularToPlural[singular]
+		if(result){
+			plural := result
+		}else{
+			result := pluralToSingular[singular]
+			if(result){
+				plural := singular
+				singular := result
+			}else{
+				singular := toSingular( singular )
+				plural := toPlural( singular )
+			}
+		}
+		
+		table_name_singular := singular
+		table_name_plural := plural
+			
+		modelName := singular "`t" plural
+		
+		DB_Fields := getGlobal("dbCache_" plural)
+		
+		primary_key_row := getGlobal("dbCache_primaryKey_" plural)
+		StringSplit, primary_key_row, primary_key_row, `t
+		primary_key := primary_key_row1
+		
+		if(!DB_Fields or !cache){
+			dataTypes := getDataTypesByHttp()
+			if(dataTypes){
+				relations := getRelationsByHttp()
+				DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
+				setGlobal("dbCache_" plural, DB_Fields)
+			}
+		}
+			
+		fields := load_fields()
+		specificFieldsArr()
+	}
+
+	
+#if (Stack="17w") ; remove surrounding quotes 
+	`::
+		waitClipboard()
+		StringSplit, Clipboard, Clipboard, `n, `r
+		Clipboard=
+		
+		Loop %Clipboard0%
+		{
+			t := RegExReplace(Clipboard%A_Index%, "i)^[^""]*""([^""]*)"".*", "$1")
+			if(t != Clipboard%A_Index%)
+				Clipboard .= t "`n"
+			
+		}
+		Send ^v
+	return
+	
+#if (Stack="17v") ; repeat Command In Vscode 
+	`:: repeatCommandInVscode()
+	
+	repeatCommandInVscode(){
+		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
+			; repeat previous command in vscode
+			Click 1878, 965
+			Sleep 100
+			Click 1878, 965
+			Sleep 100
+			Send {Up}
+			Sleep 100
+			Send {Enter}
+		}
+	}
+
+	
+#if (Stack="17u") ; click and preserve mouse position 
+	`::
+		MouseGetPos, MouseX, MouseY
+		Click 1762, 169
+		MouseMove, %MouseX%, %MouseY%
+	return
+	
+#if (Stack="17t") ; snap 
+	`::
+		;snap
+		WinWait, BlueStacks App Player, 
+		IfWinNotActive, BlueStacks App Player, , WinActivate, BlueStacks App Player, 
+		WinWaitActive, BlueStacks App Player, 
+		
+		Loop 100 {
+			
+			Click 825, 181
+			;~ waitPixel(-1, -1, 682, 89, "0x3C3631", 0)
+			Sleep 1000
+			Click 980, 91
+			Sleep 1000
+			Click 1188, 85
+			Sleep 1000
+			Click 791, 666
+			Sleep 1000
+			Click 773, 892
+			Sleep 1000
+			Click 1002, 558
+			Sleep 3000
+			;~ Click 1002, 558
+			;~ Sleep 100
+			Click 695, 85
+			Sleep 1000
+			Click 684, 86
+			Sleep 1000
+		}
+	return
+	
 #if (Stack="17r") ; reposition 
 	`::
 		Send {Enter}
@@ -3063,6 +3293,7 @@ else
 			Sleep 100
 			Send {Esc}
 			Send {Home}
+			
 			Send +{End}
 			
 			Send ^v
@@ -4328,7 +4559,7 @@ XButton2::
 	
 #if (Stack="15bo") ; make new stack 
 	`::
-		stackPrefix := "17"
+		stackPrefix := "18"
 		newStackAsc := 97
 		
 		Loop 27 {
@@ -5826,9 +6057,11 @@ viya_listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 	;~ dropdownsOnEdit := runSubScaffold( "listController_dropdownsOnEdit")
 	name_field := name_field()
 	
-	directory := scaffoldModel("? valueCC1 ?")
+	;~ directory := scaffoldModel("? valueCC1 ?")
+	directory := scaffoldDirectory("? valueCC1 ?")
+	viewDirectory := scaffoldDirectory("? valueSH1 ?")
 	name := scaffoldModel("? valueCC1 ?")
-	file =C:\xampp\htdocs\viyaFSM\app\Livewire\Reports\%name%.php
+	file =C:\xampp\htdocs\viyaFSM\app\Livewire\%directory%\%name%.php
 
 	if(reverse){
 		FileRead, content, %file%
@@ -5836,7 +6069,7 @@ viya_listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 		
 		StringReplace, content, content, %relations%, " relations "
 	}else{
-		t := "<?php`n`nnamespace App\Livewire\Reports`;`n`nuse App\Helpers\CommonFunctions`;`nuse App\Helpers\ListHelpers`;`nuse Livewire\Component`;`n`nclass ? valueCC1 ? extends Component`n{`n`n`n  public function mount()`n  {`n  }`n`n  public function render()`n  {`n    return view('livewire.reports.? valueSH1 ?')`;`n  }`n`n}`n"
+		t := "<?php`n`nnamespace App\Livewire\" directory "`;`n`nuse App\Helpers\CommonFunctions`;`nuse App\Helpers\ListHelpers`;`nuse Livewire\Component`;`n`nclass ? valueCC1 ? extends Component`n{`n`n`n  public function mount()`n  {`n  }`n`n  public function render()`n  {`n    return view('livewire." viewDirectory ".? valueSH1 ?')`;`n  }`n`n}`n"
 		
 		if( customModelName(table_name_singular) )
 			StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
@@ -5846,7 +6079,7 @@ viya_listController_a(table_name_singular = 1, table_name_plural = 2, reverse = 
 		content := scaffoldModel( t )
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\viyaFSM\app\Livewire\Reports
+	FileCreateDir, C:\xampp\htdocs\viyaFSM\app\Livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -6443,9 +6676,10 @@ viya_listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, pri
 	;~ table_rows := runSubScaffold( "scaffoldTableFields", 1, table_fieldsArr)
 	;~ form_fields := runSubScaffold( "scaffoldFormFields", 0 )
 
-	directory := scaffoldModel("? valueSH1 ?")
+	directory := scaffoldDirectory("? valueSH1 ?")
+	
 	name := scaffoldModel("? valueSH1 ?")
-	file =C:\xampp\htdocs\viyaFSM\resources\views\livewire\reports\%name%.blade.php
+	file =C:\xampp\htdocs\viyaFSM\resources\views\livewire\%directory%\%name%.blade.php
 	if(reverse){
 		FileRead, content, %file%
 		StringReplace, content, content, `r, , All
@@ -6455,10 +6689,10 @@ viya_listView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, pri
 		StringReplace, content, content, %form_fields%, " form_fields "
 	}else{
 	
-		content := scaffoldModel("@section('title'`, '? valueAT1 ? - Reports')`n@section('sub-title'`, '')`n`n`n<div class=""panel-body"">`n  <div class=""row"">`n    <div class=""col-md-6"">`n      <div class=""form-group"">`n        <label for=""cboFund"" class=""label-sm"">Fund Centre`:</label>`n        <select name=""cboFund"" id=""cboFund"" type=""dropdown-toggle"" class=""form-control"" wire`:model.live=""selectedFund"">`n          {{-- onchange=""fundChange()""> --}}`n          @foreach($funds as $fund)`n            <option value=""{{ $fund->fundid }}"">{{ $fund->fundcode }}</option>`n          @endforeach`n        </select>`n`n        <span id=""RequiredFieldValidator4"" class="" errmsg   "" style=""visibility`:hidden`;"">Required!</span>`n        <div>Selected fund`: {{ $selectedFund }}</div>`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n        <label for=""txtReqNo"" class=""label-sm"">Purchase Order No`:</label>`n        <input name=""txtReqNo"" type=""text"" readonly=""readonly"" id=""txtReqNo"" class="" form-control "">`n      </div>`n    </div>`n  </div>`n`n`n</div>`n")
+		content := scaffoldModel("@section('title'`, '? valueAT1 ? - Purchase Order')`n@section('sub-title'`, '')`n`n`n<div class=""panel-body"">`n  <div class=""row"">`n    <div class=""col-md-6"">`n      <div class=""form-group"">`n        <label for=""cboFund"" class=""label-sm"">Fund Centre`:</label>`n        <select name=""cboFund"" id=""cboFund"" type=""dropdown-toggle"" class=""form-control"" wire`:model.live=""selectedFund"">`n          {{-- onchange=""fundChange()""> --}}`n          @foreach($funds as $fund)`n            <option value=""{{ $fund->fundid }}"">{{ $fund->fundcode }}</option>`n          @endforeach`n        </select>`n`n        <span id=""RequiredFieldValidator4"" class="" errmsg   "" style=""visibility`:hidden`;"">Required!</span>`n        <div>Selected fund`: {{ $selectedFund }}</div>`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n      </div>`n    </div>`n    <div class=""col-md-3"">`n      <div class=""form-group "">`n        <label for=""txtReqNo"" class=""label-sm"">Purchase Order No`:</label>`n        <input name=""txtReqNo"" type=""text"" readonly=""readonly"" id=""txtReqNo"" class="" form-control "">`n      </div>`n    </div>`n  </div>`n`n`n</div>`n")
 	}
 	
-	FileCreateDir, C:\xampp\htdocs\viyaFSM\resources\views\livewire\reports
+	FileCreateDir, C:\xampp\htdocs\viyaFSM\resources\views\livewire\%directory%
 	
 	fileWrite( content, file )
 }
@@ -6853,15 +7087,16 @@ viya_updateRoutes(){
 }
 	
 viya_updateRoutes_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
-	include := scaffoldModel("use App\Livewire\Reports\? valueCC1 ?`;`n")
+	directory := scaffoldDirectory("? valueCC1 ?")
+	include := scaffoldModel("use App\Livewire\" directory "\? valueCC1 ?`;`n")
 	
-	route := scaffoldModel("`  Route`:`:get('/? valueSH1 ?' `, ? valueCC1 ?`:`:class )`;`n")
+	route := scaffoldModel("`  Route`:`:get('/? valueSH1 ?'`, ? valueCC1 ?`:`:class)`;`n")
 	
 	file =C:\xampp\htdocs\viyaFSM\routes\web.php
 	FileRead, content, %file%
 	
 	StringReplace, content, content, `r, , All
-	StringReplace, content, content, <?php`n, <?php`n%include%
+	StringReplace, content, content, // add includes here, %include%// add includes here
 	StringReplace, content, content, // add routes here, %route%// add routes here
 	
 	fileWrite( content, file )
@@ -7138,44 +7373,6 @@ toPlural( name ){
 		return name "s"
 }
 
-load_singularToPlural(){
-	global singularToPlural, pluralToSingular
-	
-	singularToPlural := {}
-	singularToPlural["status"] := "statuses"
-	singularToPlural["task_status"] := "task_statuses"
-	singularToPlural["confidentiality_class"] := "confidentiality_classes"
-	singularToPlural["address"] := "addresses"
-	singularToPlural["file_data"] := "file_data"
-	singularToPlural["temp_file_data"] := "temp_file_data"
-	singularToPlural["team_access"] := "team_accesses"
-	
-	pluralToSingular := {}
-	
-	for index, value in singularToPlural
-		pluralToSingular[value] := index
-	
-}
-
-tableName(name){
-	;~ global singularTableName
-	
-	singularTableName := {}
-	singularTableName["activity_logs"] := "activity_log"
-	singularTableName["case_users"] := "task_users"
-	singularTableName["users"] := "individuals"
-	singularTableName["cases"] := "tasks"
-	singularTableName["case_user_types"] := "task_user_types"
-	singularTableName["role_permissions"] := "permission_role"
-	singularTableName["notification_types"] := "notification_categories"
-	singularTableName["user_roles"] := "member_roles"
-	
-	if( singularTableName[name] )
-		return singularTableName[name]
-	else
-		return name
-}
-
 specificFieldsArr(){
 	global specificFieldsArr
 	
@@ -7208,394 +7405,237 @@ setGlobal(variableName, value){
 	%variableName% := value
 }
 
-
-init_DB_Fields( loadName = 1, cache = 1){
-	global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
+pixelMatch(color1 , color2)
+{
+	;~ SetFormat, IntegerFast, hex
+	r1 := (color1 >> 16) & 0xFF
+	g1 := (color1 >> 8) & 0xFF
+	b1 := (color1) & 0xFF
 	
-	if( loadName )
-		currentTableName()
+	r2 := (color2 >> 16) & 0xFF
+	g2 := (color2 >> 8) & 0xFF
+	b2 := (color2) & 0xFF
 	
-	singular := processCamelCase( singular )
-
-	load_singularToPlural()
-	
-	result := singularToPlural[singular]
-	if(result){
-		plural := result
-	}else{
-		result := pluralToSingular[singular]
-		if(result){
-			plural := singular
-			singular := result
-		}else{
-			singular := toSingular( singular )
-			plural := toPlural( singular )
-		}
-	}
-	
-	table_name_singular := singular
-	table_name_plural := plural
-		
-	modelName := singular "`t" plural
-	
-	DB_Fields := getGlobal("dbCache_" plural)
-	
-	primary_key_row := getGlobal("dbCache_primaryKey_" plural)
-	StringSplit, primary_key_row, primary_key_row, `t
-	primary_key := primary_key_row1
-	
-	if(!DB_Fields or !cache){
-		dataTypes := getDataTypesByHttp()
-		if(dataTypes){
-			relations := getRelationsByHttp()
-			DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
-			setGlobal("dbCache_" plural, DB_Fields)
-		}
-	}
-		
-	fields := load_fields()
-	specificFieldsArr()
-}
-
-
-HasVal(haystack, needle) {
-	if !(IsObject(haystack)) || (haystack.Length() = 0)
+	if(Abs(r1 - r2) > 10)
 		return 0
-	for index, value in haystack
-		if (value = needle)
-			return index
-	return 0
+
+	if(Abs(g1 - g2) > 10)
+		return 0
+
+	if(Abs(b1 - b2) > 10)
+		return 0
+
+	return 1
 }
 
-durationPassed(label){
-	static lastTime
-	static lastLabel
-	
-	time := A_Min*1000*60 + A_Sec*1000 + A_MSec
-	if(lastTime){
-		diff := time - lastTime
-		myTT(lastLabel ": " diff)
-	}
-	lastTime := time
-	lastLabel := label
+sendTelegramMessage(message){
+	;~ message := uri_encode(message)
+	;~ UrlDownloadToFile https://api.telegram.org/bot487001546:AAFzzCHokflhF9aSzK5mdXe-6Cat6L50WAA/sendMessage?chat_id=@playmvpro&text=%message%, %A_ScriptDir%\telegram.html
 }
 
 
-livewire(){
-		;~ gemsApi_apiController()
-	
-		;~ apiController()
-		;~ repository()
-		;~ resource()
-		;~ updateApiRoutes()
-	
-		
-		
-		;~ childListTest()
-		;~ listTest()
-		;~ manageTest()
-		;~ showTest()
-		
-		
-		;~ policy()
-		;~ updatePermissions()
-		
-	
-		;~ enum()
-		
-		;~ childListController()
-		;~ childListModalController()
-		;~ childListView()
-		;~ childListCompactView()
-		;~ childListModalView()
-		
-
-		;~ factory()
-		
-		;~ seeder()
-		;~ updateDatabaseSeeder()
-		
-		;~ model()
-		;~ importModel()
-		
-		;~ importController()
-		;~ listController()
-		;~ manageController()
-		;~ selectController()
-		;~ showController()
-		
-		;~ selectArrayController()
-
-		;~ importView()
-		;~ listView()
-		;~ listView_filters()
-		;~ manageView()
-		;~ showView()
-		
-		;~ updateRoutesFile()
-		;~ updateSidebar()
-}
-
-
-currentTableName(){
-	global singular
-	
-	singular := "house_registrations"
-}
-
-
-scaffoldFiles(){
-	global singular, reverse, table_name_plural, found_DB_table, DB_Fields
-	
-	;~ reverse := 1
-			
-	myTT(singular)
-	if( !DB_Fields )
-		myTT("DB table not found")
-	else{
-		;~ gemsApi_apiController()
-		;~ ws_gemsAPI_apiController_a()
-	
-		;~ resource()
-		;~ updateApiRoutes()
-	
-		;~ apiTest()
-
-		;~ factory()
-		
-		;~ seeder()
-		;~ updateDatabaseSeeder()
-		
-		yii_model()
-		
-		
-		;~ viya_listController()
-		;~ viya_listView()
-		
-		;~ viya_updateRoutes()
-		
-
-		if(reverse)
-			myTT("reverse")
-		else
-			myTT("scaffold done")
-	}
-}
-
-#if (Stack="15am") ; scaffolding mode 
-	F1:: goToReference()
-	
-	F4:: goToPrevReference()
-	
-	; save
-	~^s::
-		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
-			if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
-				if( requireWinActive("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
-					Click 37, 25
-					Sleep 100
-					Send {F5}
+waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
+	global botStatus
+	;~ 139, 265, "0x00A6FF", 0, 20, 1293, 264, "0x00A6FF"
+			loop {
+				loopIterations := 1
+				if(x1 != "-1"){
+					Click %x1%, %y1%
+					loopIterations := 15
 				}
-			} else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+				
+				
+				Loop %loopIterations% {
+					botStatus := 1
+					PixelGetColor, color, %x2%, %y2% ; 0x00A6FF ; wait for button to load
+					if((pixelMatch(color1, color) or color = 0x00A6FF or color = 0x00A8FF or color = 0x00AAFF or color = 0x00B6FF or color = 0x1997F4 or (color = "0xBA7412") or color = color1 or color = color1 or color = color1 or color = color1 or color = color1 or color = color1) and not_true = 0)
+						return 1 
+						;~ 0xF7C418
+					
+					if( (!pixelMatch(color1, color)) and not_true = 1)
+						return 1
+					
+					else if(x3 != -1){
+						PixelGetColor, color, %x3%, %y3% ; 0x00A6FF ; wait for button to load
+						;~ if(((color2 = color or 0x00A8FF = color or 0x00A6FF = color or 0x00AAFF = color)) and not_true = 0)
+						if((( pixelMatch(color2, color) or color = 0xB97510 or color = 0xB97610 or color = 0xB97710 or color = 0xB87510 or color = 0xBA7510 or color = 0xBA7710 or color = 0xB67510 or color = 0xB87711 or color = 0x009CE2 or color = color2 or color = color2 or color = color2 or color = color2 or color = color2 or color = color2)) and not_true = 0)
+							return 2
+						
+						PixelGetColor, color, 179, 382 ; 0x00BAFF ; wait for button to load
+						if(color = 0x00BAFF or color = 0x00BAFF)
+							return 3
+					}
+					Sleep 100
+				}
+				
+				;~ if(x1 = "-1")
+					;~ Sleep 100
+					
+				if(A_Index > duration){
+					PixelGetColor, color, 797, 693
+					if(color = "0xFFC300"){
+						Click 797, 693 ;network reconnect
+						Sleep 5000
+					}	
+					
+					requireWinActive(blueName " ahk_exe Bluestacks.exe")
+					
+					if( WinExist( "Debugging] ahk_class SciTEWindow") ){
+						PixelGetColor, color, %x2%, %y2% ; 0x00A6FF ; wait for button to load
+						Clipboard := color
+						MouseMove, %x2%, %y2%
+						myTT("fail 2")
+					}
+					
+					if(stopOnFail)
+						SoundBeep
+					;~ Sleep 1000
+					;~ SoundBeep
+					;~ Sleep 1000
+					;~ SoundBeep
+					;~ Sleep 1000
+					;~ myTT("fail 2")
+					sendTelegramMessage("could not find matching pixel")
+					if(stopOnFail)
+						color := color
+					return 0
+				}
+			}
+}
+
+
+saveCodeAndRefreshChrome(){
+	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
+		if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+			if( requireWinActive("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
 				Click 37, 25
 				Sleep 100
 				Send {F5}
 			}
-	return
-	
-	; run repeat command in vscode
-	~^q::
-		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
-			Click 1878, 965
+		} else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+			Click 37, 25
 			Sleep 100
-			Click 1878, 965
-			Sleep 100
-			Send {Up}
-			Sleep 100
-			Send {Enter}
+			Send {F5}
 		}
-	return
+}
+
+insertPlaceholder(){
+	Send ? value1 ?{Left 2}+{Left}
+}
+
+decodeLinesAndTabsOrScaffoldMergeAll(){
+	;~ Send ^a
 	
-	; insert placeholder
-	+`:: Send ? value1 ?{Left 2}+{Left}
+	;~ Clipboard=
+	waitClipboard()
 	
-	; scaffold
-	`::		
-		;~ t := Clipboard
-		;~ StringReplace, t, t, % "`n", % "", All
-		;~ StringReplace, t, t, % "`r", % "", All
-		;~ Clipboard := t
-		;~ Sleep 100
-		;~ Send ^v
-	;~ return
+	;~ StringReplace, Clipboard, Clipboard, `r, , All	
 	
-		printUsingScaffold( "", 1, -1) ; scaffold single
-		return
-		
-		;~ printUsingScaffold( "MA", 1, 2) ; 
-		;~ return
-		
-		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
-		;~ return
-		
-		;~ Send ^a
-		
-		Clipboard=
-		waitClipboard()
-		
-		;~ StringReplace, Clipboard, Clipboard, `r, , All	
-		;~ StringReplace, Clipboard, Clipboard, `                ""organisation_logo"" => null`,`n, , All
-
-
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 9? value1 ?`,, 'role_id' => ? value4 ?,`,, All	
-
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 1`,, 'role_id' => 91`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 2`,, 'role_id' => 92`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 3`,, 'role_id' => 93`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 4`,, 'role_id' => 94`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 5`,, 'role_id' => 95`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 6`,, 'role_id' => 96`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 7`,, 'role_id' => 97`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 8`,, 'role_id' => 98`,, All	
-
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 91`,, 'role_id' => 1`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 92`,, 'role_id' => 3`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 93`,, 'role_id' => 4`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 94`,, 'role_id' => 8`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 95`,, 'role_id' => 7`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 96`,, 'role_id' => 10`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 97`,, 'role_id' => 11`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 98`,, 'role_id' => 2`,, All	
-
-
-		if(Clipboard){
-			; decodeLinesAndTabs
-			content := decodeLinesAndTabs(Clipboard)
-			StringReplace, content, content, `"`", `", All	
-			Clipboard := content
-		}else{
-			myTT("load as single-tab-plural if using unscaffolded template")
-			printUsingScaffold( "MA", 1, -1) ; merge all
-		}
-
-
-		;~ StringSplit, Clipboard, Clipboard, `n, `r
-		;~ Clipboard=
-		
-		;~ Loop %Clipboard0%
-		;~ {
-			;~ t := RegExReplace(Clipboard%A_Index%, "i)^[^""]*""([^""]*)"".*", "$1")
-			;~ if(t != Clipboard%A_Index%)
-				;~ Clipboard .= t "`n"
-			
-		;~ }
-		
-		;~ Send ^v
-	return
-
-	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
-
-	^+!`:: ; bulk
-		;~ bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members", "atolls", "islands"]
-		bulkArr := ["tags", "document-types", "field-types", "documents", "team-accesses", "recipients", "doc-tags", "related-docs", "files", "versions", "tags", "document-types"]
-		;~ bulkArr := ["tags", "checklists", "comments", "task_tags", "task_users"]
-		
-		for k, v in bulkArr {
-			singular := snakeCase(v)
-		
-			init_DB_Fields(0, 0) ; without cache
-			;~ init_DB_Fields(0) ; with cache
-			scaffoldFiles()
-		}
-		
-		;~ for k, v in bulkArr {
-			;~ singular := snakeCase(v)
-		
-			;~ init_DB_Fields(0, 0)
-		;~ }
-	return
-			
-	^`:: ; hydrate template
-		old_Clipboard := Clipboard
-		Clipboard := """ " Clipboard " """
-		Send ^v
-		Sleep 200
-		Clipboard := old_Clipboard
-	return
+	if(Clipboard){
+		; decodeLinesAndTabs
+		content := decodeLinesAndTabs(Clipboard)
+		StringReplace, content, content, `"`", `", All	
+		Clipboard := content
+	}else{
+		myTT("load as single-tab-plural if using unscaffolded template")
+		printUsingScaffold( "MA", 1, -1) ; merge all
+	}
 	
-	^+`:: ; unscaffold
-		waitClipboard()
+	;~ Send ^v
+}
+
+scaffoldSingle(){
+	printUsingScaffold( "", 1, -1)
+}
+
+scaffoldMergeAll(){
+	printUsingScaffold( "MA", 1, 2)
+}
+
+scaffoldClipboard(){
+	printUsingScaffold( "C", 1, -1)
+}
+
+listOfFields(){
+	Clipboard := scaffoldFields("""? value1 ?""`, ", 1)
+}
+
+bulkScaffolding(){
+	;~ bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members", "atolls", "islands"]
+	bulkArr := ["tags", "document-types", "field-types", "documents", "team-accesses", "recipients", "doc-tags", "related-docs", "files", "versions", "tags", "document-types"]
+	;~ bulkArr := ["tags", "checklists", "comments", "task_tags", "task_users"]
+	
+	for k, v in bulkArr {
+		singular := snakeCase(v)
+	
+		;~ init_DB_Fields(0, 0) ; without cache
+		init_DB_Fields(0) ; with cache
+		scaffoldFiles()
+	}
+	
+	;~ for k, v in bulkArr {
+		;~ singular := snakeCase(v)
+	
+		;~ init_DB_Fields(0, 0)
+	;~ }
+}
+
+surroundSelectionByQuotes(){
+	old_Clipboard := Clipboard
+	Clipboard := """ " Clipboard " """
+	Send ^v
+	Sleep 200
+	Clipboard := old_Clipboard
+}
+
+convertCodeToTemplate(){
+	;unscaffold
+	waitClipboard()
+	
+	content := Clipboard
+	
+	if(singular){
+		init_DB_Fields()
+		StringCaseSense, On
 		
-		content := Clipboard
+		cases =CC`tAT`tS`tSH`tC`tL`tU`tT
+		StringSplit, cases, cases, `t
 		
-		if(singular){
-			init_DB_Fields()
-			StringCaseSense, On
+		iterations := [2, 1]
+		
+		;~ name := scaffoldModel("? valueCC1 ?")
+		;~ content := StrReplace(content, name, "? valueCC91 ?")
+		
+		;~ name := scaffoldModel("? valueCC91 ?Model")
+		;~ content := StrReplace(content, name, "? valueCC1 ?")
+		
+		for k, v in iterations {
+			outer_index := v
 			
-			cases =CC`tAT`tS`tSH`tC`tL`tU`tT
-			StringSplit, cases, cases, `t
-			
-			iterations := [2, 1]
-			
-			;~ name := scaffoldModel("? valueCC1 ?")
-			;~ content := StrReplace(content, name, "? valueCC91 ?")
-			
-			;~ name := scaffoldModel("? valueCC91 ?Model")
-			;~ content := StrReplace(content, name, "? valueCC1 ?")
-			
-			for k, v in iterations {
-				outer_index := v
-				
-				Loop %cases0% {
-					name := scaffoldModel("? value" cases%A_Index% outer_index " ?")
-					content := StrReplace(content, name, "? value" cases%A_Index% outer_index " ?")
-				}
-				
+			Loop %cases0% {
+				name := scaffoldModel("? value" cases%A_Index% outer_index " ?")
+				content := StrReplace(content, name, "? value" cases%A_Index% outer_index " ?")
 			}
 			
-			content := StrReplace(content, table_name_singular, "? value" 1 " ?")
-			content := StrReplace(content, table_name_plural, "? value" 2 " ?")
-
-			StringCaseSense, Off
 		}
 		
-		clip_two := content
-		scaffold_template := content
-		
-		StringReplace, content, content, `r, , All
-		StringReplace, content, content, `", `"`", All
-		
-		content := RegExReplace(content, """( \w+ )""", "$1")
-		content := encodeLinesAndTabs(content)
-		Clipboard := content
-	return
-	
-	
-	
-	;~ `:: 
-		;~ Clipboard=
-		;~ waitClipboard()
-		;~ printUsingScaffold("C", 1, -1)
+		content := StrReplace(content, table_name_singular, "? value" 1 " ?")
+		content := StrReplace(content, table_name_plural, "? value" 2 " ?")
 
-		printUsingScaffold("", 1, -1)
-	;~ `:: 
-		;~ StringReplace, Clipboard, Clipboard, `n, *, All
-		;~ StringReplace, Clipboard, Clipboard, `r, , All
-		
-		;~ scaffoldFiles()
-		;~ fieldsFromDB()
-	return
+		StringCaseSense, Off
+	}
 	
+	clip_two := content
+	scaffold_template := content
 	
+	StringReplace, content, content, `r, , All
+	StringReplace, content, content, `", `"`", All
 	
-	;~ ^`:: printUsingScaffold( 0, -1, 0) ; reverse
-	
-	;~ ^+`:: printUsingScaffold( "MA", 1, -1) ; merge all
-	;~ `:: 
-		;~ printUsingScaffold( "MA", 1, -1) ; merge all
-		;~ Stack := "15s"
-	;~ return
-	
+	content := RegExReplace(content, """( \w+ )""", "$1")
+	content := encodeLinesAndTabs(content)
+	Clipboard := content
+}
+
 	; params
 	; L = use last line
 	; M = merge to clipboard
@@ -7702,10 +7742,11 @@ scaffoldFiles(){
 			Sleep 100
 			;~ Send !d
 			;~ Send ^v{Enter}
-			Send ^{Left}
-			Send ^+{Right}
+			;~ Send ^{Left}
+			;~ Send ^+{Right}
+			Send ^a
 			Send ^v
-			Sleep 500
+			;~ Sleep 500
 			
 			;~ run, % Clipboard
 			;~ SendInput {Raw}%Clipboard%
@@ -7713,6 +7754,158 @@ scaffoldFiles(){
 		}
 		return row
 	}
+	
+
+durationPassed(label){
+	static lastTime
+	static lastLabel
+	
+	time := A_Min*1000*60 + A_Sec*1000 + A_MSec
+	if(lastTime){
+		diff := time - lastTime
+		myTT(lastLabel ": " diff)
+	}
+	lastTime := time
+	lastLabel := label
+}
+
+
+livewire(){
+		;~ gemsApi_apiController()
+	
+		;~ apiController()
+		;~ repository()
+		;~ resource()
+		;~ updateApiRoutes()
+	
+		
+		
+		;~ childListTest()
+		;~ listTest()
+		;~ manageTest()
+		;~ showTest()
+		
+		
+		;~ policy()
+		;~ updatePermissions()
+		
+	
+		;~ enum()
+		
+		;~ childListController()
+		;~ childListModalController()
+		;~ childListView()
+		;~ childListCompactView()
+		;~ childListModalView()
+		
+
+		;~ factory()
+		
+		;~ seeder()
+		;~ updateDatabaseSeeder()
+		
+		;~ model()
+		;~ importModel()
+		
+		;~ importController()
+		;~ listController()
+		;~ manageController()
+		;~ selectController()
+		;~ showController()
+		
+		;~ selectArrayController()
+
+		;~ importView()
+		;~ listView()
+		;~ listView_filters()
+		;~ manageView()
+		;~ showView()
+		
+		;~ updateRoutesFile()
+		;~ updateSidebar()
+}
+
+scaffoldDirectory(template, skip = 0){
+	directoryName := directoryName()
+	
+	if( skip )
+		return template
+	
+	return runScaffold( template, directoryName)
+}
+
+
+directoryName(){
+	return "Purchase Order"
+}
+
+
+currentTableName(){
+	global singular
+	
+	singular := ""
+}
+
+
+scaffoldFiles(){
+	global singular, reverse, table_name_plural, found_DB_table, DB_Fields
+	
+	;~ reverse := 1
+			
+	myTT(singular)
+	if(false && !DB_Fields )
+		myTT("DB table not found")
+	else{
+		;~ gemsApi_apiController()
+		;~ ws_gemsAPI_apiController_a()
+	
+		;~ resource()
+		;~ updateApiRoutes()
+	
+		;~ apiTest()
+
+		;~ factory()
+		
+		;~ seeder()
+		;~ updateDatabaseSeeder()
+		
+		;~ model()
+		
+		
+		;~ viya_listController()
+		;~ viya_listView()
+		
+		;~ viya_updateRoutes()
+		
+
+		if(reverse)
+			myTT("reverse")
+		else
+			myTT("scaffold done")
+	}
+}
+
+#if (Stack="15am") ; scaffolding mode 
+	^+`:: convertCodeToTemplate() ; convert code to template
+	
+	+`:: insertPlaceholder() ; insert placeholder
+	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
+	
+	`::	scaffoldSingle() ; scaffold single
+	;~ `::	scaffoldMergeAll() ; scaffold merge all
+	;~ `::	scaffoldClipboard() ; scaffold clipboard
+	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
+
+	F1:: goToReference() ; go to reference
+	F4:: goToPrevReference() ; go to prev reference
+	
+	~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
+	;~ ~^q:: repeatCommandInVscode() ;repeat command in vscode
+	;~ ^+!`:: bulkScaffolding() ; bulk
+	;~ ^!`:: listOfFields() ; list of fields
+	
+
+	;~ ^`:: printUsingScaffold( 0, -1, 0) ; previous
 	
 #if (Stack="15ak") ; Go to reference 
 	`:: goToReference()
