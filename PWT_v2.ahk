@@ -1,6 +1,6 @@
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-new_g_configurations := ", dbCache_members, dbCache_primaryKey_members"
+new_g_configurations := ", dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations"
 g_configurations()
 
 iniClipList()
@@ -7843,7 +7843,7 @@ directoryName(){
 currentTableName(){
 	global singular
 	
-	singular := ""
+	singular := "house_registrations"
 }
 
 
@@ -7870,6 +7870,8 @@ scaffoldFiles(){
 		;~ updateDatabaseSeeder()
 		
 		;~ model()
+		
+		yii_model() 
 		
 		
 		;~ viya_listController()
