@@ -69,7 +69,7 @@ phpStacks:= "phpMyAdmin,13y;tailwinds docs,13z;laravel docs,14a;"
 ncitStacks := ncitStacks "case manager local,17c;"
 ncitStacks := ncitStacks "case manager docker,16t;"
 ncitStacks := ncitStacks "case manager local mix,14k;"
-ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;"
+ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;repeat Command In Vscode,17v;remove surrounding quotes,17w;init DB Fields,17x;"
 
 
 allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -3048,6 +3048,90 @@ else
 
 	
 	
+#if (Stack="17x") ; init DB Fields 
+
+	init_DB_Fields( loadName = 1, cache = 1){
+		global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
+		
+		if( loadName )
+			currentTableName()
+		
+		singular := processCamelCase( singular )
+
+		load_singularToPlural()
+		
+		result := singularToPlural[singular]
+		if(result){
+			plural := result
+		}else{
+			result := pluralToSingular[singular]
+			if(result){
+				plural := singular
+				singular := result
+			}else{
+				singular := toSingular( singular )
+				plural := toPlural( singular )
+			}
+		}
+		
+		table_name_singular := singular
+		table_name_plural := plural
+			
+		modelName := singular "`t" plural
+		
+		DB_Fields := getGlobal("dbCache_" plural)
+		
+		primary_key_row := getGlobal("dbCache_primaryKey_" plural)
+		StringSplit, primary_key_row, primary_key_row, `t
+		primary_key := primary_key_row1
+		
+		if(!DB_Fields or !cache){
+			dataTypes := getDataTypesByHttp()
+			if(dataTypes){
+				relations := getRelationsByHttp()
+				DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
+				setGlobal("dbCache_" plural, DB_Fields)
+			}
+		}
+			
+		fields := load_fields()
+		specificFieldsArr()
+	}
+
+	
+#if (Stack="17w") ; remove surrounding quotes 
+	`::
+		waitClipboard()
+		StringSplit, Clipboard, Clipboard, `n, `r
+		Clipboard=
+		
+		Loop %Clipboard0%
+		{
+			t := RegExReplace(Clipboard%A_Index%, "i)^[^""]*""([^""]*)"".*", "$1")
+			if(t != Clipboard%A_Index%)
+				Clipboard .= t "`n"
+			
+		}
+		Send ^v
+	return
+	
+#if (Stack="17v") ; repeat Command In Vscode 
+	`:: repeatCommandInVscode()
+	
+	repeatCommandInVscode(){
+		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
+			; repeat previous command in vscode
+			Click 1878, 965
+			Sleep 100
+			Click 1878, 965
+			Sleep 100
+			Send {Up}
+			Sleep 100
+			Send {Enter}
+		}
+	}
+
+	
 #if (Stack="17u") ; click and preserve mouse position 
 	`::
 		MouseGetPos, MouseX, MouseY
@@ -3087,7 +3171,34 @@ else
 	return
 	
 #if (Stack="17r") ; reposition 
-	F2::
+	`::
+		;~ reposition
+		Send {Enter}
+		waitClipboard()
+		Send {Esc}
+		
+		if( requireWinActive("ahk_exe Code.exe") ){
+			Send ^!l
+			Sleep 100
+			Send ^f
+			Sleep 100
+			Send {Enter}
+			Sleep 100
+			;~ Send {F3}
+			;~ Sleep 100
+			;~ Send +{F3}
+			Sleep 100
+			Send {Esc}
+			Send {Home}
+			Send +{End}
+			Send ^v
+			Sleep 500
+			Send {Left 2}
+			Send `, 1
+			Send ^!l
+		}
+	return
+	
 		Send {Enter}
 		waitClipboard()
 		Send {Esc}
@@ -3104,6 +3215,7 @@ else
 			Sleep 100
 			Send {Esc}
 			Send {Home}
+			
 			Send +{End}
 			Send ^v
 			Sleep 500
@@ -7272,433 +7384,138 @@ waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1
 }
 
 
-
-init_DB_Fields( loadName = 1, cache = 1){
-	global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
-	
-	if( loadName )
-		currentTableName()
-	
-	singular := processCamelCase( singular )
-
-	load_singularToPlural()
-	
-	result := singularToPlural[singular]
-	if(result){
-		plural := result
-	}else{
-		result := pluralToSingular[singular]
-		if(result){
-			plural := singular
-			singular := result
-		}else{
-			singular := toSingular( singular )
-			plural := toPlural( singular )
-		}
-	}
-	
-	table_name_singular := singular
-	table_name_plural := plural
-		
-	modelName := singular "`t" plural
-	
-	DB_Fields := getGlobal("dbCache_" plural)
-	
-	primary_key_row := getGlobal("dbCache_primaryKey_" plural)
-	StringSplit, primary_key_row, primary_key_row, `t
-	primary_key := primary_key_row1
-	
-	if(!DB_Fields or !cache){
-		dataTypes := getDataTypesByHttp()
-		if(dataTypes){
-			relations := getRelationsByHttp()
-			DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
-			setGlobal("dbCache_" plural, DB_Fields)
-		}
-	}
-		
-	fields := load_fields()
-	specificFieldsArr()
-}
-
-
-HasVal(haystack, needle) {
-	if !(IsObject(haystack)) || (haystack.Length() = 0)
-		return 0
-	for index, value in haystack
-		if (value = needle)
-			return index
-	return 0
-}
-
-durationPassed(label){
-	static lastTime
-	static lastLabel
-	
-	time := A_Min*1000*60 + A_Sec*1000 + A_MSec
-	if(lastTime){
-		diff := time - lastTime
-		myTT(lastLabel ": " diff)
-	}
-	lastTime := time
-	lastLabel := label
-}
-
-
-livewire(){
-		;~ gemsApi_apiController()
-	
-		;~ apiController()
-		;~ repository()
-		;~ resource()
-		;~ updateApiRoutes()
-	
-		
-		
-		;~ childListTest()
-		;~ listTest()
-		;~ manageTest()
-		;~ showTest()
-		
-		
-		;~ policy()
-		;~ updatePermissions()
-		
-	
-		;~ enum()
-		
-		;~ childListController()
-		;~ childListModalController()
-		;~ childListView()
-		;~ childListCompactView()
-		;~ childListModalView()
-		
-
-		;~ factory()
-		
-		;~ seeder()
-		;~ updateDatabaseSeeder()
-		
-		;~ model()
-		;~ importModel()
-		
-		;~ importController()
-		;~ listController()
-		;~ manageController()
-		;~ selectController()
-		;~ showController()
-		
-		;~ selectArrayController()
-
-		;~ importView()
-		;~ listView()
-		;~ listView_filters()
-		;~ manageView()
-		;~ showView()
-		
-		;~ updateRoutesFile()
-		;~ updateSidebar()
-}
-
-scaffoldDirectory(template, skip = 0){
-	directoryName := directoryName()
-	
-	if( skip )
-		return template
-	
-	return runScaffold( template, directoryName)
-}
-
-
-directoryName(){
-	return "Purchase Order"
-}
-
-
-currentTableName(){
-	global singular
-	
-	singular := ""
-}
-
-
-scaffoldFiles(){
-	global singular, reverse, table_name_plural, found_DB_table, DB_Fields
-	
-	;~ reverse := 1
-			
-	myTT(singular)
-	if( !DB_Fields )
-		myTT("DB table not found")
-	else{
-		;~ gemsApi_apiController()
-		;~ ws_gemsAPI_apiController_a()
-	
-		;~ resource()
-		;~ updateApiRoutes()
-	
-		;~ apiTest()
-
-		;~ factory()
-		
-		;~ seeder()
-		;~ updateDatabaseSeeder()
-		
-		;~ model()
-		
-		
-		;~ viya_listController()
-		;~ viya_listView()
-		
-		;~ viya_updateRoutes()
-		
-
-		if(reverse)
-			myTT("reverse")
-		else
-			myTT("scaffold done")
-	}
-}
-
-#if (Stack="15am") ; scaffolding mode 
-	~^s::
-		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
-			if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
-				if( requireWinActive("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
-					Click 37, 25
-					Sleep 100
-					Send {F5}
-				}
-			} else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+saveCodeAndRefreshChrome(){
+	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
+		if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+			if( requireWinActive("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
 				Click 37, 25
 				Sleep 100
 				Send {F5}
 			}
-	return
-	
-	F1:: goToReference()
-	
-	F4:: goToPrevReference()
-	
-	~^q::
-		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
-			; run repeat command in vscode
-			Click 1878, 965
+		} else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+			Click 37, 25
 			Sleep 100
-			Click 1878, 965
-			Sleep 100
-			Send {Up}
-			Sleep 100
-			Send {Enter}
+			Send {F5}
 		}
-	return
+}
+
+insertPlaceholder(){
+	Send ? value1 ?{Left 2}+{Left}
+}
+
+decodeLinesAndTabsOrScaffoldMergeAll(){
+	;~ Send ^a
 	
-	+`:: Send ? value1 ?{Left 2}+{Left}
+	;~ Clipboard=
+	waitClipboard()
 	
-	;~ F2::
-		;~ reposition
-		Send {Enter}
-		waitClipboard()
-		Send {Esc}
-		
-		if( requireWinActive("ahk_exe Code.exe") ){
-			Send ^!l
-			Sleep 100
-			Send ^f
-			Sleep 100
-			Send {Enter}
-			Sleep 100
-			;~ Send {F3}
-			;~ Sleep 100
-			;~ Send +{F3}
-			Sleep 100
-			Send {Esc}
-			Send {Home}
-			Send +{End}
-			Send ^v
-			Sleep 500
-			Send {Left 2}
-			Send `, 1
-			Send ^!l
-		}
-	return
+	;~ StringReplace, Clipboard, Clipboard, `r, , All	
 	
-	`::		
-		;~ t := Clipboard
-		;~ StringReplace, t, t, % "`n", % "", All
-		;~ StringReplace, t, t, % "`r", % "", All
-		;~ Clipboard := t
-		;~ Sleep 100
-		;~ Send ^v
-	;~ return
+	if(Clipboard){
+		; decodeLinesAndTabs
+		content := decodeLinesAndTabs(Clipboard)
+		StringReplace, content, content, `"`", `", All	
+		Clipboard := content
+	}else{
+		myTT("load as single-tab-plural if using unscaffolded template")
+		printUsingScaffold( "MA", 1, -1) ; merge all
+	}
 	
-		printUsingScaffold( "", 1, -1) ; scaffold single
-		return
-		
-		;~ printUsingScaffold( "MA", 1, 2) ; 
-		;~ return
-		
-		;~ printUsingScaffold( "C", 1, -1) ; scaffold single
-		;~ return
-		
-		;~ Send ^a
-		
-		Clipboard=
-		waitClipboard()
-		
-		;~ StringReplace, Clipboard, Clipboard, `r, , All	
-		;~ StringReplace, Clipboard, Clipboard, `                ""organisation_logo"" => null`,`n, , All
+	;~ Send ^v
+}
 
+scaffoldSingle(){
+	printUsingScaffold( "", 1, -1)
+}
 
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 9? value1 ?`,, 'role_id' => ? value4 ?,`,, All	
+scaffoldMergeAll(){
+	printUsingScaffold( "MA", 1, 2)
+}
 
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 1`,, 'role_id' => 91`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 2`,, 'role_id' => 92`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 3`,, 'role_id' => 93`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 4`,, 'role_id' => 94`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 5`,, 'role_id' => 95`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 6`,, 'role_id' => 96`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 7`,, 'role_id' => 97`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 8`,, 'role_id' => 98`,, All	
+scaffoldClipboard(){
+	printUsingScaffold( "C", 1, -1)
+}
 
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 91`,, 'role_id' => 1`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 92`,, 'role_id' => 3`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 93`,, 'role_id' => 4`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 94`,, 'role_id' => 8`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 95`,, 'role_id' => 7`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 96`,, 'role_id' => 10`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 97`,, 'role_id' => 11`,, All	
-		;~ StringReplace, Clipboard, Clipboard, 'role_id' => 98`,, 'role_id' => 2`,, All	
+listOfFields(){
+	Clipboard := scaffoldFields("""? value1 ?""`, ", 1)
+}
 
-
-		if(Clipboard){
-			; decodeLinesAndTabs
-			content := decodeLinesAndTabs(Clipboard)
-			StringReplace, content, content, `"`", `", All	
-			Clipboard := content
-		}else{
-			myTT("load as single-tab-plural if using unscaffolded template")
-			printUsingScaffold( "MA", 1, -1) ; merge all
-		}
-
-
-		;~ StringSplit, Clipboard, Clipboard, `n, `r
-		;~ Clipboard=
-		
-		;~ Loop %Clipboard0%
-		;~ {
-			;~ t := RegExReplace(Clipboard%A_Index%, "i)^[^""]*""([^""]*)"".*", "$1")
-			;~ if(t != Clipboard%A_Index%)
-				;~ Clipboard .= t "`n"
-			
-		;~ }
-		
-		;~ Send ^v
-	return
-
-	^!`:: Clipboard := scaffoldFields("""? value1 ?""`, ", 1) ; list of fields
-
-	^+!`:: ; bulk
-		;~ bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members", "atolls", "islands"]
-		bulkArr := ["tags", "document-types", "field-types", "documents", "team-accesses", "recipients", "doc-tags", "related-docs", "files", "versions", "tags", "document-types"]
-		;~ bulkArr := ["tags", "checklists", "comments", "task_tags", "task_users"]
-		
-		for k, v in bulkArr {
-			singular := snakeCase(v)
-		
-			init_DB_Fields(0, 0) ; without cache
-			;~ init_DB_Fields(0) ; with cache
-			scaffoldFiles()
-		}
-		
-		;~ for k, v in bulkArr {
-			;~ singular := snakeCase(v)
-		
-			;~ init_DB_Fields(0, 0)
-		;~ }
-	return
-			
-	^`:: ; hydrate template
-		old_Clipboard := Clipboard
-		Clipboard := """ " Clipboard " """
-		Send ^v
-		Sleep 200
-		Clipboard := old_Clipboard
-	return
+bulkScaffolding(){
+	;~ bulkArr := ["users", "cases", "organisations", "organisation_types", "countries", "teams", "statuses", "channels", "priorities", "communications", "case_item_types", "gender_types", "tasks", "case_users", "case_user_types", "individuals", "role", "permission", "role_permission", "user_role", "audits", "activity_log", "sensitivities", "tags", "checklists", "comments", "task_tags", "task_users", "id_types", "addresses", "attachments", "notifications", "notification_types", "data_source_types", "members", "atolls", "islands"]
+	bulkArr := ["tags", "document-types", "field-types", "documents", "team-accesses", "recipients", "doc-tags", "related-docs", "files", "versions", "tags", "document-types"]
+	;~ bulkArr := ["tags", "checklists", "comments", "task_tags", "task_users"]
 	
-	^+`:: ; unscaffold
-		waitClipboard()
+	for k, v in bulkArr {
+		singular := snakeCase(v)
+	
+		;~ init_DB_Fields(0, 0) ; without cache
+		init_DB_Fields(0) ; with cache
+		scaffoldFiles()
+	}
+	
+	;~ for k, v in bulkArr {
+		;~ singular := snakeCase(v)
+	
+		;~ init_DB_Fields(0, 0)
+	;~ }
+}
+
+surroundSelectionByQuotes(){
+	old_Clipboard := Clipboard
+	Clipboard := """ " Clipboard " """
+	Send ^v
+	Sleep 200
+	Clipboard := old_Clipboard
+}
+
+convertCodeToTemplate(){
+	;unscaffold
+	waitClipboard()
+	
+	content := Clipboard
+	
+	if(singular){
+		init_DB_Fields()
+		StringCaseSense, On
 		
-		content := Clipboard
+		cases =CC`tAT`tS`tSH`tC`tL`tU`tT
+		StringSplit, cases, cases, `t
 		
-		if(singular){
-			init_DB_Fields()
-			StringCaseSense, On
+		iterations := [2, 1]
+		
+		;~ name := scaffoldModel("? valueCC1 ?")
+		;~ content := StrReplace(content, name, "? valueCC91 ?")
+		
+		;~ name := scaffoldModel("? valueCC91 ?Model")
+		;~ content := StrReplace(content, name, "? valueCC1 ?")
+		
+		for k, v in iterations {
+			outer_index := v
 			
-			cases =CC`tAT`tS`tSH`tC`tL`tU`tT
-			StringSplit, cases, cases, `t
-			
-			iterations := [2, 1]
-			
-			;~ name := scaffoldModel("? valueCC1 ?")
-			;~ content := StrReplace(content, name, "? valueCC91 ?")
-			
-			;~ name := scaffoldModel("? valueCC91 ?Model")
-			;~ content := StrReplace(content, name, "? valueCC1 ?")
-			
-			for k, v in iterations {
-				outer_index := v
-				
-				Loop %cases0% {
-					name := scaffoldModel("? value" cases%A_Index% outer_index " ?")
-					content := StrReplace(content, name, "? value" cases%A_Index% outer_index " ?")
-				}
-				
+			Loop %cases0% {
+				name := scaffoldModel("? value" cases%A_Index% outer_index " ?")
+				content := StrReplace(content, name, "? value" cases%A_Index% outer_index " ?")
 			}
 			
-			content := StrReplace(content, table_name_singular, "? value" 1 " ?")
-			content := StrReplace(content, table_name_plural, "? value" 2 " ?")
-
-			StringCaseSense, Off
 		}
 		
-		clip_two := content
-		scaffold_template := content
-		
-		StringReplace, content, content, `r, , All
-		StringReplace, content, content, `", `"`", All
-		
-		content := RegExReplace(content, """( \w+ )""", "$1")
-		content := encodeLinesAndTabs(content)
-		Clipboard := content
-	return
-	
-	
-	
-	;~ `:: 
-		;~ Clipboard=
-		;~ waitClipboard()
-		;~ printUsingScaffold("C", 1, -1)
+		content := StrReplace(content, table_name_singular, "? value" 1 " ?")
+		content := StrReplace(content, table_name_plural, "? value" 2 " ?")
 
-		printUsingScaffold("", 1, -1)
-	;~ `:: 
-		;~ StringReplace, Clipboard, Clipboard, `n, *, All
-		;~ StringReplace, Clipboard, Clipboard, `r, , All
-		
-		;~ scaffoldFiles()
-		;~ fieldsFromDB()
-	return
+		StringCaseSense, Off
+	}
 	
+	clip_two := content
+	scaffold_template := content
 	
+	StringReplace, content, content, `r, , All
+	StringReplace, content, content, `", `"`", All
 	
-	;~ ^`:: printUsingScaffold( 0, -1, 0) ; reverse
-	
-	;~ ^+`:: printUsingScaffold( "MA", 1, -1) ; merge all
-	;~ `:: 
-		;~ printUsingScaffold( "MA", 1, -1) ; merge all
-		;~ Stack := "15s"
-	;~ return
-	
+	content := RegExReplace(content, """( \w+ )""", "$1")
+	content := encodeLinesAndTabs(content)
+	Clipboard := content
+}
+
 	; params
 	; L = use last line
 	; M = merge to clipboard
@@ -7817,6 +7634,167 @@ scaffoldFiles(){
 		}
 		return row
 	}
+	
+
+HasVal(haystack, needle) {
+	if !(IsObject(haystack)) || (haystack.Length() = 0)
+		return 0
+	for index, value in haystack
+		if (value = needle)
+			return index
+	return 0
+}
+
+durationPassed(label){
+	static lastTime
+	static lastLabel
+	
+	time := A_Min*1000*60 + A_Sec*1000 + A_MSec
+	if(lastTime){
+		diff := time - lastTime
+		myTT(lastLabel ": " diff)
+	}
+	lastTime := time
+	lastLabel := label
+}
+
+
+livewire(){
+		;~ gemsApi_apiController()
+	
+		;~ apiController()
+		;~ repository()
+		;~ resource()
+		;~ updateApiRoutes()
+	
+		
+		
+		;~ childListTest()
+		;~ listTest()
+		;~ manageTest()
+		;~ showTest()
+		
+		
+		;~ policy()
+		;~ updatePermissions()
+		
+	
+		;~ enum()
+		
+		;~ childListController()
+		;~ childListModalController()
+		;~ childListView()
+		;~ childListCompactView()
+		;~ childListModalView()
+		
+
+		;~ factory()
+		
+		;~ seeder()
+		;~ updateDatabaseSeeder()
+		
+		;~ model()
+		;~ importModel()
+		
+		;~ importController()
+		;~ listController()
+		;~ manageController()
+		;~ selectController()
+		;~ showController()
+		
+		;~ selectArrayController()
+
+		;~ importView()
+		;~ listView()
+		;~ listView_filters()
+		;~ manageView()
+		;~ showView()
+		
+		;~ updateRoutesFile()
+		;~ updateSidebar()
+}
+
+scaffoldDirectory(template, skip = 0){
+	directoryName := directoryName()
+	
+	if( skip )
+		return template
+	
+	return runScaffold( template, directoryName)
+}
+
+
+directoryName(){
+	return "Purchase Order"
+}
+
+
+currentTableName(){
+	global singular
+	
+	singular := ""
+}
+
+
+scaffoldFiles(){
+	global singular, reverse, table_name_plural, found_DB_table, DB_Fields
+	
+	;~ reverse := 1
+			
+	myTT(singular)
+	if(false && !DB_Fields )
+		myTT("DB table not found")
+	else{
+		;~ gemsApi_apiController()
+		;~ ws_gemsAPI_apiController_a()
+	
+		;~ resource()
+		;~ updateApiRoutes()
+	
+		;~ apiTest()
+
+		;~ factory()
+		
+		;~ seeder()
+		;~ updateDatabaseSeeder()
+		
+		;~ model()
+		
+		
+		;~ viya_listController()
+		;~ viya_listView()
+		
+		;~ viya_updateRoutes()
+		
+
+		if(reverse)
+			myTT("reverse")
+		else
+			myTT("scaffold done")
+	}
+}
+
+#if (Stack="15am") ; scaffolding mode 
+	^+`:: convertCodeToTemplate() ; convert code to template
+	
+	+`:: insertPlaceholder() ; insert placeholder
+	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
+	
+	`::	scaffoldSingle() ; scaffold single
+	;~ `::	scaffoldMergeAll() ; scaffold merge all
+	;~ `::	scaffoldClipboard() ; scaffold clipboard
+	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
+
+	F1:: goToReference() ; go to reference
+	F4:: goToPrevReference() ; go to prev reference
+	
+	~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
+	;~ ~^q:: repeatCommandInVscode() ;repeat command in vscode
+	;~ ^+!`:: bulkScaffolding() ; bulk
+	;~ ^!`:: listOfFields() ; list of fields
+	
+
+	;~ ^`:: printUsingScaffold( 0, -1, 0) ; previous
 	
 #if (Stack="15ak") ; Go to reference 
 	`:: goToReference()
