@@ -9,7 +9,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
 
-g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_communications, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_communications, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_comments, dbCache_primaryKey_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types, dbCache_members, dbCache_primaryKey_members"
+g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_communications, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_communications, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_comments, dbCache_primaryKey_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types, dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations"
 
 StringReplace, g_configurations, g_configurations, %A_Space%, , All
 StringSplit, g_configurations, g_configurations, `,
@@ -3045,24 +3045,26 @@ else
 	
 	
 #if (Stack="17r") ; reposition 
-	F2::
+	`::
 		Send {Enter}
 		waitClipboard()
 		Send {Esc}
 		
 		if( requireWinActive("ahk_exe Code.exe") ){
+			Send ^!l
 			Sleep 100
 			Send ^f
 			Sleep 100
 			Send {Enter}
 			Sleep 100
-			Send +{F3}
-			Sleep 100
-			Send +{F3}
+			;~ Send {F3}
+			;~ Sleep 100
+			;~ Send +{F3}
 			Sleep 100
 			Send {Esc}
 			Send {Home}
 			Send +{End}
+			
 			Send ^v
 			Sleep 500
 			Send {Left 2}
@@ -4802,6 +4804,23 @@ model_includes() {
 	return t
 }
 
+yii_model_includes() {
+	t := t "use Yii`;`nuse yii\base\NotSupportedException`;`nuse yii\behaviors\TimestampBehavior`;`nuse yii\db\ActiveRecord`;`n"
+	
+	;~ if(table_name_singular() = "user")
+		;~ t := t "use Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`n"
+	
+	;~ if( isActivityLoggableTables() )
+		;~ t := t "use Spatie\Activitylog\LogOptions`;`nuse Spatie\Activitylog\Models\Activity`;`nuse Spatie\Activitylog\Traits\LogsActivity`;`n"
+	
+	;~ logActivity := runSubScaffold( "model_properties", 1)
+	
+	;~ t := t "use App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n" model_includes_more()
+	;~ t := t "use Spatie\Activitylog\Facades\CauserResolver;`n" model_includes_more()
+	
+	return t
+}
+
 model_inheritance() {
 	global fields
 	
@@ -4948,7 +4967,70 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		customModelName := customModelName(table_name_singular)
 	
 	;~ customModelName := scaffoldModel( customModelName )
-	file =C:\xampp\htdocs\gems-ws-api\app\Models\%customModelName%.php
+	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %includes%, " includes "
+		StringReplace, content, content, %properties%, " properties "
+		StringReplace, content, content, %inheritance%, " inheritance "
+		StringReplace, content, content, %appends%, " appends "
+		StringReplace, content, content, %casts%, " casts "
+		StringReplace, content, content, %validationRules%, " validationRules "
+		StringReplace, content, content, %nullable%, " nullable "
+		StringReplace, content, content, %name_field%, " name_field "
+		StringReplace, content, content, %fillable%, " fillable "
+		StringReplace, content, content, %keys%, " keys "
+		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
+		StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance  activitylogOptions "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '" tableName "'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {" set_created_by " " set_created_at "`n        })`;`n        static`:`:updating(function ($model) {" set_updated_by " " set_updated_at "`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
+
+		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
+		content := scaffoldModel( t )
+	}
+		
+	fileWrite( content, file )
+}
+	
+yii_model(){
+	global
+	yii_model_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
+}
+	
+yii_model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
+	includes := yii_model_includes()
+	properties := runSubScaffold( "model_properties", 1)
+	inheritance := model_inheritance()
+	activitylogOptions := model_ActivitylogOptions()
+	tableName := tableName( table_name_plural )
+	casts := runSubScaffold( "model_casts")
+	appends := runSubScaffold( "model_appends")
+	validationRules := runSubScaffold( "model_validationRules")
+	nullable := runSubScaffold( "model_nullable")
+	dvFields := runSubScaffold( "model_dvFields")
+	
+	set_created_by := fields["created_by"] ? "`n            $model->created_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	set_created_at := fields["created_at"] ? "`n            $model->created_at = now()`;" : ""
+	set_updated_by := fields["updated_by"] ? "`n            $model->updated_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	set_updated_at := fields["updated_at"] ? "`n            $model->updated_at = now()`;" : ""
+	
+	name_field := "`        return $this->" name_field() "`;`n"
+	fillable := runSubScaffold( "model_fillable")
+	keys := scaffoldFields("`            '? value1 ?'`,`n")
+	dateGettersAndSetters := runSubScaffold( "model_dateGettersAndSetters")
+	relations := runSubScaffold( "model_relations", 1)
+	opposite_relations := opposite_relations(table_name_plural)
+	
+	customModelName := scaffoldModel( "? valueCC1 ?" )
+	
+	if( customModelName(table_name_singular) )
+		customModelName := customModelName(table_name_singular)
+	
+	;~ customModelName := scaffoldModel( customModelName )
+	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6906,9 +6988,9 @@ getDataTypesByHttp(){
 	
 	if(!cache[name] and name and name != "s"){
 		if(location = "ncit_laptop")
-			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=gemsapi&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=ecouncil_ecouncil_r2&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/structure&db=gemsapi&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/structure&db=ecouncil_ecouncil_r2&table=%name%, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -6962,9 +7044,9 @@ getRelationsByHttp(){
 	
 	if(!cache[name] and name and name != "s"){
 		if(location = "ncit_laptop")
-			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=gemsapi&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=ecouncil_ecouncil_r2&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/relation&db=gemsapi&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/relation&db=ecouncil_ecouncil_r2&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -7258,7 +7340,7 @@ livewire(){
 currentTableName(){
 	global singular
 	
-	singular := ""
+	singular := "house_registrations"
 }
 
 
@@ -7284,7 +7366,7 @@ scaffoldFiles(){
 		;~ seeder()
 		;~ updateDatabaseSeeder()
 		
-		;~ model()
+		yii_model()
 		
 		
 		;~ viya_listController()
@@ -7301,6 +7383,11 @@ scaffoldFiles(){
 }
 
 #if (Stack="15am") ; scaffolding mode 
+	F1:: goToReference()
+	
+	F4:: goToPrevReference()
+	
+	; save
 	~^s::
 		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
 			if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
@@ -7316,13 +7403,9 @@ scaffoldFiles(){
 			}
 	return
 	
-	F1:: goToReference()
-	
-	F4:: goToPrevReference()
-	
+	; run repeat command in vscode
 	~^q::
 		if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
-			; run repeat command in vscode
 			Click 1878, 965
 			Sleep 100
 			Click 1878, 965
@@ -7333,36 +7416,10 @@ scaffoldFiles(){
 		}
 	return
 	
+	; insert placeholder
 	+`:: Send ? value1 ?{Left 2}+{Left}
 	
-	;~ F2::
-		;~ reposition
-		Send {Enter}
-		waitClipboard()
-		Send {Esc}
-		
-		if( requireWinActive("ahk_exe Code.exe") ){
-			Send ^!l
-			Sleep 100
-			Send ^f
-			Sleep 100
-			Send {Enter}
-			Sleep 100
-			;~ Send {F3}
-			;~ Sleep 100
-			;~ Send +{F3}
-			Sleep 100
-			Send {Esc}
-			Send {Home}
-			Send +{End}
-			Send ^v
-			Sleep 500
-			Send {Left 2}
-			Send `, 1
-			Send ^!l
-		}
-	return
-	
+	; scaffold
 	`::		
 		;~ t := Clipboard
 		;~ StringReplace, t, t, % "`n", % "", All
