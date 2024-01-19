@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;550 character for translation,18f;"
 loadStacks()
 
 
@@ -3015,6 +3015,15 @@ else
 
 	
 	
+#if (Stack="18f") ; 550 character for translation 
+	`::
+		Clipboard := SubStr(clipList, 1, 9950) 
+		clipList := SubStr(clipList, 9950)
+		Send ^v
+		myTT("clip loaded")
+		;~ https://translate.yandex.com/?source_lang=zh&target_lang=en&text=%E5%86%B6%E9%9D%92
+	return
+	
 #if (Stack="18e") ; array has value 
 	HasVal(haystack, needle) {
 		if !(IsObject(haystack)) || (haystack.Length() = 0)
@@ -4517,8 +4526,8 @@ XButton2::
 		;~ Clipboard := SubStr(Clipboard, 1000)
 		
 		;~ t := SubStr(clipList, 1, 50000) " Hammadh End of document Hammadh End of document"
-		t := SubStr(clipList, 1, 50000)
-		clipList := SubStr(clipList, 50001)
+		t := SubStr(clipList, 1, 200000)
+		clipList := SubStr(clipList, 200001)
 
 		FileDelete, C:\xampp\htdocs\router\web\read.html
 		FileAppend, % "<button class=""btn"" onclick=""copyContent()"">Copy!</button>`n<p id=""myText"" style=""font-size`: 5px`;"">" t "</p>`n`n<script>`n  const copyContent = async () => {`n    try {`n      let text = document.getElementById('myText').innerHTML`;`n      const textarea = document.createElement('textarea')`;`n      textarea.value = text`;`n`n      // Move the textarea outside the viewport to make it invisible`n      textarea.style.position = 'absolute'`;`n      textarea.style.left = '-99999999px'`;`n`n      document.body.prepend(textarea)`;`n`n      // highlight the content of the textarea element`n      textarea.select()`;`n`n      try {`n        document.execCommand('copy')`;`n      } catch (err) {`n        alert('Failed to copy2`: ' + err)`;`n      } finally {`n        textarea.remove()`;`n      }`n`n    } catch (err) {`n      alert('Failed to copy`: ' + err)`;`n    }`n  }`n</script>", C:\xampp\htdocs\router\web\read.html, UTF-8
