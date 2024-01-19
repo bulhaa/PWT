@@ -1,6 +1,6 @@
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-new_g_configurations := ", dbCache_members, dbCache_primaryKey_members"
+new_g_configurations := ", dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations"
 g_configurations()
 
 iniClipList()
@@ -3075,7 +3075,7 @@ else
 
 	loadStacks(){
 		global
-		coreStacks:= "Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
+		coreStacks:= "scratch excel,16o,e;Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
 		personalStacks:= "r,12r;c,12v;a,11y;right click,13m;records mv notes,14b;"
 		infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;windows host file,13o;gitlab git.egov.mv,14d;"
 		soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
@@ -3100,7 +3100,7 @@ else
 		ncitStacks := ncitStacks "case manager local,17c;"
 		ncitStacks := ncitStacks "case manager docker,16t;"
 		ncitStacks := ncitStacks "case manager local mix,14k;"
-		ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;scratch excel,16o;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;repeat Command In Vscode,17v;remove surrounding quotes,17w;init DB Fields,17x;some random ip,17y;kill process,17z;" newStacks
+		ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;repeat Command In Vscode,17v;remove surrounding quotes,17w;init DB Fields,17x;some random ip,17y;kill process,17z;" newStacks
 
 
 		allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -3276,7 +3276,6 @@ else
 	
 #if (Stack="17r") ; reposition 
 	`::
-		;~ reposition
 		Send {Enter}
 		waitClipboard()
 		Send {Esc}
@@ -3294,33 +3293,9 @@ else
 			Sleep 100
 			Send {Esc}
 			Send {Home}
-			Send +{End}
-			Send ^v
-			Sleep 500
-			Send {Left 2}
-			Send `, 1
-			Send ^!l
-		}
-	return
-	
-		Send {Enter}
-		waitClipboard()
-		Send {Esc}
-		
-		if( requireWinActive("ahk_exe Code.exe") ){
-			Sleep 100
-			Send ^f
-			Sleep 100
-			Send {Enter}
-			Sleep 100
-			Send +{F3}
-			Sleep 100
-			Send +{F3}
-			Sleep 100
-			Send {Esc}
-			Send {Home}
 			
 			Send +{End}
+			
 			Send ^v
 			Sleep 500
 			Send {Left 2}
@@ -4968,6 +4943,76 @@ model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_t
 	return t
 }
 
+yii_searchModel_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+		t := "`            // [['? value1 ?']`, 'safe']`,`n"
+	
+	numeric := ""
+	;~ if( InStr(data_type, "int(") and !related_table_singular )
+	if( InStr(data_type, "int(")  )
+		t .= "`            [['? value1 ?']`, 'integer']`,`n"
+	else if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t .= "`            [['? value1 ?']`, 'date']`,`n"
+	;~ else
+		;~ t .= "`            [['? value1 ?']`, 'string']`,`n"
+	
+
+	return t
+}
+
+yii_searchModel_filters( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	;~ arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	;~ if( HasVal(arr, field_name) )
+		;~ return ""
+	
+		t := "`            '? value1 ?' => $this->? value1 ?`,`n"
+	
+	;~ numeric := ""
+	;~ if( InStr(data_type, "int(") and !related_table_singular )
+	;~ if( InStr(data_type, "int(")  )
+		;~ t .= "`            [['? value1 ?']`, 'integer']`,`n"
+	;~ else if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		;~ t .= "`            [['? value1 ?']`, 'date']`,`n"
+	;~ else
+		;~ t .= "`            [['? value1 ?']`, 'string']`,`n"
+	
+
+	return t
+}
+
+yii_model_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	if( HasVal(arr, field_name) )
+		return ""
+	
+	if( InStr(nullability, "No") )
+		t := "`            [['? value1 ?']`, 'required']`,`n"
+	
+	numeric := ""
+	;~ if( InStr(data_type, "int(") and !related_table_singular )
+	if( InStr(data_type, "int(")  )
+		t .= "`            [['? value1 ?']`, 'integer']`,`n"
+	else if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		t .= "`            [['? value1 ?']`, 'date']`,`n"
+	else
+		t .= "`            [['? value1 ?']`, 'string']`,`n"
+	
+
+	return t
+}
+
 model_nullable( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	
 	arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
@@ -4991,6 +5036,26 @@ model_dateGettersAndSetters( field_name = 1, data_type = 2, nullability = 3, rel
 	if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
 		t := "`    public function get? valueCC1 ?ForEditingAttribute()`n    {`n        return $this->? valueS1 ? ? $this->? valueS1 ?->format('d/m/Y') `: ''`;`n    }`n`n    public function set? valueCC1 ?ForEditingAttribute($value)`n    {`n        $this->? valueS1 ? = parseDate($value)`;`n    }`n`n"
 	else
+		t := ""
+	
+	return t
+}
+
+yii_model_relations( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	valueCC4 := "? valueCC4 ?"
+	if( customModelName(related_table_singular) )
+		valueCC4 := customModelName(related_table_singular)
+	
+	name := scaffoldModel("? valueL1 ?")
+	plural := scaffoldModel("? valueL2 ?")
+	plural_C := scaffoldModel("? valueCC2 ?")
+	model := scaffoldModel("? valueCC1 ?")
+	
+	if(related_table_singular != "" ){
+		t := "`    /**`n     * Get the ? valueL4 ? that owns the " name ".`n     */`n    public function get? valueCC12 ?()`n    {`n        return $this->hasOne(" valueCC4 "`:`:className()`, ['" related_primary_key "' => '? value1 ?'])`;`n    }`n`n    // /**`n    //  * Get the " plural " for the ? valueL4 ?.`n    //  */`n    // public function get" plural_C "()`n    // {`n    //     return $this->hasMany(" model "`:`:className()`, ['? value1 ?' => '" related_primary_key "'])`;`n    // }`n`n"
+		without_id := StrReplace(field_name, "_id", "")
+		t := replaceMarker(without_id, t, 91)
+	}else
 		t := ""
 	
 	return t
@@ -5060,6 +5125,23 @@ model_includes() {
 	
 	;~ t := t "use App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n" model_includes_more()
 	t := t "use Spatie\Activitylog\Facades\CauserResolver;`n" model_includes_more()
+	
+	return t
+}
+
+yii_model_includes() {
+	t := t "use Yii`;`nuse yii\base\NotSupportedException`;`nuse yii\behaviors\TimestampBehavior`;`nuse yii\db\ActiveRecord`;`n"
+	
+	;~ if(table_name_singular() = "user")
+		;~ t := t "use Illuminate\Contracts\Auth\MustVerifyEmail`;`nuse Illuminate\Foundation\Auth\? valueAT1 ? as Authenticatable`;`nuse Illuminate\Notifications\Notifiable`;`nuse Laravel\Sanctum\HasApiTokens`;`n"
+	
+	;~ if( isActivityLoggableTables() )
+		;~ t := t "use Spatie\Activitylog\LogOptions`;`nuse Spatie\Activitylog\Models\Activity`;`nuse Spatie\Activitylog\Traits\LogsActivity`;`n"
+	
+	;~ logActivity := runSubScaffold( "model_properties", 1)
+	
+	;~ t := t "use App\Traits\LocalizerTrait;`nuse Spatie\Activitylog\Facades\CauserResolver;`n" model_includes_more()
+	;~ t := t "use Spatie\Activitylog\Facades\CauserResolver;`n" model_includes_more()
 	
 	return t
 }
@@ -5210,7 +5292,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		customModelName := customModelName(table_name_singular)
 	
 	;~ customModelName := scaffoldModel( customModelName )
-	file =C:\xampp\htdocs\gems-ws-api\app\Models\%customModelName%.php
+	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -5230,6 +5312,148 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		StringReplace, content, content, %relations%, " relations "
 	}else{
 		t := "<?php`nnamespace App\Models`;`n`n" includes "`n/**`n * Class ? valueAT1 ?`n * @package App\Models\ModelBase`n *`n" properties " */`nclass ? valueCC1 ? extends " inheritance  activitylogOptions "`n`n    /**`n     * The table associated with the model.`n     *`n     * @var string`n     */`n    protected $table = '" tableName "'`;`n`n    /**`n     * The primary key for the model.`n     *`n     * @var string`n     */`n    protected $primaryKey = '" primary_key "'`;`n`n    /**`n     * Indicates if the IDs are auto-incrementing.`n     *`n     * @var bool`n     */`n    public $incrementing = true`;`n`n    /**`n     * Indicates if the model should be timestamped.`n     *`n     * @var bool`n     */`n    public $timestamps = true`;`n`n`n    const STATUSES = [`n        'success' => 'Success'`,`n        'failed' => 'Failed'`,`n        'processing' => 'Processing'`,`n    ]`;`n`n    protected $guarded = []`;`n    protected $casts = [`n" casts "    ]`;`n    protected $appends = [`n" appends "    ]`;`n`n    protected function rules($prefix = 'editing.')`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    public $nullable = [`n" nullable "    ]`;`n`n    public $localizedFields = [`n" dvFields "    ]`;`n`n    /**`n     * This is model Observer which helps to do the same actions automatically when you creating or updating models`n     *`n     * @var array`n     */`n    protected static function boot()`n    {`n        parent`:`:boot()`;`n        static`:`:creating(function ($model) {" set_created_by " " set_created_at "`n        })`;`n        static`:`:updating(function ($model) {" set_updated_by " " set_updated_at "`n        })`;`n    }`n`n    public function getSingularAttribute()`n    {`n        return '? valueL1 ?'`;`n    }`n`n    public function getName()`n    {`n" name_field "    }`n`n    /**`n     * The attributes that are mass assignable.`n     *`n     * @var array<int`, string>`n     */`n    protected $fillable = [`n" fillable "   ]`;`n`n    // /**`n    //  * The attributes that should be hidden.`n    //  *`n    //  * @var array<string`, string>`n    //  */`n    // protected $hidden = [`n    // ]`;`n`n    /**`n     * @return string[]`n     */`n    public static function keys()`: array`n    {`n        return [`n" keys "        ]`;`n    }`n`n" dateGettersAndSetters "`n`n" relations "`n`n" opposite_relations "}`n"
+
+		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
+		content := scaffoldModel( t )
+	}
+		
+	fileWrite( content, file )
+}
+	
+yii_searchModel(){
+	global
+	yii_searchModel_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
+}
+	
+yii_searchModel_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
+	;~ includes := yii_model_includes()
+	;~ properties := runSubScaffold( "model_properties", 1)
+	;~ inheritance := model_inheritance()
+	;~ activitylogOptions := model_ActivitylogOptions()
+	;~ tableName := tableName( table_name_plural )
+	;~ casts := runSubScaffold( "model_casts")
+	;~ appends := runSubScaffold( "model_appends")
+	validationRules := runSubScaffold( "yii_searchModel_validationRules")
+	filters := runSubScaffold( "yii_searchModel_filters")
+	;~ nullable := runSubScaffold( "model_nullable")
+	;~ dvFields := runSubScaffold( "model_dvFields")
+	
+	;~ set_created_by := fields["created_by"] ? "`n            $model->created_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	;~ set_created_at := fields["created_at"] ? "`n            $model->created_at = now()`;" : ""
+	;~ set_updated_by := fields["updated_by"] ? "`n            $model->updated_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	;~ set_updated_at := fields["updated_at"] ? "`n            $model->updated_at = now()`;" : ""
+	
+	;~ name_field := "`        return $this->" name_field() "`;`n"
+	;~ fillable := runSubScaffold( "model_fillable")
+	;~ keys := scaffoldFields("`            '? value1 ?'`,`n")
+	;~ dateGettersAndSetters := runSubScaffold( "model_dateGettersAndSetters")
+	;~ relations := runSubScaffold( "model_relations", 1)
+	;~ opposite_relations := opposite_relations(table_name_plural)
+	
+	customModelName := scaffoldModel( "? valueCC1 ?" )
+	
+	if( customModelName(table_name_singular) )
+		customModelName := customModelName(table_name_singular)
+	
+	;~ customModelName := scaffoldModel( customModelName )
+	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%Search.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %includes%, " includes "
+		StringReplace, content, content, %properties%, " properties "
+		StringReplace, content, content, %inheritance%, " inheritance "
+		StringReplace, content, content, %appends%, " appends "
+		StringReplace, content, content, %casts%, " casts "
+		StringReplace, content, content, %validationRules%, " validationRules "
+		StringReplace, content, content, %nullable%, " nullable "
+		StringReplace, content, content, %name_field%, " name_field "
+		StringReplace, content, content, %fillable%, " fillable "
+		StringReplace, content, content, %keys%, " keys "
+		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
+		StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`n`nnamespace app\models`;`n`nuse Yii`;`nuse yii\base\Model`;`nuse yii\data\ActiveDataProvider`;`nuse app\models\? valueCC1 ?`;`n`n/**`n * ? valueCC1 ?Search represents the model behind the search form about ``common\models\? valueCC1 ?``.`n */`nclass ? valueCC1 ?Search extends ? valueCC1 ?`n{`n    /**`n     * @inheritdoc`n     */`n    public function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    /**`n     * @inheritdoc`n     */`n    public function scenarios()`n    {`n        // bypass scenarios() implementation in the parent class`n        return Model`:`:scenarios()`;`n    }`n`n    /**`n     * Creates data provider instance with search query applied`n     *`n     * @param array $params`n     *`n     * @return ActiveDataProvider`n     */`n    public function search($params)`n    {`n        $query = ? valueCC1 ?`:`:find()`;`n`n        $dataProvider = new ActiveDataProvider([`n            'query' => $query`,`n        ])`;`n`n        if (!($this->load($params) && $this->validate())) {`n            return $dataProvider`;`n        }`n`n        $query->andFilterWhere([`n" filters "        ])`;`n`n        // $query->andFilterWhere(['like'`, 'title'`, $this->title])`n        //     ->andFilterWhere(['like'`, 'description'`, $this->description])`;`n`n        return $dataProvider`;`n    }`n}`n"
+
+		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
+		content := scaffoldModel( t )
+	}
+		
+	fileWrite( content, file )
+}
+
+
+yii_model_attributeLabels( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	
+	without_id := RegExReplace(field_name, "_id$", "")
+	
+	;~ if( InStr(data_type, "varchar") || InStr(data_type, "char") )
+		t := "`            '? value1 ?' => '? valueAT91 ?'`,`n"
+		
+	t := replaceMarker(without_id, t, 91)
+	
+	return t
+}
+
+
+yii_model(){
+	global
+	yii_model_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
+}
+	
+yii_model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
+	includes := yii_model_includes()
+	properties := runSubScaffold( "model_properties", 1)
+	;~ inheritance := model_inheritance()
+	;~ activitylogOptions := model_ActivitylogOptions()
+	tableName := tableName( table_name_plural )
+	;~ casts := runSubScaffold( "model_casts")
+	;~ appends := runSubScaffold( "model_appends")
+	validationRules := runSubScaffold( "yii_model_validationRules")
+	attributeLabels := runSubScaffold( "yii_model_attributeLabels")
+	;~ nullable := runSubScaffold( "model_nullable")
+	;~ dvFields := runSubScaffold( "model_dvFields")
+	
+	;~ set_created_by := fields["created_by"] ? "`n            $model->created_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	;~ set_created_at := fields["created_at"] ? "`n            $model->created_at = now()`;" : ""
+	;~ set_updated_by := fields["updated_by"] ? "`n            $model->updated_by = optional(CauserResolver`:`:resolve())->id`;" : ""
+	;~ set_updated_at := fields["updated_at"] ? "`n            $model->updated_at = now()`;" : ""
+	
+	name_field := "`        return $this->" name_field() "`;`n"
+	;~ fillable := runSubScaffold( "model_fillable")
+	;~ keys := scaffoldFields("`            '? value1 ?'`,`n")
+	;~ dateGettersAndSetters := runSubScaffold( "model_dateGettersAndSetters")
+	relations := runSubScaffold( "yii_model_relations", 1)
+	opposite_relations := opposite_relations(table_name_plural)
+	
+	customModelName := scaffoldModel( "? valueCC1 ?" )
+	
+	if( customModelName(table_name_singular) )
+		customModelName := customModelName(table_name_singular)
+	
+	;~ customModelName := scaffoldModel( customModelName )
+	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%.php
+	
+	if(reverse){
+		FileRead, content, %file%
+		StringReplace, content, content, `r, , All
+		
+		StringReplace, content, content, %includes%, " includes "
+		StringReplace, content, content, %properties%, " properties "
+		StringReplace, content, content, %inheritance%, " inheritance "
+		StringReplace, content, content, %appends%, " appends "
+		StringReplace, content, content, %casts%, " casts "
+		StringReplace, content, content, %validationRules%, " validationRules "
+		StringReplace, content, content, %nullable%, " nullable "
+		StringReplace, content, content, %name_field%, " name_field "
+		StringReplace, content, content, %fillable%, " fillable "
+		StringReplace, content, content, %keys%, " keys "
+		StringReplace, content, content, %dateGettersAndSetters%, " dateGettersAndSetters "
+		StringReplace, content, content, %relations%, " relations "
+	}else{
+		t := "<?php`n`nnamespace app\models`;`n`n" includes "`n`n/**`n * ? valueCC1 ? model`n *`n" properties " */`nclass ? valueCC1 ? extends ActiveRecord`n{`n    const STATUS_DELETED = 0`;`n    const STATUS_INACTIVE = 9`;`n    const STATUS_ACTIVE = 10`;`n`n`n    /**`n     * {@inheritdoc}`n     */`n    public static function tableName()`n    {`n        return '{{`%? valueS2 ?}}'`;`n    }`n`n    /**`n     * {@inheritdoc}`n     */`n    public function behaviors()`n    {`n        return [`n            TimestampBehavior`:`:class`,`n        ]`;`n    }`n`n    /**`n     * @inheritdoc`n     */`n    public function rules()`n    {`n        return [`n" validationRules "        ]`;`n    }`n`n    /**`n     * @inheritdoc`n     */`n    public function attributeLabels()`n    {`n        return [`n" attributeLabels "        ]`;`n    }`n`t`n" relations "`n`n" opposite_relations "`t`n`n}`n"
 
 		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
 		content := scaffoldModel( t )
@@ -5324,6 +5548,30 @@ updateDatabaseSeeder_a(table_name_singular = 1, table_name_plural = 2, reverse =
 	fileWrite( content, file )
 }
 	
+yii_IndexView_fields( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
+	name := scaffoldModel("? valueS1 ?")
+	
+	;~ arr := ["created_by", "updated_by", "created_at", "updated_at", "deleted_at"]
+
+	;~ if( HasVal(arr, field_name) )
+		;~ return ""
+	
+	;~ required := "nullable|"`
+	;~ if( InStr(nullability, "No") )
+		;~ required := "required|"
+	
+	;~ numeric := ""
+	;~ if( InStr(data_type, "int(") and !related_table_singular )
+		;~ numeric := "numeric|"
+	
+	;~ if(data_type = "datetime" or data_type = "timestamp" or data_type = "date" )
+		;~ t := "`            '? value1 ?' => '" required "'`,`n"
+	;~ else
+		t := "`            '? value1 ?'`,`n"
+	
+	return t
+}
+
 apiController_validationRules( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
 	name := scaffoldModel("? valueS1 ?")
 	
@@ -5432,6 +5680,54 @@ ws_gemsAPI_apiController_a(table_name_singular = 1, table_name_plural = 2, rever
 	
 	name := scaffoldModel("? valueCC1 ?Controller")
 	file =C:\xampp\htdocs\gems-ws-api\app\Http\Controllers\%name%.php
+	
+	fileWrite( content, file )
+}
+	
+yii_IndexView(){
+	global
+	yii_IndexView_a( table_name_singular, table_name_plural, reverse )
+}
+	
+yii_IndexView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	fields := runSubScaffold( "yii_IndexView_fields")
+	
+	t := "<?php`n`nuse yii\helpers\Html`;`nuse yii\grid\GridView`;`nuse yii\helpers\Url`;`n`n/* @var $this yii\web\View */`n/* @var $searchModel app\models\? valueCC1 ?Search */`n/* @var $dataProvider yii\data\ActiveDataProvider */`n`n$this->title = '? valueAT2 ?'`;`n$this->params['breadcrumbs'][] = $this->title`;`n?>`n<div class=""? valueS1 ?-index"">`n`n    <h1><?= Html`:`:encode($this->title) ?></h1>`n    <?php // echo $this->render('_search'`, ['model' => $searchModel])`; ?>`n`n    <p>`n        <?= Html`:`:a('Create ? valueAT1 ?'`, ['create']`, ['class' => 'btn btn-success']) ?>`n    </p>`n`n    <?= GridView`:`:widget([`n        'dataProvider' => $dataProvider`,`n        'filterModel' => $searchModel`,`n        'columns' => [`n" fields "            // '? value1 ?`:ntext'`,`n            // [`n            //     'attribute' => '? value1 ?'`,`n            //     'value' => function ($model) {`n            //         return empty($model->? value1 ?) ? '-' `: $model->? value12 ?->title`;`n            //     }`,`n            // ]`,`n            [`n                'class' => 'yii\grid\ActionColumn'`,`n                'template' => '{view} {update} {images} {delete}'`,`n                'buttons' => [`n                    'images' => function ($url`, $model`, $key) {`n                         return Html`:`:a('<span class=""glyphicon glyphicon glyphicon-picture"" aria-label=""Image""></span>'`, Url`:`:to(['image/index'`, 'id' => $model->" primary_key() "]))`;`n                    }`n                ]`,`n            ]`,`n        ]`,`n    ])`; ?>`n`n</div>`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueSH1 ?")
+	FileCreateDir, C:\xampp\htdocs\ecouncil\ecouncil\views\%name%
+	
+	file =C:\xampp\htdocs\ecouncil\ecouncil\views\%name%\index.php
+	
+	fileWrite( content, file )
+}
+	
+yii_Controller(){
+	global
+	yii_Controller_a( table_name_singular, table_name_plural, reverse )
+}
+	
+yii_Controller_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	validationRules := runSubScaffold( "apiController_validationRules")
+	
+	t := "<?php`n`nnamespace app\controllers`;`n`nuse Yii`;`nuse app\models\? valueCC1 ?`;`nuse app\models\? valueCC1 ?Search`;`nuse yii\web\Controller`;`nuse yii\web\NotFoundHttpException`;`nuse yii\filters\VerbFilter`;`n`n/**`n * ? valueCC1 ?Controller implements the CRUD actions for ? valueCC1 ? model.`n */`nclass ? valueCC1 ?Controller extends Controller`n{`n    public function behaviors()`n    {`n        return [`n            'verbs' => [`n                'class' => VerbFilter`:`:className()`,`n                'actions' => [`n                    'delete' => ['post']`,`n                ]`,`n            ]`,`n        ]`;`n    }`n`n    /**`n     * Lists all ? valueCC1 ? models.`n     * @return mixed`n     */`n    public function actionIndex()`n    {`n        $searchModel = new ? valueCC1 ?Search()`;`n        $dataProvider = $searchModel->search(Yii`:`:$app->request->queryParams)`;`n`n        return $this->render('index'`, [`n            'searchModel' => $searchModel`,`n            'dataProvider' => $dataProvider`,`n        ])`;`n    }`n`n    /**`n     * Displays a single ? valueCC1 ? model.`n     * @param integer $id`n     * @return mixed`n     */`n    public function actionView($id)`n    {`n        return $this->render('view'`, [`n            'model' => $this->findModel($id)`,`n        ])`;`n    }`n`n    /**`n     * Creates a new ? valueCC1 ? model.`n     * If creation is successful`, the browser will be redirected to the 'view' page.`n     * @return mixed`n     */`n    public function actionCreate()`n    {`n        $categories = Category`:`:find()->all()`;`n        $model = new ? valueCC1 ?()`;`n`n        if ($model->load(Yii`:`:$app->request->post()) && $model->save()) {`n            return $this->redirect(['view'`, 'id' => $model->id])`;`n        } else {`n            return $this->render('create'`, [`n                'model' => $model`,`n                'categories' => $categories`,`n            ])`;`n        }`n    }`n`n    /**`n     * Updates an existing ? valueCC1 ? model.`n     * If update is successful`, the browser will be redirected to the 'view' page.`n     * @param integer $id`n     * @return mixed`n     */`n    public function actionUpdate($id)`n    {`n        $categories = Category`:`:find()->all()`;`n        $model = $this->findModel($id)`;`n`n        if ($model->load(Yii`:`:$app->request->post()) && $model->save()) {`n            return $this->redirect(['view'`, 'id' => $model->id])`;`n        } else {`n            return $this->render('update'`, [`n                'model' => $model`,`n                'categories' => $categories`,`n            ])`;`n        }`n    }`n`n    /**`n     * Deletes an existing ? valueCC1 ? model.`n     * If deletion is successful`, the browser will be redirected to the 'index' page.`n     * @param integer $id`n     * @return mixed`n     */`n    public function actionDelete($id)`n    {`n        $this->findModel($id)->delete()`;`n`n        return $this->redirect(['index'])`;`n    }`n`n    /**`n     * Finds the ? valueCC1 ? model based on its primary key value.`n     * If the model is not found`, a 404 HTTP exception will be thrown.`n     * @param integer $id`n     * @return ? valueCC1 ? the loaded model`n     * @throws NotFoundHttpException if the model cannot be found`n     */`n    protected function findModel($id)`n    {`n        if (($model = ? valueCC1 ?`:`:findOne($id)) !== null) {`n            return $model`;`n        } else {`n            throw new NotFoundHttpException('The requested page does not exist.')`;`n        }`n    }`n}`n"
+	
+	if( customModelName(table_name_singular) )
+		StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueCC1 ?Controller")
+	file =C:\xampp\htdocs\ecouncil\ecouncil\controllers\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -7172,9 +7468,9 @@ getDataTypesByHttp(){
 	
 	if(!cache[name] and name and name != "s"){
 		if(location = "ncit_laptop")
-			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=gemsapi&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_structure.php?db=ecouncil_ecouncil_r2&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/structure&db=gemsapi&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/structure&db=ecouncil_ecouncil_r2&table=%name%, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -7228,9 +7524,9 @@ getRelationsByHttp(){
 	
 	if(!cache[name] and name and name != "s"){
 		if(location = "ncit_laptop")
-			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=gemsapi&table=%name%, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/tbl_relation.php?db=ecouncil_ecouncil_r2&table=%name%, %A_ScriptDir%\table_info.html
 		else
-			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/relation&db=gemsapi&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
+			UrlDownloadToFile http://localhost/phpmyadmin/index.php?route=/table/relation&db=ecouncil_ecouncil_r2&table=%name%&ajax_request=true&ajax_page_request=true, %A_ScriptDir%\table_info.html
 		
 		FileRead, table_info, %A_ScriptDir%\table_info.html
 		cache[name] := table_info
@@ -7530,6 +7826,7 @@ bulkScaffolding(){
 }
 
 surroundSelectionByQuotes(){
+	;~ global
 	old_Clipboard := Clipboard
 	Clipboard := """ " Clipboard " """
 	Send ^v
@@ -7538,6 +7835,8 @@ surroundSelectionByQuotes(){
 }
 
 convertCodeToTemplate(){
+	global
+	
 	;unscaffold
 	waitClipboard()
 	
@@ -7772,6 +8071,39 @@ livewire(){
 		
 		;~ updateRoutesFile()
 		;~ updateSidebar()
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		;~ gemsApi_apiController()
+		;~ ws_gemsAPI_apiController_a()
+	
+		;~ resource()
+		;~ updateApiRoutes()
+	
+		;~ apiTest()
+
+		;~ factory()
+		
+		;~ seeder()
+		;~ updateDatabaseSeeder()
+		
+		;~ model()
+		
+		
+		
+		;~ viya_listController()
+		;~ viya_listView()
+		
+		;~ viya_updateRoutes()
+
 }
 
 scaffoldDirectory(template, skip = 0){
@@ -7793,6 +8125,7 @@ currentTableName(){
 	global singular
 	
 	singular := ""
+	;~ singular := "Product"
 }
 
 
@@ -7802,30 +8135,15 @@ scaffoldFiles(){
 	;~ reverse := 1
 			
 	myTT(singular)
-	if(false && !DB_Fields )
+	if( !DB_Fields )
 		myTT("DB table not found")
 	else{
-		;~ gemsApi_apiController()
-		;~ ws_gemsAPI_apiController_a()
-	
-		;~ resource()
-		;~ updateApiRoutes()
-	
-		;~ apiTest()
-
-		;~ factory()
 		
-		;~ seeder()
-		;~ updateDatabaseSeeder()
+		;~ yii_model()
+		;~ yii_searchModel()
+		;~ yii_Controller()
 		
-		;~ model()
-		
-		
-		;~ viya_listController()
-		;~ viya_listView()
-		
-		;~ viya_updateRoutes()
-		
+		;~ yii_IndexView()
 
 		if(reverse)
 			myTT("reverse")
@@ -7838,12 +8156,12 @@ scaffoldFiles(){
 	^+`:: convertCodeToTemplate() ; convert code to template
 	
 	+`:: insertPlaceholder() ; insert placeholder
-	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
+	^`:: surroundSelectionByQuotes() ; surround selection by quotes
 	
-	`::	scaffoldSingle() ; scaffold single
+	;~ `::	scaffoldSingle() ; scaffold single
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
-	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
+	`::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
 
 	F1:: goToReference() ; go to reference
 	F4:: goToPrevReference() ; go to prev reference
