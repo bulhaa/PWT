@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;"
 loadStacks()
 
 
@@ -2999,6 +2999,11 @@ else if(Stack="18g") ; primevue
 		Button1_Label=https`://primevue.org/calendar/
 		run, %Button1_Label%
 	}
+else if(Stack="18i") ; ahk github 
+	{
+		Button1_Label=https`://github.com/camerb/AHKs/tree/master
+		run, %Button1_Label%
+	}
 else
 	{	
 		EditVisible :=1
@@ -3025,7 +3030,7 @@ else
 
 	
 	
-#if (Stack="18f") ; 550 character for translation 
+#if (Stack="18h") ; 550 character for translation 
 	`::
 		Clipboard := SubStr(clipList, 1, 9950) 
 		clipList := SubStr(clipList, 9950)
@@ -4530,19 +4535,39 @@ XButton2::
 	
 #if (Stack="11s") ; First 1000 characters to localhost 
 	`::
-		;~ Send ^a
-		;~ waitClipboard()
-		;~ t := SubStr(Clipboard, 1, 1000)
-		;~ Clipboard := SubStr(Clipboard, 1000)
+		mergeClipboard()
 		
-		;~ t := SubStr(clipList, 1, 50000) " Hammadh End of document Hammadh End of document"
 		t := SubStr(clipList, 1, 200000)
 		clipList := SubStr(clipList, 200001)
 
-		FileDelete, C:\xampp\htdocs\router\web\read.html
-		FileAppend, % "<button class=""btn"" onclick=""copyContent()"">Copy!</button>`n<p id=""myText"" style=""font-size`: 5px`;"">" t "</p>`n`n<script>`n  const copyContent = async () => {`n    try {`n      let text = document.getElementById('myText').innerHTML`;`n      const textarea = document.createElement('textarea')`;`n      textarea.value = text`;`n`n      // Move the textarea outside the viewport to make it invisible`n      textarea.style.position = 'absolute'`;`n      textarea.style.left = '-99999999px'`;`n`n      document.body.prepend(textarea)`;`n`n      // highlight the content of the textarea element`n      textarea.select()`;`n`n      try {`n        document.execCommand('copy')`;`n      } catch (err) {`n        alert('Failed to copy2`: ' + err)`;`n      } finally {`n        textarea.remove()`;`n      }`n`n    } catch (err) {`n      alert('Failed to copy`: ' + err)`;`n    }`n  }`n</script>", C:\xampp\htdocs\router\web\read.html, UTF-8
+		;~ FileDelete, C:\xampp\htdocs\router\web\read.html
+		;~ FileAppend, % "<button class=""btn"" onclick=""copyContent()"">Copy!</button>`n<p id=""myText"" style=""font-size`: 5px`;"">" t "</p>`n`n<script>`n  const copyContent = async () => {`n    try {`n      let text = document.getElementById('myText').innerHTML`;`n      const textarea = document.createElement('textarea')`;`n      textarea.value = text`;`n`n      // Move the textarea outside the viewport to make it invisible`n      textarea.style.position = 'absolute'`;`n      textarea.style.left = '-99999999px'`;`n`n      document.body.prepend(textarea)`;`n`n      // highlight the content of the textarea element`n      textarea.select()`;`n`n      try {`n        document.execCommand('copy')`;`n      } catch (err) {`n        alert('Failed to copy2`: ' + err)`;`n      } finally {`n        textarea.remove()`;`n      }`n`n    } catch (err) {`n      alert('Failed to copy`: ' + err)`;`n    }`n  }`n</script>", C:\xampp\htdocs\router\web\read.html, UTF-8
 		;~ run, http://localhost/read.html
+		
+	;~ text := EncodeDecodeURI(t)
+		
+	;~ UrlDownloadToFile https://soleasia.mv/ip.php?mode=update&id=1&text=%text%, %A_ScriptDir%\telegram.html
+		
+		
+	whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+	whr.Open("POST", "https://soleasia.mv/ip.php?mode=update&id=1", true)
+	whr.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+	whr.Send("text=" t)
+	whr.WaitForResponse()
+	myTT("done")
+		
 	return
+	
+	EncodeDecodeURI(str, encode := true, component := true) {
+	   static Doc, JS
+	   if !Doc {
+		  Doc := ComObjCreate("htmlfile")
+		  Doc.write("<meta http-equiv=""X-UA-Compatible"" content=""IE=9"">")
+		  JS := Doc.parentWindow
+		  ( Doc.documentMode < 9 && JS.execScript() )
+	   }
+	   Return JS[ (encode ? "en" : "de") . "codeURI" . (component ? "Component" : "") ](str)
+	}
 
 #if (Stack="11r") ; restore clipList_A_Index 
 	`::
@@ -10143,7 +10168,11 @@ return
 
 	;~ f::
 	!`::
-		mergeClipboard()
+		oldClipboard := Clipboard
+		waitClipboard()
+		if(Clipboard="")
+			Clipboard:=oldClipboard
+		mergeClipboard(0)
 	return
 	
 	;~ `::
