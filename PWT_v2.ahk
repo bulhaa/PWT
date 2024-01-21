@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;"
 loadStacks()
 
 
@@ -2633,7 +2633,7 @@ else if(Stack="13p") ; tailwind website
 	}
 else if(Stack="13u") ; laravel seed db 
 	{
-		Button1_Label=C`:\xampp\php81\php artisan db`:seed`n
+		Button1_Label=C`:\xampp\php\php artisan db`:seed`n
 	}
 else if(Stack="13v") ; laravel clear view cache 
 	{
@@ -2664,7 +2664,7 @@ else if(Stack="14a") ; laravel docs
 	}
 else if(Stack="14b") ; records mv notes 
 	{
-		Button1_Label=recordsofmaldives.com`n`n`nServerName recordsofmaldives.com`nServerAlias www.recordsofmaldives.com`n`nsudo a2ensite recordsofmaldives.com.conf`n`n`n`ncertbot --apache -d recordsofmaldives.com -d www.recordsofmaldives.com`n`n`nsudo chown -R www-data`:$USER storage`n`ne7eab6c566626e6a5d7388b6c410c818c3cb853aec05702a`n`n`nCREATE USER 'records'@'localhost' IDENTIFIED BY 'iyN6iKtCygUmR8V'`;`n`n`nGRANT CREATE`, ALTER`, DROP`, INSERT`, UPDATE`, DELETE`, SELECT`, REFERENCES`, RELOAD on *.* TO 'records'@'localhost' WITH GRANT OPTION`;`n`ncreate DATABASE records`n`nC`:\xampp\php81\php artisan migrate`:fresh --seed`n`nusermod -aG sudo webadmin`n`nrsync --archive --chown=webadmin`:webadmin ~/.ssh /home/webadmin
+		Button1_Label=recordsofmaldives.com`n`n`nServerName recordsofmaldives.com`nServerAlias www.recordsofmaldives.com`n`nsudo a2ensite recordsofmaldives.com.conf`n`n`n`ncertbot --apache -d recordsofmaldives.com -d www.recordsofmaldives.com`n`n`nsudo chown -R www-data`:$USER storage`n`ne7eab6c566626e6a5d7388b6c410c818c3cb853aec05702a`n`n`nCREATE USER 'records'@'localhost' IDENTIFIED BY 'iyN6iKtCygUmR8V'`;`n`n`nGRANT CREATE`, ALTER`, DROP`, INSERT`, UPDATE`, DELETE`, SELECT`, REFERENCES`, RELOAD on *.* TO 'records'@'localhost' WITH GRANT OPTION`;`n`ncreate DATABASE records`n`nC`:\xampp\php\php artisan migrate`:fresh --seed`n`nusermod -aG sudo webadmin`n`nrsync --archive --chown=webadmin`:webadmin ~/.ssh /home/webadmin
 	}
 else if(Stack="14c") ; livewire docs 
 	{
@@ -2747,7 +2747,7 @@ else if(Stack="14r") ; data to seeder
 	}
 else if(Stack="14s") ; composer custom php 
 	{
-		Button1_Label=C`:\xampp\php81\php.exe C`:\ProgramData\ComposerSetup\bin\composer.phar install
+		Button1_Label=C`:\xampp\php\php.exe C`:\ProgramData\ComposerSetup\bin\composer.phar install
 	}
 else if(Stack="14t") ; laravel run tests 
 	{
@@ -2760,16 +2760,16 @@ else if(Stack="14u") ; laravel test run group
 	}
 else if(Stack="14v") ; disable xdebug 
 	{
-		FileCopy, C:\xampp\php81\php.ini, C:\xampp\php81\php.ini.bkp
+		FileCopy, C:\xampp\php\php.ini, C:\xampp\php\php.ini.bkp
 		
-		file =C:\xampp\php81\php.ini
+		file =C:\xampp\php\php.ini
 		FileRead, content, %file%
-		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
-		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
-		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
-		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
-		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
-		StringReplace, content, content, zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`", `; zend_extension = `"C`:\xampp\php81\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`"
+		StringReplace, content, content, `; zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`", zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`"
+		StringReplace, content, content, zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`", `; zend_extension = `"C`:\xampp\php\ext\php_xdebug.dll`"
 		
 		fileWrite( content, file )
 		
@@ -2783,15 +2783,15 @@ else if(Stack="14v") ; disable xdebug
 	}
 else if(Stack="14w") ; enable xdebug 
 	{
-		FileCopy, C:\xampp\php81\php.ini, C:\xampp\php81\php.ini.bkp
+		FileCopy, C:\xampp\php\php.ini, C:\xampp\php\php.ini.bkp
 		
-		file =C:\xampp\php81\php.ini
+		file =C:\xampp\php\php.ini
 		FileRead, content, %file%
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
-		StringReplace, content, content, `; zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php81\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
+		StringReplace, content, content, `; zend_extension = "C`:\xampp\php\ext\php_xdebug.dll", zend_extension = "C`:\xampp\php\ext\php_xdebug.dll"
 		
 		fileWrite( content, file )
 		
@@ -2988,6 +2988,16 @@ else if(Stack="17y") ; some random ip
 else if(Stack="17z") ; kill process 
 	{
 		Button1_Label=`;~ Process`, Close`, dota2.exe`n
+	}
+else if(Stack="18f") ; vuejs template 
+	{
+		Button1_Label=https`://vue.vristo.sbthemes.com/components/timeline
+		run, %Button1_Label%
+	}
+else if(Stack="18g") ; primevue 
+	{
+		Button1_Label=https`://primevue.org/calendar/
+		run, %Button1_Label%
 	}
 else
 	{	
@@ -3501,7 +3511,7 @@ else
 #if (Stack="13t") ; laravel pretend migrate 
 	`::
 		file =C:\xampp\htdocs\gems-ws-api\migrate.sql
-		command:= "C:\xampp\php81\php artisan migrate --pretend --no-ansi > " file
+		command:= "C:\xampp\php\php artisan migrate --pretend --no-ansi > " file
 		RunWait %comspec% /c "%command%", C:\xampp\htdocs\gems-ws-api
 		
 		FileRead, content, %file%
@@ -8426,6 +8436,7 @@ scaffoldFiles(){
 				Send ^n
 			}else {
 				StringReplace, ref, ref, ., \, All
+				StringReplace, ref, ref, \vue, .vue, All
 				Clipboard:= ref
 				Send ^p
 			}
