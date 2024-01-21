@@ -3025,6 +3025,15 @@ else
 
 	
 	
+#if (Stack="18f") ; 550 character for translation 
+	`::
+		Clipboard := SubStr(clipList, 1, 9950) 
+		clipList := SubStr(clipList, 9950)
+		Send ^v
+		myTT("clip loaded")
+		;~ https://translate.yandex.com/?source_lang=zh&target_lang=en&text=%E5%86%B6%E9%9D%92
+	return
+	
 #if (Stack="18e") ; array has value 
 	HasVal(haystack, needle) {
 		if !(IsObject(haystack)) || (haystack.Length() = 0)
@@ -4521,14 +4530,18 @@ XButton2::
 	
 #if (Stack="11s") ; First 1000 characters to localhost 
 	`::
-		Send ^a
-		waitClipboard()
-		t := SubStr(Clipboard, 1, 1000)
-		Clipboard := SubStr(Clipboard, 1000)
-		Send ^v
-		FileDelete, C:\xampp\htdocs\read.html
-		FileAppend, % "<div style='font-size: 72.8px;'>" t "</div>", C:\xampp\htdocs\read.html
-		run, http://localhost/read.html
+		;~ Send ^a
+		;~ waitClipboard()
+		;~ t := SubStr(Clipboard, 1, 1000)
+		;~ Clipboard := SubStr(Clipboard, 1000)
+		
+		;~ t := SubStr(clipList, 1, 50000) " Hammadh End of document Hammadh End of document"
+		t := SubStr(clipList, 1, 200000)
+		clipList := SubStr(clipList, 200001)
+
+		FileDelete, C:\xampp\htdocs\router\web\read.html
+		FileAppend, % "<button class=""btn"" onclick=""copyContent()"">Copy!</button>`n<p id=""myText"" style=""font-size`: 5px`;"">" t "</p>`n`n<script>`n  const copyContent = async () => {`n    try {`n      let text = document.getElementById('myText').innerHTML`;`n      const textarea = document.createElement('textarea')`;`n      textarea.value = text`;`n`n      // Move the textarea outside the viewport to make it invisible`n      textarea.style.position = 'absolute'`;`n      textarea.style.left = '-99999999px'`;`n`n      document.body.prepend(textarea)`;`n`n      // highlight the content of the textarea element`n      textarea.select()`;`n`n      try {`n        document.execCommand('copy')`;`n      } catch (err) {`n        alert('Failed to copy2`: ' + err)`;`n      } finally {`n        textarea.remove()`;`n      }`n`n    } catch (err) {`n      alert('Failed to copy`: ' + err)`;`n    }`n  }`n</script>", C:\xampp\htdocs\router\web\read.html, UTF-8
+		;~ run, http://localhost/read.html
 	return
 
 #if (Stack="11r") ; restore clipList_A_Index 
@@ -8525,7 +8538,7 @@ scaffoldFiles(){
 
 #if (Stack="15ad") ; Get First 50000 characters
 	`::
-		Click 317, 508
+		Click 114, 248
 		Sleep 1000
 		Send {Tab 2}
 		Sleep 300
@@ -8533,7 +8546,7 @@ scaffoldFiles(){
 		clipList := SubStr(clipList, 50001)
 		Send ^v
 		myTT("clip loaded")
-		MouseMove 3752, 500
+		MouseMove 1807, 288
 	return
 
 	;~ requireWinActive(win, exe = "", timeout = 2, winExclude = ""){
