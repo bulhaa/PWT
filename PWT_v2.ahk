@@ -4547,6 +4547,12 @@ XButton2::
 	;~ text := EncodeDecodeURI(t)
 		
 	;~ UrlDownloadToFile https://soleasia.mv/ip.php?mode=update&id=1&text=%text%, %A_ScriptDir%\telegram.html
+	
+	StringReplace, t, t, <, %  "<span" Chr(255) "<</span" Chr(255), All
+	StringReplace, t, t, >, <span>></span>, All
+	StringReplace, t, t, % Chr(255), >, All
+	StringReplace, t, t, `n, <br>, All
+	StringReplace, t, t, &, % Chr(255), All
 		
 		
 	whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
@@ -4790,7 +4796,7 @@ XButton2::
 		}
 		else{
 			MyTT("Clipboard could not be loaded")
-			Clipboard := oldClipboard
+			;~ Clipboard := oldClipboard
 		}
 		
 		return Clipboard
