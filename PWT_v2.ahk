@@ -4558,7 +4558,7 @@ XButton2::
 	whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
 	whr.Open("POST", "https://soleasia.mv/ip.php?mode=update&id=1", true)
 	whr.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-	whr.Send("text=" t)
+	whr.Send("text=" EncodeDecodeURI(t))
 	whr.WaitForResponse()
 	myTT("done")
 		
