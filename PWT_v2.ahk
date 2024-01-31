@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;"
 loadStacks()
 
 
@@ -2863,7 +2863,7 @@ else if(Stack="16i") ; rtl iyyu-normal
 	}
 else if(Stack="16k") ; docker 
 	{
-		Button1_Label=** Powershell commands`ndocker run -d -p 80`:80 docker/getting-started`ndocker ps`n`n`n** Docker commands`nmkdir -p code/ncit/gems`ngit clone https`://git.egov.mv/ahmed.shifau/traefik-proxy.git`ncd traefik-proxy/`ndocker network create proxy`ndocker ps`ndocker rm -f bdc9e9e4d788`ndocker compose up -d`ngit clone https`://hammadh@git.egov.mv/ncit_new/gems/task/web.git`nmkdir task`nmv web/ task/web`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     laravelsail/php82-composer`:latest     composer install --ignore-platform-reqs`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     chipaau/php`:8.1     composer install --ignore-platform-reqs`ncode .`ncd ~/code/ncit/gems/task/web/`ngit fetch origin`ngit branch -r`ngit checkout -b feature/deployment`ngit log --graph`nll`ngit pull origin feature/deployment`ngit pull origin`n`n./vendor/bin/sail up -d --build`n./vendor/bin/sail down -v`n./vendor/bin/sail artisan migrate`:fresh --seed`n`n./vendor/bin/sail artisan optimize`:clear`n./vendor/bin/sail up -d --remove-orphans`n./vendor/bin/sail logs -f laravel.test`n`nhttps`://traefik.localhost/#/http/routers`nhttps`://gems.localhost/case
+		Button1_Label='Turn windows features on or off' -> enable WSL and Virutal Machine Platform`nInstall Ubuntu for windows (from Windows store)`nDocker Desktop -> Settings -> Resources -> WSL integration`n`n** Docker commands`nmkdir -p code/ncit/gems`ngit clone https`://git.egov.mv/ahmed.shifau/traefik-proxy.git`ncd traefik-proxy/`ndocker network create proxy`ndocker ps`ndocker rm -f bdc9e9e4d788`ndocker-compose up -d`ngit clone https`://git.egov.mv/ncit_new/gems-workspace/api.git`ngit clone https`://git.egov.mv/ncit_new/gems-workspace/app.git`nmkdir task`nmv web/ task/web`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     laravelsail/php82-composer`:latest     composer install --ignore-platform-reqs`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     chipaau/php`:8.1     composer install --ignore-platform-reqs`ncode .`ncd ~/code/ncit/gems/task/web/`ngit fetch origin`ngit branch -r`ngit checkout -b feature/deployment`ngit log --graph`nll`ngit pull origin feature/deployment`ngit pull origin`n`ncp .env.example .env`n`n./vendor/bin/sail up -d --build`n./vendor/bin/sail down -v`n./vendor/bin/sail artisan migrate`:fresh --seed`n`n./vendor/bin/sail artisan optimize`:clear`n./vendor/bin/sail up -d --remove-orphans`n./vendor/bin/sail logs -f laravel.test`n`nhttps`://traefik.localhost/#/http/routers`nhttps`://workspace.localhost
 	}
 else if(Stack="16l") ; db seed with initial data 
 	{
@@ -3002,6 +3002,11 @@ else if(Stack="18g") ; primevue
 else if(Stack="18i") ; ahk github 
 	{
 		Button1_Label=https`://github.com/camerb/AHKs/tree/master
+		run, %Button1_Label%
+	}
+else if(Stack="18j") ; scoop install programs 
+	{
+		Button1_Label=https`://scoop.sh/
 		run, %Button1_Label%
 	}
 else
