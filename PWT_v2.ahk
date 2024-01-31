@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;"
 loadStacks()
 
 
@@ -1424,6 +1424,7 @@ F5::
 	Send ^s
 	Sleep 100
 	Reload
+	;~ ExitApp
 return
 
 OnExitFunction:
@@ -2678,9 +2679,11 @@ else if(Stack="14d") ; gitlab git.egov.mv
 	}
 else if(Stack="14e") ; case manager wireframe 
 	{
-		Button1_Label=https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=343`%3A789&scaling=min-zoom&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps```://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=0```%3A1
+		;~ Button1_Label=https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=343`%3A789&scaling=min-zoom&page-id=0`%3A1&starting-point-node-id=1`%3A2`n`nhttps```://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=0```%3A1
 		;~ run, https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2
-		run, https`://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=2957`%3A16754&t=4Hm5Ac9UqPj3ZEzN-1
+		;~ run, https`://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=2957`%3A16754&t=4Hm5Ac9UqPj3ZEzN-1
+		Button1_Label=https`://www.figma.com/file/CXJRrC0ymrH4fCLpS91hyd/GEMs---Message?node-id=0`%3A1&mode=dev
+		run, % Button1_Label
 	}
 else if(Stack="14f") ; teams 
 	{
@@ -3008,6 +3011,37 @@ else if(Stack="18j") ; scoop install programs
 	{
 		Button1_Label=https`://scoop.sh/
 		run, %Button1_Label%
+	}
+else if(Stack="18k") ; traefik 
+	{
+		Button1_Label=https`://traefik.localhost/dashboard/#/http/routers
+		run, %Button1_Label%
+	}
+else if(Stack="18l") ; gems workspace 
+	{
+		Button1_Label=https`://workspace.localhost/
+		run, %Button1_Label%
+	}
+else if(Stack="18m") ; xampp SSL 
+	{
+		Button1_Label=https`://shellcreeper.com/how-to-create-valid-ssl-in-localhost-for-xampp/
+		if(run)
+			run, %Button1_Label%
+	}
+else if(Stack="18n") ; xampp multiple php versions 
+	{
+		Button1_Label=https`://stackoverflow.com/questions/45790160/is-there-way-to-use-two-php-versions-in-xampp
+		if(run)
+			run, %Button1_Label%
+	}
+else if(Stack="18o") ; gems db 
+	{
+		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=gemsapi&table=sessions
+		run, %Button1_Label%
+	}
+else if(Stack="18p") ; npm run dev 
+	{
+		Button1_Label=npm run dev
 	}
 else
 	{	
