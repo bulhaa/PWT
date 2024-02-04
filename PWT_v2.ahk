@@ -4774,6 +4774,7 @@ XButton2::
 		StringSplit, clipList, clipList, `n, `r
 		if(clipList_A_Index > clipList0){
 			clipList_A_Index := clipList0
+			scaffold_output_mode := 0
 			myTT("Reached end of list")
 			clipLine := ""
 			return 0
