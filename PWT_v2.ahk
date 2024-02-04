@@ -7883,6 +7883,15 @@ decodeLinesAndTabsOrScaffoldMergeAll(){
 	;~ Send ^v
 }
 
+change_scaffold_output_mode(){
+	global scaffold_output_mode
+	scaffold_output_mode := !scaffold_output_mode
+	if( scaffold_output_mode )
+		MyTT("Output mode")
+	else
+		MyTT("Input mode")
+}
+
 scaffoldSingle(){
 	global scaffold_output_mode
 	waitClipboard()
@@ -8271,12 +8280,13 @@ scaffoldFiles(){
 		Clipboard := clipBkp
 	return
 	
-	!`:: scaffold_output_mode := !scaffold_output_mode
+	!`:: change_scaffold_output_mode()
 	
 	`::	scaffoldSingle() ; scaffold single
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
 	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
+	
 	F1::	
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 		Sleep 2000
