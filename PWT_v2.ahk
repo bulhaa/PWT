@@ -7884,7 +7884,16 @@ decodeLinesAndTabsOrScaffoldMergeAll(){
 }
 
 scaffoldSingle(){
-	printUsingScaffold( "", 1, -1)
+	global scaffold_output_mode
+	waitClipboard()
+	if( !scaffold_output_mode ) {
+		oldClipboard := Clipboard
+		waitClipboard()
+		if(Clipboard="")
+			Clipboard:=oldClipboard
+		mergeClipboard(0)
+	}else
+		printUsingScaffold( "", 1, -1)
 }
 
 scaffoldMergeAll(){
@@ -8258,20 +8267,23 @@ scaffoldFiles(){
 		Sleep 500
 		Send ^v
 		Sleep 500
+		Send {Ctrl Down}{Left}{Ctrl Up}{Left 2} 
 		Clipboard := clipBkp
 	return
+	
+	!`:: scaffold_output_mode := !scaffold_output_mode
 	
 	`::	scaffoldSingle() ; scaffold single
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
 	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
-	;~ F1::	
+	F1::	
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 		Sleep 2000
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 	return
 
-	F1:: goToReference() ; go to reference
+	;~ F1:: goToReference() ; go to reference
 	F4:: goToPrevReference() ; go to prev reference
 	
 	~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
@@ -10233,7 +10245,7 @@ return
 	return
 
 	;~ f::
-	!`::
+	;~ !`::
 		oldClipboard := Clipboard
 		waitClipboard()
 		if(Clipboard="")
