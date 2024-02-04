@@ -8076,7 +8076,7 @@ convertCodeToTemplate(){
 		StringReplace, row, row, <br><b>, `n, All
 		StringReplace, row, row, <b>, , All
 		
-		Clipboard .= row
+		Clipboard .= Trim(row)
 		;~ myTT(Clipboard)
 		
 		
@@ -8086,7 +8086,7 @@ convertCodeToTemplate(){
 			;~ Send ^v{Enter}
 			;~ Send ^{Left}
 			;~ Send ^+{Right}
-			Send ^a
+			;~ Send ^a
 			Send ^v
 			;~ Sleep 500
 			
@@ -8254,15 +8254,18 @@ scaffoldFiles(){
 	^`:: 
 		clipBkp := Clipboard
 		waitClipboard()
-		Send % "<" Clipboard " id="""" class="""">" "</" Clipboard 
+		Clipboard := "<" Clipboard " id="""" class="""">" "</" Clipboard ">"
+		Sleep 500
+		Send ^v
+		Sleep 500
 		Clipboard := clipBkp
 	return
 	
-	;~ `::	scaffoldSingle() ; scaffold single
+	`::	scaffoldSingle() ; scaffold single
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
 	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
-	`::	
+	;~ F1::	
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 		Sleep 2000
 		Send {Ctrl Down}{Enter}{Ctrl Up}
