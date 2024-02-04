@@ -617,9 +617,13 @@ MyTT(TT, loggingStyle = 0) {
 	global currWin
 	global suspendClicks
 	global suspendTT
+	global TT_duration
 	
 	if(suspendTT)
 		return
+	
+	if( !TT_duration )
+		TT_duration := 4000
 	
 	if(loggingStyle)
 		TT := TT ": " %TT%
@@ -631,8 +635,9 @@ MyTT(TT, loggingStyle = 0) {
 	t := SubStr(TT, 1, 500)
 	t:= RegExReplace(t, "s)^((.*?\R){10}).*", "$1")
 
-	ToolTip % t
-	SetTimer, RemoveTT, 4000
+	;~ if( !suspendTT )
+		ToolTip % t
+	SetTimer, RemoveTT, % TT_duration
 	Old_TT:=TT
 }
 
@@ -7893,16 +7898,23 @@ change_scaffold_output_mode(){
 }
 
 scaffoldSingle(){
-	global scaffold_output_mode
-	waitClipboard()
+	global scaffold_output_mode, suspendTT, TT_duration
+	
+	suspendTT = 1
+	TT_duration = 1000
 	if( !scaffold_output_mode ) {
 		oldClipboard := Clipboard
 		waitClipboard()
 		if(Clipboard="")
 			Clipboard:=oldClipboard
+		inputValue := Clipboard
 		mergeClipboard(0)
+		suspendTT = 0
+		myTT(inputValue)
 	}else
 		printUsingScaffold( "", 1, -1)
+	suspendTT = 0
+	TT_duration = 4000
 }
 
 scaffoldMergeAll(){
