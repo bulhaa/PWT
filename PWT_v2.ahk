@@ -7869,24 +7869,44 @@ insertPlaceholder(){
 }
 
 decodeLinesAndTabsOrScaffoldMergeAll(){
-	;~ Send ^a
+	global scaffold_output_mode, suspendTT, TT_duration
 	
-	;~ Clipboard=
-	waitClipboard()
-	
-	;~ StringReplace, Clipboard, Clipboard, `r, , All	
-	
-	if(Clipboard){
-		; decodeLinesAndTabs
-		content := decodeLinesAndTabs(Clipboard)
-		StringReplace, content, content, `"`", `", All	
-		Clipboard := content
+	TT_duration = 1000
+	suspendTT = 1
+	if( !scaffold_output_mode ) {
+		oldClipboard := Clipboard
+		waitClipboard()
+		if(Clipboard="")
+			Clipboard:=oldClipboard
+		inputValue := Clipboard
+		mergeClipboard(0)
+		suspendTT = 0
+		myTT(inputValue)
 	}else{
-		myTT("load as single-tab-plural if using unscaffolded template")
-		printUsingScaffold( "MA", 1, -1) ; merge all
+		;~ Send ^a
+		
+		;~ Clipboard=
+		;~ waitClipboard()
+		
+		;~ StringReplace, Clipboard, Clipboard, `r, , All	
+		
+		;~ if(Clipboard){
+			;~ ; decodeLinesAndTabs
+			;~ content := decodeLinesAndTabs(Clipboard)
+			;~ StringReplace, content, content, `"`", `", All	
+			;~ Clipboard := content
+		;~ }else{
+			suspendTT = 0
+			myTT("load as single-tab-plural if using unscaffolded template")
+			printUsingScaffold( "MA", 1, -1) ; merge all
+			myTT(Clipboard)
+		;~ }
+		
+		;~ Send ^v
 	}
-	
-	;~ Send ^v
+	suspendTT = 0
+	TT_duration = 4000
+
 }
 
 change_scaffold_output_mode(){
@@ -7914,7 +7934,10 @@ scaffoldSingle(){
 		myTT(inputValue)
 	}else{
 		suspendTT = 0
-		printUsingScaffold( "", 1, -1)
+		printUsingScaffold( "M", 1, -1)
+		Clipboard := Trim(Clipboard)
+		Sleep 500
+		Send ^v
 	}
 	TT_duration = 4000
 }
@@ -8108,7 +8131,7 @@ convertCodeToTemplate(){
 		StringReplace, row, row, <br><b>, `n, All
 		StringReplace, row, row, <b>, , All
 		
-		Clipboard .= Trim(row)
+		Clipboard .= row
 		;~ myTT(Clipboard)
 		
 		
@@ -8284,6 +8307,7 @@ scaffoldFiles(){
 	+`:: insertPlaceholder() ; insert placeholder
 	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
 	^`:: 
+		; create HTML tag
 		clipBkp := Clipboard
 		waitClipboard()
 		Clipboard := "<" Clipboard " id="""" class="""">" "</" Clipboard ">"
@@ -8297,17 +8321,18 @@ scaffoldFiles(){
 	!`:: change_scaffold_output_mode()
 	
 	`::	scaffoldSingle() ; scaffold single
+	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
-	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
 	
-	F1::	
+	;~ F1:: goToReference() ; go to reference
+	F1::
+		; freeCodeCamp Submit
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 		Sleep 2000
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 	return
 
-	;~ F1:: goToReference() ; go to reference
 	F4:: goToPrevReference() ; go to prev reference
 	
 	~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
@@ -10269,7 +10294,7 @@ return
 	return
 
 	;~ f::
-	;~ !`::
+	!`::
 		oldClipboard := Clipboard
 		waitClipboard()
 		if(Clipboard="")
