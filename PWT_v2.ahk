@@ -7911,9 +7911,10 @@ scaffoldSingle(){
 		mergeClipboard(0)
 		suspendTT = 0
 		myTT(inputValue)
-	}else
+	}else{
+		suspendTT = 0
 		printUsingScaffold( "", 1, -1)
-	suspendTT = 0
+	}
 	TT_duration = 4000
 }
 
