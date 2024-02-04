@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;"
 loadStacks()
 
 
@@ -3042,6 +3042,11 @@ else if(Stack="18o") ; gems db
 else if(Stack="18p") ; npm run dev 
 	{
 		Button1_Label=npm run dev
+	}
+else if(Stack="18q") ; gems2 old 
+	{
+		Button1_Label=https`://gems.te.egov.mv/logmein/5
+		run, %Button1_Label%
 	}
 else
 	{	
@@ -8245,12 +8250,23 @@ scaffoldFiles(){
 	^+`:: convertCodeToTemplate() ; convert code to template
 	
 	+`:: insertPlaceholder() ; insert placeholder
-	^`:: surroundSelectionByQuotes() ; surround selection by quotes
+	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
+	^`:: 
+		clipBkp := Clipboard
+		waitClipboard()
+		Send % "<" Clipboard " id="""" class="""">" "</" Clipboard 
+		Clipboard := clipBkp
+	return
 	
 	;~ `::	scaffoldSingle() ; scaffold single
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
-	`::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
+	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
+	`::	
+		Send {Ctrl Down}{Enter}{Ctrl Up}
+		Sleep 2000
+		Send {Ctrl Down}{Enter}{Ctrl Up}
+	return
 
 	F1:: goToReference() ; go to reference
 	F4:: goToPrevReference() ; go to prev reference
