@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;vue import component,18r;"
 loadStacks()
 
 
@@ -3078,6 +3078,19 @@ else
 
 
 	
+#if (Stack="18r") ; vue import component 
+	`::
+		;~ t = resources\js\src\views\documents\components\list\detail\topbar\case.vue
+		t := Clipboard
+		name := RegExReplace(t, "i).*[\\]([^\\]+)[.]vue$", "$1")
+		name := camelCase(name)
+		StringReplace, t, t, resources\js\src, @, All
+		StringReplace, t, t, \, /, All
+		
+		t = `    <%name% />`n    import %name% from '%t%'`;`n
+		Clipboard := t
+		myTT(t)
+	return
 	
 #if (Stack="18h") ; 550 character for translation 
 	`::
@@ -5504,6 +5517,7 @@ yii_model(){
 }
 	
 yii_model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
+	global clip_two
 	includes := yii_model_includes()
 	properties := runSubScaffold( "model_properties", 1)
 	;~ inheritance := model_inheritance()
@@ -5558,8 +5572,10 @@ yii_model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary
 		StringReplace, t, t, ? valueCC1 ?, % customModelName, All
 		content := scaffoldModel( t )
 	}
+	
+	clip_two := content
 		
-	fileWrite( content, file )
+	;~ fileWrite( content, file )
 }
 	
 factory_definitions( field_name = 1, data_type = 2, nullability = 3, related_table_singular = 4, related_table_plural = 5, related_primary_key = 6, column_number = 7, table_name_singular = 8, table_name_plural = 9, model_name = 10, related_model_name = 11, function_name_singular = 12, function_name_plural = 13, primary_key = 14, arrayLength = 15 ){
@@ -8284,7 +8300,7 @@ scaffoldFiles(){
 	;~ reverse := 1
 			
 	myTT(singular)
-	if( !DB_Fields )
+	if( false && !DB_Fields )
 		myTT("DB table not found")
 	else{
 		
