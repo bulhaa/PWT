@@ -5511,6 +5511,19 @@ yii_model_attributeLabels( field_name = 1, data_type = 2, nullability = 3, relat
 }
 
 
+to_clip_two(){
+	global
+	to_clip_two_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
+}
+	
+to_clip_two_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key = "id", fields=""){
+	global clip_two
+	
+		t := "<template>`n    <Modal `:title=""$t('? valueSH1 ?')"" ref=""? valueC1 ?Modal"">`n`n`n        <div class=""mx-auto px-4 mt-4 font-robotoiyyu"">`n`n            <label class=""rtl`:text-right rtl`:text-lg text-gray-600 text-sm font-normal"">`n                {{$t('remarks')}}`n            </label>`n            <textarea v-model=""remarks"" rows=""2""  class=""w-full border p-2 rounded-md"">`n`n            </textarea>`n`n            <div class=""w-full mt-5  flex "">`n                <primaryButton @click=""? valueC1 ?"" `:name=""$t('send')"" />`n            </div>`n`n        </div>`n    </Modal>`n</template>`n`n<script setup>`nimport Modal from '@/components/Modal.vue'`;`nimport primaryButton from '@/components/buttons/primary.vue'`;`nimport { useDocument } from '@/stores/gemsStore/document'`;`nimport { ref } from 'vue'`;`nimport { storeToRefs } from 'pinia'`;`nimport { useAppStore } from '@/stores/index'`nimport { showToast } from '../../../utils/helpers'`;`nimport { useI18n } from 'vue-i18n'`;`nimport { useToast } from ""primevue/usetoast""`;`n`nconst toast = useToast()`;`nconst documentStore = useDocument()`nconst store = useAppStore()`nconst { document } = storeToRefs(documentStore)`nconst { t } = useI18n()`n`nconst remarks = ref(null)`nconst props = defineProps(['documentId'])`n`nconst ? valueC1 ?Modal = ref(null)`n`nconst open = () => {`n    ? valueC1 ?Modal.value.openModal()`n}`n`n`nconst close = () => {`n    ? valueC1 ?Modal.value.closeModal()`n}`n`ndefineExpose({ open`, close })`n`nconst ? valueC1 ? = () => {`n    documentStore.? valueC1 ?(props.documentId`, {remarks`: remarks.value}).then(() => {`n        documentStore.getDocument(props.documentId)`n        showToast(toast`, t('successfully-processed-for-correction')`, t(""successfully-processed-for-correction"")`, 'success')`n    }).catch((error) => {`n        showToast(toast`, t(""error"")`, t('failed-to-send-correction')`, 'error')`n    })`n}`n`n`n`n`n`n</script>`n"
+
+	clip_two := scaffoldModel( t )
+}
+	
 yii_model(){
 	global
 	yii_model_a( table_name_singular, table_name_plural, reverse, primary_key, fields )
@@ -5821,6 +5834,81 @@ yii_IndexView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	FileCreateDir, C:\xampp\htdocs\ecouncil\ecouncil\views\%name%
 	
 	file =C:\xampp\htdocs\ecouncil\ecouncil\views\%name%\index.php
+	
+	fileWrite( content, file )
+}
+	
+vue_button(){
+	global
+	vue_button_a( table_name_singular, table_name_plural, reverse )
+}
+	
+vue_button_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := runSubScaffold( "yii_IndexView_fields")
+	
+	t := "<template>`n    <button type=""button"" @click=""$emit('? valueC1 ?Modal')"" data-tooltip-target=""tooltip-archive"" class=""flex flex-row"">`n        <div x-data=""{ show`: false }"" at_mouseenter=""show = true"" at_mouseleave=""show = false"" class=""relative"">`n            <div class=""flex hover`:bg-slate-200 rounded-full w-8 h-8 items-center justify-center"">`n                <tickCircle />`n`n            </div>`n            <div x-show=""show"" class=""absolute transform text-white text-sm rounded py-1 px-2 bg-slate-900 whitespace-nowrap z-[1000] rtl`:iyyu-normal`n-bottom-10 left-1/2 -translate-x-1/2`n"" style=""display`: none`;"">`n                $t('? valueSH1 ?')`n            </div>`n        </div>`n`n    </button>`n`n</template>`n`n`n<script setup>`n    import {`n        useDocument`n    } from '@/stores/gemsStore/document'`;`n    import {`n        ref`n    } from 'vue'`;`n    import {`n        storeToRefs`n    } from 'pinia'`;`n    import {`n        useAppStore`n    } from '@/stores/index'`n    import {`n        showToast`n    } from '@/utils/helpers'`;`n    import {`n        useI18n`n    } from 'vue-i18n'`;`n    import {`n        useToast`n    } from ""primevue/usetoast""`;`n    import tickCircle from '@/components/icons/tick-circle.vue'`;`n`n    const toast = useToast()`;`n    const documentStore = useDocument()`n    const store = useAppStore()`n    const {`n        document`n    } = storeToRefs(documentStore)`n    const {`n        t`n    } = useI18n()`n`n    const props = defineProps(['documentId'])`n`n</script>`n"
+	
+	;~ if( customModelName(table_name_singular) )
+		;~ StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	;~ t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueSH1 ?")
+	FileCreateDir, C:\xampp\htdocs\gems-ws-app\resources\js\src\views\documents\components\list\detail\topbar\%name%
+	
+	file =C:\xampp\htdocs\gems-ws-app\resources\js\src\views\documents\components\list\detail\topbar\%name%\button.vue
+	
+	fileWrite( content, file )
+}
+	
+vue_modal(){
+	global
+	vue_modal_a( table_name_singular, table_name_plural, reverse )
+}
+	
+vue_modal_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := runSubScaffold( "yii_IndexView_fields")
+	
+	t := "<template>`n    <Modal `:title=""$t('hold-thread-for-policy-decision')"" ref=""? valueC1 ?Modal"">`n        <div class=""mx-auto px-4 mt-4 font-robotoiyyu"">`n`n            <label class=""rtl`:text-right rtl`:text-lg text-gray-600 text-sm font-normal pb-5"">`n                <em>{{ $t('are-you-sure-you-want-to-change-the-state-to-? valueSH1 ?') }}</em>`n            </label>`n            `n            <label class=""rtl`:text-right rtl`:text-lg text-gray-600 text-sm font-normal"">`n                {{ $t('remarks') }}`n            </label>`n            <textarea v-model=""remarks"" rows=""2"" class=""w-full border p-2 rounded-md"">`n`n            </textarea>`n`n            <div class=""w-full mt-5  flex "">`n                <primaryButton @click=""? valueC1 ?"" `:name=""$t('? valueSH1 ?')"" />`n            </div>`n`n        </div>`n    </Modal>`n`n</template>`n`n`n<script setup>`n    import Modal from '@/components/Modal.vue'`;`n    import primaryButton from '@/components/buttons/primary.vue'`;`n    import {`n        useDocument`n    } from '@/stores/gemsStore/document'`;`n    import {`n        ref`n    } from 'vue'`;`n    import {`n        storeToRefs`n    } from 'pinia'`;`n    import {`n        useAppStore`n    } from '@/stores/index'`n    import {`n        showToast`n    } from '@/utils/helpers'`;`n    import {`n        useI18n`n    } from 'vue-i18n'`;`n    import {`n        useToast`n    } from ""primevue/usetoast""`;`n`n    const toast = useToast()`;`n    const documentStore = useDocument()`n    const store = useAppStore()`n    const {`n        document`n    } = storeToRefs(documentStore)`n    const {`n        t`n    } = useI18n()`n`n    const remarks = ref(null)`n    const props = defineProps(['documentId'])`n`n    const ? valueC1 ?Modal = ref(null)`n`n    const open = () => {`n        ? valueC1 ?Modal.value.openModal()`n    }`n`n`n    const close = () => {`n        ? valueC1 ?Modal.value.closeModal()`n    }`n`n    defineExpose({`n        open`,`n        close`n    })`n`n    const ? valueC1 ? = () => {`n        documentStore.? valueC1 ?(props.documentId`, {`n            remarks`: remarks.value`n        }).then(() => {`n            documentStore.getDocument(props.documentId)`n            showToast(toast`, t('successfully-policy-held')`, t(""successfully-? valueSH1 ?ed"")`, 'success')`n        }).catch((error) => {`n            showToast(toast`, t(""error"")`, t('failed-to-? valueSH1 ?')`, 'error')`n        })`n    }`n`n</script>`n"
+	
+	;~ if( customModelName(table_name_singular) )
+		;~ StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	;~ t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueSH1 ?")
+	FileCreateDir, C:\xampp\htdocs\gems-ws-app\resources\js\src\views\documents\components\list\detail\topbar\%name%
+	
+	file =C:\xampp\htdocs\gems-ws-app\resources\js\src\views\documents\components\list\detail\topbar\%name%\modal.vue
+	
+	fileWrite( content, file )
+}
+	
+vue_topbar_component(){
+	global
+	vue_topbar_component_a( table_name_singular, table_name_plural, reverse )
+}
+	
+vue_topbar_component_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
+	;~ fields := runSubScaffold( "yii_IndexView_fields")
+	
+	t := "<template>`n    <buttonComponent @? valueC1 ?Modal=""modalRef.open()"" />`n    <modal ref=""modalRef"" />`n</template>`n`n`n<script setup>`n    import buttonComponent from '@/views/documents/components/list/detail/topbar/? valueSH1 ?/button.vue'`;`n    import modal from '@/views/documents/components/list/detail/topbar/? valueSH1 ?/modal.vue'`;`n    import primaryButton from '@/components/buttons/primary.vue'`;`n    import {`n        useDocument`n    } from '@/stores/gemsStore/document'`;`n    import {`n        ref`n    } from 'vue'`;`n    import {`n        storeToRefs`n    } from 'pinia'`;`n    import {`n        useAppStore`n    } from '@/stores/index'`n    import {`n        showToast`n    } from '@/utils/helpers'`;`n    import {`n        useI18n`n    } from 'vue-i18n'`;`n    import {`n        useToast`n    } from ""primevue/usetoast""`;`n    import tickCircle from '@/components/icons/tick-circle.vue'`;`n`n    const toast = useToast()`;`n    const documentStore = useDocument()`n    const store = useAppStore()`n    const {`n        document`n    } = storeToRefs(documentStore)`n    const {`n        t`n    } = useI18n()`n`n    const modalRef = ref(null)`n    const props = defineProps(['documentId'])`n`n`n</script>`n"
+	
+	;~ if( customModelName(table_name_singular) )
+		;~ StringReplace, t, t, ? valueCC1 ?, % customModelName(table_name_singular), All
+	
+	;~ t := replaceMarker( table_name_singular, t, 91)
+	
+	content := scaffoldModel(t)
+	
+	name := scaffoldModel("? valueSH1 ?")
+	;~ FileCreateDir, C:\xampp\htdocs\gems-ws-app\resources\js\src\views\documents\components\list\detail\topbar\%name%
+	
+	file =C:\xampp\htdocs\gems-ws-app\resources\js\src\views\documents\components\list\detail\topbar\%name%.vue
 	
 	fileWrite( content, file )
 }
@@ -8183,7 +8271,7 @@ durationPassed(label){
 }
 
 
-livewire(){
+archivedScaffolds(){
 		;~ gemsApi_apiController()
 	
 		;~ apiController()
@@ -8268,6 +8356,16 @@ livewire(){
 		;~ viya_listView()
 		
 		;~ viya_updateRoutes()
+		
+		
+		
+		
+		;~ yii_model()
+		;~ yii_searchModel()
+		;~ yii_Controller()
+		
+		;~ yii_IndexView()
+
 
 }
 
@@ -8303,13 +8401,17 @@ scaffoldFiles(){
 	if( false && !DB_Fields )
 		myTT("DB table not found")
 	else{
+		;~ archivedScaffolds()
 		
-		;~ yii_model()
-		;~ yii_searchModel()
-		;~ yii_Controller()
 		
-		;~ yii_IndexView()
-
+		;~ vue_button()
+		;~ vue_modal()
+		
+		;~ vue_topbar_component()
+		
+		
+		;~ to_clip_two()
+		
 		if(reverse)
 			myTT("reverse")
 		else
