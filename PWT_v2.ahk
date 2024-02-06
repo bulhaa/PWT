@@ -7972,7 +7972,7 @@ insertPlaceholder(){
 	Send ? value1 ?{Left 2}+{Left}
 }
 
-decodeLinesAndTabsOrScaffoldMergeAll(){
+decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1){
 	global scaffold_output_mode, suspendTT, TT_duration
 	
 	TT_duration = 1000
@@ -8002,7 +8002,7 @@ decodeLinesAndTabsOrScaffoldMergeAll(){
 		;~ }else{
 			suspendTT = 0
 			myTT("load as single-tab-plural if using unscaffolded template")
-			printUsingScaffold( "MA", 1, -1) ; merge all
+			printUsingScaffold( "MA", 1, nColumns) ; merge all
 			myTT(Clipboard)
 		;~ }
 		
