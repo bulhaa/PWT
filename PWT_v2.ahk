@@ -1433,8 +1433,8 @@ F5::
 return
 
 OnExitFunction:
-	if(a_hour>=6)
-		MyTT("CheckOut")
+	;~ if(a_hour>=6)
+		;~ MyTT("CheckOut")
 
 	if(ExStyle)
 		WinSet, AlwaysOnTop, Off, ahk_id %currWin%
@@ -1443,7 +1443,7 @@ OnExitFunction:
 	{
 		t:=g_configurations%A_Index%
 		if(%t% != %t%backup){
-			%t% := EncodeLinesAndTabs(%t%)
+			%t% := EncodeLinesAndTabs(%t%) Chr(251)
 			IniWrite, % %t%, %A_ScriptDir%\PWT_v2.ini, Main, % t
 		}
 	}
@@ -2083,6 +2083,7 @@ encodeLinesAndTabs(haystack, Start="", End="", afterStart="", beforeEnd="", reve
 		StringReplace,haystack21,haystack21, ```,,`,, ALL
 		StringReplace,haystack21,haystack21, ```%,`%, ALL
 		StringReplace,haystack21,haystack21, ````,``, ALL
+		haystack21 := RegExReplace(haystack21, "^``", "")
 	}else{
 		StringReplace,haystack21,haystack21,``, ````, ALL
 		StringReplace,haystack21,haystack21,`n, ``n, ALL
@@ -3235,6 +3236,13 @@ else
 			
 			t := n
 			%t% := decodeLinesAndTabs(v)
+			
+			;~ if(t = "scaffold_template")
+				;~ t := t
+			
+			; remove everything after end marker (useless content which comes out of no where)
+			StringSplit, %t%, %t%, % Chr(251)
+			%t% := %t%1
 			%t%backup := %t%
 		}
 		
@@ -8187,43 +8195,7 @@ convertCodeToTemplate(){
 			Loop % nRows
 			{
 				thisRow := fetchRow(nColumns, 1, next)
-				;~ run, thisRow
-				
-				;~ if(thisRow = "1")
-					;~ Send {Space}
-				;~ Send %thisRow%
-				;~ Send {Tab 5}
-				;~ sleep 50
-				
-				
-				;~ thisRow := RegExReplace(thisRow, "i)\s*magu$", " magu")
-				;~ thisRow := RegExReplace(thisRow, "i)\s*maagu$", " magu")
-				;~ thisRow := RegExReplace(thisRow, "i)\s*goalhi$", " goalhi")
-				;~ thisRow := RegExReplace(thisRow, "i)\s*hingun$", " hingun")
-				;~ thisRow := RegExReplace(thisRow, "i)\s*" Chr(0x0789) Chr(0x07A6) Chr(0x078E) Chr(0x07AA) "$", " " Chr(0x0789) Chr(0x07A6) Chr(0x078E) Chr(0x07AA) ) ; magu
-				;~ thisRow := RegExReplace(thisRow, "i)\s*" Chr(0x078E) Chr(0x07AF) Chr(0x0785) Chr(0x07A8) "$", " " Chr(0x078E) Chr(0x07AF) Chr(0x0785) Chr(0x07A8) ) ; goalhi
-				;~ thisRow := RegExReplace(thisRow, "i)\s*" Chr(0x0780) Chr(0x07A8) Chr(0x0782) Chr(0x078E) Chr(0x07AA) Chr(0x0782) Chr(0x07B0) "$", " " Chr(0x0780) Chr(0x07A8) Chr(0x0782) Chr(0x078E) Chr(0x07AA) Chr(0x0782) Chr(0x07B0) ) ; hingun
-				;~ row .= thisRow "`n"
-				
 				row .= thisRow
-				
-
-				;~ if(thisRow = "1"){
-					;~ Send {Space}
-					;~ Sleep 100
-				;~ }
-				
-				;~ Send {Tab}
-				;~ Sleep 100
-				
-				
-				;~ if(thisRow = "1"){
-					;~ Send {Enter}p{Enter}
-				;~ }
-				;~ Sleep 200
-				;~ Send {tab}{tab}
-				;~ Sleep 200
-
 			}
 		}
 		
