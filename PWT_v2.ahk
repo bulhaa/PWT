@@ -7986,7 +7986,7 @@ insertPlaceholder(){
 }
 
 decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1){
-	global scaffold_output_mode, suspendTT, TT_duration
+	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template
 	
 	TT_duration = 1000
 	suspendTT = 1
@@ -8013,6 +8013,8 @@ decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1){
 			;~ StringReplace, content, content, `"`", `", All	
 			;~ Clipboard := content
 		;~ }else{
+			scaffold_template=`  ? value1 ?`: ? value2 ?`;`r`n
+			
 			suspendTT = 0
 			myTT("load as single-tab-plural if using unscaffolded template")
 			printUsingScaffold( "MA", 1, nColumns) ; merge all
@@ -8036,8 +8038,10 @@ change_scaffold_output_mode(){
 }
 
 scaffoldSingle(){
-	global scaffold_output_mode, suspendTT, TT_duration
+	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template
 	
+	scaffold_template=? value1 ?
+
 	suspendTT = 1
 	TT_duration = 1000
 	if( !scaffold_output_mode ) {
@@ -8170,6 +8174,8 @@ convertCodeToTemplate(){
 		if(allLines){
 			;~ clipList_A_Index = 0
 			nRows := clipList0 - clipList_A_Index
+			if(nColumns != -1)
+				nRows := nRows / nColumns
 		}
 		
 		if(useLastLine){
