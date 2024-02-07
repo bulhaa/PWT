@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;vue import component,18r;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;vue import component,18r;aws amazon builder id,18s;"
 loadStacks()
 
 
@@ -3051,6 +3051,11 @@ else if(Stack="18p") ; npm run dev
 else if(Stack="18q") ; gems2 old 
 	{
 		Button1_Label=https`://gems.te.egov.mv/logmein/5
+		run, %Button1_Label%
+	}
+else if(Stack="18s") ; aws amazon builder id 
+	{
+		Button1_Label=https`://device.sso.us-east-1.amazonaws.com/?user_code=NFTT-QSJJ
 		run, %Button1_Label%
 	}
 else
@@ -8423,6 +8428,7 @@ scaffoldFiles(){
 	^+`:: convertCodeToTemplate() ; convert code to template
 	
 	+`:: insertPlaceholder() ; insert placeholder
+	
 	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
 	^`:: 
 		; create HTML tag
