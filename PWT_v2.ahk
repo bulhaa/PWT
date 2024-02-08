@@ -1427,7 +1427,7 @@ shiftwin( nthWindow ) {
 #IfWinActive, ahk_class SciTEWindow ahk_exe SciTE.exe
 F5::
 	Send ^s
-	Sleep 100
+	Sleep 500
 	Reload
 	;~ ExitApp
 return
@@ -7985,7 +7985,7 @@ insertPlaceholder(){
 	Send ? value1 ?{Left 2}+{Left}
 }
 
-decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1){
+decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1, defaultTemplate = 1){
 	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template
 	
 	TT_duration = 1000
@@ -8013,12 +8013,17 @@ decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1){
 			;~ StringReplace, content, content, `"`", `", All	
 			;~ Clipboard := content
 		;~ }else{
-			scaffold_template=`  ? value1 ?`: ? value2 ?`;`r`n
+			scaffold_template_bkp := scaffold_template
+			
+			if( defaultTemplate and !InStr(scaffold_template, "? value"))
+				scaffold_template=`  ? value1 ?`: ? value2 ?`;`r`n
 			
 			suspendTT = 0
 			myTT("load as single-tab-plural if using unscaffolded template")
 			printUsingScaffold( "MA", 1, nColumns) ; merge all
 			myTT(Clipboard)
+			
+			scaffold_template := scaffold_template_bkp
 		;~ }
 		
 		;~ Send ^v
@@ -8037,10 +8042,13 @@ change_scaffold_output_mode(){
 		MyTT("Input mode")
 }
 
-scaffoldSingle(){
+scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template
 	
-	scaffold_template=? value1 ?
+	scaffold_template_bkp := scaffold_template
+	
+	if( defaultTemplate and !InStr(scaffold_template, "? value"))
+		scaffold_template=? value1 ?
 
 	suspendTT = 1
 	TT_duration = 1000
@@ -8055,12 +8063,14 @@ scaffoldSingle(){
 		myTT(inputValue)
 	}else{
 		suspendTT = 0
-		printUsingScaffold( "M", 1, -1)
+		printUsingScaffold( "M", 1, nColumns)
 		Clipboard := Trim(Clipboard)
 		Sleep 500
 		Send ^v
 	}
 	TT_duration = 4000
+	
+	scaffold_template := scaffold_template_bkp
 }
 
 scaffoldMergeAll(){
