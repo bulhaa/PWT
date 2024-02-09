@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;vue import component,18r;aws amazon builder id,18s;"
+newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;vue import component,18r;aws amazon builder id,18s;pixel dev,18t;"
 loadStacks()
 
 
@@ -87,7 +87,7 @@ if ErrorLevel
 	MyTT("Read Skipped1")
 
 
-WindowList_global=%WindowList_global%`r`n`r`n%A_Year%%A_MMM%%A_DD% %A_Hour%:%A_Min%
+;~ WindowList_global=%WindowList_global%`r`n`r`n%A_Year%%A_MMM%%A_DD% %A_Hour%:%A_Min%
 
 WindowList_globalCounter:=A_Min-1
 OnExit, OnExitFunction
@@ -100,7 +100,7 @@ if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 	if( WinExist( "Debugging] ahk_class SciTEWindow") )
 		MyTT("Debug Mode")
 	else
-		SetTimer, PeriodicJobsTimer, 100
+		SetTimer, PeriodicJobsTimer, 1000
 return
 
 
@@ -115,13 +115,6 @@ PeriodicJobsTimer:
 
 	PeriodicJobsRunning:=1
 	
-	if(WindowList_globalCounter!=A_Min)
-	{
-		WinGetTitle, Title, A
-		WindowList_global=%WindowList_global%`r`n%Title%
-	}
-	
-	WindowList_globalCounter:=A_Min
 		
 
 		;~ Loop {
@@ -148,6 +141,13 @@ PeriodicJobsTimer:
 					;~ WinSet, ExStyle, +0x80, hammadhOverlay
 					;~ WinSet, AlwaysOnTop, On, hammadhOverlay
 
+				;~ if(WindowList_globalCounter!=A_Min)
+				;~ {
+					WinGetTitle, Title, A
+					WindowList_global= %WindowList_global%%A_Year%`t%A_MM%`t%A_DD%`t%A_Hour%`t%A_Min%`t%Title%`r`n
+				;~ }
+				
+				WindowList_globalCounter:=A_Min
 			}
 			;~ myTT("test 3")
 	PeriodicJobsRunning:=0
@@ -1448,17 +1448,17 @@ OnExitFunction:
 		}
 	}
 
-	;~ FileCopy, %A_ScriptDir%\WindowList_global.txt, %A_ScriptDir%\WindowList_global.txt.bkp
-	;~ FileDelete, %A_ScriptDir%\WindowList_global.txt
-	;~ if ErrorLevel
-		;~ MyTT("Delete Fail")
+	FileCopy, %A_ScriptDir%\WindowList_global.txt, %A_ScriptDir%\WindowList_global.txt.bkp
+	FileDelete, %A_ScriptDir%\WindowList_global.txt
+	if ErrorLevel
+		MyTT("Delete Fail")
 	
-	;~ FileAppend, %WindowList_global%, %A_ScriptDir%\WindowList_global.txt
-	;~ if ErrorLevel
-		;~ MyTT("Append Fail")
+	FileAppend, %WindowList_global%, %A_ScriptDir%\WindowList_global.txt
+	if ErrorLevel
+		MyTT("Append Fail")
 	
-	;~ if(TT_showing)
-		;~ sleep 1000
+	if(TT_showing)
+		sleep 1000
 	ExitApp  ; A script with an OnExit subroutine will not terminate unless the subroutine uses ExitApp
 return
 
@@ -3083,6 +3083,41 @@ else
 }
 
 
+	
+#if (Stack="18t") ; pixel dev 
+	`::
+		CoordMode, Mouse, Relative
+		MouseGetPos, X, Y
+		CoordMode, Mouse, Relative
+		
+		;~ Clipboard:= Clipboard "Click " X ", " Y "`nSleep 1000`n"
+		;~ Clipboard:= Clipboard "`t`t`t`tMouseMove " X ", " Y "`r`n`t`t`t`tSleep 50`r`n"
+		if(Clipboard = "")
+			Clipboard:= "" X ", " Y
+		else
+			Clipboard:= Clipboard ", " "" X ", " Y
+		myTT(Clipboard)
+	return
+	
+	^`::
+		CoordMode, Mouse, Relative
+		MouseGetPos, X, Y
+		CoordMode, Mouse, Relative
+		PixelGetColor, color, %X%, %Y%
+		Clipboard:= "waitPixel(-1, -1, " X ", " Y ", """ color """, 0)"
+		;~ Clipboard:= "PixelGetColor, color, " X ", " Y " `; " color "`nif(color = " color ")`nwaitPixel(-1, -1, " X ", " Y ", """ color """, 0)"
+		myTT(Clipboard)
+	return
+	
+	+`::
+		CoordMode, Mouse, Relative
+		MouseGetPos, X, Y
+		CoordMode, Mouse, Relative
+		PixelGetColor, color, %X%, %Y%
+		;~ Clipboard:= "waitPixel(-1, -1, " X ", " Y ", """ color """, 0)"
+		Clipboard:= "PixelGetColor, color, " X ", " Y " `; " color "`nif(color = " color "){`n"
+		myTT(Clipboard)
+	return
 	
 #if (Stack="18r") ; vue import component 
 	`::
@@ -8040,6 +8075,16 @@ change_scaffold_output_mode(){
 		MyTT("Output mode")
 	else
 		MyTT("Input mode")
+	
+	loop 5 {
+		PixelGetColor, color, 1881, 88 ; 0xE39B6E
+		Clipboard := color
+		if(color = 0xE39B6E){
+			Send {Esc}
+		}
+		Sleep 100
+	}
+
 }
 
 scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
