@@ -11,7 +11,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;vue import component,18r;aws amazon builder id,18s;pixel dev,18t;"
+newStacks := "pixel dev,18t;"
 loadStacks()
 
 
@@ -100,7 +100,7 @@ if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 	if( WinExist( "Debugging] ahk_class SciTEWindow") )
 		MyTT("Debug Mode")
 	else
-		SetTimer, PeriodicJobsTimer, 1000
+		SetTimer, PeriodicJobsTimer, 60000
 return
 
 
@@ -3202,9 +3202,9 @@ else
 
 	loadStacks(){
 		global
-		coreStacks:= "scratch excel,16o,e;Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
+		coreStacks:= "none,11n;scratch excel,16o,e;Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
 		personalStacks:= "r,12r;c,12v;a,11y;right click,13m;records mv notes,14b;"
-		infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;none,11n;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;windows host file,13o;gitlab git.egov.mv,14d;"
+		infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;First 1000 characters to localhost,11s;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;windows host file,13o;gitlab git.egov.mv,14d;"
 		soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
 		seleniumStacks:= "run selenium test,15k;install seleniumjs,15aa;"
 		jsStacks:="console log,15l;jquery ready,13c;map.js npm node,13g;"
@@ -3227,7 +3227,7 @@ else
 		ncitStacks := ncitStacks "case manager local,17c;"
 		ncitStacks := ncitStacks "case manager docker,16t;"
 		ncitStacks := ncitStacks "case manager local mix,14k;"
-		ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;repeat Command In Vscode,17v;remove surrounding quotes,17w;init DB Fields,17x;some random ip,17y;kill process,17z;" newStacks
+		ncitStacks := ncitStacks "case TE,17d;teams,14f;otrs demo,14g;outlook,14h;gemen online local,14l;gemen local,14m;hero icons,14o;gemen online TE,14p;eCouncil DB scripts,14q;composer custom php,14s;laravel run tests,14t;laravel test run group,14u;disable xdebug,14v;enable xdebug,14w;php ini,14x;mysql general_log,17g;TR alerts,14z;git reset,16a;gitlab,16b;phpmyadmin,16c;apache vhost,16d;gts,16e;dev otp,16f;ahk array,16g;merge fonts,16h;rtl iyyu-normal,16i;localization,16j;docker,16k;db seed with initial data,16l;ncit laravel/api getting started,16m;sentry,16n;httpd-xampp.conf,16p;make case role seeder,16q;db scripts to production,16r;ecouncil TE error log,16s;docker sail up,16u;case manager wireframe figma,14e;sync to case gitlab,16v;sync from case gitlab,16w;sync to ecouncil gitlab,16x;sync folders,15bd;wsl --shutdown,16y;gitkraken,16z;assign drive letter to network path,17a;npx mix watch,17b;dev purchase requests,17e;excel cell to single line,17f;GEMS API local,17h;GEMS file erd,17i;old folder,17j;ncit network ip settings,17k;htdocs,17l;ecouncil git,17m;ffmpeg concat video files,17n,merge join;ecouncil db,17o;ecouncil prod deployment,17p;clear mysql log,17q;reposition,17r;job application,17s;snap,17t;click and preserve mouse position,17u;repeat Command In Vscode,17v;remove surrounding quotes,17w;init DB Fields,17x;some random ip,17y;kill process,17z;functions,18a;wizard,18b;singular to plural,18c;table name,18d;array has value,18e;vuejs template,18f;primevue,18g;550 character for translation,18h;ahk github,18i;scoop install programs,18j;traefik,18k,traffic;gems workspace,18l;xampp SSL,18m;xampp multiple php versions,18n;gems db,18o;npm run dev,18p;gems2 old,18q;vue import component,18r;aws amazon builder id,18s;" newStacks
 
 
 		allStacks:= coreStacks personalStacks infrequentStacks soleAsiaStacks seleniumStacks jsStacks ttsStacks eCouncilStacks gitStacks laravelStacks nodeJsStacks sisStacks chromeStacks etukuriStacks cSharpStacks sheriStacks fileZillaStacks sublimeStacks yiiStacks vbStacks phpStacks ncitStacks "swap css colors,15bc;gems user,13n;"
@@ -8078,9 +8078,10 @@ change_scaffold_output_mode(){
 	
 	loop 5 {
 		PixelGetColor, color, 1881, 88 ; 0xE39B6E
-		Clipboard := color
 		if(color = 0xE39B6E){
 			Send {Esc}
+		} else {
+			break
 		}
 		Sleep 100
 	}
