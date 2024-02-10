@@ -1,4 +1,5 @@
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+TT_duration = 1000
 if( WinExist( "Debugging] ahk_class SciTEWindow") )
 	suspendTT = 1
 
@@ -8540,6 +8541,8 @@ scaffoldFiles(){
 	
 	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
 	^`:: 
+		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
+		Sleep 100
 		; create HTML tag
 		clipBkp := Clipboard
 		waitClipboard()
@@ -8553,7 +8556,7 @@ scaffoldFiles(){
 	
 	!`:: change_scaffold_output_mode()
 	
-	`::	scaffoldSingle() ; scaffold single
+	`::	scaffoldSingle(  ) ; scaffold single
 	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
