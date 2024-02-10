@@ -1,4 +1,6 @@
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+if( WinExist( "Debugging] ahk_class SciTEWindow") )
+	suspendTT = 1
 
 new_g_configurations := ", dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations"
 g_configurations()
@@ -11,7 +13,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;"
 loadStacks()
 
 
@@ -101,6 +103,7 @@ if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 		MyTT("Debug Mode")
 	else
 		SetTimer, PeriodicJobsTimer, 60000
+	suspendTT = 0
 return
 
 
@@ -2304,8 +2307,8 @@ StackSearch(Stack, run){
 
 if(Stack="15am") ; scaffolding mode 
 	{
-		init_DB_Fields()
-		scaffoldFiles()
+		;~ init_DB_Fields()
+		;~ scaffoldFiles()
 		
 		;~ init_DB_Fields(1, 0)
 		;~ myTT("refreshed")
@@ -3083,6 +3086,68 @@ else
 }
 
 
+	
+#if (Stack="18u") ; Advent of Code - Parabolic Reflector Dish - Challenge Day 14 
+	`::
+		;~ https://adventofcode.com/2023/day/14
+		;~ myTT(clip_two)
+		StringSplit, clip_two, clip_two, `n, `r
+		
+		output=
+		weight = 0
+
+		Loop % clip_two0 {
+			A_Index1 := A_Index
+			StringSplit, clip_two%A_Index1%B, clip_two%A_Index1%, ,
+		}
+		
+		Loop % clip_two0 {
+			A_Index1 := A_Index
+			;~ StringSplit, clip_two%A_Index1%B, clip_two%A_Index1%, ,
+			Loop % clip_two%A_Index1%B0 {
+				A_Index2 := A_Index
+				t1 := clip_two%A_Index1%B%A_Index%
+				;~ t1 := clip_two1B5
+				if(clip_two%A_Index1%B%A_Index% = "."){
+					; check down for a stone that can be rolled
+					search_index := A_Index1 + 1
+					
+					
+					Loop {
+						;~ clip_two3B0
+						;~ if(clip_two%search_index%B0 = "")
+							;~ StringSplit, clip_two%search_index%B, clip_two%search_index%, ,
+						
+						t2 := clip_two%search_index%B%A_Index2%
+						if(search_index > clip_two0)
+							break
+						else if(clip_two%search_index%B%A_Index2% = "#")
+							break
+						else if(clip_two%search_index%B%A_Index2% = "O") {
+							;~ clip_two1B2 := clip_two%search_index%B%A_Index2%
+							clip_two%A_Index1%B%A_Index2% := clip_two%search_index%B%A_Index2%
+							;~ clip_two4B2 := "."
+							clip_two%search_index%B%A_Index2% := "."
+							break
+						} else 
+							search_index++
+						
+					}
+				}
+				t3 := clip_two0 - A_Index1 + 1
+				if(clip_two%A_Index1%B%A_Index2% = "O")
+					weight += clip_two0 - A_Index1 + 1
+				output .= clip_two%A_Index1%B%A_Index2%
+			}
+			output .= "`n"
+		}
+		
+		Clipboard := weight
+		myTT(weight)
+		
+		
+		
+	return
 	
 #if (Stack="18t") ; pixel dev 
 	`::
@@ -5038,6 +5103,8 @@ scaffoldModel(template, skip = 0){
 runScaffold( template, data, params = "MA", nRows = 1, nColumns = -1, next = 1, defaultTemplate = 0 ){
 	global clipList, scaffold_template, clipList_A_Index, clipCells0
 	
+	clipList_bkp := clipList
+	
 	value0=-1
 	clipList := data "`n"
 	old_scaffold_template := scaffold_template
@@ -5051,6 +5118,9 @@ runScaffold( template, data, params = "MA", nRows = 1, nColumns = -1, next = 1, 
 	scaffold_template := old_scaffold_template
 	clipList_A_Index = 0
 	clipCells0 := ""
+	
+	clipList := clipList_bkp
+	
 	return output
 }
 
@@ -7813,6 +7883,8 @@ getRelationsByHttp(){
 fieldsFromDB(){
 	global clipList, scaffold_template, DB_Fields, modelName, clipList_A_Index
 	
+	clipList_bkp := clipList
+	
 	clipList_A_Index := 0
 	modelName := Clipboard
 	
@@ -7841,6 +7913,9 @@ fieldsFromDB(){
 	relations := Clipboard
 	
 	Clipboard := mergeDataTypesAndRelationships(dataTypes, relations)
+	
+	clipList := clipList_bkp
+	
 	return Clipboard
 }
 
