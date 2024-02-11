@@ -8,7 +8,7 @@ g_configurations()
 
 iniClipList()
 
-clipList_A_Index := 0
+clipList_A_Index := 1
 	
 recentFunctions := Object()	; creates initially empty stack
 
@@ -4765,7 +4765,7 @@ XButton2::
 #if (Stack="11p") ; clear clipList 
 	`::
 		clipList=
-		clipList_A_Index=0
+		clipList_A_Index = 1
 		myTT("clipList cleared")
 	return
 	
@@ -4894,19 +4894,18 @@ XButton2::
 	ClipLoad(){
 		global
 		
-		clipList_A_Index++
-		clipCells_A_Index = 0
-		
 		;~ if(clipList0 = "")
 		StringSplit, clipList, clipList, `n, `r
 		if(clipList_A_Index > clipList0){
-			clipList_A_Index := clipList0
+			clipList_A_Index := clipList0 + 1
 			scaffold_output_mode := 0
 			myTT("Reached end of list")
 			clipLine := ""
 			return 0
 		}else{
+			clipCells_A_Index = 0
 			clipLine := clipList%clipList_A_Index%
+			clipList_A_Index++
 			StringSplit, clipCells, clipLine, `t, `r`n
             return 1
 		}
@@ -4957,8 +4956,8 @@ XButton2::
 				
 				if(copyResult){
 					output=
-					loop % clipList0-clipList_A_Index {
-						t := clipList_A_Index + A_Index
+					loop % clipList0-clipList_A_Index+1 {
+						t := clipList_A_Index + A_Index - 1
 						if (output != "")
 							output .= "`n" clipList%t%
 						else
@@ -5110,14 +5109,14 @@ runScaffold( template, data, params = "MA", nRows = 1, nColumns = -1, next = 1, 
 	clipList := data "`n"
 	old_scaffold_template := scaffold_template
 	scaffold_template := template
-	clipList_A_Index = 0
+	clipList_A_Index = 1
 	;~ StringSplit, clipList, clipList, `n, `r
 	ClipLoad()
 	;~ Clipboard=
 	output := printUsingScaffold(params, nRows, nColumns, next, defaultTemplate)
 	clipList := ""
 	scaffold_template := old_scaffold_template
-	clipList_A_Index = 0
+	clipList_A_Index = 1
 	clipCells0 := ""
 	
 	clipList := clipList_bkp
@@ -7886,7 +7885,7 @@ fieldsFromDB(){
 	
 	clipList_bkp := clipList
 	
-	clipList_A_Index := 0
+	clipList_A_Index := 1
 	modelName := Clipboard
 	
 	;~ clipList := "`t1`tid Primary`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`tAUTO_INCREMENT`tChange Change`tDrop Drop`t`nMore More`n`t2`tcase_id`tvarchar(250)`tutf8mb4_unicode_ci`t`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t3`tuser_organisation_id Index`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t4`tfrom_user_organisation_id Index`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t5`torigin`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t6`tpriority`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t7`trecieved_date`tdatetime`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t8`tdeadline`tdatetime`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t9`tassigned_user_id Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t10`tstatus`tbigint(20)`t`tUNSIGNED`tNo`tNone`t`t`tChange Change`tDrop Drop`t`nMore More`n`t11`tcreated_by Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t12`tupdated_by Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t13`toperation_log_id Index`tbigint(20)`t`tUNSIGNED`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t14`tcreated_at`ttimestamp`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t15`tupdated_at`ttimestamp`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n`t16`tdeleted_at`ttimestamp`t`t`tYes`tNULL`t`t`tChange Change`tDrop Drop`t`nMore More`n"
@@ -7905,7 +7904,7 @@ fieldsFromDB(){
 	printUsingScaffold( "MA", 1, -1)
 	dataTypes := Clipboard
 
-	clipList_A_Index := 0
+	clipList_A_Index := 1
 	clipList := modelName
 	scaffold_template := "? value9 ?`t? value14 ?`n"
 	ClipLoad()
@@ -8081,12 +8080,12 @@ saveCodeAndRefreshChrome(){
 	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
 		if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
 			if( requireWinActive("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
-				Click 37, 25
+				Click 78, 34
 				Sleep 100
 				Send {F5}
 			}
 		} else if( requireWinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
-			Click 37, 25
+			Click 78, 34
 			Sleep 100
 			Send {F5}
 		}
@@ -8305,13 +8304,13 @@ convertCodeToTemplate(){
 		StringSplit, clipList, clipList, `n, `r
 		if(allLines){
 			;~ clipList_A_Index = 0
-			nRows := clipList0 - clipList_A_Index
+			nRows := clipList0 - clipList_A_Index + 1
 			if(nColumns != -1)
 				nRows := nRows / nColumns
 		}
 		
 		if(useLastLine){
-			clipList_A_Index := clipList0 - 1
+			clipList_A_Index := clipList0
 		}
 		
 
@@ -8541,6 +8540,7 @@ scaffoldFiles(){
 	
 	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
 	^`:: 
+		; HTML tag expander
 		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
 		Sleep 100
 		; create HTML tag
@@ -8557,7 +8557,7 @@ scaffoldFiles(){
 	!`:: change_scaffold_output_mode()
 	
 	`::	scaffoldSingle(  ) ; scaffold single
-	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll() ; decode lines and tabs or scaffold merge all
+	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll(  ) ; decode lines and tabs or scaffold merge all
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
 	
@@ -8865,7 +8865,7 @@ scaffoldFiles(){
 		if(nColumns = -1)
 			nColumns := clipCells0
 		else if(nColumns = 0)
-			nColumns := clipList0 - clipList_A_Index
+			nColumns := clipList0 - clipList_A_Index + 1
 		
 		t := scaffold_template
 		
@@ -8879,7 +8879,7 @@ scaffoldFiles(){
 				if(!isRecursiveRun){
 					return fetchRow(nColumns, fillTemplate, next, 1)
 				}
-				break
+				return ""
 			}
 			
 			if(fillTemplate){
