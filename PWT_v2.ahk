@@ -8155,9 +8155,10 @@ change_scaffold_output_mode(){
 		PixelGetColor, color, 1881, 88 ; 0xE39B6E
 		if(color = 0xE39B6E){
 			Send {Esc}
-		} else {
-			break
 		}
+		;~ else {
+			;~ break
+		;~ }
 		Sleep 100
 	}
 
