@@ -8144,7 +8144,7 @@ decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1, defaultTemplate = 1){
 }
 
 change_scaffold_output_mode(){
-	global scaffold_output_mode
+	global scaffold_output_mode, scaffold_single
 	scaffold_output_mode := !scaffold_output_mode
 	if( scaffold_output_mode )
 		MyTT("Output mode")
@@ -8162,11 +8162,19 @@ change_scaffold_output_mode(){
 		;~ }
 		Sleep 100
 	}
+	
+	if( scaffold_output_mode )
+		if( scaffold_single )
+			scaffoldSingle(  )
+		else
+			decodeLinesAndTabsOrScaffoldMergeAll(  )
 
 }
 
 scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
-	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template
+	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template, scaffold_single
+	
+	scaffold_single = 1
 	
 	scaffold_template_bkp := scaffold_template
 	
