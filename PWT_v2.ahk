@@ -8151,11 +8151,12 @@ change_scaffold_output_mode(){
 	else
 		MyTT("Input mode")
 	
-	loop 5 {
-		PixelGetColor, color, 1881, 88 ; 0xE39B6E
-		if(color = 0xE39B6E){
-			Send {Esc}
-		}
+	loop 1 {
+		;~ PixelGetColor, color, 1881, 88 ; 0xD0570B
+		;~ Clipboard := color
+		;~ if(color = 0xD0570B){
+			Send {Esc}{Esc}e
+		;~ }
 		;~ else {
 			;~ break
 		;~ }
@@ -8186,9 +8187,16 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 	}else{
 		suspendTT = 0
 		printUsingScaffold( "M", 1, nColumns)
-		Clipboard := Trim(Clipboard)
-		Sleep 500
-		Send ^v
+		if( scaffold_output_mode ) {
+			Clipboard := Trim(Clipboard)
+			Sleep 500
+			Send ^v
+		} else {
+			; clipList is empty so switching to input mode
+			TT_duration = 1000
+			scaffold_template := scaffold_template_bkp
+			scaffoldSingle( nColumns, defaultTemplate )
+		}
 	}
 	TT_duration = 1000
 	
