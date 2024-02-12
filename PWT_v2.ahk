@@ -8190,7 +8190,7 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 		Sleep 500
 		Send ^v
 	}
-	TT_duration = 4000
+	TT_duration = 1000
 	
 	scaffold_template := scaffold_template_bkp
 }
