@@ -4724,11 +4724,24 @@ XButton2::
 		
 	;~ UrlDownloadToFile https://soleasia.mv/ip.php?mode=update&id=1&text=%text%, %A_ScriptDir%\telegram.html
 	
+	;~ StringReplace, t, t, `r, % "", All
+	;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
+	;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
+	;~ t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)\R\RUser avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days) ago", "$2")
+	; reddit
+	t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
+	t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
+	
 	StringReplace, t, t, <, %  "<span" Chr(255) "<</span" Chr(255), All
 	StringReplace, t, t, >, <span>></span>, All
 	StringReplace, t, t, % Chr(255), >, All
 	StringReplace, t, t, `n, <br>, All
 	StringReplace, t, t, &, % Chr(255), All
+	;~ ToolTip % t
+	;~ Clipboard := t
+	;~ Sleep 2000
+	;~ ToolTip
+	;~ return
 		
 		
 	whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
