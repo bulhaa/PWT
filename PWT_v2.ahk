@@ -8166,12 +8166,15 @@ change_scaffold_output_mode(){
 	else
 		MyTT("Input mode")
 	
-	loop 1 {
-		;~ PixelGetColor, color, 1881, 88 ; 0xD0570B
+	loop 2 {
+		; chrome
+		PixelGetColor, color, 1881, 88 ; 0xD0570B
+		if(color = 0xD0570B){
+			Send {Esc}{Esc}
+		}
 		;~ Clipboard := color
-		;~ if(color = 0xD0570B){
+		IfWinActive, freeCodeCamp
 			Send {Esc}{Esc}e
-		;~ }
 		;~ else {
 			;~ break
 		;~ }
