@@ -4749,11 +4749,18 @@ XButton2::
 	t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
 	t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
 	
+	StringSplit, t, t, `n
+	
 	StringReplace, t, t, <, %  "<span" Chr(255) "<</span" Chr(255), All
 	StringReplace, t, t, >, <span>></span>, All
 	StringReplace, t, t, % Chr(255), >, All
 	StringReplace, t, t, `n, <br>, All
 	StringReplace, t, t, &, % Chr(255), All
+	
+	if(t0 = 1)
+		t := "<a href=""" t """>" t "</a>"
+	
+	
 	;~ ToolTip % t
 	;~ Clipboard := t
 	;~ Sleep 2000
