@@ -14,7 +14,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;"
 loadStacks()
 
 
@@ -3068,6 +3068,15 @@ else if(Stack="18s") ; aws amazon builder id
 	{
 		Button1_Label=https`://device.sso.us-east-1.amazonaws.com/?user_code=NFTT-QSJJ
 		run, %Button1_Label%
+	}
+else if(Stack="18v") ; goblin.tools AI 
+	{
+		Button1_Label=https`://goblin.tools/Formalizer
+		run, %Button1_Label%
+	}
+else if(Stack="18w") ; chrome password manager 
+	{
+		Button1_Label=chrome`://password-manager/passwords
 	}
 else
 	{	
