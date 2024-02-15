@@ -8178,6 +8178,12 @@ change_scaffold_output_mode(){
 		if(color = 0xD0570B){
 			Send {Esc}{Esc}
 		}
+		
+		PixelGetColor, color, 53, 27 ; 0xD47F00
+		if(color = 0xD47F00){
+			Send {Esc}
+		}
+		
 		;~ Clipboard := color
 		IfWinActive, freeCodeCamp
 			Send {Esc}{Esc}e
