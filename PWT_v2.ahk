@@ -8597,6 +8597,8 @@ scaffoldFiles(){
 }
 
 #if (Stack="15am") ; scaffolding mode 
+	; f + j :: Right
+	
 	^+`:: convertCodeToTemplate() ; convert code to template
 	
 	+`:: insertPlaceholder() ; insert placeholder
@@ -8641,6 +8643,86 @@ scaffoldFiles(){
 	
 
 	;~ ^`:: printUsingScaffold( 0, -1, 0) ; previous
+	
+	$f::
+	$+f::
+		fPressedAlone := 1
+		return
+	
+	$l:: ; f + l :: Right
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			Send {Right}
+		else
+			Send l
+		return
+	
+	$j:: ; f + j :: Left
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			Send {Left}
+		else
+			Send j
+		return
+	
+	$i:: ; f + i :: Up
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			Send {Up}
+		else
+			Send i
+		return
+	
+	$k:: ; f + k :: Down
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			Send {Down}
+		else
+			Send k
+		return
+	
+	$+l:: ; f + l :: +Right
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+		  Send {Shift Down}{Right}{Shift Up}
+		else
+		  Send L
+	return
+
+	$+j:: ; f + j :: +Left
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+		  Send {Shift Down}{Left}{Shift Up}
+		else
+		  Send J
+	return
+
+	$+i:: ; f + i :: +Up
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+		  Send {Shift Down}{Up}{Shift Up}
+		else
+		  Send I
+	return
+
+	$+k:: ; f + k :: +Down
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+		  Send {Shift Down}{Down}{Shift Up}
+		else
+		  Send K
+	return
+		
+	$f Up::
+		if(fPressedAlone)
+			Send f
+		return
+		
+	$+f Up::
+		if(fPressedAlone)
+			Send F
+		return
+		
 	
 #if (Stack="15ak") ; Go to reference 
 	`:: goToReference()
