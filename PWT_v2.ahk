@@ -8681,6 +8681,14 @@ scaffoldFiles(){
 			Send k
 		return
 	
+	$,:: ; f + k :: Down
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			Send {Down}
+		else
+			Send `,
+		return
+	
 	$+l:: ; f + l :: +Right
 		fPressedAlone := 0
 		if GetKeyState("f", "P")
@@ -8711,6 +8719,14 @@ scaffoldFiles(){
 		  Send {Shift Down}{Down}{Shift Up}
 		else
 		  Send K
+	return
+		
+	$+,:: ; f + k :: +Down
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+		  Send {Shift Down}{Down}{Shift Up}
+		else
+		  Send <
 	return
 		
 	$f Up::
