@@ -3549,7 +3549,7 @@ else
 	return
 	
 	`::
-		folder := "C:\Users\Hammadh\Documents\" A_yyyy "_" A_MM "_" A_DD
+		folder := "F:\Old desktop\PHPFromProd\" A_yyyy "\" A_yyyy "-" A_MM "-" A_DD
 		FileCreateDir, % folder
 		run, %folder%
 	return
@@ -3557,10 +3557,10 @@ else
 	^`::
 		Run cmd
 		WinWaitActive, ahk_exe cmd.exe
-		Send cd /D C:\xampp\htdocs\eCouncil-gitlab\web{Enter}
+		t := A_yyyy "-" A_MM "-" A_DD
+		Send cd /D F:\Old desktop\PHPToProduction\%t%\eCouncil{Enter}
 		Send git pull{Enter}
 	return
-	
 #if (Stack="17f") ; excel cell to single line 
 	`::
 		Clipboard=
