@@ -4727,8 +4727,13 @@ XButton2::
 #if (Stack="11s") ; 1000 TTS characters to soleasia
 	F1:: Send {End} ; Go to end \\** To go to end of article
 
-	`::
+	`:: 
 		mergeClipboard()
+		Send {Ctrl Down}{Tab}{Ctrl Up}
+		return
+	^`:: 
+		mergeClipboard()
+		
 		
 		t := SubStr(clipList, 1, 200000)
 		clipList := SubStr(clipList, 200001)
