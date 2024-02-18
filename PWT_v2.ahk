@@ -4724,7 +4724,7 @@ XButton2::
 		;~ printUsingScaffold()
 	return
 	
-#if (Stack="11s") ; 1000 TTS characters to soleasia
+#if (Stack="11s") ; 200k TTS characters to soleasia 
 	F1:: Send {End} ; Go to end \\** To go to end of article
 
 	`:: 
