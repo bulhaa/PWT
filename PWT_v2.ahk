@@ -3281,6 +3281,21 @@ else
 	
 #if (Stack="18a") ; functions 
 
+	htmlTagExpander() {
+		; HTML tag expander
+		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
+		Sleep 100
+		; create HTML tag
+		clipBkp := Clipboard
+		waitClipboard()
+		Clipboard := "<" Clipboard " id="""" class="""">" "</" Clipboard ">"
+		Sleep 500
+		Send ^v
+		Sleep 500
+		Send {Ctrl Down}{Left}{Ctrl Up}{Left 2} 
+		Clipboard := clipBkp
+	}
+
 	loadStacks(){
 		global
 		coreStacks:= "none,11n;scratch excel,16o,e;Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
@@ -8602,27 +8617,15 @@ scaffoldFiles(){
 }
 
 #if (Stack="15am") ; scaffolding mode 
-	; f + j :: Right
+	; f + j :: Left
 	
 	^+`:: convertCodeToTemplate() ; convert code to template
 	
 	+`:: insertPlaceholder() ; insert placeholder
 	
-	;~ ^`:: surroundSelectionByQuotes() ; surround selection by quotes
-	^`:: 
-		; HTML tag expander
-		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
-		Sleep 100
-		; create HTML tag
-		clipBkp := Clipboard
-		waitClipboard()
-		Clipboard := "<" Clipboard " id="""" class="""">" "</" Clipboard ">"
-		Sleep 500
-		Send ^v
-		Sleep 500
-		Send {Ctrl Down}{Left}{Ctrl Up}{Left 2} 
-		Clipboard := clipBkp
-	return
+	; f + u :: surround selection by quotes
+	
+	; f + p :: HTML tag expander
 	
 	!`:: change_scaffold_output_mode()
 	
@@ -8631,7 +8634,9 @@ scaffoldFiles(){
 	;~ `::	scaffoldMergeAll() ; scaffold merge all
 	;~ `::	scaffoldClipboard() ; scaffold clipboard
 	
-	;~ F1:: goToReference() ; go to reference
+	;f + ; :: go to reference
+	; f + : :: go to prev reference
+	
 	F1::
 		; freeCodeCamp Submit
 		Send {Ctrl Down}{Enter}{Ctrl Up}
@@ -8639,7 +8644,6 @@ scaffoldFiles(){
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 	return
 
-	F4:: goToPrevReference() ; go to prev reference
 	
 	~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
 	;~ ~^q:: repeatCommandInVscode() ;repeat command in vscode
@@ -8654,20 +8658,12 @@ scaffoldFiles(){
 		fPressedAlone := 1
 		return
 	
-	$l:: ; f + l :: Right
+	$u:: ; f + u :: surround selection by quotes
 		fPressedAlone := 0
 		if GetKeyState("f", "P")
-			Send {Right}
+			surroundSelectionByQuotes()
 		else
-			Send l
-		return
-	
-	$j:: ; f + j :: Left
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			Send {Left}
-		else
-			Send j
+			Send u
 		return
 	
 	$i:: ; f + i :: Up
@@ -8678,12 +8674,45 @@ scaffoldFiles(){
 			Send i
 		return
 	
+	$p:: ; f + p :: HTML tag expander
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			htmlTagExpander()
+		else
+			Send p
+		return
+	
+	$j:: ; f + j :: Left
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			Send {Left}
+		else
+			Send j
+		return
+	
 	$k:: ; f + k :: Down
 		fPressedAlone := 0
 		if GetKeyState("f", "P")
 			Send {Down}
 		else
 			Send k
+		return
+	
+	$l:: ; f + l :: Right
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			Send {Right}
+		else
+			Send l
+		return
+	
+	
+	$;:: ;f + ; :: go to reference
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+			goToReference()
+		else
+			Send `;
 		return
 	
 	$,:: ; f + k :: Down
@@ -8693,13 +8722,13 @@ scaffoldFiles(){
 		else
 			Send `,
 		return
-	
-	$+l:: ; f + l :: +Right
+
+	$+i:: ; f + i :: +Up
 		fPressedAlone := 0
 		if GetKeyState("f", "P")
-		  Send {Shift Down}{Right}{Shift Up}
+		  Send {Shift Down}{Up}{Shift Up}
 		else
-		  Send L
+		  Send I
 	return
 
 	$+j:: ; f + j :: +Left
@@ -8710,20 +8739,28 @@ scaffoldFiles(){
 		  Send J
 	return
 
-	$+i:: ; f + i :: +Up
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-		  Send {Shift Down}{Up}{Shift Up}
-		else
-		  Send I
-	return
-
 	$+k:: ; f + k :: +Down
 		fPressedAlone := 0
 		if GetKeyState("f", "P")
 		  Send {Shift Down}{Down}{Shift Up}
 		else
 		  Send K
+	return
+	
+	$+l:: ; f + l :: +Right
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+		  Send {Shift Down}{Right}{Shift Up}
+		else
+		  Send L
+	return
+	
+	$+;:: ; f + : :: go to prev reference
+		fPressedAlone := 0
+		if GetKeyState("f", "P")
+		  goToPrevReference()
+		else
+		  Send :
 	return
 		
 	$+,:: ; f + k :: +Down
