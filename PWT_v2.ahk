@@ -4744,12 +4744,22 @@ XButton2::
 	return
 	
 #if (Stack="11s") ; 200k TTS characters to soleasia 
-	F1:: Send {End} ; Go to end \\** To go to end of article
+	F1:: 
+		if ( !switch){
+			switch := 1
+			Send {End} ; Go to end \\** To go to end of article
+		} else {
+			switch := 0
+			mergeClipboard()
+			Send {Ctrl Down}{Tab}{Ctrl Up}
+		}
+	return
 
 	`:: 
 		mergeClipboard()
 		Send {Ctrl Down}{Tab}{Ctrl Up}
 		return
+		
 	^`:: 
 		mergeClipboard()
 		
@@ -4773,7 +4783,7 @@ XButton2::
 	; reddit
 	t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\R(Comment as freestyleReunion)", "$1")
 	t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\RUser avatar\R.*\R.*\RPromoted\R(.*\R)?(.*\R)?(.*\R)?(Comment as freestyleReunion)", "$4")
-	t := RegExReplace(t, "s)Comment as freestyleReunion.*Sort By: Best\R|\RSearch comments", "")
+	t := RegExReplace(t, ")Comment as freestyleReunion\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*Markdown Mode\RSort By: Best\R|\RSearch comments", "")
 	t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
 	t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
 	;~ ToolTip % t
