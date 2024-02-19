@@ -4769,9 +4769,18 @@ XButton2::
 	;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
 	;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
 	;~ t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)\R\RUser avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days) ago", "$2")
+	
 	; reddit
+	t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\R(Comment as freestyleReunion)", "$1")
+	t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\RUser avatar\R.*\R.*\RPromoted\R(.*\R)?(.*\R)?(.*\R)?(Comment as freestyleReunion)", "$4")
+	t := RegExReplace(t, "s)Comment as freestyleReunion.*Sort By: Best\R|\RSearch comments", "")
 	t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
 	t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
+	;~ ToolTip % t
+	;~ Clipboard := t
+	;~ Sleep 2000
+	;~ ToolTip
+	;~ return
 	
 	StringSplit, t, t, `n
 	
@@ -4785,11 +4794,6 @@ XButton2::
 		t := "<a href=""" t """>" t "</a>"
 	
 	
-	;~ ToolTip % t
-	;~ Clipboard := t
-	;~ Sleep 2000
-	;~ ToolTip
-	;~ return
 		
 		
 	whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
