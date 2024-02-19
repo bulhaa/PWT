@@ -4857,7 +4857,7 @@ XButton2::
 
 #if (Stack="15l") ; console log 
 	`::
-		mergeClipboard()
+		mergeClipboard(0)
 		scaffold_template = console.log('? value1 ?: ' + ? value1 ?);
 		printUsingScaffold(1)
 	return
