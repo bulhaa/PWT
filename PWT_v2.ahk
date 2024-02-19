@@ -106,7 +106,7 @@ if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 		SetTimer, PeriodicJobsTimer, 60000
 	suspendTT = 0
 	
-	hotkeys := "abcdefghijklmnopqrstuvwxyz"
+	hotkeys := "abcdefghijklmnopqrstuvwxyz "
 	loop, Parse, hotkeys
 		registerModifiers(A_LoopField)
 return
@@ -8153,8 +8153,8 @@ waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1
 
 saveCodeAndRefreshChrome(){
 	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
-		if( WinExist("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
-			if( requireWinActive("Case - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
+		if( WinExist("25 [+] 5 Clock - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+			if( requireWinActive("25 [+] 5 Clock - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
 				Click 78, 34
 				Sleep 100
 				Send {F5}
@@ -8672,6 +8672,8 @@ scaffoldFiles(){
 	;~ ^`:: printUsingScaffold( 0, -1, 0) ; previous
 	
 registerModifiers(key){
+	if( key = " ")
+		key := "Space"
     Hotkey If, (Stack="15am")
     Hotkey %key%, handleModifiers	
     Hotkey +%key%, handleModifiers	
@@ -8683,28 +8685,39 @@ registerModifiers(key){
 handleModifiers( key="", isDown = 0, isShift = 0 ){
 	global
 	
-	key := RegExReplace(A_ThisHotkey, "^[^a-z]*([a-z]).*", "$1")
-	;~ myTT("test " key)
+	StringReplace, key, A_ThisHotkey, % " Up"
+	key := RegExReplace(key, "^[^A-z 0-9]*([A-z 0-9]+).*", "$1")
+	if( RegExMatch(key, "[^a-z]") )
+		variablePrefix := "g_" ( key = " " ? "Space" : key )
+	else
+		variablePrefix := key
+	;~ myTT("test " key " " A_ThisHotkey)
 	;~ return
 	
-	if(GetKeyState(key, "P")){
-		%key%PressedAlone_g := 1
-		%key%Pressed_g := 1
+	if( !InStr(A_ThisHotkey, " Up") ){
+		%variablePrefix%PressedAlone_g := 1
+		%variablePrefix%Pressed_g := 1
 		resetModifiers(key)
 		return
 	}
 	
-	if( !GetKeyState("Shift") )
-		%key%Pressed_g := 0
-	if( GetKeyState("CapsLock", "T") )
-		%key%Pressed_g++
-	if(%key%PressedAlone_g){
-		if( %key%Pressed_g = 1 )
-			Send D
-		else 
-			Send %key%
+	if( %variablePrefix%Pressed_g ){
+		if( !GetKeyState("Shift") )
+			%variablePrefix%Pressed_g := 0
+		if( GetKeyState("CapsLock", "T") )
+			%variablePrefix%Pressed_g++
+		if(%variablePrefix%PressedAlone_g){
+			if( key != "Space" ){
+				if( %variablePrefix%Pressed_g = 1 )
+					Send % capitalCase(key)
+				else
+					Send %key%
+			} else {
+				Send {Space}
+			}
+		}
+		%variablePrefix%Pressed_g := 0
 	}
-	%key%Pressed_g := 0
 }
 		
 resetModifiers( ignoreKey = "" ){
