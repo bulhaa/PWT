@@ -105,6 +105,10 @@ if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 	else
 		SetTimer, PeriodicJobsTimer, 60000
 	suspendTT = 0
+	
+	hotkeys := "abcdefghijklmnopqrstuvwxyz"
+	loop, Parse, hotkeys
+		registerModifiers(A_LoopField)
 return
 
 
@@ -8653,132 +8657,166 @@ scaffoldFiles(){
 
 	;~ ^`:: printUsingScaffold( 0, -1, 0) ; previous
 	
-	$f::
-	$+f::
-		fPressedAlone := 1
-		return
-	
-	$u:: ; f + u :: surround selection by quotes
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			surroundSelectionByQuotes()
-		else
-			Send u
-		return
-	
-	$i:: ; f + i :: Up
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			Send {Up}
-		else
-			Send i
-		return
-	
-	$p:: ; f + p :: HTML tag expander
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			htmlTagExpander()
-		else
-			Send p
-		return
-	
-	$j:: ; f + j :: Left
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			Send {Left}
-		else
-			Send j
-		return
-	
-	$k:: ; f + k :: Down
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			Send {Down}
-		else
-			Send k
-		return
-	
-	$l:: ; f + l :: Right
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			Send {Right}
-		else
-			Send l
-		return
-	
-	
-	$;:: ;f + ; :: go to reference
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			goToReference()
-		else
-			Send `;
-		return
-	
-	$,:: ; f + k :: Down
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-			Send {Down}
-		else
-			Send `,
-		return
-
-	$+i:: ; f + i :: +Up
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-		  Send {Shift Down}{Up}{Shift Up}
-		else
-		  Send I
-	return
-
-	$+j:: ; f + j :: +Left
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-		  Send {Shift Down}{Left}{Shift Up}
-		else
-		  Send J
-	return
-
-	$+k:: ; f + k :: +Down
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-		  Send {Shift Down}{Down}{Shift Up}
-		else
-		  Send K
-	return
-	
-	$+l:: ; f + l :: +Right
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-		  Send {Shift Down}{Right}{Shift Up}
-		else
-		  Send L
-	return
-	
-	$+;:: ; f + : :: go to prev reference
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-		  goToPrevReference()
-		else
-		  Send :
-	return
+registerModifiers(key){
+    Hotkey If, (Stack="15am")
+    Hotkey %key%, handleModifiers	
+    Hotkey +%key%, handleModifiers	
+    Hotkey $%key% Up, handleModifiers	
+    Hotkey $+%key% Up, handleModifiers	
+    Hotkey If, 
+}
 		
-	$+,:: ; f + k :: +Down
-		fPressedAlone := 0
-		if GetKeyState("f", "P")
-		  Send {Shift Down}{Down}{Shift Up}
-		else
-		  Send <
-	return
+handleModifiers( key="", isDown = 0, isShift = 0 ){
+	global
+	
+	key := RegExReplace(A_ThisHotkey, "^[^a-z]*([a-z]).*", "$1")
+	;~ myTT("test " key)
+	;~ return
+	
+	if(GetKeyState(key, "P")){
+		%key%PressedAlone_g := 1
+		%key%Pressed_g := 1
+		resetModifiers(key)
+		return
+	}
+	
+	if( !GetKeyState("Shift") )
+		%key%Pressed_g := 0
+	if( GetKeyState("CapsLock", "T") )
+		%key%Pressed_g++
+	if(%key%PressedAlone_g){
+		if( %key%Pressed_g = 1 )
+			Send D
+		else 
+			Send %key%
+	}
+	%key%Pressed_g := 0
+}
 		
-	$f Up::
-		if(fPressedAlone)
-			Send f
+resetModifiers( ignoreKey = "" ){
+	global
+	
+	;~ if( ignoreKey != "d" and ignoreKey != "f" )
+		;~ returnholidays
+	
+	if( ignoreKey != "d" )
+		dPressedAlone_g := 0
+	if( ignoreKey != "f" )
+		fPressedAlone_g := 0
+}
+		
+#if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
+	i:: ; f + d + i :: Up
+		Send {Up}
+		resetModifiers()
+		return
+	
+	j:: ; f + d + j :: ^Left
+		Send {Shift Down}{Home}{Shift Up}
+		resetModifiers()
+		return
+	
+	k:: ; f + d + k :: Down
+		Send {Down}
+		resetModifiers()
+		return
+	
+	l:: ; f + d + l :: ^Right
+		Send {Shift Down}{End}{Shift Up}
+		resetModifiers()
 		return
 		
-	$+f Up::
-		if(fPressedAlone)
-			Send F
+#if (Stack="15am" and dPressed_g) ; scaffolding mode + d
+	i:: ; d + i :: Up
+		Send {Up}
+		resetModifiers()
+		return
+	
+	j:: ; d + j :: ^Left
+		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
+		resetModifiers()
+		return
+	
+	k:: ; d + k :: Down
+		Send {Down}
+		resetModifiers()
+		return
+	
+	l:: ; d + l :: ^Right
+		Send {Ctrl Down}{Shift Down}{Right}{Shift Up}{Ctrl Up}
+		resetModifiers()
+		return
+		
+#if (Stack="15am" and fPressed_g) ; scaffolding mode + f
+	u:: ; f + u :: surround selection by quotes
+		surroundSelectionByQuotes()
+		resetModifiers()
+		return
+	
+	i:: ; f + i :: Up
+		Send {Up}
+		resetModifiers()
+		return
+	
+	p:: ; f + p :: HTML tag expander
+		htmlTagExpander()
+		resetModifiers()
+		return
+		
+	j:: ; f + j :: Left
+		Send {Left}
+		resetModifiers()
+		return
+	
+	k:: ; f + k :: Down
+		Send {Down}
+		resetModifiers()
+		return
+	
+	l:: ; f + l :: Right
+		Send {Right}
+		resetModifiers()
+		return
+
+	
+	`;:: ;f + ; :: go to reference
+		goToReference()
+		resetModifiers()
+		return
+	
+	,:: ; f + k :: Down
+		Send {Down}
+		resetModifiers()
+		return
+
+	+i:: ; f + i :: +Up
+		Send {Shift Down}{Up}{Shift Up}
+		resetModifiers()
+		return
+
+	+j:: ; f + j :: +Left
+		Send {Shift Down}{Left}{Shift Up}
+		resetModifiers()
+		return
+
+	+k:: ; f + k :: +Down
+		Send {Shift Down}{Down}{Shift Up}
+		resetModifiers()
+		return
+	
+	+l:: ; f + l :: +Right
+		Send {Shift Down}{Right}{Shift Up}
+		resetModifiers()
+		return
+	
+	+;:: ; f + : :: go to prev reference
+		goToPrevReference()
+		resetModifiers()
+		return
+		
+	+,:: ; f + k :: +Down
+		Send {Shift Down}{Down}{Shift Up}
+		resetModifiers()
 		return
 		
 	
