@@ -4755,12 +4755,14 @@ XButton2::
 		}
 	return
 
-	`:: 
-		mergeClipboard()
-		Send {Ctrl Down}{Tab}{Ctrl Up}
-		return
+	;~ `:: 
+		;~ mergeClipboard()
+		;~ return
 		
-	^`:: 
+	`:: ttsCharactersToSoleasia()
+	
+	ttsCharactersToSoleasia() {
+		global clipList
 		mergeClipboard()
 		
 		
@@ -4771,50 +4773,49 @@ XButton2::
 		;~ FileAppend, % "<button class=""btn"" onclick=""copyContent()"">Copy!</button>`n<p id=""myText"" style=""font-size`: 5px`;"">" t "</p>`n`n<script>`n  const copyContent = async () => {`n    try {`n      let text = document.getElementById('myText').innerHTML`;`n      const textarea = document.createElement('textarea')`;`n      textarea.value = text`;`n`n      // Move the textarea outside the viewport to make it invisible`n      textarea.style.position = 'absolute'`;`n      textarea.style.left = '-99999999px'`;`n`n      document.body.prepend(textarea)`;`n`n      // highlight the content of the textarea element`n      textarea.select()`;`n`n      try {`n        document.execCommand('copy')`;`n      } catch (err) {`n        alert('Failed to copy2`: ' + err)`;`n      } finally {`n        textarea.remove()`;`n      }`n`n    } catch (err) {`n      alert('Failed to copy`: ' + err)`;`n    }`n  }`n</script>", C:\xampp\htdocs\router\web\read.html, UTF-8
 		;~ run, http://localhost/read.html
 		
-	;~ text := EncodeDecodeURI(t)
+		;~ text := EncodeDecodeURI(t)
+			
+		;~ UrlDownloadToFile https://soleasia.mv/ip.php?mode=update&id=1&text=%text%, %A_ScriptDir%\telegram.html
 		
-	;~ UrlDownloadToFile https://soleasia.mv/ip.php?mode=update&id=1&text=%text%, %A_ScriptDir%\telegram.html
-	
-	;~ StringReplace, t, t, `r, % "", All
-	;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
-	;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
-	;~ t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)\R\RUser avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days) ago", "$2")
-	
-	; reddit
-	t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\R(Comment as freestyleReunion)", "$1")
-	t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\RUser avatar\R.*\R.*\RPromoted\R(.*\R)?(.*\R)?(.*\R)?(Comment as freestyleReunion)", "$4")
-	t := RegExReplace(t, ")Comment as freestyleReunion\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*Markdown Mode\RSort By: Best\R|\RSearch comments", "")
-	t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
-	t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
-	;~ ToolTip % t
-	;~ Clipboard := t
-	;~ Sleep 2000
-	;~ ToolTip
-	;~ return
-	
-	StringSplit, t, t, `n
-	
-	StringReplace, t, t, <, %  "<span" Chr(255) "<</span" Chr(255), All
-	StringReplace, t, t, >, <span>></span>, All
-	StringReplace, t, t, % Chr(255), >, All
-	StringReplace, t, t, `n, <br>, All
-	StringReplace, t, t, &, % Chr(255), All
-	
-	if(t0 = 1)
-		t := "<a href=""" t """>" t "</a>"
-	
-	
+		;~ StringReplace, t, t, `r, % "", All
+		;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
+		;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
+		;~ t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)\R\RUser avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days) ago", "$2")
+		
+		; reddit
+		t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\R(Comment as freestyleReunion)", "$1")
+		t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\RUser avatar\R.*\R.*\RPromoted\R(.*\R)?(.*\R)?(.*\R)?(Comment as freestyleReunion)", "$4")
+		t := RegExReplace(t, ")Comment as freestyleReunion\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*Markdown Mode\RSort By: Best\R|\RSearch comments", "")
+		t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
+		t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
+		;~ ToolTip % t
+		;~ Clipboard := t
+		;~ Sleep 2000
+		;~ ToolTip
+		;~ return
+		
+		StringSplit, t, t, `n
+		
+		StringReplace, t, t, <, %  "<span" Chr(255) "<</span" Chr(255), All
+		StringReplace, t, t, >, <span>></span>, All
+		StringReplace, t, t, % Chr(255), >, All
+		StringReplace, t, t, `n, <br>, All
+		StringReplace, t, t, &, % Chr(255), All
+		
+		if(t0 = 1)
+			t := "<a href=""" t """>" t "</a>"
 		
 		
-	whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-	whr.Open("POST", "https://soleasia.mv/ip.php?mode=update&id=1", true)
-	whr.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-	whr.Send("text=" EncodeDecodeURI(t))
-	whr.WaitForResponse()
-	myTT("done")
+			
+			
+		whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+		whr.Open("POST", "https://soleasia.mv/ip.php?mode=update&id=1", true)
+		whr.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+		whr.Send("text=" EncodeDecodeURI(t))
+		whr.WaitForResponse()
+		myTT("done")
+	}
 		
-	return
-	
 	EncodeDecodeURI(str, encode := true, component := true) {
 	   static Doc, JS
 	   if !Doc {
@@ -8734,7 +8735,7 @@ resetModifiers( ignoreKey = "" ){
 		
 #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
 	i:: ; f + d + i :: Up
-		Send {Up}
+		Send {Ctrl Down}{Shift Down}{Home}{Shift Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
@@ -8744,7 +8745,7 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	k:: ; f + d + k :: Down
-		Send {Down}
+		Send {Ctrl Down}{Shift Down}{End}{Shift Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
@@ -8755,7 +8756,7 @@ resetModifiers( ignoreKey = "" ){
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
 	i:: ; d + i :: Up
-		Send {Up}
+		Send {Shift Down}{PGUP}{Shift Up}
 		resetModifiers()
 		return
 	
@@ -8765,7 +8766,7 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	k:: ; d + k :: Down
-		Send {Down}
+		Send {Shift Down}{PGDN}{Shift Up}
 		resetModifiers()
 		return
 	
