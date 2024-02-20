@@ -4858,10 +4858,9 @@ XButton2::
 	
 
 #if (Stack="15l") ; console log 
-	`::
-		mergeClipboard(0)
-		scaffold_template = console.log('? value1 ?: ' + ? value1 ?);
-		printUsingScaffold(1)
+	`:: 
+		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`;", Clipboard)
+		Send ^v
 	return
 	
 #if (Stack="15bo") ; make new stack 
@@ -8636,6 +8635,7 @@ scaffoldFiles(){
 	; f + o :: TTS characters to SoleAsia
 	; f + p :: HTML tag expander
 	; d + o :: Arrow function
+	; d + ; :: Send accent
 	
 	; f + j :: Left
 	
@@ -8767,7 +8767,7 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	o:: ; d + o :: Arrow function
-		Clipboard := "() => {}"
+		Clipboard := "(d, i) => {}"
 		Sleep 100
 		Send ^v
 		resetModifiers()
@@ -8791,6 +8791,11 @@ resetModifiers( ignoreKey = "" ){
 	
 	l:: ; d + l :: ^Right
 		Send {Ctrl Down}{Shift Down}{Right}{Shift Up}{Ctrl Up}
+		resetModifiers()
+		return
+
+	`;:: ; d + ; :: Send accent
+		Send ``
 		resetModifiers()
 		return
 		
