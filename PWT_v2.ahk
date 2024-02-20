@@ -8636,6 +8636,7 @@ scaffoldFiles(){
 	; f + p :: HTML tag expander
 	; d + o :: Arrow function
 	; d + ; :: Send accent
+	; d + m :: console log
 	
 	; f + j :: Left
 	
@@ -8798,6 +8799,13 @@ resetModifiers( ignoreKey = "" ){
 		Send ``
 		resetModifiers()
 		return
+	
+	m:: ; d + m :: console log
+		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`;", Clipboard)
+		Send ^v
+		resetModifiers()
+		return
+		
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
 	u:: ; f + u :: surround selection by quotes
