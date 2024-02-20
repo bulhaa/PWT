@@ -9,6 +9,7 @@ g_configurations()
 iniClipList()
 
 clipList_A_Index := 1
+scaffold_columns_g = -1
 	
 recentFunctions := Object()	; creates initially empty stack
 
@@ -3302,7 +3303,7 @@ else
 
 	loadStacks(){
 		global
-		coreStacks:= "none,11n;scratch excel,16o,e;Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;lower case,15ag;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
+		coreStacks:= "lower case,15ag;none,11n;scratch excel,16o,e;Send datetime,15a,t;generic clipFetch,15e,get value;Request in chrome to javascript,15i,js;scaffolding mode,15am,s;clipLoad,15af;Go to previous window,15o;camelCase,15p;send raw clipboard,15q;Toggle Always on top,15r;needle in haystack finder,15s;make/undo file or folder read-only system hidden,15t;replace blank lines,15u;load new search configuration from external file,15v;CapitalCamelCase,15w;snake_case,15x;Toogle Hide Window,15ac;Get First 50000 characters,15ad;fetchRow,15ae,get;Title case,15ah;All Title Case,15ai;CAPITAL CASE,15aj,upper;Go to reference,15ak;clipwait,15al;merge multi-line element,15bh;create new stack,15bo,make;go to end of clipList,11o;clear clipList,11p;set value0,11q;restore clipList_A_Index,11r;prices,11t;snake-case-with-hyphen,11v;Remove useless text with regex,11w;edirectory,12b;Remove Lines,12i;RequireWinActive,13f;Check File Size,13i;"
 		personalStacks:= "r,12r;c,12v;a,11y;right click,13m;records mv notes,14b;"
 		infrequentStacks:= "Untick checkboxes,11b;Remove network adapters,11f;Copy coordinates in Corel Draw,11m;200k TTS characters to soleasia,11s,100;grab links from chrome,11x;go to next folder,12c;telnet,12h;Export SEFM members,12j;Adjust numbers,12l;screenshot chrome,12n;mouse click,12u;string replace,12x;windows start menu directory,12q;git remote add origin,13k;windows host file,13o;gitlab git.egov.mv,14d;"
 		soleAsiaStacks:= "Add Property,15b;Add Room,15c;tick property amenitites,15d;tick room amenities,15f;Download images,15g;Fill property template,15h;create a property,15j;Create Fake Room,15n;Get Property Amenities from SoleAsia,11c;get room amenities list,11d;Get Room Information,11e;get room amenities from soleasia,11g;Get Property Information,11h;Get Property amenities list,11i;Get image list,11j;Get property information from SoleAsia,11k;Open each room type,11l;convert to property function,15bn;save property description with raw html,12d;make number of rooms 0,12e;filter sent emails in gmail,12f;delete photos from SoleAsia,12k;property images from booking.com,13d;"
@@ -8171,56 +8172,32 @@ insertPlaceholder(){
 	Send ? value1 ?{Left 2}+{Left}
 }
 
-decodeLinesAndTabsOrScaffoldMergeAll(nColumns = -1, defaultTemplate = 1){
-	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template
+decodeLinesAndTabsWrapper(){
+	global suspendTT, TT_duration
 	
 	TT_duration = 1000
 	suspendTT = 1
-	if( !scaffold_output_mode ) {
-		oldClipboard := Clipboard
-		waitClipboard()
-		if(Clipboard="")
-			Clipboard:=oldClipboard
-		inputValue := Clipboard
-		mergeClipboard(0)
-		suspendTT = 0
-		myTT(inputValue)
-	}else{
-		;~ Send ^a
-		
-		;~ Clipboard=
-		;~ waitClipboard()
-		
-		;~ StringReplace, Clipboard, Clipboard, `r, , All	
-		
-		;~ if(Clipboard){
-			;~ ; decodeLinesAndTabs
-			;~ content := decodeLinesAndTabs(Clipboard)
-			;~ StringReplace, content, content, `"`", `", All	
-			;~ Clipboard := content
-		;~ }else{
-			scaffold_template_bkp := scaffold_template
-			
-			if( defaultTemplate and !InStr(scaffold_template, "? value"))
-				scaffold_template=`  ? value1 ?`: ? value2 ?`;`r`n
-			
-			suspendTT = 0
-			myTT("load as single-tab-plural if using unscaffolded template")
-			printUsingScaffold( "MA", 1, nColumns) ; merge all
-			myTT(Clipboard)
-			
-			scaffold_template := scaffold_template_bkp
-		;~ }
-		
-		;~ Send ^v
-	}
+	
+	;~ Send ^a
+	
+	waitClipboard()
+	
+	StringReplace, Clipboard, Clipboard, `r, , All	
+	
+	; decodeLinesAndTabs
+	content := decodeLinesAndTabs(Clipboard)
+	StringReplace, content, content, `"`", `", All	
+	Clipboard := content
+	
+	;~ Send ^v
+
 	suspendTT = 0
 	TT_duration = 4000
 
 }
 
 change_scaffold_output_mode(){
-	global scaffold_output_mode, scaffold_single
+	global scaffold_output_mode, scaffold_single, scaffold_columns_g
 	scaffold_output_mode := !scaffold_output_mode
 	if( scaffold_output_mode )
 		MyTT("Output mode")
@@ -8250,9 +8227,9 @@ change_scaffold_output_mode(){
 	
 	if( scaffold_output_mode )
 		if( scaffold_single )
-			scaffoldSingle(  )
+			scaffoldSingle( scaffold_columns_g )
 		else
-			decodeLinesAndTabsOrScaffoldMergeAll(  )
+			scaffoldMergeAll( scaffold_columns_g )
 
 }
 
@@ -8296,8 +8273,28 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 	scaffold_template := scaffold_template_bkp
 }
 
-scaffoldMergeAll(){
-	printUsingScaffold( "MA", 1, 2)
+scaffoldMergeAll(nColumns = -1, defaultTemplate = 1){
+	global suspendTT, TT_duration, scaffold_template
+	
+	TT_duration = 1000
+	suspendTT = 1
+	
+	scaffold_template_bkp := scaffold_template
+	
+	if( defaultTemplate and !InStr(scaffold_template, "? value"))
+		scaffold_template=`  ? value1 ?`: ? value2 ?`;`r`n
+	
+	suspendTT = 0
+	myTT("load as single-tab-plural if using unscaffolded template")
+	printUsingScaffold( "MA", 1, nColumns) ; merge all
+	myTT(Clipboard)
+	
+	scaffold_template := scaffold_template_bkp
+			
+			
+	suspendTT = 0
+	TT_duration = 4000
+
 }
 
 scaffoldClipboard(){
@@ -8636,6 +8633,10 @@ scaffoldFiles(){
 }
 
 #if (Stack="15am") ; scaffolding mode 
+	; f + o :: TTS characters to SoleAsia
+	; f + p :: HTML tag expander
+	; d + o :: Arrow function
+	
 	; f + j :: Left
 	
 	^+`:: convertCodeToTemplate() ; convert code to template
@@ -8644,14 +8645,13 @@ scaffoldFiles(){
 	
 	; f + u :: surround selection by quotes
 	
-	; f + p :: HTML tag expander
 	
 	!`:: change_scaffold_output_mode()
 	
-	`::	scaffoldSingle(  ) ; scaffold single
-	;~ `::	decodeLinesAndTabsOrScaffoldMergeAll(  ) ; decode lines and tabs or scaffold merge all
-	;~ `::	scaffoldMergeAll() ; scaffold merge all
-	;~ `::	scaffoldClipboard() ; scaffold clipboard
+	`::	scaffoldSingle( scaffold_columns_g ) ; scaffold single
+	; f + m :: scaffold merge all
+	; f + . :: scaffold clipboard
+	; d + p :: set scaffold_columns_g
 	
 	;f + ; :: go to reference
 	; f + : :: go to prev reference
@@ -8664,6 +8664,7 @@ scaffoldFiles(){
 	return
 
 	
+	; d + u :: decode lines and tabs wrapper
 	~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
 	;~ ~^q:: repeatCommandInVscode() ;repeat command in vscode
 	;~ ^+!`:: bulkScaffolding() ; bulk
@@ -8755,8 +8756,26 @@ resetModifiers( ignoreKey = "" ){
 		return
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
+	u:: ; d + u :: decode lines and tabs wrapper
+		decodeLinesAndTabsWrapper()
+		resetModifiers()
+		return
+
 	i:: ; d + i :: Up
 		Send {Shift Down}{PGUP}{Shift Up}
+		resetModifiers()
+		return
+	
+	o:: ; d + o :: Arrow function
+		Clipboard := "() => {}"
+		Sleep 100
+		Send ^v
+		resetModifiers()
+		return
+
+	p:: ; d + p :: set scaffold_columns_g
+		waitClipboard()
+		scaffold_columns_g := Clipboard
 		resetModifiers()
 		return
 	
@@ -8786,6 +8805,11 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	o:: ; f + o :: TTS characters to SoleAsia
+		ttsCharactersToSoleasia()
+		resetModifiers()
+		return
+	
 	p:: ; f + p :: HTML tag expander
 		htmlTagExpander()
 		resetModifiers()
@@ -8812,10 +8836,21 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	m:: ; f + m :: scaffold merge all
+		scaffoldMergeAll( scaffold_columns_g )
+		resetModifiers()
+		return
+
 	,:: ; f + k :: Down
 		Send {Down}
 		resetModifiers()
 		return
+	
+	.:: ; f + . :: scaffold clipboard
+		scaffoldClipboard()
+		resetModifiers()
+		return
+
 
 	+i:: ; f + i :: +Up
 		Send {Shift Down}{Up}{Shift Up}
