@@ -8159,8 +8159,8 @@ waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1
 
 saveCodeAndRefreshChrome(){
 	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
-		if( WinExist("25 [+] 5 Clock - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
-			if( requireWinActive("25 [+] 5 Clock - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
+		if( WinExist("Visualize Data with a Heat Map - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+			if( requireWinActive("Visualize Data with a Heat Map - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
 				Click 78, 34
 				Sleep 100
 				Send {F5}
@@ -8642,6 +8642,9 @@ scaffoldFiles(){
 	; d + o :: Arrow function
 	; d + ; :: Send accent
 	; d + m :: console log
+	; d + v :: change scaffold output mode
+	
+	; d + . :: lower case
 	
 	; f + j :: Left
 	
@@ -8651,8 +8654,6 @@ scaffoldFiles(){
 	
 	; f + u :: surround selection by quotes
 	
-	
-	!`:: change_scaffold_output_mode()
 	
 	`::	scaffoldSingle( scaffold_columns_g ) ; scaffold single
 	; f + m :: scaffold merge all
@@ -8813,6 +8814,17 @@ resetModifiers( ignoreKey = "" ){
 	m:: ; d + m :: console log
 		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`; console.log(? value1 ?)`;", Clipboard)
 		Send ^v
+		resetModifiers()
+		return
+	
+	.:: ; d + . :: lower case
+		lowerCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	v:: ; d + v :: change scaffold output mode
+		change_scaffold_output_mode()
 		resetModifiers()
 		return
 		
@@ -9438,8 +9450,8 @@ resetModifiers( ignoreKey = "" ){
 	`:: 
 		;~ Send ^a
 		;~ Sleep 100
-		Send ^c
-		waitClipboard(0)
+		;~ Send ^c
+		;~ waitClipboard(0)
 		;~ t := Clipboard
 
 
