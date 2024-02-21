@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;gems workspace git issue board,18x;"
 loadStacks()
 
 
@@ -3057,7 +3057,7 @@ else if(Stack="18n") ; xampp multiple php versions
 	}
 else if(Stack="18o") ; gems db 
 	{
-		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=gemsapi&table=sessions
+		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=gemsapi&table=teams
 		run, %Button1_Label%
 	}
 else if(Stack="18p") ; npm run dev 
@@ -3082,6 +3082,11 @@ else if(Stack="18v") ; goblin.tools AI
 else if(Stack="18w") ; chrome password manager 
 	{
 		Button1_Label=chrome`://password-manager/passwords
+	}
+else if(Stack="18x") ; gems workspace git issue board 
+	{
+		Button1_Label=https`://git.egov.mv/ncit_new/gems-workspace/app/-/boards?assignee_username=hammadh
+		run, %Button1_Label%
 	}
 else
 	{	
@@ -8658,10 +8663,15 @@ scaffoldFiles(){
 	; f + : :: go to prev reference
 	
 	F1::
-		; freeCodeCamp Submit
-		Send {Ctrl Down}{Enter}{Ctrl Up}
-		Sleep 2000
-		Send {Ctrl Down}{Enter}{Ctrl Up}
+		IfWinActive, freeCodeCamp
+		{
+			; freeCodeCamp Submit
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+			Sleep 2000
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+		} else {
+			goToReference()
+		}
 	return
 
 	
