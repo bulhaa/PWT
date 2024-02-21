@@ -8801,7 +8801,7 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	m:: ; d + m :: console log
-		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`;", Clipboard)
+		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`; console.log(? value1 ?)`;", Clipboard)
 		Send ^v
 		resetModifiers()
 		return
