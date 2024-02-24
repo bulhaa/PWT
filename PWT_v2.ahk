@@ -8162,8 +8162,8 @@ waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1
 
 saveCodeAndRefreshChrome(){
 	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") )
-		if( WinExist("Visualize Data with a Choropleth Map - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
-			if( requireWinActive("Visualize Data with a Choropleth Map - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
+		if( WinExist("Visualize Data with a Treemap Diagram - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
+			if( requireWinActive("Visualize Data with a Treemap Diagram - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
 				Click 78, 34
 				Sleep 100
 				Send {F5}
@@ -8649,6 +8649,7 @@ scaffoldFiles(){
 	
 	; d + . :: lower case
 	; f + h :: camel case
+	; f + n :: Ctrl + Enter
 	
 	
 	^+`:: convertCodeToTemplate() ; convert code to template
@@ -8881,6 +8882,11 @@ resetModifiers( ignoreKey = "" ){
 	
 	`;:: ;f + ; :: go to reference
 		goToReference()
+		resetModifiers()
+		return
+	
+	n:: ; f + n :: Ctrl + Enter
+		Send {Ctrl Down}{Enter}{Ctrl Up}
 		resetModifiers()
 		return
 	
