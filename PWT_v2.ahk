@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;gems workspace git issue board,18x;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;gems workspace git issue board,18x;git credential cache,18y;git remote set-url,18z;"
 loadStacks()
 
 
@@ -3091,6 +3091,14 @@ else if(Stack="18x") ; gems workspace git issue board
 		Button1_Label=https`://git.egov.mv/ncit_new/gems-workspace/app/-/boards?assignee_username=hammadh
 		run, %Button1_Label%
 	}
+else if(Stack="18y") ; git credential cache 
+	{
+		Button1_Label=git config --global credential.helper cache
+	}
+else if(Stack="18z") ; git remote set-url 
+	{
+		Button1_Label=git remote set-url origin git`://new.url.here`n
+	}
 else
 	{	
 		EditVisible :=1
@@ -3115,7 +3123,6 @@ else
 }
 
 
-	
 #if (Stack="18u") ; Advent of Code - Parabolic Reflector Dish - Challenge Day 14 
 	`::
 		;~ https://adventofcode.com/2023/day/14
@@ -5028,6 +5035,7 @@ XButton2::
 			{
 				StringReplace, Clipboard, Clipboard, `t, % chr(254), All
 				StringReplace, Clipboard, Clipboard, `n, % chr(255), All
+				StringReplace, Clipboard, Clipboard, `r,, All
 			}
 			
 			if(merge){
@@ -8649,6 +8657,7 @@ scaffoldFiles(){
 	
 	; d + . :: lower case
 	; f + h :: camel case
+	; d + h :: snake case
 	; f + n :: Ctrl + Enter
 	
 	
@@ -8760,7 +8769,7 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	j:: ; f + d + j :: ^Left
+	j:: ; f + d + j :: +Home
 		Send {Shift Down}{Home}{Shift Up}
 		resetModifiers()
 		return
@@ -8770,7 +8779,7 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	l:: ; f + d + l :: ^Right
+	l:: ; f + d + l :: +End
 		Send {Shift Down}{End}{Shift Up}
 		resetModifiers()
 		return
@@ -8796,6 +8805,12 @@ resetModifiers( ignoreKey = "" ){
 	p:: ; d + p :: set scaffold_columns_g
 		waitClipboard()
 		scaffold_columns_g := Clipboard
+		resetModifiers()
+		return
+	
+	h:: ; d + h :: snake case
+		snakeCase()
+		Send ^v
 		resetModifiers()
 		return
 	
