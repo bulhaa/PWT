@@ -8658,6 +8658,8 @@ scaffoldFiles(){
 	; d + . :: lower case
 	; f + h :: camel case
 	; d + h :: snake case
+	; d + n :: snake case with hyphen
+	; f + b :: title case
 	; f + n :: Ctrl + Enter
 	
 	
@@ -8834,6 +8836,12 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	n:: ; d + n :: snake case with hyphen
+		snakecasewithhyphen()
+		Send ^v
+		resetModifiers()
+		return
+	
 	m:: ; d + m :: console log
 		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`; console.log(? value1 ?)`;", Clipboard)
 		Send ^v
@@ -8897,6 +8905,12 @@ resetModifiers( ignoreKey = "" ){
 	
 	`;:: ;f + ; :: go to reference
 		goToReference()
+		resetModifiers()
+		return
+	
+	b:: ; f + b :: title case
+		titleCase()
+		Send ^v
 		resetModifiers()
 		return
 	
