@@ -8249,7 +8249,7 @@ change_scaffold_output_mode(){
 }
 
 scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
-	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template, scaffold_single
+	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template, scaffold_single, scaffold_row_g
 	
 	scaffold_single = 1
 	
@@ -8273,9 +8273,23 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 		suspendTT = 0
 		printUsingScaffold( "M", 1, nColumns)
 		if( scaffold_output_mode ) {
-			Clipboard := Trim(Clipboard)
-			Sleep 500
-			Send ^v
+			scaffold_row_g := Trim(scaffold_row_g)
+			StringSplit, scaffold_row_g, scaffold_row_g, `n, `r
+			
+			;~ if(scaffold_row_g = "left"){
+				;~ Send {Left}
+			;~ } else if(scaffold_row_g = "space"){
+				;~ Send {Space}
+			;~ } else {
+			;~ }
+			
+			if(scaffold_row_g > 1){
+				Clipboard := scaffold_row_g
+				Sleep 500
+				Send ^v
+			}else {
+				SendInput {Raw}%scaffold_row_g%
+			}
 		} else {
 			; clipList is empty so switching to input mode
 			TT_duration = 1000
@@ -8463,8 +8477,12 @@ convertCodeToTemplate(){
 		StringReplace, row, row, <br><b>, `n, All
 		StringReplace, row, row, <b>, , All
 		
+		if(!next)
+			myTT(scaffold_row_g)
+		scaffold_row_g := row
 		Clipboard .= row
-		;~ myTT(Clipboard)
+		if(next)
+			myTT(scaffold_row_g)
 		
 		
 		if(!mergeToClipboard){
@@ -8474,12 +8492,28 @@ convertCodeToTemplate(){
 			;~ Send ^{Left}
 			;~ Send ^+{Right}
 			;~ Send ^a
-			Send ^v
-			;~ Sleep 500
+			;~ Send ^v
+			;~ Sleep 100
 			
 			;~ run, % Clipboard
+			
+			
+			
+			;~ Send ^a
+			;~ Sleep 100
+			;~ Send {BackSpace}
+			;~ Sleep 100
+			;~ Send {Home}
+			Send ^v
+			;~ Sleep 100
+			
+			
+			
+			
 			;~ SendInput {Raw}%Clipboard%
+			;~ Sleep 100
 			;~ Send {tab}
+			;~ Sleep 100
 		}
 		return row
 	}
@@ -8648,6 +8682,8 @@ scaffoldFiles(){
 }
 
 #if (Stack="15am") ; scaffolding mode 
+	; d + b :: previous scaffold
+	
 	; f + o :: TTS characters to SoleAsia
 	; f + p :: HTML tag expander
 	; d + o :: Arrow function
@@ -8699,9 +8735,6 @@ scaffoldFiles(){
 	;~ ~^q:: repeatCommandInVscode() ;repeat command in vscode
 	;~ ^+!`:: bulkScaffolding() ; bulk
 	;~ ^!`:: listOfFields() ; list of fields
-	
-
-	;~ ^`:: printUsingScaffold( 0, -1, 0) ; previous
 	
 registerModifiers(key){
 	if( key = " ")
@@ -8833,6 +8866,11 @@ resetModifiers( ignoreKey = "" ){
 
 	`;:: ; d + ; :: Send accent
 		Send ``
+		resetModifiers()
+		return
+	
+	b:: ; d + b :: previous scaffold
+		printUsingScaffold( "", 1, -1, 0) ; previous
 		resetModifiers()
 		return
 	
