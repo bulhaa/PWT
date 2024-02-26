@@ -50,7 +50,7 @@ WinSet, TransColor, E7EEF8 240
 Gui, +Resize
 Gui, Add, Pic, x-480 y0 vPic1
 Gui, Add, Pic, x-480 y0 vPic2 +0x4000000 
-gui, font, , Verdana 
+gui, font, , Courier New
 Gui, Add, Button, x12 y60 w460 h60 gButton1 vButton1, %Button1_Label%
 Gui, Add, Button, x12 y130 w460 h60 gButton2 vButton2, %Button2_Label%
 Gui, Add, Button, x12 y200 w460 h60 gButton3 vButton3, %Button3_Label%
@@ -76,8 +76,8 @@ RedPen := DllCall("CreatePen", "int", PS_SOLID:=0, "int", 5, "uint", 0xff)
 GuiControl, Hide, MyEdit
 
 xCoord:=A_ScreenWidth-480
-if(Picture = "ERROR")
-	Picture=%A_ScriptDir%\Wallpaper.jpg
+;~ if(Picture = "ERROR")
+	Picture=%A_ScriptDir%\shortcut.jpg
 GuiControl,, Pic1, *w%xCoord% *h-1 %Picture%
 ;~ GuiControl,, Pic2, *w%xCoord% *h-1 %Picture%
 
@@ -2328,7 +2328,7 @@ if(Stack="15am") ; scaffolding mode
 		;~ init_DB_Fields(1, 0)
 		;~ myTT("refreshed")
 		
-		Button1_Label=`t`tscaffold_template = ? value1 ?`n`t`tprintUsingScaffold("")`n`n
+		;~ Button1_Label=`t`tscaffold_template = ? value1 ?`n`t`tprintUsingScaffold("")`n`n
 	}
 else if(Stack=0)
 	{
@@ -3300,6 +3300,44 @@ else
 	wizard()
 	
 #if (Stack="18a") ; functions 
+	handleF1(){
+		IfWinActive, freeCodeCamp
+		{
+			; freeCodeCamp Submit
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+			Sleep 2000
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+		} else {
+			goToReference()
+		}
+	}
+
+	displayShortcutList(){
+		WinActivate, Decision Tree v2 ahk_class AutoHotkeyGUI
+
+		Loop 
+		{
+			accent := 0
+			alt := 0
+			
+			if !GetKeyState("D", "P")
+			break
+			sleep 10
+		}
+		
+		shiftwin(2)
+		WinGet, currWin, ID, A
+		WinGet, ExStyle, ExStyle, ahk_id %currWin%
+		ExStyle:=(ExStyle & 0x8)
+		WinSet, AlwaysOnTop, On, ahk_id %currWin%
+		
+		shiftwin(4)
+		shiftwin(4)
+		shiftwin(1)
+		
+		if(ExStyle=0)
+			WinSet, AlwaysOnTop, Off, ahk_id %currWin%
+	}
 
 	htmlTagExpander() {
 		; HTML tag expander
@@ -8682,21 +8720,29 @@ scaffoldFiles(){
 }
 
 #if (Stack="15am") ; scaffolding mode 
-	; d + b :: previous scaffold
+	; d + g :: display shortcut list
 	
-	; f + o :: TTS characters to SoleAsia
+	; f + . :: scaffold clipboard
+	; d + c :: go to previous window
+	
 	; f + p :: HTML tag expander
 	; d + o :: Arrow function
 	; d + ; :: Send accent
 	; d + m :: console log
-	; d + v :: change scaffold output mode
-	
+
 	; d + . :: lower case
 	; f + h :: camel case
 	; d + h :: snake case
 	; d + n :: snake case with hyphen
 	; f + b :: title case
+	
+	; d + v :: change scaffold output mode
+	; f + o :: TTS characters to SoleAsia
+	; d + b :: previous scaffold
 	; f + n :: Ctrl + Enter
+
+	; f + ; :: go to reference
+	; +f + ; :: go to prev reference
 	
 	
 	^+`:: convertCodeToTemplate() ; convert code to template
@@ -8708,26 +8754,12 @@ scaffoldFiles(){
 	
 	`::	scaffoldSingle( scaffold_columns_g ) ; scaffold single
 	; f + m :: scaffold merge all
-	; f + . :: scaffold clipboard
 	; d + p :: set scaffold_columns_g
 	
-	;f + ; :: go to reference
-	; f + : :: go to prev reference
 	
 	; f + j :: Left
 
-	
-	F1::
-		IfWinActive, freeCodeCamp
-		{
-			; freeCodeCamp Submit
-			Send {Ctrl Down}{Enter}{Ctrl Up}
-			Sleep 2000
-			Send {Ctrl Down}{Enter}{Ctrl Up}
-		} else {
-			goToReference()
-		}
-	return
+	F1:: handleF1() ; free code camp submit or go to reference
 
 	
 	; d + u :: decode lines and tabs wrapper
@@ -8790,7 +8822,7 @@ resetModifiers( ignoreKey = "" ){
 	global
 	
 	;~ if( ignoreKey != "d" and ignoreKey != "f" )
-		;~ returnholidays
+		;~ return
 	
 	if( ignoreKey != "d" )
 		dPressedAlone_g := 0
@@ -8843,6 +8875,11 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	g:: ; d + g :: display shortcut list
+		displayShortcutList()
+		resetModifiers()
+		return
+	
 	h:: ; d + h :: snake case
 		snakeCase()
 		Send ^v
@@ -8869,6 +8906,16 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	c:: ; d + c :: go to previous window
+		goToPreviousWindow2()
+		resetModifiers()
+		return
+		
+	v:: ; d + v :: change scaffold output mode
+		change_scaffold_output_mode()
+		resetModifiers()
+		return
+		
 	b:: ; d + b :: previous scaffold
 		printUsingScaffold( "", 1, -1, 0) ; previous
 		resetModifiers()
@@ -8892,11 +8939,6 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	v:: ; d + v :: change scaffold output mode
-		change_scaffold_output_mode()
-		resetModifiers()
-		return
-		
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
 	u:: ; f + u :: surround selection by quotes
@@ -10912,6 +10954,33 @@ return
 			if GetKeyState("``", "P")
 				accent := 1
 			if GetKeyState("LAlt", "P")
+				alt := 1
+			
+			if(alt and accent)
+				WinActivate, % "ahk_id " result.3
+			else if(accent)
+				WinActivate, % "ahk_id " result.2
+			else{
+				WinActivate, % "ahk_id " result.1
+				if(! alt)
+					break
+			}
+			sleep 10
+		}
+	}
+
+	goToPreviousWindow2(){
+		result:= shiftwin(2)
+
+		sleep 50
+		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
+		{
+			accent := 0
+			alt := 0
+			
+			if GetKeyState("D", "P")
+				accent := 1
+			if GetKeyState("C", "P")
 				alt := 1
 			
 			if(alt and accent)
