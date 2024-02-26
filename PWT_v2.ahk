@@ -8876,8 +8876,8 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	g:: ; d + g :: display shortcut list
-		displayShortcutList()
 		resetModifiers()
+		displayShortcutList()
 		return
 	
 	h:: ; d + h :: snake case
@@ -8907,8 +8907,8 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	c:: ; d + c :: go to previous window
-		goToPreviousWindow2()
 		resetModifiers()
+		goToPreviousWindow2()
 		return
 		
 	v:: ; d + v :: change scaffold output mode
