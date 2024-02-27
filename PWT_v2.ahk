@@ -8313,19 +8313,11 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 		suspendTT = 0
 		printUsingScaffold( "M", 1, nColumns)
 		if( scaffold_output_mode ) {
-			scaffold_row_g := Trim(scaffold_row_g)
-			StringSplit, scaffold_row_g, scaffold_row_g, `n, `r
+			;~ scaffold_row_g := Trim(scaffold_row_g)
 			
-			;~ if(scaffold_row_g = "left"){
-				;~ Send {Left}
-			;~ } else if(scaffold_row_g = "space"){
-				;~ Send {Space}
-			;~ } else {
-			;~ }
-			
-			if(scaffold_row_g > 1){
+			if( RegExMatch(scaffold_row_g, "\W") ){
 				Clipboard := scaffold_row_g
-				Sleep 500
+				Sleep 100
 				Send ^v
 			}else {
 				SendInput {Raw}%scaffold_row_g%
