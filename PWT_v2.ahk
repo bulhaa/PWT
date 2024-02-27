@@ -48,7 +48,7 @@ Gui +LastFound  ; Make the GUI window the last found window for use by the line 
 WinSet, TransColor, E7EEF8 240
 
 Gui, +Resize
-Gui, Add, Pic, x-480 y0 vPic1
+Gui, Add, Pic, x-980 y0 vPic1
 Gui, Add, Pic, x-480 y0 vPic2 +0x4000000 
 gui, font, , Courier New
 Gui, Add, Button, x12 y60 w460 h60 gButton1 vButton1, %Button1_Label%
@@ -63,7 +63,7 @@ Gui, Add, ListBox, x12 y50 w460 h300 gListBox vlistSel ,
 ; Generated using SmartGUI Creator for SciTE
 
 ;~ Gui, Show, w486 h685 , Decision Tree v2
-Gui, Show, w486 h550 , Decision Tree v2
+Gui, Show, w486 h700 , Decision Tree v2
 Gui, +HwndMyGuiHwnd
 OnMessage(0x200, "WM_MOUSEMOVE")
 
@@ -75,7 +75,9 @@ RedPen := DllCall("CreatePen", "int", PS_SOLID:=0, "int", 5, "uint", 0xff)
 
 GuiControl, Hide, MyEdit
 
-xCoord:=A_ScreenWidth-480
+;~ xCoord:=A_ScreenWidth
+xCoord:=1920
+
 ;~ if(Picture = "ERROR")
 	Picture=%A_ScriptDir%\shortcut.jpg
 GuiControl,, Pic1, *w%xCoord% *h-1 %Picture%
@@ -8730,11 +8732,15 @@ scaffoldFiles(){
 	; d + ; :: Send accent
 	; d + m :: console log
 
-	; d + . :: lower case
-	; f + h :: camel case
-	; d + h :: snake case
-	; d + n :: snake case with hyphen
-	; f + b :: title case
+	; c + - :: kebab-case
+	; +c + - :: snake_case
+	; c + l :: lower case
+	; c + u :: UPPER CASE
+	; c + i :: CapitalCamelCase
+	; c + j :: camelCase
+	; +c + i :: All Title Case
+	; +c + j :: Title case
+	; c + . :: dot.case
 	
 	; d + v :: change scaffold output mode
 	; f + o :: TTS characters to SoleAsia
@@ -8820,15 +8826,72 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 		
 resetModifiers( ignoreKey = "" ){
 	global
-	
 	;~ if( ignoreKey != "d" and ignoreKey != "f" )
 		;~ return
 	
 	if( ignoreKey != "d" )
 		dPressedAlone_g := 0
+	if( ignoreKey != "c" )
+		cPressedAlone_g := 0
 	if( ignoreKey != "f" )
 		fPressedAlone_g := 0
 }
+
+#if (Stack="15am" and cPressed_g) ; scaffolding mode + c
+	-:: ; c + - :: kebab-case
+		snakeCaseWithHyphen()
+		Send ^v
+		resetModifiers()
+		return
+	
+	+-:: ; +c + - :: snake_case
+		snakeCase()
+		Send ^v
+		resetModifiers()
+		return
+		
+	u:: ; c + u :: UPPER CASE
+		capitalCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	i:: ; c + i :: CapitalCamelCase
+		capitalCamelCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	+i:: ; +c + i :: All Title Case
+		allTitleCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	l:: ; c + l :: lower case
+		lowerCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	j:: ; c + j :: camelCase
+		camelCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	+j:: ; +c + j :: Title case
+		titleCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	.:: ; c + . :: dot.case
+		dotCase()
+		Send ^v
+		resetModifiers()
+		return
+	
 		
 #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
 	i:: ; f + d + i :: Up
@@ -8880,12 +8943,6 @@ resetModifiers( ignoreKey = "" ){
 		displayShortcutList()
 		return
 	
-	h:: ; d + h :: snake case
-		snakeCase()
-		Send ^v
-		resetModifiers()
-		return
-	
 	j:: ; d + j :: ^Left
 		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
 		resetModifiers()
@@ -8921,20 +8978,8 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	n:: ; d + n :: snake case with hyphen
-		snakecasewithhyphen()
-		Send ^v
-		resetModifiers()
-		return
-	
 	m:: ; d + m :: console log
 		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`; console.log(? value1 ?)`;", Clipboard)
-		Send ^v
-		resetModifiers()
-		return
-	
-	.:: ; d + . :: lower case
-		lowerCase()
 		Send ^v
 		resetModifiers()
 		return
@@ -8961,12 +9006,6 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	h:: ; f + h :: camel case
-		camelCase()
-		Send ^v
-		resetModifiers()
-		return
-		
 	j:: ; f + j :: Left
 		Send {Left}
 		resetModifiers()
@@ -9607,7 +9646,7 @@ resetModifiers( ignoreKey = "" ){
 
 #if (Stack="11v") ;  snake-case-with-hyphen
 	`::
-		snakecasewithhyphen()
+		snakeCaseWithHyphen()
 		Send ^v
 	return
 
@@ -9633,6 +9672,10 @@ resetModifiers( ignoreKey = "" ){
 
 	capitalCamelCase(source = "qpmz_default_never_used_by_anyone"){
 		return genericWordCaseFormatter(source, "", 2, 2)
+	}
+
+	dotCase(source = "qpmz_default_never_used_by_anyone"){
+		return genericWordCaseFormatter(source, ".", 1, 1)
 	}
 
 #if (Stack="15p") ; camelCase
