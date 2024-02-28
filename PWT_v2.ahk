@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;gems workspace git issue board,18x;git credential cache,18y;git remote set-url,18z;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;gems workspace git issue board,18x;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;"
 loadStacks()
 
 
@@ -3101,6 +3101,10 @@ else if(Stack="18z") ; git remote set-url
 	{
 		Button1_Label=git remote set-url origin git`://new.url.here`n
 	}
+else if(Stack="19a") ; freeCodeCamp connect to pSql 
+	{
+		Button1_Label=psql --username=freecodecamp --dbname=postgres
+	}
 else
 	{	
 		EditVisible :=1
@@ -4920,7 +4924,7 @@ XButton2::
 	
 #if (Stack="15bo") ; make new stack 
 	`::
-		stackPrefix := "18"
+		stackPrefix := "19"
 		newStackAsc := 97
 		
 		Loop 27 {
