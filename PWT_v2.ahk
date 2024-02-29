@@ -4848,6 +4848,9 @@ XButton2::
 		t := RegExReplace(t, ")Comment as freestyleReunion\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*Markdown Mode\RSort By: Best\R|\RSearch comments", "")
 		t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
 		t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
+
+		; discord Today at 6:48 PM
+		t := RegExReplace(t, ")Today at \d+:\d+ (AM|PM)", "")
 		;~ ToolTip % t
 		;~ Clipboard := t
 		;~ Sleep 2000
@@ -8317,7 +8320,7 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 		suspendTT = 0
 		printUsingScaffold( "M", 1, nColumns)
 		if( scaffold_output_mode ) {
-			;~ scaffold_row_g := Trim(scaffold_row_g)
+			scaffold_row_g := Trim(scaffold_row_g)
 			
 			if( RegExMatch(scaffold_row_g, "\W") ){
 				Clipboard := scaffold_row_g
@@ -8998,8 +9001,8 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	p:: ; f + p :: HTML tag expander
-		htmlTagExpander()
 		resetModifiers()
+		htmlTagExpander()
 		return
 	
 	j:: ; f + j :: Left
