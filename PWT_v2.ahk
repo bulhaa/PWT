@@ -4811,7 +4811,7 @@ XButton2::
 		} else {
 			switch := 0
 			mergeClipboard()
-			Send {Ctrl Down}{Tab}{Ctrl Up}
+			Send {Ctrl Down}w{Ctrl Up}
 		}
 	return
 
@@ -4837,10 +4837,6 @@ XButton2::
 			
 		;~ UrlDownloadToFile https://soleasia.mv/ip.php?mode=update&id=1&text=%text%, %A_ScriptDir%\telegram.html
 		
-		;~ StringReplace, t, t, `r, % "", All
-		;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
-		;~ t := RegExReplace(t, ")User avatar\Rlevel \d+\R.+\R(OP\R)?.\R\d+ days ago")
-		;~ t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)\R\RUser avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days) ago", "$2")
 		
 		; reddit
 		t := RegExReplace(t, ")\R.*\R.*\RShare\R.*\RSave\R.*\R(Comment as freestyleReunion)", "$1")
@@ -4848,9 +4844,15 @@ XButton2::
 		t := RegExReplace(t, ")Comment as freestyleReunion\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*\R.*Markdown Mode\RSort By: Best\R|\RSearch comments", "")
 		t := RegExReplace(t, ")User avatar\Rlevel \d+\R(.+)\R(OP\R)?.\R\d+ (min\.|hr\.|days|day) ago", "$1")
 		t := RegExReplace(t, ")(\d+\R\R\RReply\RShare\R)", "")
+		; home reddit
+		t := RegExReplace(t, ")Upvote\R\d*\R\RDownvote\RReply\Rreply\R\RShare\RShare\R\R(.+ avatar\R)?(.*\R)(OP\R)?.*\R\d+(m|h|d) ago", "$2")
+		t := RegExReplace(t, ")Upvote\R\d*\R\RDownvote\RReply\Rreply\R\RShare\RShare", "$2")
+		t := RegExReplace(t, ")(.+ avatar\R)?(.*\R)(OP\R)?.*\R\d+(m|h|d) ago", "$2")
+		t := RegExReplace(t, ")(.*\R)(OP\R)?.*\R\d+(m|h|d) ago", "$2")
 
 		; discord Today at 6:48 PM
-		t := RegExReplace(t, ")Today at \d+:\d+ (AM|PM)", "")
+		t := RegExReplace(t, ")(Today|Yesterday) at \d+:\d+ (AM|PM)", "")
+		
 		;~ ToolTip % t
 		;~ Clipboard := t
 		;~ Sleep 2000
@@ -8725,6 +8727,9 @@ scaffoldFiles(){
 	
 	; f + . :: scaffold clipboard
 	; d + c :: go to previous window
+	; f + , :: focus VS Code Editor
+	; f + b :: focus VS Code terminal
+	; +f + b :: focus VS Code terminal2
 	
 	; f + p :: HTML tag expander
 	; d + o :: Arrow function
@@ -8800,7 +8805,6 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 		%variablePrefix%PressedAlone_g := 1
 		%variablePrefix%Pressed_g := 1
 		%variablePrefix%PressedWithShift_g := GetKeyState("Shift")
-		resetModifiers(key)
 		return
 	}
 	
@@ -8810,6 +8814,7 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 		if( GetKeyState("CapsLock", "T") )
 			%variablePrefix%Pressed_g++
 		if(%variablePrefix%PressedAlone_g){
+			resetModifiers(key)
 			if( key != "Space" ){
 				if( %variablePrefix%Pressed_g = 1 )
 					Send % capitalCase(key)
@@ -8996,8 +9001,8 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	o:: ; f + o :: TTS characters to SoleAsia
-		ttsCharactersToSoleasia()
 		resetModifiers()
+		ttsCharactersToSoleasia()
 		return
 	
 	p:: ; f + p :: HTML tag expander
@@ -9021,14 +9026,13 @@ resetModifiers( ignoreKey = "" ){
 		return
 
 	
-	`;:: ;f + ; :: go to reference
+	`;:: ; f + ; :: go to reference
 		goToReference()
 		resetModifiers()
 		return
 	
-	b:: ; f + b :: title case
-		titleCase()
-		Send ^v
+	b:: ; f + b :: focus VS Code terminal
+		click 860, 999
 		resetModifiers()
 		return
 	
@@ -9042,8 +9046,8 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 
-	,:: ; f + k :: Down
-		Send {Down}
+	,:: ; f + , :: focus VS Code Editor
+		Click 596, 72
 		resetModifiers()
 		return
 	
@@ -9078,11 +9082,16 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 		
-	+,:: ; f + k :: +Down
-		Send {Shift Down}{Down}{Shift Up}
+	;~ +,:: ; f + k :: +Down
+		;~ Send {Shift Down}{Down}{Shift Up}
+		;~ resetModifiers()
+		;~ return
+		
+	+b:: ; +f + b :: focus VS Code terminal2
+		click 1435, 1011
 		resetModifiers()
 		return
-		
+	
 	
 #if (Stack="15ak") ; Go to reference 
 	`:: goToReference()
