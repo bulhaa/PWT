@@ -8742,8 +8742,9 @@ scaffoldFiles(){
 	; c + u :: UPPER CASE
 	; c + i :: CapitalCamelCase
 	; c + j :: camelCase
-	; +c + i :: All Title Case
-	; +c + j :: Title case
+	; c + h :: All Title Case
+	; c + n :: Title case
+	; c + k :: CAPITAL_SNAKE_CASE
 	; c + . :: dot.case
 	
 	; d + v :: change scaffold output mode
@@ -8866,7 +8867,7 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	+i:: ; +c + i :: All Title Case
+	h:: ; c + h :: All Title Case
 		allTitleCase()
 		Send ^v
 		resetModifiers()
@@ -8884,7 +8885,13 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	+j:: ; +c + j :: Title case
+	k:: ; c + k :: CAPITAL_SNAKE_CASE
+		capitalSnakeCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	n:: ; c + n :: Title case
 		titleCase()
 		Send ^v
 		resetModifiers()
@@ -9670,6 +9677,10 @@ resetModifiers( ignoreKey = "" ){
 
 	snakeCase(source = "qpmz_default_never_used_by_anyone"){
 		return genericWordCaseFormatter(source, "_", 1, 1)
+	}
+
+	capitalSnakeCase(source = "qpmz_default_never_used_by_anyone"){
+		return genericWordCaseFormatter(source, "_", 3, 3)
 	}
 
 #if (Stack="15w") ; CapitalCamelCase
