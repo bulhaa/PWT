@@ -8268,26 +8268,26 @@ change_scaffold_output_mode(){
 	else
 		MyTT("Input mode")
 	
-	loop 2 {
-		; chrome
-		PixelGetColor, color, 1881, 88 ; 0xD0570B
-		if(color = 0xD0570B){
-			Send {Esc}{Esc}
-		}
-		
-		PixelGetColor, color, 53, 27 ; 0xD47F00
-		if(color = 0xD47F00){
-			Send {Esc}
-		}
-		
-		;~ Clipboard := color
-		IfWinActive, freeCodeCamp
-			Send {Esc}{Esc}e
-		;~ else {
-			;~ break
+	;~ loop 2 {
+		;~ ; chrome
+		;~ PixelGetColor, color, 1881, 88 ; 0xD0570B
+		;~ if(color = 0xD0570B){
+			;~ Send {Esc}{Esc}
 		;~ }
-		Sleep 100
-	}
+		
+		;~ PixelGetColor, color, 53, 27 ; 0xD47F00
+		;~ if(color = 0xD47F00){
+			;~ Send {Esc}
+		;~ }
+		
+		;Clipboard := color
+		;~ IfWinActive, freeCodeCamp
+			;~ Send {Esc}{Esc}e
+		;else {
+		;	break
+		;}
+		;~ Sleep 100
+	;~ }
 	
 	if( scaffold_output_mode )
 		if( scaffold_single )
