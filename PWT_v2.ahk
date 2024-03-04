@@ -3310,6 +3310,45 @@ else
 	wizard()
 	
 #if (Stack="18a") ; functions 
+	reloadVueFile(){
+		Clipboard=
+		Send ^k
+		Send ^+c
+		waitClipboard(0)
+		path := Clipboard
+		StringReplace, path, path, \, /, All
+		fetch = fetch("https`://localhost`:5173/%path%"`, {`n  "headers"`: {`n    "sec-ch-ua"`: "\"Chromium\"`;v=\"122\"`, \"Not(A`:Brand\"`;v=\"24\"`, \"Google Chrome\"`;v=\"122\""`,`n    "sec-ch-ua-mobile"`: "?0"`,`n    "sec-ch-ua-platform"`: "\"Windows\""`n  }`,`n  "referrer"`: "https`://localhost`:5173/resources/js/src/components/mails/modals/CreateIndividualModal.vue"`,`n  "referrerPolicy"`: "strict-origin-when-cross-origin"`,`n  "body"`: null`,`n  "method"`: "GET"`,`n  "mode"`: "cors"`,`n  "credentials"`: "omit"`n})`;
+		Clipboard := fetch
+		
+		;~ waitPixel(-1, -1, 310, 644, "0xF36E1B", 0)
+		;~ waitPixel(-1, -1, 310, 645, "0xF36E1B", 0)
+		;~ 683
+		;~ - 683 + 644
+		y1 := 644
+		y2 := 697 - 683 + y1
+		
+		if(requireWinActive("ahk_exe chrome.exe")){
+			Click 314, %y1% ; network tab
+			MouseMove, 1, 1
+			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
+				Click 256, %y2% ; disable cache
+				Click 185, %y1% ; console tab
+				MouseMove, 1, 1
+				if(waitPixel(-1, -1, 168, y1, "0xF36E1B", 0)){
+					Send ^v
+					Sleep 100
+					Send {Enter}
+					Sleep 100
+					Click 314, %y1% ; network tab
+					MouseMove, 1, 1
+					if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
+						Click 256, %y2% ; disable cache
+					}
+				}
+			}
+		}
+	}
+
 	handleF1(){
 		IfWinActive, freeCodeCamp
 		{
@@ -8729,6 +8768,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode 
 	; d + g :: display shortcut list
 	
+	; d + n :: reload vue file
 	; f + . :: scaffold clipboard
 	; d + c :: go to previous window
 	; f + , :: focus VS Code Editor
@@ -8993,8 +9033,13 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	n:: ; d + n :: reload vue file
+		resetModifiers()
+		reloadVueFile()
+		return
+	
 	m:: ; d + m :: console log
-		runScaffold( "console.log(``? value1 ?`: ${? value1 ?}`` )`; console.log(? value1 ?)`;", Clipboard)
+		runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`; console.log(? value1 ?)`;", Clipboard)
 		Send ^v
 		resetModifiers()
 		return
