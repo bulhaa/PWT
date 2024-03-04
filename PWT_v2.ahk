@@ -3329,9 +3329,12 @@ else
 		
 		if(requireWinActive("ahk_exe chrome.exe")){
 			Click 314, %y1% ; network tab
+			Sleep 100
 			MouseMove, 1, 1
 			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
+				Sleep 100
 				Click 256, %y2% ; disable cache
+				Sleep 100
 				Click 185, %y1% ; console tab
 				MouseMove, 1, 1
 				if(waitPixel(-1, -1, 168, y1, "0xF36E1B", 0)){
@@ -3343,6 +3346,14 @@ else
 					MouseMove, 1, 1
 					if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
 						Click 256, %y2% ; disable cache
+						Sleep 100
+						PixelGetColor, color, 338, 901 ; 0xF6E8E0
+						Sleep 100
+						if(color = 0xF6E8E0){
+							Send {Esc}
+						}
+						Send {F5}
+						Click 185, %y1% ; console tab
 					}
 				}
 			}
