@@ -2322,7 +2322,10 @@ StackSearch(Stack, run){
 	global location
 	global EditVisible = 0
 
-if(Stack="15am") ; scaffolding mode 
+if(Stack=0)
+	{
+	}
+else if(Stack="15am") ; scaffolding mode 
 	{
 		;~ init_DB_Fields()
 		;~ scaffoldFiles()
@@ -2331,9 +2334,6 @@ if(Stack="15am") ; scaffolding mode
 		;~ myTT("refreshed")
 		
 		;~ Button1_Label=`t`tscaffold_template = ? value1 ?`n`t`tprintUsingScaffold("")`n`n
-	}
-else if(Stack=0)
-	{
 	}
 else if(Stack="1")
 	{
@@ -3139,6 +3139,13 @@ else
 }
 
 
+#if (Stack="19c") ; ts-node-dev 
+	`::
+		t=`t`t"s"`: "ts-node-dev --respawn --transpile-only index.js"
+		Clipboard := t
+		myTT( t)
+	return
+	
 #if (Stack="18u") ; Advent of Code - Parabolic Reflector Dish - Challenge Day 14 
 	`::
 		;~ https://adventofcode.com/2023/day/14
@@ -3317,6 +3324,14 @@ else
 	wizard()
 	
 #if (Stack="18a") ; functions 
+
+	shareCodeToSocialMedia() {
+		resetModifiers()
+		waitClipboard()
+		runScaffold( "``````js`n? value1 ?`n```````n", Clipboard)
+		Send ^v
+	}
+	
 	reloadVueFile(){
 		Clipboard=
 		Send ^k
@@ -8787,6 +8802,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode 
 	; d + g :: display shortcut list
 	
+	; d + . :: share code to social media
 	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
 	; f + . :: scaffold clipboard
@@ -9069,6 +9085,8 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	.:: shareCodeToSocialMedia() ; d + . :: share code to social media
+	
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
 	u:: ; f + u :: surround selection by quotes
@@ -9133,8 +9151,10 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	.:: ; f + . :: scaffold clipboard
-		scaffoldClipboard()
 		resetModifiers()
+		waitClipboard()
+		runScaffold( scaffold_template, Clipboard)
+		Send ^v
 		return
 
 
@@ -11138,7 +11158,14 @@ return
 		ControlFocus, Edit2, Decision Tree v2 ahk_class AutoHotkeyGUI
 		Send ^a
 	return
-
+	
+#if (Stack != "15am") ; not scaffolding mode 
+	CapsLock::
+			Stack:="15am"
+			Manager()
+			myTT("Scaffoldin mode")
+		return
+	
 #if
 	^+;:: ; set clip_two
 		oldClipboard := Clipboard
@@ -11160,20 +11187,20 @@ return
 	return
 
 	;~ f::
-	!`::
-		oldClipboard := Clipboard
-		waitClipboard()
-		if(Clipboard="")
-			Clipboard:=oldClipboard
-		mergeClipboard(0)
-	return
+	;~ !`::
+		;~ oldClipboard := Clipboard
+		;~ waitClipboard()
+		;~ if(Clipboard="")
+			;~ Clipboard:=oldClipboard
+		;~ mergeClipboard(0)
+	;~ return
 	
 	;~ `::
 	;~ return
 	
 	
-	^!;::
-		;~ Send ^a
-		;~ Sleep 100
-		printUsingScaffold("")
-	return
+	;~ ^!;::
+		;Send ^a
+		;Sleep 100
+		;~ printUsingScaffold("")
+	;~ return
