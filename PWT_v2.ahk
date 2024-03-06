@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;"
 loadStacks()
 
 
@@ -3109,6 +3109,10 @@ else if(Stack="19b") ; devdocs.io
 	{
 		Button1_Label=https`://devdocs.io/
 	}
+else if(Stack="19c") ; ts-node-dev 
+	{
+		Button1_Label=npm i ts-node-dev --save-dev
+	}
 else
 	{	
 		EditVisible :=1
@@ -3121,8 +3125,10 @@ else
 	if(!EditVisible)
 		GuiControl, Hide,  MyEdit
 	if (SearchMode = "Questions"){
-		if(Button1_Label != "")
+		if(Button1_Label != ""){
 			Clipboard := Button1_Label
+			myTT(Button1_Label)
+		}
 	}else
 		GuiControl,, MyEdit, %Stack%
 	
