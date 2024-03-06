@@ -3210,7 +3210,8 @@ else
 		myTT(Clipboard)
 	return
 	
-	^`::
+	^`:: pixelDevWaitPixel()
+	pixelDevWaitPixel() {
 		CoordMode, Mouse, Relative
 		MouseGetPos, X, Y
 		CoordMode, Mouse, Relative
@@ -3218,7 +3219,7 @@ else
 		Clipboard:= "waitPixel(-1, -1, " X ", " Y ", """ color """, 0)"
 		;~ Clipboard:= "PixelGetColor, color, " X ", " Y " `; " color "`nif(color = " color ")`nwaitPixel(-1, -1, " X ", " Y ", """ color """, 0)"
 		myTT(Clipboard)
-	return
+	}
 	
 	+`::
 		CoordMode, Mouse, Relative
@@ -3317,32 +3318,33 @@ else
 		waitClipboard(0)
 		path := Clipboard
 		StringReplace, path, path, \, /, All
-		fetch = fetch("https`://localhost`:5173/%path%"`, {`n  "headers"`: {`n    "sec-ch-ua"`: "\"Chromium\"`;v=\"122\"`, \"Not(A`:Brand\"`;v=\"24\"`, \"Google Chrome\"`;v=\"122\""`,`n    "sec-ch-ua-mobile"`: "?0"`,`n    "sec-ch-ua-platform"`: "\"Windows\""`n  }`,`n  "referrer"`: "https`://localhost`:5173/resources/js/src/components/mails/modals/CreateIndividualModal.vue"`,`n  "referrerPolicy"`: "strict-origin-when-cross-origin"`,`n  "body"`: null`,`n  "method"`: "GET"`,`n  "mode"`: "cors"`,`n  "credentials"`: "omit"`n})`;
+		fetch = fetch("https`://localhost`:5173/%path%?t=1709627698408"`, {`n  "headers"`: {`n    "sec-ch-ua"`: "\"Chromium\"`;v=\"122\"`, \"Not(A`:Brand\"`;v=\"24\"`, \"Google Chrome\"`;v=\"122\""`,`n    "sec-ch-ua-mobile"`: "?0"`,`n    "sec-ch-ua-platform"`: "\"Windows\""`n  }`,`n  "referrer"`: "https`://localhost`:5173/resources/js/src/components/mails/modals/CreateIndividualModal.vue"`,`n  "referrerPolicy"`: "strict-origin-when-cross-origin"`,`n  "body"`: null`,`n  "method"`: "GET"`,`n  "mode"`: "cors"`,`n  "credentials"`: "omit"`n})`;
 		Clipboard := fetch
 		
-		;~ waitPixel(-1, -1, 310, 644, "0xF36E1B", 0)
-		;~ waitPixel(-1, -1, 310, 645, "0xF36E1B", 0)
+		;~ waitPixel(-1, -1, 313, 708, "0xF36E1B", 0)
+		;~ waitPixel(-1, -1, 314, 693, "0xEADCD5", 0)
 		;~ 683
 		;~ - 683 + 644
-		y1 := 644
+		y1 := 708
 		y2 := 697 - 683 + y1
+		y3 := 708 - 10
 		
 		if(requireWinActive("ahk_exe chrome.exe")){
-			Click 314, %y1% ; network tab
+			Click 314, %y3% ; network tab
 			Sleep 100
 			MouseMove, 1, 1
 			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
 				Sleep 100
 				Click 256, %y2% ; disable cache
 				Sleep 100
-				Click 185, %y1% ; console tab
+				Click 185, %y3% ; console tab
 				MouseMove, 1, 1
 				if(waitPixel(-1, -1, 168, y1, "0xF36E1B", 0)){
 					Send ^v
 					Sleep 100
 					Send {Enter}
 					Sleep 100
-					Click 314, %y1% ; network tab
+					Click 314, %y3% ; network tab
 					MouseMove, 1, 1
 					if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
 						Click 256, %y2% ; disable cache
@@ -3353,7 +3355,7 @@ else
 							Send {Esc}
 						}
 						Send {F5}
-						Click 185, %y1% ; console tab
+						Click 185, %y3% ; console tab
 					}
 				}
 			}
@@ -8779,6 +8781,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode 
 	; d + g :: display shortcut list
 	
+	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
 	; f + . :: scaffold clipboard
 	; d + c :: go to previous window
@@ -9050,8 +9053,13 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	m:: ; d + m :: console log
-		runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`; console.log(? value1 ?)`;", Clipboard)
+		runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`;", Clipboard)
 		Send ^v
+		resetModifiers()
+		return
+	
+	,:: ; d + , :: pixel dev wait pixel
+		pixelDevWaitPixel()
 		resetModifiers()
 		return
 	
