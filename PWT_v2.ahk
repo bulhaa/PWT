@@ -9135,8 +9135,14 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	b:: ; f + b :: focus VS Code terminal
-		click 860, 999
 		resetModifiers()
+		click 860, 999
+		Sleep 100
+		Send ^c
+		Sleep 100
+		Send {Up}
+		Sleep 100
+		Send {Enter}
 		return
 	
 	n:: ; f + n :: Ctrl + Enter
