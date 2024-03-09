@@ -8811,12 +8811,12 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + g :: display shortcut list
 	
-	; d + f :: copy
+	; d + c :: copy
 	; d + . :: share code to social media
 	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
 	; f + . :: scaffold clipboard
-	; d + c :: go to previous window
+	; d + f :: go to previous window
 	; f + , :: focus VS Code Editor
 	; f + b :: focus VS Code terminal
 	; +f + b :: focus VS Code terminal2
@@ -9038,10 +9038,9 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 
-	f:: ; d + f :: copy
+	f:: ; d + f :: go to previous window
 		resetModifiers()
-		scaffoldMergeAll( scaffold_columns_g )
-		scaffoldSingle( scaffold_columns_g )
+		goToPreviousWindow2()
 		return
 	
 	g:: ; d + g :: display shortcut list
@@ -9069,9 +9068,10 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	c:: ; d + c :: go to previous window
+	c:: ; d + c :: copy
 		resetModifiers()
-		goToPreviousWindow2()
+		scaffoldMergeAll( scaffold_columns_g )
+		scaffoldSingle( scaffold_columns_g )
 		return
 		
 	v:: ; d + v :: change scaffold output mode
