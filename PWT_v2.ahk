@@ -3141,7 +3141,7 @@ else
 
 #if (Stack="19c") ; ts-node-dev 
 	`::
-		t=`,`n`t`t"s"`: "ts-node-dev --respawn --transpile-only index.js"
+		t=`,`n`t`t"s"`: "ts-node-dev --respawn --transpile-only server.js"
 		Clipboard := t
 		myTT( t)
 	return
@@ -9151,8 +9151,9 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	m:: ; f + m :: scaffold merge all
-		scaffoldMergeAll( scaffold_columns_g )
 		resetModifiers()
+		Send ^z
+		scaffoldMergeAll( scaffold_columns_g )
 		return
 
 	,:: ; f + , :: focus VS Code Editor
