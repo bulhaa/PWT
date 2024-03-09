@@ -8808,9 +8808,10 @@ scaffoldFiles(){
 	}
 }
 
-#if (Stack="15am") ; scaffolding mode 
+#if (Stack="15am") ; scaffolding mode
 	; d + g :: display shortcut list
 	
+	; d + f :: copy
 	; d + . :: share code to social media
 	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
@@ -9035,6 +9036,12 @@ resetModifiers( ignoreKey = "" ){
 		waitClipboard()
 		scaffold_columns_g := Clipboard
 		resetModifiers()
+		return
+
+	f:: ; d + f :: copy
+		resetModifiers()
+		scaffoldMergeAll( scaffold_columns_g )
+		scaffoldSingle( scaffold_columns_g )
 		return
 	
 	g:: ; d + g :: display shortcut list
