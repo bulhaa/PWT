@@ -3338,17 +3338,19 @@ else
 		Send ^+c
 		waitClipboard(0)
 		path := Clipboard
+		StringSplit, path, path, \
 		StringReplace, path, path, \, /, All
-		fetch = fetch("https`://localhost`:5173/%path%?t=1709627698408"`, {`n  "headers"`: {`n    "sec-ch-ua"`: "\"Chromium\"`;v=\"122\"`, \"Not(A`:Brand\"`;v=\"24\"`, \"Google Chrome\"`;v=\"122\""`,`n    "sec-ch-ua-mobile"`: "?0"`,`n    "sec-ch-ua-platform"`: "\"Windows\""`n  }`,`n  "referrer"`: "https`://localhost`:5173/resources/js/src/components/mails/modals/CreateIndividualModal.vue"`,`n  "referrerPolicy"`: "strict-origin-when-cross-origin"`,`n  "body"`: null`,`n  "method"`: "GET"`,`n  "mode"`: "cors"`,`n  "credentials"`: "omit"`n})`;
-		Clipboard := fetch
 		
-		;~ waitPixel(-1, -1, 313, 708, "0xF36E1B", 0)
+		;~ waitPixel(-1, -1, 167, 748, "0xFFFFFF", 0)
 		;~ waitPixel(-1, -1, 314, 693, "0xEADCD5", 0)
 		;~ 683
 		;~ - 683 + 644
 		y1 := 708
 		y2 := 697 - 683 + y1
 		y3 := 708 - 10
+		y4 := 751 - 708 + y1
+		y5 := 882 - 708 + y1
+		y6 := 911 - 708 + y1
 		
 		if(requireWinActive("ahk_exe chrome.exe")){
 			Click 314, %y3% ; network tab
@@ -3356,8 +3358,32 @@ else
 			MouseMove, 1, 1
 			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
 				Sleep 100
-				Click 256, %y2% ; disable cache
+				PixelGetColor, color, 258, 725 ; 0xFFFFFF
+				if(color = 0xFFFFFF){
+					Click 256, %y2% ; disable cache
+				}
+
 				Sleep 100
+				Click 167, %y4% ; filter query
+				Sleep 100
+				fileName := path%path0%
+				;~ Clipboard := path
+				SendInput {Raw}%path%
+				;~ Sleep 500
+				;~ Send ^v
+				Sleep 100
+				Click 68, %y5% ; click request
+				Sleep 100
+				MouseMove 750, %y6% ; Request URL
+				Sleep 2000
+				Click, 2
+				Sleep 100
+				Send +{End}
+				waitClipboard()
+
+				fetch = fetch("%Clipboard%"`, {`n  "headers"`: {`n    "sec-ch-ua"`: "\"Chromium\"`;v=\"122\"`, \"Not(A`:Brand\"`;v=\"24\"`, \"Google Chrome\"`;v=\"122\""`,`n    "sec-ch-ua-mobile"`: "?0"`,`n    "sec-ch-ua-platform"`: "\"Windows\""`n  }`,`n  "referrer"`: "https`://localhost`:5173/resources/js/src/components/mails/modals/CreateIndividualModal.vue"`,`n  "referrerPolicy"`: "strict-origin-when-cross-origin"`,`n  "body"`: null`,`n  "method"`: "GET"`,`n  "mode"`: "cors"`,`n  "credentials"`: "omit"`n})`;
+				Clipboard := fetch
+		
 				Click 185, %y3% ; console tab
 				MouseMove, 1, 1
 				if(waitPixel(-1, -1, 168, y1, "0xF36E1B", 0)){
@@ -3368,7 +3394,7 @@ else
 					Click 314, %y3% ; network tab
 					MouseMove, 1, 1
 					if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
-						Click 256, %y2% ; disable cache
+						Click 256, %y2% ; enable cache
 						Sleep 100
 						PixelGetColor, color, 338, 901 ; 0xF6E8E0
 						Sleep 100
@@ -3487,7 +3513,7 @@ else
 		;~ g_configurations:= "location, lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id"
 		g_configurations:= "location, WindowList_global_updated_at,lastBackupDate, laravel_test_filter, clip_two, Stack, Picture, clipList_A_Index, scaffold_template, lastClockInDate, g_roomtypes, g_propertynames, ecouncil_role_id, ecouncil_action_id, ecouncil_navigation_link_id, case_permission_id"
 
-		g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_communications, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_communications, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_comments, dbCache_primaryKey_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types"
+		g_configurations := g_configurations ", dbCache_users, dbCache_cases, dbCache_organisations, dbCache_organisation_types, dbCache_countries, dbCache_teams, dbCache_statuses, dbCache_channels, dbCache_priorities, dbCache_communications, dbCache_case_item_types, dbCache_gender_types, dbCache_tasks, dbCache_case_users, dbCache_case_user_types, dbCache_primaryKey_users, dbCache_primaryKey_cases, dbCache_primaryKey_organisations, dbCache_primaryKey_organisation_types, dbCache_primaryKey_countries, dbCache_primaryKey_teams, dbCache_primaryKey_statuses, dbCache_primaryKey_channels, dbCache_primaryKey_priorities, dbCache_primaryKey_communications, dbCache_primaryKey_case_item_types, dbCache_primaryKey_gender_types, dbCache_primaryKey_tasks, dbCache_primaryKey_case_users, dbCache_primaryKey_case_user_types, dbCache_individuals, dbCache_primaryKey_individuals, dbCache_task_statuses, dbCache_primaryKey_task_statuses, dbCache_electronic_signatures, dbCache_primaryKey_electronic_signatures, dbCache_model_types, dbCache_primaryKey_model_types, dbCache_roles, dbCache_primaryKey_roles, dbCache_permissions, dbCache_primaryKey_permissions, dbCache_role_permission, dbCache_primaryKey_role_permission, dbCache_user_role, dbCache_primaryKey_user_role, dbCache_audits, dbCache_primaryKey_audits, dbCache_activity_log, dbCache_primaryKey_activity_log, dbCache_confidentiality_classes, dbCache_primaryKey_sensitivities, dbCache_tags, dbCache_primaryKey_tags, dbCache_checklists, dbCache_primaryKey_checklists, dbCache_comments, dbCache_primaryKey_comments, dbCache_task_tags, dbCache_primaryKey_task_tags, dbCache_task_users, dbCache_primaryKey_task_users, dbCache_id_types, dbCache_primaryKey_id_types, dbCache_addresses, dbCache_primaryKey_addresses, dbCache_attachments, dbCache_primaryKey_attachments, dbCache_notifications, dbCache_primaryKey_notifications, dbCache_notification_types, dbCache_primaryKey_notification_types, dbCache_data_source_types, dbCache_primaryKey_data_source_types" new_g_configurations
 		
 		load_g_configurations()
 	}
