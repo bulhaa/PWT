@@ -3344,8 +3344,9 @@ else
 		path := Clipboard
 		StringSplit, path, path, \
 		StringReplace, path, path, \, /, All
+		Clipboard := path
 		
-		;~ waitPixel(-1, -1, 167, 748, "0xFFFFFF", 0)
+		;~ waitPixel(-1, -1, 933, 857, "0xF6E8E0", 0)
 		;~ waitPixel(-1, -1, 314, 693, "0xEADCD5", 0)
 		;~ 683
 		;~ - 683 + 644
@@ -3355,33 +3356,41 @@ else
 		y4 := 751 - 708 + y1
 		y5 := 882 - 708 + y1
 		y6 := 911 - 708 + y1
+		y7 := 859 - 708 + y1
+		y8 := 869 - 708 + y1
+		y9 := 857 - 708 + y1
+		y10 := 901 - 708 + y1
+		y11 := 725 - 708 + y1
 		
 		if(requireWinActive("ahk_exe chrome.exe")){
+			;~ Send {F5}
+			;~ Sleep 1000
 			Click 314, %y3% ; network tab
-			Sleep 100
 			MouseMove, 1, 1
 			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
-				Sleep 100
-				PixelGetColor, color, 258, 725 ; 0xFFFFFF
+				PixelGetColor, color, 903, %y10% ; 0xFFFFFF
+				if(color = 0xF6E8E0){
+					Send {Esc}
+				}
+				
+				PixelGetColor, color, 258, %y11% ; 0xFFFFFF
 				if(color = 0xFFFFFF){
 					Click 256, %y2% ; disable cache
 				}
 
-				Sleep 100
 				Click 167, %y4% ; filter query
-				Sleep 100
-				fileName := path%path0%
+				;~ fileName := path%path0%
 				;~ Clipboard := path
-				SendInput {Raw}%path%
+				;~ SendInput {Raw}%path%
 				;~ Sleep 500
-				;~ Send ^v
-				Sleep 100
+				Send ^v
 				Click 68, %y5% ; click request
-				Sleep 100
+				waitPixel(-1, -1, 933, y9, "0xF6E8E0", 0)
+				Click 543, %y7% ; Headers tab
+				MouseMove, 1, 1
+				waitPixel(-1, -1, 541, y8, "0xF36E1B", 0)
 				MouseMove 750, %y6% ; Request URL
-				Sleep 2000
 				Click, 2
-				Sleep 100
 				Send +{End}
 				waitClipboard()
 
@@ -3392,20 +3401,18 @@ else
 				MouseMove, 1, 1
 				if(waitPixel(-1, -1, 168, y1, "0xF36E1B", 0)){
 					Send ^v
-					Sleep 100
 					Send {Enter}
-					Sleep 100
 					Click 314, %y3% ; network tab
 					MouseMove, 1, 1
 					if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
 						Click 256, %y2% ; enable cache
+						Send {F5}
 						Sleep 100
-						PixelGetColor, color, 338, 901 ; 0xF6E8E0
-						Sleep 100
+						PixelGetColor, color, 903, %y10% ; 0xFFFFFF
 						if(color = 0xF6E8E0){
 							Send {Esc}
+							Sleep 100
 						}
-						Send {F5}
 						Click 185, %y3% ; console tab
 					}
 				}
