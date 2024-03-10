@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;"
 loadStacks()
 
 
@@ -3113,6 +3113,10 @@ else if(Stack="19c") ; ts-node-dev
 	{
 		Button1_Label=npm i ts-node-dev --save-dev
 	}
+else if(Stack="19d") ; js log after fetch 
+	{
+		Button1_Label=`n.then(d => d.json())`n.then(d => console.log("d`: "`, d))
+	}
 else
 	{	
 		EditVisible :=1
@@ -3141,7 +3145,7 @@ else
 
 #if (Stack="19c") ; ts-node-dev 
 	`::
-		t=`,`n`t`t"s"`: "ts-node-dev --respawn --transpile-only index.js"
+		t=`,`n`t`t"s"`: "ts-node-dev --respawn --transpile-only server.js"
 		Clipboard := t
 		myTT( t)
 	return
@@ -8830,14 +8834,15 @@ scaffoldFiles(){
 	}
 }
 
-#if (Stack="15am") ; scaffolding mode 
+#if (Stack="15am") ; scaffolding mode
 	; d + g :: display shortcut list
 	
+	; d + c :: copy
 	; d + . :: share code to social media
 	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
 	; f + . :: scaffold clipboard
-	; d + c :: go to previous window
+	; d + f :: go to previous window
 	; f + , :: focus VS Code Editor
 	; f + b :: focus VS Code terminal
 	; +f + b :: focus VS Code terminal2
@@ -9058,6 +9063,11 @@ resetModifiers( ignoreKey = "" ){
 		scaffold_columns_g := Clipboard
 		resetModifiers()
 		return
+
+	f:: ; d + f :: go to previous window
+		resetModifiers()
+		goToPreviousWindow2()
+		return
 	
 	g:: ; d + g :: display shortcut list
 		resetModifiers()
@@ -9084,9 +9094,10 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	c:: ; d + c :: go to previous window
+	c:: ; d + c :: copy
 		resetModifiers()
-		goToPreviousWindow2()
+		scaffoldMergeAll( scaffold_columns_g )
+		scaffoldSingle( scaffold_columns_g )
 		return
 		
 	v:: ; d + v :: change scaffold output mode
@@ -9177,8 +9188,9 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	m:: ; f + m :: scaffold merge all
-		scaffoldMergeAll( scaffold_columns_g )
 		resetModifiers()
+		Send ^z
+		scaffoldMergeAll( scaffold_columns_g )
 		return
 
 	,:: ; f + , :: focus VS Code Editor
