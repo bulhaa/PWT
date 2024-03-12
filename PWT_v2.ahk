@@ -3366,10 +3366,6 @@ else
 			Click 314, %y3% ; network tab
 			MouseMove, 1, 1
 			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
-				PixelGetColor, color, 903, %y10% ; 0xFFFFFF
-				if(color = 0xF6E8E0){
-					;~ Send {Esc}
-				}
 				
 				PixelGetColor, color, 258, %y11% ; 0xFFFFFF
 				if(color = 0xFFFFFF){
@@ -3377,10 +3373,6 @@ else
 				}
 
 				Click 167, %y4% ; filter query
-				;~ fileName := path%path0%
-				;~ Clipboard := path
-				;~ SendInput {Raw}%path%
-				;~ Sleep 500
 				Send ^v
 				Click 68, %y5% ; click request
 				waitPixel(-1, -1, 933, y9, "0xF6E8E0", 0)
@@ -3412,12 +3404,19 @@ else
 						Click 256, %y2% ; enable cache
 						Send {F5}
 						Sleep 100
-						PixelGetColor, color, 903, %y10% ; 0xFFFFFF
-						MouseMove, 903, %y10%
+						;~ PixelGetColor, color, 903, %y10% ; 0xFFFFFF
 						;~ if(color = 0xF6E8E0){
 							Send {Esc}
 							Sleep 100
 						;~ }
+						Sleep 2000
+						waitPixel(-1, -1, 236, 113, "0x595102", 0)
+				
+						PixelGetColor, color, 258, %y11% ; 0xFFFFFF
+						if(color = 0xFFFFFF){
+							Click 256, %y2% ; disable cache
+							Sleep 100
+						}
 						Click 185, %y3% ; console tab
 					}
 				}
