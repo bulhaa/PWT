@@ -3346,32 +3346,26 @@ else
 		StringReplace, path, path, \, /, All
 		Clipboard := path
 		
-		;~ waitPixel(-1, -1, 933, 857, "0xF6E8E0", 0)
+		;~ waitPixel(-1, -1, 312, 660, "0xF36E1B", 0)
 		;~ waitPixel(-1, -1, 314, 693, "0xEADCD5", 0)
 		;~ 683
 		;~ - 683 + 644
-		y1 := 708
+		y1 := 661
 		y2 := 697 - 683 + y1
-		y3 := 708 - 10
+		y3 := 651 - 661 + y1
 		y4 := 751 - 708 + y1
 		y5 := 882 - 708 + y1
 		y6 := 911 - 708 + y1
 		y7 := 859 - 708 + y1
 		y8 := 869 - 708 + y1
 		y9 := 857 - 708 + y1
-		y10 := 901 - 708 + y1
+		y10 := 901
 		y11 := 725 - 708 + y1
 		
 		if(requireWinActive("ahk_exe chrome.exe")){
-			;~ Send {F5}
-			;~ Sleep 1000
 			Click 314, %y3% ; network tab
 			MouseMove, 1, 1
 			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
-				PixelGetColor, color, 903, %y10% ; 0xFFFFFF
-				if(color = 0xF6E8E0){
-					Send {Esc}
-				}
 				
 				PixelGetColor, color, 258, %y11% ; 0xFFFFFF
 				if(color = 0xFFFFFF){
@@ -3379,14 +3373,16 @@ else
 				}
 
 				Click 167, %y4% ; filter query
-				;~ fileName := path%path0%
-				;~ Clipboard := path
-				;~ SendInput {Raw}%path%
-				;~ Sleep 500
 				Send ^v
 				Click 68, %y5% ; click request
 				waitPixel(-1, -1, 933, y9, "0xF6E8E0", 0)
-				Click 543, %y7% ; Headers tab
+				
+				PixelGetColor, color, 541, %y8% ; 0xFFFFFF
+				if(color != 0xF36E1B){
+					Sleep 100
+					MouseMove 543, %y7%	
+					Click 543, %y7% ; Headers tab
+				}
 				MouseMove, 1, 1
 				waitPixel(-1, -1, 541, y8, "0xF36E1B", 0)
 				MouseMove 750, %y6% ; Request URL
@@ -3408,9 +3404,17 @@ else
 						Click 256, %y2% ; enable cache
 						Send {F5}
 						Sleep 100
-						PixelGetColor, color, 903, %y10% ; 0xFFFFFF
-						if(color = 0xF6E8E0){
+						;~ PixelGetColor, color, 903, %y10% ; 0xFFFFFF
+						;~ if(color = 0xF6E8E0){
 							Send {Esc}
+							Sleep 100
+						;~ }
+						Sleep 2000
+						waitPixel(-1, -1, 236, 113, "0x595102", 0)
+				
+						PixelGetColor, color, 258, %y11% ; 0xFFFFFF
+						if(color = 0xFFFFFF){
+							Click 256, %y2% ; disable cache
 							Sleep 100
 						}
 						Click 185, %y3% ; console tab
@@ -8269,7 +8273,7 @@ sendTelegramMessage(message){
 }
 
 
-waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
+waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 10, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
 	global botStatus
 	;~ 139, 265, "0x00A6FF", 0, 20, 1293, 264, "0x00A6FF"
 			loop {
