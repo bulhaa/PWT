@@ -3362,6 +3362,9 @@ else
 		y10 := 901
 		y11 := 725 - 708 + y1
 		
+		requireWinActive("ahk_exe chrome.exe")
+		requireWinActive("ahk_exe Code.exe")
+		
 		if(requireWinActive("ahk_exe chrome.exe")){
 			Click 314, %y3% ; network tab
 			MouseMove, 1, 1
@@ -8265,7 +8268,7 @@ sendTelegramMessage(message){
 }
 
 
-waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 10, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
+waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
 	global botStatus
 	;~ 139, 265, "0x00A6FF", 0, 20, 1293, 264, "0x00A6FF"
 			loop {
@@ -9480,7 +9483,7 @@ resetModifiers( ignoreKey = "" ){
 			
 			waitClipboard()
 			StringReplace, clipboard, clipboard, <x-, , All
-			StringSplit, clipboard,clipboard, >:'`"%A_Space%()@`,;
+			StringSplit, clipboard,clipboard, >:'`"%A_Space%()`,;
 			t1:=clipboard%clipboard0%
 			len1 := StrLen(t1) + 1
 			
@@ -9492,7 +9495,7 @@ resetModifiers( ignoreKey = "" ){
 			Sleep 100
 			Send +{End}
 			waitClipboard()
-			StringSplit, clipboard,clipboard, >:'`"%A_Space%()@`,;
+			StringSplit, clipboard,clipboard, >:'`"%A_Space%()`,;
 
 			len2 := StrLen(clipboard1) + len1 - 1
 			ref := t1 clipboard1
@@ -9509,8 +9512,26 @@ resetModifiers( ignoreKey = "" ){
 				Send ^n
 			}else {
 				StringReplace, ref, ref, ., \, All
+			
+				ref := RegExReplace(ref, "^@mailapp/", "resources/js/src/apps/mail/")
+				ref := RegExReplace(ref, "^@utils/", "resources/js/src/utils/")
+				ref := RegExReplace(ref, "^@assets/", "resources/js/src/assets/")
+				ref := RegExReplace(ref, "^@stores/", "resources/js/src/stores/")
+				ref := RegExReplace(ref, "^@adminapp/", "resources/js/src/apps/admin/")
+				ref := RegExReplace(ref, "^@mailapp/", "resources/js/src/apps/mail/")
+				ref := RegExReplace(ref, "^@caseapp/", "resources/js/src/apps/case/")
+				ref := RegExReplace(ref, "^@taskapp/", "resources/js/src/apps/task/")
+				ref := RegExReplace(ref, "^@hrmsapp/", "resources/js/src/apps/hrms/")
+				ref := RegExReplace(ref, "^@components/", "resources/js/src/components/")
+				ref := RegExReplace(ref, "^@layouts/", "resources/js/src/components/layouts/")
+				ref := RegExReplace(ref, "^@icons/", "resources/js/src/components/icons/")
+				ref := RegExReplace(ref, "^@types/", "resources/js/src/types/")
+				
 				ref := RegExReplace(ref, "\\vue$", ".vue")
 				ref := RegExReplace(ref, "\\ts$", ".ts")
+				ref := RegExReplace(ref, "\\js$", ".js")
+				
+				ref := RegExReplace(ref, "@", "")
 				;~ StringReplace, ref, ref, \vue, .vue, All
 				Clipboard:= ref
 				Send ^p
