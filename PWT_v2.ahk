@@ -3432,7 +3432,15 @@ else
 		{
 			; freeCodeCamp Submit
 			Send {Ctrl Down}{Enter}{Ctrl Up}
-			Sleep 2000
+			Sleep 200
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+			Sleep 200
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+			Sleep 200
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+			Sleep 200
+			Send {Ctrl Down}{Enter}{Ctrl Up}
+			Sleep 200
 			Send {Ctrl Down}{Enter}{Ctrl Up}
 		} else {
 			goToReference()
@@ -9197,8 +9205,18 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	n:: ; f + n :: Ctrl + Enter
-		Send {Ctrl Down}{Enter}{Ctrl Up}
 		resetModifiers()
+		Send {Ctrl Down}{Enter}{Ctrl Up}
+		Sleep 200
+		Send {Ctrl Down}{Enter}{Ctrl Up}
+		Sleep 200
+		Send {Ctrl Down}{Enter}{Ctrl Up}
+		Sleep 200
+		Send {Ctrl Down}{Enter}{Ctrl Up}
+		Sleep 200
+		Send {Ctrl Down}{Enter}{Ctrl Up}
+		Sleep 200
+		Send {Ctrl Down}{Enter}{Ctrl Up}
 		return
 	
 	m:: ; f + m :: scaffold merge all
