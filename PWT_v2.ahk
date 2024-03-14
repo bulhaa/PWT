@@ -3253,7 +3253,7 @@ else
 		;~ t = resources\js\src\views\documents\components\list\detail\topbar\case.vue
 		t := Clipboard
 		name := RegExReplace(t, "i).*[\\]([^\\]+)[.]vue$", "$1")
-		name := camelCase(name)
+		name := capitalCamelCase(name)
 		StringReplace, t, t, resources\js\src, @, All
 		StringReplace, t, t, \, /, All
 		
@@ -3331,7 +3331,7 @@ else
 
 	shareCodeToSocialMedia() {
 		resetModifiers()
-		waitClipboard()
+		waitClipboard(1, 0, 1)
 		runScaffold( "``````js`n? value1 ?`n```````n", Clipboard)
 		Send ^v
 	}
@@ -8431,7 +8431,7 @@ change_scaffold_output_mode(){
 
 }
 
-scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
+scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0) {
 	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template, scaffold_single, scaffold_row_g
 	
 	scaffold_single = 1
@@ -8445,7 +8445,7 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1) {
 	TT_duration = 1000
 	if( !scaffold_output_mode ) {
 		oldClipboard := Clipboard
-		waitClipboard()
+		waitClipboard(1, 0, encodeAsSingleElement)
 		if(Clipboard="")
 			Clipboard:=oldClipboard
 		inputValue := Clipboard
@@ -9119,7 +9119,7 @@ resetModifiers( ignoreKey = "" ){
 	c:: ; d + c :: copy
 		resetModifiers()
 		scaffoldMergeAll( scaffold_columns_g )
-		scaffoldSingle( scaffold_columns_g )
+		scaffoldSingle( scaffold_columns_g, 1, 1 )
 		return
 		
 	v:: ; d + v :: change scaffold output mode
