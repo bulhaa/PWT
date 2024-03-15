@@ -5044,7 +5044,7 @@ XButton2::
 	goToEndOfCliplist(){
 		global
 		StringSplit, clipList, clipList, `n, `r
-		clipList_A_Index := clipList0
+		clipList_A_Index := clipList0 + 1
 		myTT("Now at end of clipList")
 	}
 	return
@@ -8402,27 +8402,6 @@ change_scaffold_output_mode(){
 	else
 		MyTT("Input mode")
 	
-	;~ loop 2 {
-		;~ ; chrome
-		;~ PixelGetColor, color, 1881, 88 ; 0xD0570B
-		;~ if(color = 0xD0570B){
-			;~ Send {Esc}{Esc}
-		;~ }
-		
-		;~ PixelGetColor, color, 53, 27 ; 0xD47F00
-		;~ if(color = 0xD47F00){
-			;~ Send {Esc}
-		;~ }
-		
-		;Clipboard := color
-		;~ IfWinActive, freeCodeCamp
-			;~ Send {Esc}{Esc}e
-		;else {
-		;	break
-		;}
-		;~ Sleep 100
-	;~ }
-	
 	if( scaffold_output_mode )
 		if( scaffold_single )
 			scaffoldSingle( scaffold_columns_g )
@@ -8469,7 +8448,7 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0) {
 			; clipList is empty so switching to input mode
 			TT_duration = 1000
 			scaffold_template := scaffold_template_bkp
-			scaffoldSingle( nColumns, defaultTemplate )
+			scaffoldSingle( nColumns, defaultTemplate, encodeAsSingleElement )
 		}
 	}
 	TT_duration = 1000
@@ -9118,13 +9097,13 @@ resetModifiers( ignoreKey = "" ){
 	
 	c:: ; d + c :: copy
 		resetModifiers()
-		scaffoldMergeAll( scaffold_columns_g )
+		goToEndOfCliplist()
 		scaffoldSingle( scaffold_columns_g, 1, 1 )
 		return
 		
 	v:: ; d + v :: change scaffold output mode
-		change_scaffold_output_mode()
 		resetModifiers()
+		change_scaffold_output_mode()
 		return
 		
 	b:: ; d + b :: previous scaffold
