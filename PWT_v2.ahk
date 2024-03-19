@@ -3350,13 +3350,13 @@ else
 		global
 		resetModifiers()
 		
-		waitClipboard()
+		;~ waitClipboard()
 		goToEndOfCliplist()
 		encodeAsSingleElement = 1
-		mergeClipboard(0, 0, encodeAsSingleElement)
-		scaffold_output_mode = 0
+		;~ mergeClipboard(0, 0, encodeAsSingleElement)
+		;~ scaffold_output_mode = 0
 		
-		;~ scaffoldSingle( scaffold_columns_g, 1, 1 )
+		scaffoldSingle( scaffold_columns_g, 1, encodeAsSingleElement )
 	}
 		
 	shareCodeToSocialMedia() {
