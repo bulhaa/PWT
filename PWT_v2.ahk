@@ -3329,6 +3329,20 @@ else
 	
 #if (Stack="18a") ; functions 
 
+	copy() {
+		global
+		resetModifiers()
+		Send ^a
+		waitClipboard()
+		Clipboard := RegExReplace(Clipboard, "\W+", "`n")
+		goToEndOfCliplist()
+		encodeAsSingleElement = 0
+		mergeClipboard(0, 0, encodeAsSingleElement)
+		Send {Esc}a
+		scaffold_output_mode = 1
+		;~ scaffoldSingle( scaffold_columns_g, 1, 1 )
+	}
+		
 	shareCodeToSocialMedia() {
 		resetModifiers()
 		waitClipboard(1, 0, 1)
@@ -8403,10 +8417,10 @@ change_scaffold_output_mode(){
 		MyTT("Input mode")
 	
 	if( scaffold_output_mode )
-		if( scaffold_single )
+		;~ if( scaffold_single )
 			scaffoldSingle( scaffold_columns_g )
-		else
-			scaffoldMergeAll( scaffold_columns_g )
+		;~ else
+			;~ scaffoldMergeAll( scaffold_columns_g )
 
 }
 
@@ -9096,9 +9110,7 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	c:: ; d + c :: copy
-		resetModifiers()
-		goToEndOfCliplist()
-		scaffoldSingle( scaffold_columns_g, 1, 1 )
+		copy()
 		return
 		
 	v:: ; d + v :: change scaffold output mode
@@ -9117,9 +9129,11 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 	m:: ; d + m :: console log
-		runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`;", Clipboard)
-		Send ^v
 		resetModifiers()
+		waitClipboard()
+		StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
+		;~ runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`;", Clipboard)
+		Send ^v
 		return
 	
 	,:: ; d + , :: pixel dev wait pixel
