@@ -3327,19 +3327,35 @@ else
 #if (Stack="18b") ; wizard 
 	wizard()
 	
-#if (Stack="18a") ; functions 
+#if (Stack="18a") ; functions
 
-	copy() {
+	copyWordsAsSeperateElements() {
 		global
 		resetModifiers()
 		Send ^a
 		waitClipboard()
+		
 		Clipboard := RegExReplace(Clipboard, "\W+", "`n")
+		
 		goToEndOfCliplist()
 		encodeAsSingleElement = 0
 		mergeClipboard(0, 0, encodeAsSingleElement)
 		Send {Esc}a
 		scaffold_output_mode = 1
+		
+		;~ scaffoldSingle( scaffold_columns_g, 1, 1 )
+	}
+		
+	copy() {
+		global
+		resetModifiers()
+		
+		waitClipboard()
+		goToEndOfCliplist()
+		encodeAsSingleElement = 1
+		mergeClipboard(0, 0, encodeAsSingleElement)
+		scaffold_output_mode = 0
+		
 		;~ scaffoldSingle( scaffold_columns_g, 1, 1 )
 	}
 		
@@ -3377,7 +3393,9 @@ else
 		y11 := 725 - 708 + y1
 		
 		requireWinActive("ahk_exe chrome.exe")
+		Sleep 100
 		requireWinActive("ahk_exe Code.exe")
+		Sleep 100
 		
 		if(requireWinActive("ahk_exe chrome.exe")){
 			Click 314, %y3% ; network tab
@@ -9111,6 +9129,7 @@ resetModifiers( ignoreKey = "" ){
 	
 	c:: ; d + c :: copy
 		copy()
+		;~ copyWordsAsSeperateElements()
 		return
 		
 	v:: ; d + v :: change scaffold output mode
@@ -9131,8 +9150,8 @@ resetModifiers( ignoreKey = "" ){
 	m:: ; d + m :: console log
 		resetModifiers()
 		waitClipboard()
-		StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
-		;~ runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`;", Clipboard)
+		;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
+		runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`;", Clipboard)
 		Send ^v
 		return
 	
