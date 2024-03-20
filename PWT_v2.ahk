@@ -3349,14 +3349,8 @@ else
 	copy() {
 		global
 		resetModifiers()
-		
-		;~ waitClipboard()
 		goToEndOfCliplist()
-		encodeAsSingleElement = 1
-		;~ mergeClipboard(0, 0, encodeAsSingleElement)
-		;~ scaffold_output_mode = 0
-		
-		scaffoldSingle( scaffold_columns_g, 1, encodeAsSingleElement )
+		scaffoldSingle( scaffold_columns_g, 1, 1 )
 	}
 		
 	shareCodeToSocialMedia() {
@@ -9129,6 +9123,7 @@ resetModifiers( ignoreKey = "" ){
 	
 	c:: ; d + c :: copy
 		copy()
+		
 		;~ copyWordsAsSeperateElements()
 		return
 		
@@ -9138,8 +9133,8 @@ resetModifiers( ignoreKey = "" ){
 		return
 		
 	b:: ; d + b :: previous scaffold
-		printUsingScaffold( "", 1, -1, 0) ; previous
 		resetModifiers()
+		printUsingScaffold( "", 1, -1, 0) ; previous
 		return
 	
 	n:: ; d + n :: reload vue file
@@ -9149,7 +9144,7 @@ resetModifiers( ignoreKey = "" ){
 	
 	m:: ; d + m :: console log
 		resetModifiers()
-		waitClipboard()
+		;~ waitClipboard()
 		;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
 		runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`;", Clipboard)
 		Send ^v
