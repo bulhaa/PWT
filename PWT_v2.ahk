@@ -9012,26 +9012,26 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 		
-#if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
-	i:: ; f + d + i :: Up
-		Send {Ctrl Down}{Shift Down}{Home}{Shift Up}{Ctrl Up}
-		resetModifiers()
-		return
+;~ #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
+	;~ i:: ; f + d + i :: Up
+		;~ Send {Ctrl Down}{Shift Down}{Home}{Shift Up}{Ctrl Up}
+		;~ resetModifiers()
+		;~ return
 	
-	j:: ; f + d + j :: +Home
-		Send {Shift Down}{Home}{Shift Up}
-		resetModifiers()
-		return
+	;~ j:: ; f + d + j :: +Home
+		;~ Send {Shift Down}{Home}{Shift Up}
+		;~ resetModifiers()
+		;~ return
 	
-	k:: ; f + d + k :: Down
-		Send {Ctrl Down}{Shift Down}{End}{Shift Up}{Ctrl Up}
-		resetModifiers()
-		return
+	;~ k:: ; f + d + k :: Down
+		;~ Send {Ctrl Down}{Shift Down}{End}{Shift Up}{Ctrl Up}
+		;~ resetModifiers()
+		;~ return
 	
-	l:: ; f + d + l :: +End
-		Send {Shift Down}{End}{Shift Up}
-		resetModifiers()
-		return
+	;~ l:: ; f + d + l :: +End
+		;~ Send {Shift Down}{End}{Shift Up}
+		;~ resetModifiers()
+		;~ return
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
 	u:: ; d + u :: decode lines and tabs wrapper
@@ -9112,7 +9112,7 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		;~ waitClipboard()
 		;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
-		runScaffold( "console.log(""? value1 ?`: "", ? value1 ?)`;", Clipboard)
+		runScaffold( "dd(? value1 ?)`;", Clipboard)
 		Send ^v
 		return
 	
@@ -9217,25 +9217,25 @@ resetModifiers( ignoreKey = "" ){
 		return
 
 
-	+i:: ; f + i :: +Up
-		Send {Shift Down}{Up}{Shift Up}
-		resetModifiers()
-		return
+	;~ +i:: ; f + i :: +Up
+		;~ Send {Shift Down}{Up}{Shift Up}
+		;~ resetModifiers()
+		;~ return
 
-	+j:: ; f + j :: +Left
-		Send {Shift Down}{Left}{Shift Up}
-		resetModifiers()
-		return
+	;~ +j:: ; f + j :: +Left
+		;~ Send {Shift Down}{Left}{Shift Up}
+		;~ resetModifiers()
+		;~ return
 
-	+k:: ; f + k :: +Down
-		Send {Shift Down}{Down}{Shift Up}
-		resetModifiers()
-		return
+	;~ +k:: ; f + k :: +Down
+		;~ Send {Shift Down}{Down}{Shift Up}
+		;~ resetModifiers()
+		;~ return
 	
-	+l:: ; f + l :: +Right
-		Send {Shift Down}{Right}{Shift Up}
-		resetModifiers()
-		return
+	;~ +l:: ; f + l :: +Right
+		;~ Send {Shift Down}{Right}{Shift Up}
+		;~ resetModifiers()
+		;~ return
 	
 	+;:: ; f + : :: go to prev reference
 		goToPrevReference()
