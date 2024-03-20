@@ -9012,21 +9012,21 @@ resetModifiers( ignoreKey = "" ){
 		return
 	
 		
-;~ #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
-	;~ i:: ; f + d + i :: Up
-		;~ Send {Ctrl Down}{Shift Down}{Home}{Shift Up}{Ctrl Up}
-		;~ resetModifiers()
-		;~ return
+#if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
+	i:: ; f + d + i :: ^+Home
+		Send {Ctrl Down}{Shift Down}{Home}{Shift Up}{Ctrl Up}
+		resetModifiers()
+		return
 	
 	;~ j:: ; f + d + j :: +Home
 		;~ Send {Shift Down}{Home}{Shift Up}
 		;~ resetModifiers()
 		;~ return
 	
-	;~ k:: ; f + d + k :: Down
-		;~ Send {Ctrl Down}{Shift Down}{End}{Shift Up}{Ctrl Up}
-		;~ resetModifiers()
-		;~ return
+	k:: ; f + d + k :: ^+End
+		Send {Ctrl Down}{Shift Down}{End}{Shift Up}{Ctrl Up}
+		resetModifiers()
+		return
 	
 	;~ l:: ; f + d + l :: +End
 		;~ Send {Shift Down}{End}{Shift Up}
