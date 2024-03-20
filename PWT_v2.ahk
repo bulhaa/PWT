@@ -8864,6 +8864,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + g :: display shortcut list
 	
+	; f + h :: copy as separate elements
 	; d + c :: copy
 	; d + . :: share code to social media
 	; d + , :: pixel dev wait pixel
@@ -8906,7 +8907,7 @@ scaffoldFiles(){
 	; f + u :: surround selection by quotes
 	
 	
-	`::	scaffoldSingle( scaffold_columns_g ) ; scaffold single
+	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
 	; f + m :: scaffold merge all
 	; d + p :: set scaffold_columns_g
 	
@@ -9155,7 +9156,9 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	.:: shareCodeToSocialMedia() ; d + . :: share code to social media
+	.:: ; d + . :: share code to social media
+		shareCodeToSocialMedia()
+		return
 	
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
@@ -9179,6 +9182,11 @@ resetModifiers( ignoreKey = "" ){
 		htmlTagExpander()
 		return
 	
+	h:: ; f + h :: copy as separate elements
+		resetModifiers()
+		scaffoldSingle( scaffold_columns_g )
+		return
+	
 	j:: ; f + j :: Left
 		Send {Left}
 		resetModifiers()
@@ -9194,7 +9202,6 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 
-	
 	`;:: ; f + ; :: go to reference
 		goToReference()
 		resetModifiers()
@@ -9228,7 +9235,7 @@ resetModifiers( ignoreKey = "" ){
 	
 	m:: ; f + m :: scaffold merge all
 		resetModifiers()
-		Send ^z
+		;~ Send ^z
 		scaffoldMergeAll( scaffold_columns_g )
 		return
 
