@@ -9118,7 +9118,7 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		;~ waitClipboard()
 		;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
-		runScaffold( "dd(? value1 ?)`;", Clipboard)
+		runScaffold( "dd('? value1 ?`: ', ? value1 ?)`;", Clipboard)
 		Send ^v
 		return
 	
