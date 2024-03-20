@@ -8977,72 +8977,37 @@ resetModifiers( ignoreKey = "" ){
 	;~ if( ignoreKey != "d" and ignoreKey != "f" )
 		;~ return
 	
+	if( ignoreKey != "s" )
+		sPressedAlone_g := 0
 	if( ignoreKey != "d" )
 		dPressedAlone_g := 0
-	if( ignoreKey != "c" )
-		cPressedAlone_g := 0
 	if( ignoreKey != "f" )
 		fPressedAlone_g := 0
+	if( ignoreKey != "g" )
+		gPressedAlone_g := 0
+	if( ignoreKey != "c" )
+		cPressedAlone_g := 0
 }
-
-#if (Stack="15am" and cPressed_g) ; scaffolding mode + c
-	-:: ; c + - :: kebab-case
-		snakeCaseWithHyphen()
-		Send ^v
-		resetModifiers()
-		return
 	
-	+-:: ; +c + - :: snake_case
-		snakeCase()
-		Send ^v
-		resetModifiers()
-		return
 		
-	u:: ; c + u :: UPPER CASE
-		capitalCase()
-		Send ^v
+#if (Stack="15am" and sPressed_g) ; scaffolding mode + s
+	i:: ; s + i :: +Page Up
+		Send {Shift Down}{PGUP}{Shift Up}
 		resetModifiers()
 		return
 	
-	i:: ; c + i :: CapitalCamelCase
-		capitalCamelCase()
-		Send ^v
+	j:: ; s + j :: ^+Left
+		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
-	h:: ; c + h :: All Title Case
-		allTitleCase()
-		Send ^v
+	k:: ; s + k :: +Page Down
+		Send {Shift Down}{PGDN}{Shift Up}
 		resetModifiers()
 		return
 	
-	l:: ; c + l :: lower case
-		lowerCase()
-		Send ^v
-		resetModifiers()
-		return
-	
-	j:: ; c + j :: camelCase
-		camelCase()
-		Send ^v
-		resetModifiers()
-		return
-	
-	k:: ; c + k :: CAPITAL_SNAKE_CASE
-		capitalSnakeCase()
-		Send ^v
-		resetModifiers()
-		return
-	
-	n:: ; c + n :: Title case
-		titleCase()
-		Send ^v
-		resetModifiers()
-		return
-	
-	.:: ; c + . :: dot.case
-		dotCase()
-		Send ^v
+	l:: ; s + l :: ^+Right
+		Send {Ctrl Down}{Shift Down}{Right}{Shift Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
@@ -9074,8 +9039,8 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 
-	i:: ; d + i :: Up
-		Send {Shift Down}{PGUP}{Shift Up}
+	i:: ; d + i :: +Up
+		Send {Shift Down}{Up}{Shift Up}
 		resetModifiers()
 		return
 	
@@ -9102,18 +9067,18 @@ resetModifiers( ignoreKey = "" ){
 		displayShortcutList()
 		return
 	
-	j:: ; d + j :: ^Left
-		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
+	j:: ; d + j :: +Left
+		Send {Shift Down}{Left}{Shift Up}
 		resetModifiers()
 		return
 	
-	k:: ; d + k :: Down
-		Send {Shift Down}{PGDN}{Shift Up}
+	k:: ; d + k :: +Down
+		Send {Shift Down}{Down}{Shift Up}
 		resetModifiers()
 		return
 	
-	l:: ; d + l :: ^Right
-		Send {Ctrl Down}{Shift Down}{Right}{Shift Up}{Ctrl Up}
+	l:: ; d + l :: +Right
+		Send {Shift Down}{Right}{Shift Up}
 		resetModifiers()
 		return
 
@@ -9284,6 +9249,88 @@ resetModifiers( ignoreKey = "" ){
 		
 	+b:: ; +f + b :: focus VS Code terminal2
 		click 1435, 1011
+		resetModifiers()
+		return
+		
+#if (Stack="15am" and gPressed_g) ; scaffolding mode + g
+	i:: ; g + i :: Page Up
+		resetModifiers()
+		Send {PGUP}
+		return
+	
+	j:: ; g + j :: Home
+		resetModifiers()
+		Send {Home}
+		return
+	
+	k:: ; g + k :: Page Down
+		resetModifiers()
+		Send {PGDN}
+		return
+	
+	l:: ; g + l :: End
+		resetModifiers()
+		Send {End}
+		return
+
+#if (Stack="15am" and cPressed_g) ; scaffolding mode + c
+	-:: ; c + - :: kebab-case
+		snakeCaseWithHyphen()
+		Send ^v
+		resetModifiers()
+		return
+	
+	+-:: ; +c + - :: snake_case
+		snakeCase()
+		Send ^v
+		resetModifiers()
+		return
+		
+	u:: ; c + u :: UPPER CASE
+		capitalCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	i:: ; c + i :: CapitalCamelCase
+		capitalCamelCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	h:: ; c + h :: All Title Case
+		allTitleCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	l:: ; c + l :: lower case
+		lowerCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	j:: ; c + j :: camelCase
+		camelCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	k:: ; c + k :: CAPITAL_SNAKE_CASE
+		capitalSnakeCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	n:: ; c + n :: Title case
+		titleCase()
+		Send ^v
+		resetModifiers()
+		return
+	
+	.:: ; c + . :: dot.case
+		dotCase()
+		Send ^v
 		resetModifiers()
 		return
 	
