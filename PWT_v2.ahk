@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;"
 loadStacks()
 
 
@@ -3108,6 +3108,7 @@ else if(Stack="19a") ; freeCodeCamp connect to pSql
 else if(Stack="19b") ; devdocs.io 
 	{
 		Button1_Label=https`://devdocs.io/
+		run, %Button1_Label%
 	}
 else if(Stack="19c") ; ts-node-dev 
 	{
@@ -3116,6 +3117,11 @@ else if(Stack="19c") ; ts-node-dev
 else if(Stack="19d") ; js log after fetch 
 	{
 		Button1_Label=`n.then(d => d.json())`n.then(d => console.log("d`: "`, d))
+	}
+else if(Stack="19e") ; gemen-reporting.te.egov.mv 
+	{
+		Button1_Label=https`://gemen-reporting.te.egov.mv/
+		run, %Button1_Label%
 	}
 else
 	{	
