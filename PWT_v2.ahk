@@ -112,6 +112,8 @@ if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 	hotkeys := "abcdefghijklmnopqrstuvwxyz "
 	loop, Parse, hotkeys
 		registerModifiers(A_LoopField)
+	
+	lastHotkeys_time_g := 0
 return
 
 
@@ -2920,7 +2922,7 @@ else if(Stack="16p") ; httpd-xampp.conf
 	}
 else if(Stack="16r") ; db scripts to production 
 	{
-		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2023\Pending
+		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2024\Pending
 		run, %Button1_Label%
 	}
 else if(Stack="16s") ; ecouncil TE error log 
@@ -8960,16 +8962,13 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 	
 	time := A_DD * 24 * 3600 * 1000 + A_Hour * 3600 * 1000 + A_Min * 60 * 1000 + A_Sec * 1000 + A_MSec
 	skip = 0
-	if(time - lastHotkeys_time_g < 500 and A_ThisHotkey != lastHotkeys_g)
+	if( (time - lastHotkeys_time_g) < 500 and A_ThisHotkey != lastHotkeys_g)
 		skip = 1
-	
-	  
 	
 	diff := time - lastHotkeys_time_g
 	
 	
 	
-	lastHotkeys_time_g := time
 	lastHotkeys_g := A_ThisHotkey
 	
 	
@@ -8992,6 +8991,7 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 		}
 		
 		if(skip) {
+			lastHotkeys_time_g := time
 			;~ Stack := 0
 			;~ SetTimer, enableHotkey, 500
 			
@@ -9034,7 +9034,10 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 		
 	;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " mod" )
 		
-		SendInput {Raw}%key_output_buffer_g%
+		if(%variablePrefix%PressedAlone_g){
+			lastHotkeys_time_g := time
+			SendInput {Raw}%key_output_buffer_g%
+		}
 		key_output_buffer_g := ""
 		%variablePrefix%Pressed_g := 0
 		modifier_active_g = 0
@@ -9058,6 +9061,8 @@ resetModifiers( ignoreKey = "" ){
 		cPressedAlone_g := 0
 	
 	key_output_buffer_g := ""
+	lastHotkeys_time_g = 0
+	;~ myTT("resetModifiers: " resetModifiers)
 }
 	
 		
@@ -9089,20 +9094,20 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	;~ j:: ; f + d + j :: +Home
-		;~ Send {Shift Down}{Home}{Shift Up}
-		;~ resetModifiers()
-		;~ return
+	j:: ; f + d + j :: +Home
+		Send {Shift Down}{Home}{Shift Up}
+		resetModifiers()
+		return
 	
 	k:: ; f + d + k :: ^+End
 		Send {Ctrl Down}{Shift Down}{End}{Shift Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
-	;~ l:: ; f + d + l :: +End
-		;~ Send {Shift Down}{End}{Shift Up}
-		;~ resetModifiers()
-		;~ return
+	l:: ; f + d + l :: +End
+		Send {Shift Down}{End}{Shift Up}
+		resetModifiers()
+		return
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
 	u:: ; d + u :: decode lines and tabs wrapper
@@ -9181,9 +9186,12 @@ resetModifiers( ignoreKey = "" ){
 	
 	m:: ; d + m :: console log
 		resetModifiers()
+		
 		;~ waitClipboard()
 		;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
+		
 		runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
+		;~ runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
 		Send ^v
 		return
 	
@@ -9322,27 +9330,6 @@ resetModifiers( ignoreKey = "" ){
 		click 1435, 1011
 		resetModifiers()
 		return
-		
-#if (Stack="15am" and gPressed_g) ; scaffolding mode + g
-	i:: ; g + i :: Page Up
-		resetModifiers()
-		Send {PGUP}
-		return
-	
-	j:: ; g + j :: Home
-		resetModifiers()
-		Send {Home}
-		return
-	
-	k:: ; g + k :: Page Down
-		resetModifiers()
-		Send {PGDN}
-		return
-	
-	l:: ; g + l :: End
-		resetModifiers()
-		Send {End}
-		return
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
 	-:: ; c + - :: kebab-case
@@ -9403,6 +9390,27 @@ resetModifiers( ignoreKey = "" ){
 		dotCase()
 		Send ^v
 		resetModifiers()
+		return
+		
+#if (Stack="15am" and vPressed_g) ; scaffolding mode + v
+	i:: ; v + i :: Page Up
+		resetModifiers()
+		Send {PGUP}
+		return
+	
+	j:: ; v + j :: Home
+		resetModifiers()
+		Send {Home}
+		return
+	
+	k:: ; v + k :: Page Down
+		resetModifiers()
+		Send {PGDN}
+		return
+	
+	l:: ; v + l :: End
+		resetModifiers()
+		Send {End}
 		return
 	
 	
