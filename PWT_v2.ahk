@@ -8932,49 +8932,112 @@ registerModifiers(key){
 	if( key = " ")
 		key := "Space"
     Hotkey If, (Stack="15am")
-    Hotkey %key%, handleModifiers	
-    Hotkey +%key%, handleModifiers	
+    Hotkey $%key%, handleModifiers
+    Hotkey $+%key%, handleModifiers	
     Hotkey $%key% Up, handleModifiers	
     Hotkey $+%key% Up, handleModifiers	
-    Hotkey If, 
+    Hotkey If,
 }
+
+;~ enableHotkey:
+	;~ SetTimer, enableHotkey, Off
+	;~ Stack :="15am"
+;~ return
 		
 handleModifiers( key="", isDown = 0, isShift = 0 ){
 	global
+	local skip
 	
-	StringReplace, key, A_ThisHotkey, % " Up"
+	
+	key := A_ThisHotkey
+	StringReplace, key, key, % " Up"
 	key := RegExReplace(key, "^[^A-z 0-9]*([A-z 0-9]+).*", "$1")
 	if( RegExMatch(key, "[^a-z]") )
 		variablePrefix := "g_" ( key = " " ? "Space" : key )
 	else
 		variablePrefix := key
-	;~ myTT("test " key " " A_ThisHotkey)
-	;~ return
+	
+	
+	time := A_DD * 24 * 3600 * 1000 + A_Hour * 3600 * 1000 + A_Min * 60 * 1000 + A_Sec * 1000 + A_MSec
+	skip = 0
+	if(time - lastHotkeys_time_g < 500 and A_ThisHotkey != lastHotkeys_g)
+		skip = 1
+	
+	  
+	
+	diff := time - lastHotkeys_time_g
+	
+	
+	
+	lastHotkeys_time_g := time
+	lastHotkeys_g := A_ThisHotkey
+	
+	
 	
 	if( !InStr(A_ThisHotkey, " Up") ){
+		%variablePrefix%Pressed_g = 1
+		if( !GetKeyState("Shift") )
+			%variablePrefix%Pressed_g := 0
+		if( GetKeyState("CapsLock", "T") )
+			%variablePrefix%Pressed_g++
+		resetModifiers(key)
+			
+		if( key != "Space" ){
+			if( %variablePrefix%Pressed_g = 1 )
+				output := capitalCase(key)
+			else
+				output := key
+		} else {
+			output := " "
+		}
+		
+		if(skip) {
+			;~ Stack := 0
+			;~ SetTimer, enableHotkey, 500
+			
+	;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " " modifier_active_g)
+			if(!modifier_active_g){
+				SendInput {Raw}%output%
+			}else{
+				key_output_buffer_g := key_output_buffer_g . output
+			}
+			return
+		}
+		
+		key_output_buffer_g := key_output_buffer_g . output
+			
+		
 		%variablePrefix%PressedAlone_g := 1
 		%variablePrefix%Pressed_g := 1
-		%variablePrefix%PressedWithShift_g := GetKeyState("Shift")
+		;~ %variablePrefix%PressedWithShift_g := GetKeyState("Shift")
+		modifier_active_g++
 		return
 	}
 	
 	if( %variablePrefix%Pressed_g ){
-		if( !%variablePrefix%PressedWithShift_g )
-			%variablePrefix%Pressed_g := 0
-		if( GetKeyState("CapsLock", "T") )
-			%variablePrefix%Pressed_g++
-		if(%variablePrefix%PressedAlone_g){
-			resetModifiers(key)
-			if( key != "Space" ){
-				if( %variablePrefix%Pressed_g = 1 )
-					Send % capitalCase(key)
-				else
-					Send %key%
-			} else {
-				Send {Space}
-			}
-		}
+		;~ if( !%variablePrefix%PressedWithShift_g )
+			;~ %variablePrefix%Pressed_g := 0
+		;~ if( GetKeyState("CapsLock", "T") )
+			;~ %variablePrefix%Pressed_g++
+		;~ if(%variablePrefix%PressedAlone_g){
+			;~ resetModifiers(key)
+			;~ if( key != "Space" ){
+				;~ if( %variablePrefix%Pressed_g = 1 )
+					;~ Send % capitalCase(key)
+				;~ else
+					;~ Send %key%
+			;~ } else {
+				;~ Send {Space}
+			;~ }
+		;~ }
+		
+		
+	;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " mod" )
+		
+		SendInput {Raw}%key_output_buffer_g%
+		key_output_buffer_g := ""
 		%variablePrefix%Pressed_g := 0
+		modifier_active_g = 0
 	}
 }
 		
@@ -8993,6 +9056,8 @@ resetModifiers( ignoreKey = "" ){
 		gPressedAlone_g := 0
 	if( ignoreKey != "c" )
 		cPressedAlone_g := 0
+	
+	key_output_buffer_g := ""
 }
 	
 		
@@ -9118,7 +9183,7 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		;~ waitClipboard()
 		;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
-		runScaffold( "dd('? value1 ?`: ', ? value1 ?)`;", Clipboard)
+		runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
 		Send ^v
 		return
 	
