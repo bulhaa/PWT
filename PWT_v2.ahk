@@ -3512,9 +3512,9 @@ else
 		; HTML tag expander
 		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
 		Sleep 100
-		; create HTML tag
 		clipBkp := Clipboard
 		waitClipboard()
+		; create HTML tag
 		Clipboard := "<" Clipboard " id="""" class="""">" "</" Clipboard ">"
 		Sleep 500
 		Send ^v
@@ -5073,7 +5073,7 @@ XButton2::
 		myTT("clipList cleared")
 	return
 	
-#if (Stack="11o") ; go to end of clipList 
+#if (Stack="11o") ; go to end of clipList
 	`:: goToEndOfCliplist()
 	goToEndOfCliplist(){
 		global
@@ -8872,6 +8872,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + g :: display shortcut list
 	
+	; d + h :: copy words as seperate elements
 	; f + h :: copy as separate elements
 	; d + c :: copy
 	; d + . :: share code to social media
@@ -8950,9 +8951,7 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 	global
 	local skip
 	
-	
-	key := A_ThisHotkey
-	StringReplace, key, key, % " Up"
+	StringReplace, key, A_ThisHotkey, % " Up"
 	key := RegExReplace(key, "^[^A-z 0-9]*([A-z 0-9]+).*", "$1")
 	if( RegExMatch(key, "[^a-z]") )
 		variablePrefix := "g_" ( key = " " ? "Space" : key )
@@ -8965,7 +8964,9 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 	if( (time - lastHotkeys_time_g) < 500 and A_ThisHotkey != lastHotkeys_g)
 		skip = 1
 	
-	diff := time - lastHotkeys_time_g
+	  
+	
+	;~ diff := time - lastHotkeys_time_g
 	
 	
 	
@@ -9120,12 +9121,12 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	o:: ; d + o :: Arrow function
+	o Up:: ; d + o :: Arrow function
 		Clipboard := "(d, i) => {}"
 		Sleep 100
 		Send ^v
 		resetModifiers()
-		return
+	o:: return
 
 	p:: ; d + p :: set scaffold_columns_g
 		waitClipboard()
@@ -9141,6 +9142,10 @@ resetModifiers( ignoreKey = "" ){
 	g:: ; d + g :: display shortcut list
 		resetModifiers()
 		displayShortcutList()
+		return
+
+	h:: ; d + h :: copy words as seperate elements
+		copyWordsAsSeperateElements()
 		return
 	
 	j:: ; d + j :: +Left
@@ -9165,8 +9170,6 @@ resetModifiers( ignoreKey = "" ){
 	
 	c:: ; d + c :: copy
 		copy()
-		
-		;~ copyWordsAsSeperateElements()
 		return
 		
 	v:: ; d + v :: change scaffold output mode
@@ -9329,7 +9332,30 @@ resetModifiers( ignoreKey = "" ){
 	+b:: ; +f + b :: focus VS Code terminal2
 		click 1435, 1011
 		resetModifiers()
+		return	
+
+
+#if (Stack="15am" and gPressed_g) ; scaffolding mode + g
+	i:: ; g + i :: Page Up
+		resetModifiers()
+		Send {PGUP}
 		return
+	
+	j:: ; g + j :: Home
+		resetModifiers()
+		Send {Home}
+		return
+	
+	k:: ; g + k :: Page Down
+		resetModifiers()
+		Send {PGDN}
+		return
+	
+	l:: ; g + l :: End
+		resetModifiers()
+		Send {End}
+		return
+
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
 	-:: ; c + - :: kebab-case
@@ -9391,27 +9417,7 @@ resetModifiers( ignoreKey = "" ){
 		Send ^v
 		resetModifiers()
 		return
-		
-#if (Stack="15am" and vPressed_g) ; scaffolding mode + v
-	i:: ; v + i :: Page Up
-		resetModifiers()
-		Send {PGUP}
-		return
-	
-	j:: ; v + j :: Home
-		resetModifiers()
-		Send {Home}
-		return
-	
-	k:: ; v + k :: Page Down
-		resetModifiers()
-		Send {PGDN}
-		return
-	
-	l:: ; v + l :: End
-		resetModifiers()
-		Send {End}
-		return
+
 	
 	
 #if (Stack="15ak") ; Go to reference 
