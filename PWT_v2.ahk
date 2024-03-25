@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;"
 loadStacks()
 
 
@@ -2277,6 +2277,9 @@ Manager(){
 	Button4_Label := ""
 	MyTT(Stack)
 	Stack:=StackSearch(Stack, 1)
+	
+	if(RegExMatch(Button1_Label, "^http"))
+		run, %Button1_Label%
 
 	if (Button1_Label ="")
 		GuiControl, Hide,  Button1
@@ -2446,8 +2449,6 @@ else if(Stack="15y") ; push eCouncil to git
 else if(Stack="15z") ; eCouncil training URL
 	{
 		Button1_Label=http://trng01.egov.mv/ecouncil/
-		if run
-			run http://trng01.egov.mv/ecouncil/
 	}
 else if(Stack="15aa") ; install seleniumjs
 	{
@@ -2679,17 +2680,14 @@ else if(Stack="13x") ; dump laravel data
 else if(Stack="13y") ; phpMyAdmin 
 	{
 		Button1_Label=`http://localhost/phpmyadmin
-		run http://localhost/phpmyadmin
 	}
 else if(Stack="13z") ; tailwinds docs 
 	{
 		Button1_Label=`https://tailwindcss.com/docs/font-size
-		run https://tailwindcss.com/docs/font-size
 	}
 else if(Stack="14a") ; laravel docs 
 	{
 		Button1_Label=`https://laravel.com/docs/9.x/deployment#server-configuration
-		run https://laravel.com/docs/9.x/deployment#server-configuration
 	}
 else if(Stack="14b") ; records mv notes 
 	{
@@ -2698,12 +2696,10 @@ else if(Stack="14b") ; records mv notes
 else if(Stack="14c") ; livewire docs 
 	{
 		Button1_Label=`https://laravel-livewire.com/docs/2.x/properties#debouncing-input
-		run, https://laravel-livewire.com/docs/2.x/properties#debouncing-input
 	}
 else if(Stack="14d") ; gitlab git.egov.mv 
 	{
 		Button1_Label=`https://git.egov.mv/
-		run, https://git.egov.mv/
 	}
 else if(Stack="14e") ; case manager wireframe 
 	{
@@ -2711,47 +2707,38 @@ else if(Stack="14e") ; case manager wireframe
 		;~ run, https`://www.figma.com/proto/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=1071`%3A2191&scaling=scale-down-width&page-id=0`%3A1&starting-point-node-id=1`%3A2
 		;~ run, https`://www.figma.com/file/sVmR0Xl1aatqh6uatmNJRk/CMS-v2?node-id=2957`%3A16754&t=4Hm5Ac9UqPj3ZEzN-1
 		Button1_Label=https`://www.figma.com/file/CXJRrC0ymrH4fCLpS91hyd/GEMs---Message?node-id=0`%3A1&mode=dev
-		run, % Button1_Label
 	}
 else if(Stack="14f") ; teams 
 	{
 		Button1_Label=`https://teams.microsoft.com/_#/conversations/19:4683f526-d766-4bc9-8a7b-382b3a77dcd5_9529b8a9-30a5-462f-94a3-d662d45fd698@unq.gbl.spaces?ctx=chat
-		run, `https://teams.microsoft.com/_#/conversations/19:4683f526-d766-4bc9-8a7b-382b3a77dcd5_9529b8a9-30a5-462f-94a3-d662d45fd698@unq.gbl.spaces?ctx=chat
 	}
 else if(Stack="14g") ; otrs demo 
 	{
 		Button1_Label=https`://demo.otrsce.com/
-		run, https`://demo.otrsce.com/
 	}
 else if(Stack="14h") ; outlook 
 	{
 		Button1_Label=https`://outlook.office.com/mail/sentitems
-		run, https`://outlook.office.com/mail/sentitems
 	}
 else if(Stack="14i") ; chai builder tailwinds 
 	{
 		Button1_Label=https`://chaibuilder.com/try
-		run, https`://chaibuilder.com/try
 	}
 else if(Stack="14j") ; tailwinds themeforest list 
 	{
 		Button1_Label=https`://angular-material.fusetheme.com/apps/academy
-		run, https`://angular-material.fusetheme.com/apps/academy
 	}
 else if(Stack="14k") ; case manager local 
 	{
 		Button1_Label=http`://localhost`:3000/auth/login?EFAAS-DISABLE=1
-		run, %Button1_Label%
 	}
 else if(Stack="14l") ; gemen online local 
 	{
 		Button1_Label=http`://gemen-online.test/birth-certificates/22/edit
-		run, http`://gemen-online.test/birth-certificates/22/edit
 	}
 else if(Stack="14m") ; gemen local 
 	{
 		Button1_Label=http`://ecouncil.test/ecouncil/index.php/site/login
-		run, http`://ecouncil.test/ecouncil/index.php/site/login
 	}
 else if(Stack="14n") ; php 
 	{
@@ -2760,17 +2747,14 @@ else if(Stack="14n") ; php
 else if(Stack="14o") ; hero icons 
 	{
 		Button1_Label=https`://heroicons.com/
-		Run, https`://heroicons.com/
 	}
 else if(Stack="14p") ; gemen online TE 
 	{
 		Button1_Label=https`://gemen.te.egov.mv/birth-records
-		Run, https`://gemen.te.egov.mv/birth-records
 	}
 else if(Stack="14q") ; eCouncil DB scripts 
 	{
 		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2023\Pending
-		Run, \\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2023\Pending
 	}
 else if(Stack="14r") ; data to seeder 
 	{
@@ -2845,7 +2829,6 @@ else if(Stack="14y") ; php artisan optimize:clear
 else if(Stack="14z") ; TR alerts 
 	{
 		Button1_Label=http`://tr.egov.mv/alerts/
-		run, http`://tr.egov.mv/alerts/
 	}
 else if(Stack="16a") ; git reset 
 	{
@@ -2854,12 +2837,10 @@ else if(Stack="16a") ; git reset
 else if(Stack="16b") ; gitlab 
 	{
 		Button1_Label=https`://git.egov.mv/gov-productivity/case-manager/-/boards
-		run, https`://git.egov.mv/gov-productivity/case-manager/-/boards
 	}
 else if(Stack="16c") ; phpmyadmin 
 	{
 		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&db=case_manager&table=individuals&pos=0
-		run, http`://localhost/phpmyadmin/index.php?route=/sql&db=case_manager&table=individuals&pos=0
 	}
 else if(Stack="16d") ; apache vhost 
 	{
@@ -2873,12 +2854,10 @@ else if(Stack="17g") ; mysql general_log
 else if(Stack="16e") ; gts 
 	{
 		Button1_Label=https`://gts.te.egov.mv/api/documentation#/
-		run, https://gts.te.egov.mv/api/documentation#/
 	}
 else if(Stack="16f") ; dev otp 
 	{
 		Button1_Label=https`://sso-messaging-dev.egov.mv/Alerts/Default.aspx
-		run, https`://sso-messaging-dev.egov.mv/Alerts/Default.aspx
 	}
 else if(Stack="16g") ; ahk array 
 	{
@@ -2903,17 +2882,14 @@ else if(Stack="16l") ; db seed with initial data
 else if(Stack="16m") ; ncit laravel/api getting started 
 	{
 		Button1_Label=https`://git.egov.mv/getting-started/api-laravel/-/blob/develop/app/Http/Middleware/Authenticate.php
-		run, %Button1_Label%
 	}
 else if(Stack="16n") ; sentry 
 	{
 		Button1_Label=https`://sentry.tr.egov.mv/
-		run, %Button1_Label%
 	}
 else if(Stack="16o") ; scratch excel 
 	{
 		Button1_Label=https`://digitalgovmv-my.sharepoint.com/`:x`:/r/personal/hammadh_ncit_gov_mv/_layouts/15/Doc.aspx?sourcedoc=`%7B0117FB27-0862-47D1-80E2-CEF32FCA21F8`%7D&file=Book`%2030.xlsx&action=editnew&mobileredirect=true&wdNewAndOpenCt=1686209834000&ct=1686209834505&wdPreviousSession=d914636a-f196-4f0e-9806-88c171e2390f&wdOrigin=OFFICECOM-WEB.START.NEW&login_hint=hammadh`%40ncit.gov.mv&cid=e1a9b09b-742d-4370-a206-6f06a21acb0a&wdPreviousSessionSrc=HarmonyWeb
-		run, %Button1_Label%
 	}
 else if(Stack="16p") ; httpd-xampp.conf 
 	{
@@ -2923,7 +2899,6 @@ else if(Stack="16p") ; httpd-xampp.conf
 else if(Stack="16r") ; db scripts to production 
 	{
 		Button1_Label=\\10.241.3.108\Backup\Shared_IO\eGovProjects\eCouncil\Deployments\To Production\2024\Pending
-		run, %Button1_Label%
 	}
 else if(Stack="16s") ; ecouncil TE error log 
 	{
@@ -2932,7 +2907,6 @@ else if(Stack="16s") ; ecouncil TE error log
 else if(Stack="16t") ; case docker 
 	{
 		Button1_Label=https`://casemanager.localhost/auth/login?EFAAS-DISABLE=1
-		run, %Button1_Label%
 	}
 else if(Stack="16u") ; docker sail up 
 	{
@@ -2957,7 +2931,6 @@ else if(Stack="17b") ; npx mix watch
 else if(Stack="17c") ; case manager local 
 	{
 		Button1_Label=http`://case.localhost/auth/login?EFAAS-DISABLE=1 
-		run, %Button1_Label%
 	}
 else if(Stack="17d") ; case TE 
 	{
@@ -2968,17 +2941,14 @@ else if(Stack="17d") ; case TE
 else if(Stack="17e") ; dev purchase requests 
 	{
 		Button1_Label=https`://docs.google.com/spreadsheets/d/1Jpz5A8VAtzTx8P0M5vHLAKHLLicaHsqPmVeH51vsX3Q/edit#gid=0
-		run, %Button1_Label%
 	}
 else if(Stack="17h") ; GEMS API local 
 	{
 		Button1_Label=http`://gems_api.test/
-		run, %Button1_Label%
 	}
 else if(Stack="17i") ; GEMS file erd 
 	{
 		Button1_Label=https`://drive.google.com/file/d/1u9BVFIc19LZdGK2TPU0NModo4Crnqf3I/view?ts=65081321
-		run, %Button1_Label%
 	}
 else if(Stack="17j") ; old folder 
 	{
@@ -2997,7 +2967,6 @@ else if(Stack="17l") ; htdocs
 else if(Stack="17m") ; ecouncil git 
 	{
 		Button1_Label=https`://git.egov.mv/NCIT/ecouncil/-/commits/ham-dev?ref_type=heads
-		run, %Button1_Label%
 	}
 else if(Stack="17n") ; ffmpeg concat video files 
 	{
@@ -3006,7 +2975,6 @@ else if(Stack="17n") ; ffmpeg concat video files
 else if(Stack="17o") ; ecouncil db 
 	{
 		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&db=ecouncil_ecouncil_r2&table=addresses&pos=0
-		run, %Button1_Label%
 	}
 else if(Stack="17s") ; job application 
 	{
@@ -3023,49 +2991,38 @@ else if(Stack="17z") ; kill process
 else if(Stack="18f") ; vuejs template 
 	{
 		Button1_Label=https`://vue.vristo.sbthemes.com/components/timeline
-		run, %Button1_Label%
 	}
 else if(Stack="18g") ; primevue 
 	{
 		Button1_Label=https`://primevue.org/calendar/
-		run, %Button1_Label%
 	}
 else if(Stack="18i") ; ahk github 
 	{
 		Button1_Label=https`://github.com/camerb/AHKs/tree/master
-		run, %Button1_Label%
 	}
 else if(Stack="18j") ; scoop install programs 
 	{
 		Button1_Label=https`://scoop.sh/
-		run, %Button1_Label%
 	}
 else if(Stack="18k") ; traefik 
 	{
 		Button1_Label=https`://traefik.localhost/dashboard/#/http/routers
-		run, %Button1_Label%
 	}
 else if(Stack="18l") ; gems workspace 
 	{
 		Button1_Label=https`://workspace.localhost/
-		run, %Button1_Label%
 	}
 else if(Stack="18m") ; xampp SSL 
 	{
 		Button1_Label=https`://shellcreeper.com/how-to-create-valid-ssl-in-localhost-for-xampp/
-		if(run)
-			run, %Button1_Label%
 	}
 else if(Stack="18n") ; xampp multiple php versions 
 	{
 		Button1_Label=https`://stackoverflow.com/questions/45790160/is-there-way-to-use-two-php-versions-in-xampp
-		if(run)
-			run, %Button1_Label%
 	}
 else if(Stack="18o") ; gems db 
 	{
 		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=gemsapi&table=teams
-		run, %Button1_Label%
 	}
 else if(Stack="18p") ; npm run dev 
 	{
@@ -3074,17 +3031,14 @@ else if(Stack="18p") ; npm run dev
 else if(Stack="18q") ; gems2 old 
 	{
 		Button1_Label=https`://gems.te.egov.mv/logmein/5
-		run, %Button1_Label%
 	}
 else if(Stack="18s") ; aws amazon builder id 
 	{
 		Button1_Label=https`://device.sso.us-east-1.amazonaws.com/?user_code=NFTT-QSJJ
-		run, %Button1_Label%
 	}
 else if(Stack="18v") ; goblin.tools AI 
 	{
 		Button1_Label=https`://goblin.tools/Formalizer
-		run, %Button1_Label%
 	}
 else if(Stack="18w") ; chrome password manager 
 	{
@@ -3093,7 +3047,6 @@ else if(Stack="18w") ; chrome password manager
 else if(Stack="18x") ; gems workspace git issue board 
 	{
 		Button1_Label=https`://git.egov.mv/ncit_new/gems-workspace/app/-/boards?assignee_username=hammadh
-		run, %Button1_Label%
 	}
 else if(Stack="18y") ; git credential cache 
 	{
@@ -3110,7 +3063,6 @@ else if(Stack="19a") ; freeCodeCamp connect to pSql
 else if(Stack="19b") ; devdocs.io 
 	{
 		Button1_Label=https`://devdocs.io/
-		run, %Button1_Label%
 	}
 else if(Stack="19c") ; ts-node-dev 
 	{
@@ -3123,7 +3075,10 @@ else if(Stack="19d") ; js log after fetch
 else if(Stack="19e") ; gemen-reporting.te.egov.mv 
 	{
 		Button1_Label=https`://gemen-reporting.te.egov.mv/
-		run, %Button1_Label%
+	}
+else if(Stack="19f") ; bing translator 
+	{
+		Button1_Label=https`://www.bing.com/translator?ref=TThis&from=&to=dv&isTTRefreshQuery=1
 	}
 else
 	{	
