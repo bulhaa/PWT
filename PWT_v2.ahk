@@ -3295,7 +3295,7 @@ else
 	copyWordsAsSeperateElements() {
 		global
 		resetModifiers()
-		Send ^a
+		;~ Send ^a
 		waitClipboard()
 		
 		Clipboard := RegExReplace(Clipboard, "\W+", "`n")
@@ -3303,7 +3303,7 @@ else
 		goToEndOfCliplist()
 		encodeAsSingleElement = 0
 		mergeClipboard(0, 0, encodeAsSingleElement)
-		Send {Esc}a
+		;~ Send {Esc}a
 		scaffold_output_mode = 1
 		
 		;~ scaffoldSingle( scaffold_columns_g, 1, 1 )
@@ -3313,6 +3313,7 @@ else
 		global
 		resetModifiers()
 		goToEndOfCliplist()
+		scaffold_output_mode = 0
 		scaffoldSingle( scaffold_columns_g, 1, 1 )
 	}
 		
@@ -8399,7 +8400,7 @@ change_scaffold_output_mode(){
 
 }
 
-scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0) {
+scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0, forcePaste = 0) {
 	global scaffold_output_mode, suspendTT, TT_duration, scaffold_template, scaffold_single, scaffold_row_g
 	
 	scaffold_single = 1
@@ -8422,9 +8423,12 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0) {
 		myTT(inputValue)
 	}else{
 		suspendTT = 0
+		clipBkp := Clipboard
 		printUsingScaffold( "M", 1, nColumns)
-		if( scaffold_output_mode ) {
+		if( forcePaste or scaffold_output_mode ) {
 			scaffold_row_g := Trim(scaffold_row_g)
+			if(!scaffold_row_g)
+				scaffold_row_g := clipBkp
 			
 			if( RegExMatch(scaffold_row_g, "\W") ){
 				Clipboard := scaffold_row_g
@@ -8433,6 +8437,7 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0) {
 			}else {
 				SendInput {Raw}%scaffold_row_g%
 			}
+			Clipboard := scaffold_row_g
 		} else {
 			; clipList is empty so switching to input mode
 			TT_duration = 1000
@@ -8825,8 +8830,11 @@ scaffoldFiles(){
 }
 
 #if (Stack="15am") ; scaffolding mode
-	; d + g :: display shortcut list
+	; d + b :: display shortcut list
 	
+	; s + x :: undo
+	; d + s :: cut
+	; d + g :: select all
 	; d + h :: copy words as seperate elements
 	; f + h :: copy as separate elements
 	; d + c :: copy
@@ -8857,7 +8865,7 @@ scaffoldFiles(){
 	
 	; d + v :: change scaffold output mode
 	; f + o :: TTS characters to SoleAsia
-	; d + b :: previous scaffold
+	; c + o :: previous scaffold
 	; f + n :: Ctrl + Enter
 
 	; f + ; :: go to reference
@@ -9043,6 +9051,11 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
+	x:: ; s + x :: undo
+		resetModifiers()
+		Send ^z
+		return
+	
 		
 #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
 	i:: ; f + d + i :: ^+Home
@@ -9089,14 +9102,19 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 
+	s:: ; d + s :: cut
+		resetModifiers()
+		Send ^x
+		return
+
 	f:: ; d + f :: go to previous window
 		resetModifiers()
 		goToPreviousWindow2()
 		return
 	
-	g:: ; d + g :: display shortcut list
+	g:: ; d + g :: select all
 		resetModifiers()
-		displayShortcutList()
+		Send ^a
 		return
 
 	h:: ; d + h :: copy words as seperate elements
@@ -9129,12 +9147,13 @@ resetModifiers( ignoreKey = "" ){
 		
 	v:: ; d + v :: change scaffold output mode
 		resetModifiers()
-		change_scaffold_output_mode()
+		scaffold_output_mode := 1
+		scaffoldSingle( scaffold_columns_g, 1, 0, 1 )
 		return
 		
-	b:: ; d + b :: previous scaffold
+	b:: ; d + b :: display shortcut list
 		resetModifiers()
-		printUsingScaffold( "", 1, -1, 0) ; previous
+		displayShortcutList()
 		return
 	
 	n:: ; d + n :: reload vue file
@@ -9335,6 +9354,11 @@ resetModifiers( ignoreKey = "" ){
 		capitalCamelCase()
 		Send ^v
 		resetModifiers()
+		return
+	
+	o:: ; c + o :: previous scaffold
+		resetModifiers()
+		printUsingScaffold( "", 1, -1, 0) ; previous
 		return
 	
 	h:: ; c + h :: All Title Case
