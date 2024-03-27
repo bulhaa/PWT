@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;"
 loadStacks()
 
 
@@ -102,18 +102,20 @@ if (a_hour=14 and a_min>=0 and PWT_Backed_Up=0)
 	MsgBox CheckIn
 
 
-	DriveGet, Devices2, List, REMOVABLE
-	if( WinExist( "Debugging] ahk_class SciTEWindow") )
-		MyTT("Debug Mode")
-	else
-		SetTimer, PeriodicJobsTimer, 60000
-	suspendTT = 0
-	
-	hotkeys := "abcdefghijklmnopqrstuvwxyz "
-	loop, Parse, hotkeys
-		registerModifiers(A_LoopField)
-	
-	lastHotkeys_time_g := 0
+DriveGet, Devices2, List, REMOVABLE
+if( WinExist( "Debugging] ahk_class SciTEWindow") )
+	MyTT("Debug Mode")
+else
+	SetTimer, PeriodicJobsTimer, 60000
+suspendTT = 0
+
+hotkeys := "abcdefghijklmnopqrstuvwxyz "
+loop, Parse, hotkeys
+	registerModifiers(A_LoopField)
+
+lastHotkeys_time_g := 0
+
+OnClipboardChange("ClipChanged")
 return
 
 
@@ -3080,6 +3082,10 @@ else if(Stack="19f") ; bing translator
 	{
 		Button1_Label=https`://www.bing.com/translator?ref=TThis&from=&to=dv&isTTRefreshQuery=1
 	}
+else if(Stack="19g") ; waitSetClipboard 
+	{
+		Button1_Label=waitSetClipboard(value)
+	}
 else
 	{	
 		EditVisible :=1
@@ -5035,7 +5041,7 @@ XButton2::
 		global
 		StringSplit, clipList, clipList, `n, `r
 		clipList_A_Index := clipList0 + 1
-		myTT("Now at end of clipList")
+		;~ myTT("Now at end of clipList")
 	}
 	return
 	
@@ -5178,39 +5184,76 @@ XButton2::
 	mergeClipboard(copy = 1, encodeAsSingleElement = 0, copyResult = 1) {
 		return waitClipboard(copy, 1, encodeAsSingleElement, copyResult)
 	}
+	
+	waitSetClipboard(value) {
+		global clipCounter_g
+		clipCounterBkp := clipCounter_g
+		
+		if(Clipboard != value) {
+			Clipboard := value
+			
+			Loop 100
+			{
+				if(clipCounterBkp != clipCounter_g)
+					break
+				Sleep 10
+				
+				if(A_Index = 100)
+					return 0
+			}
+		}
+		
+		return 1
+	}
 
 	waitClipboard(copy = 1, merge = 0, encodeAsSingleElement = 0, copyResult = 1) {
-		global clipList, clipList_A_Index
+		global clipList, clipList_A_Index, clipCounter_g
 		
-		Sleep 100
+
+		;~ Sleep 100
+		
 		
 		if(copy = 1)
 		{
 			oldClipboard := Clipboard
-			Clipboard=
+			;~ Clipboard=
+			clipCounterBkp := clipCounter_g
 			Send ^c
-			Sleep 100
+			;~ Sleep 100
+		
+		
+			Loop 100
+			{
+				if(clipCounterBkp != clipCounter_g)
+					break
+				Sleep 100
+				
+				if(A_Index = 99)
+					return
+			}
 		}
 		
 		ClipWait, 0.5
 		;~ Send {Esc}
 		
 		if !ErrorLevel
-		{		
-			temp := RegExReplace(Clipboard, "s)^((.*?\R){10}).*", "$1")
+		{	
+			temp := Clipboard
+			preview := RegExReplace(Clipboard, "s)^((.*?\R){10}).*", "$1")
 			
 			if(encodeAsSingleElement)
 			{
-				StringReplace, Clipboard, Clipboard, `t, % chr(254), All
-				StringReplace, Clipboard, Clipboard, `n, % chr(255), All
-				StringReplace, Clipboard, Clipboard, `r,, All
+				StringReplace, temp, temp, `t, % chr(254), All
+				StringReplace, temp, temp, `n, % chr(255), All
+				StringReplace, temp, temp, `r,, All
+				waitSetClipboard(temp)
 			}
 			
 			if(merge){
 				if (clipList != "")
-					clipList .= "`n" Clipboard
+					clipList .= "`n" temp
 				else
-					clipList := Clipboard
+					clipList := temp
 				
 				StringSplit, clipList, clipList, `n, `r
 				
@@ -5223,11 +5266,11 @@ XButton2::
 						else
 							output := clipList%t%
 					}
-					Clipboard := output
+					waitSetClipboard(output)
 				}
 			}
 				
-			myTT(temp)
+			myTT(preview)
 			;~ Send {Esc}{Tab} 
 		}
 		else{
@@ -5237,7 +5280,17 @@ XButton2::
 		
 		return Clipboard
 	}
-
+	
+	ClipChanged(DataType) {
+		global
+		;~ ToolTip Clipboard data type: %DataType%
+		;~ Sleep 1000
+		;~ ToolTip  ; Turn off the tip.
+		;~ Send ^v
+		;~ myTT("Clipboard: " Clipboard)
+		clipCounter_g++
+	}
+	
 
 #if (Stack="15bd") ; sync folders 
 	`::
@@ -8430,13 +8483,16 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0, fo
 			if(!scaffold_row_g)
 				scaffold_row_g := clipBkp
 			
-			if( RegExMatch(scaffold_row_g, "\W") ){
-				Clipboard := scaffold_row_g
-				Sleep 100
+			;~ if( RegExMatch(scaffold_row_g, "\W") ){
+				;~ Clipboard := ""
+				;~ Sleep 10
+				waitSetClipboard(scaffold_row_g)
+				;~ Clipboard := scaffold_row_g
+				;~ waitClipboard(0)
 				Send ^v
-			}else {
-				SendInput {Raw}%scaffold_row_g%
-			}
+			;~ }else {
+				;~ SendInput {Raw}%scaffold_row_g%
+			;~ }
 			Clipboard := scaffold_row_g
 		} else {
 			; clipList is empty so switching to input mode
@@ -8863,7 +8919,7 @@ scaffoldFiles(){
 	; c + k :: CAPITAL_SNAKE_CASE
 	; c + . :: dot.case
 	
-	; d + v :: change scaffold output mode
+	; d + v :: paste
 	; f + o :: TTS characters to SoleAsia
 	; c + o :: previous scaffold
 	; f + n :: Ctrl + Enter
@@ -9145,7 +9201,7 @@ resetModifiers( ignoreKey = "" ){
 		copy()
 		return
 		
-	v:: ; d + v :: change scaffold output mode
+	v:: ; d + v :: paste
 		resetModifiers()
 		scaffold_output_mode := 1
 		scaffoldSingle( scaffold_columns_g, 1, 0, 1 )
@@ -9231,12 +9287,12 @@ resetModifiers( ignoreKey = "" ){
 	b:: ; f + b :: focus VS Code terminal
 		resetModifiers()
 		click 860, 999
-		Sleep 100
-		Send ^c
-		Sleep 100
-		Send {Up}
-		Sleep 100
-		Send {Enter}
+		;~ Sleep 100
+		;~ Send ^c
+		;~ Sleep 100
+		;~ Send {Up}
+		;~ Sleep 100
+		;~ Send {Enter}
 		return
 	
 	n:: ; f + n :: Ctrl + Enter
