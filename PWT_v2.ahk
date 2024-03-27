@@ -8653,13 +8653,13 @@ convertCodeToTemplate(){
 		
 		if(fromClipboard){
 			waitClipboard()
-			
-			StringReplace, Clipboard, Clipboard, % "`            return ", , All
-			StringReplace, Clipboard, Clipboard, % "`;", , All
-			StringReplace, Clipboard, Clipboard, % "`n", , All
-			StringReplace, Clipboard, Clipboard, % "`r", , All
-			Clipboard := Trim(Clipboard)
-			row := replaceMarker()
+			temp := Clipboard
+			StringReplace, temp, temp, % "`            return ", , All
+			StringReplace, temp, temp, % "`;", , All
+			StringReplace, temp, temp, % "`n", , All
+			StringReplace, temp, temp, % "`r", , All
+			temp := Trim(temp)
+			row := replaceMarker(temp)
 		}else{
 			Loop % nRows
 			{
@@ -8675,7 +8675,7 @@ convertCodeToTemplate(){
 		StringReplace, row, row, % chr(255), `n, All
 
 		;~ if(!mergeToClipboard)
-			Clipboard=
+			;~ Clipboard=
 			
 		StringReplace, row, row, </b><br>&nbsp;&nbsp;&nbsp;, `t, All
 		StringReplace, row, row, <br><b>, `n, All
@@ -8684,7 +8684,10 @@ convertCodeToTemplate(){
 		if(!next)
 			myTT(scaffold_row_g)
 		scaffold_row_g := row
-		Clipboard .= row
+		
+		waitSetClipboard(row)
+		;~ Clipboard .= row
+		
 		if(next)
 			myTT(scaffold_row_g)
 		
@@ -8888,7 +8891,8 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
-	; s + x :: undo
+	; s + g :: redo
+	; s + f :: undo
 	; d + s :: cut
 	; d + g :: select all
 	; d + h :: copy words as seperate elements
@@ -9107,9 +9111,14 @@ resetModifiers( ignoreKey = "" ){
 		resetModifiers()
 		return
 	
-	x:: ; s + x :: undo
+	f:: ; s + f :: undo
 		resetModifiers()
 		Send ^z
+		return
+	
+	g:: ; s + g :: redo
+		resetModifiers()
+		Send ^y
 		return
 	
 		
@@ -9349,9 +9358,9 @@ resetModifiers( ignoreKey = "" ){
 		;~ resetModifiers()
 		;~ return
 	
-	+;:: ; f + : :: go to prev reference
-		goToPrevReference()
+	+;:: ; +f + ; :: go to prev reference
 		resetModifiers()
+		goToPrevReference()
 		return
 		
 	;~ +,:: ; f + k :: +Down
