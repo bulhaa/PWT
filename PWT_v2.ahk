@@ -113,7 +113,7 @@ hotkeys := "abcdefghijklmnopqrstuvwxyz "
 loop, Parse, hotkeys
 	registerModifiers(A_LoopField)
 
-lastHotkeys_time_g := 0
+lastNonHotkeys_time_g := 0
 
 OnClipboardChange("ClipChanged")
 return
@@ -5191,6 +5191,7 @@ XButton2::
 		
 		if(Clipboard != value) {
 			Clipboard := value
+			;~ myTT("Clipboard: " Clipboard " value: " value)
 			
 			Loop 100
 			{
@@ -5201,6 +5202,7 @@ XButton2::
 				if(A_Index = 100)
 					return 0
 			}
+			Sleep 50
 		}
 		
 		return 1
@@ -8493,7 +8495,7 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0, fo
 			;~ }else {
 				;~ SendInput {Raw}%scaffold_row_g%
 			;~ }
-			Clipboard := scaffold_row_g
+			;~ Clipboard := scaffold_row_g
 		} else {
 			; clipList is empty so switching to input mode
 			TT_duration = 1000
@@ -8964,11 +8966,6 @@ registerModifiers(key){
     Hotkey $+%key% Up, handleModifiers	
     Hotkey If,
 }
-
-;~ enableHotkey:
-	;~ SetTimer, enableHotkey, Off
-	;~ Stack :="15am"
-;~ return
 		
 handleModifiers( key="", isDown = 0, isShift = 0 ){
 	global
@@ -8984,15 +8981,11 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 	
 	time := A_DD * 24 * 3600 * 1000 + A_Hour * 3600 * 1000 + A_Min * 60 * 1000 + A_Sec * 1000 + A_MSec
 	skip = 0
-	if( (time - lastHotkeys_time_g) < 500 and A_ThisHotkey != lastHotkeys_g)
+	if( (time - lastNonHotkeys_time_g) < 1500 and A_ThisHotkey != lastHotkeys_g)
 		skip = 1
 	
-	  
-	
-	;~ diff := time - lastHotkeys_time_g
-	
-	
-	
+	diff := time - lastNonHotkeys_time_g
+	;~ myTT("diff: " diff)
 	lastHotkeys_g := A_ThisHotkey
 	
 	
@@ -9003,7 +8996,7 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 			%variablePrefix%Pressed_g := 0
 		if( GetKeyState("CapsLock", "T") )
 			%variablePrefix%Pressed_g++
-		resetModifiers(key)
+		resetModifiers(key, 0)
 			
 		if( key != "Space" ){
 			if( %variablePrefix%Pressed_g = 1 )
@@ -9015,11 +9008,9 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 		}
 		
 		if(skip) {
-			lastHotkeys_time_g := time
-			;~ Stack := 0
-			;~ SetTimer, enableHotkey, 500
+			lastNonHotkeys_time_g := time
 			
-	;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " " modifier_active_g)
+			;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " " modifier_active_g)
 			if(!modifier_active_g){
 				SendInput {Raw}%output%
 			}else{
@@ -9033,42 +9024,55 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 		
 		%variablePrefix%PressedAlone_g := 1
 		%variablePrefix%Pressed_g := 1
-		;~ %variablePrefix%PressedWithShift_g := GetKeyState("Shift")
 		modifier_active_g++
 		return
 	}
 	
 	if( %variablePrefix%Pressed_g ){
-		;~ if( !%variablePrefix%PressedWithShift_g )
-			;~ %variablePrefix%Pressed_g := 0
-		;~ if( GetKeyState("CapsLock", "T") )
-			;~ %variablePrefix%Pressed_g++
-		;~ if(%variablePrefix%PressedAlone_g){
-			;~ resetModifiers(key)
-			;~ if( key != "Space" ){
-				;~ if( %variablePrefix%Pressed_g = 1 )
-					;~ Send % capitalCase(key)
-				;~ else
-					;~ Send %key%
-			;~ } else {
-				;~ Send {Space}
+		skip_g := skip
+		SetTimer, handleUp, 1
+		;~ if(!skip) {
+		;~ } else {
+			; myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " mod" )
+			
+			;~ if(%variablePrefix%PressedAlone_g){
+				;~ lastNonHotkeys_time_g := time
+				;~ SendInput {Raw}%key_output_buffer_g%
 			;~ }
+			;~ key_output_buffer_g := ""
+			;~ %variablePrefix%Pressed_g := 0
+			;~ modifier_active_g = 0
 		;~ }
-		
-		
-	;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " mod" )
-		
-		if(%variablePrefix%PressedAlone_g){
-			lastHotkeys_time_g := time
-			SendInput {Raw}%key_output_buffer_g%
-		}
-		key_output_buffer_g := ""
-		%variablePrefix%Pressed_g := 0
-		modifier_active_g = 0
 	}
 }
-		
-resetModifiers( ignoreKey = "" ){
+
+
+handleUp() {
+	global
+	
+	SetTimer, handleUp, Off  ; i.e. the timer turns itself off here.
+	myTT("variablePrefix: " variablePrefix)
+	
+	if(!skip_g) {
+		loop 50
+		{
+			if(!%variablePrefix%Pressed_g){
+				break
+			}
+			sleep 10
+		}
+	}
+	
+	if(%variablePrefix%PressedAlone_g){
+		lastNonHotkeys_time_g := time
+		SendInput {Raw}%key_output_buffer_g%
+	}
+	key_output_buffer_g := ""
+	%variablePrefix%Pressed_g := 0
+	modifier_active_g = 0
+}
+
+resetModifiers( ignoreKey = "", resetTime = 1 ){
 	global
 	;~ if( ignoreKey != "d" and ignoreKey != "f" )
 		;~ return
@@ -9084,8 +9088,19 @@ resetModifiers( ignoreKey = "" ){
 	if( ignoreKey != "c" )
 		cPressedAlone_g := 0
 	
+	hotkeys := "abcdefghijklmnopqrstuvwxyz"
+	loop, Parse, hotkeys
+	{
+		if(%A_LoopField%Pressed_g){
+			if !GetKeyState(A_LoopField, "P")
+				%A_LoopField%Pressed_g := 0
+		}
+	}
+
+	
 	key_output_buffer_g := ""
-	lastHotkeys_time_g = 0
+	;~ if(resetTime)
+		;~ lastNonHotkeys_time_g = 0
 	;~ myTT("resetModifiers: " resetModifiers)
 }
 	
