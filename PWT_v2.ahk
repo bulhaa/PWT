@@ -9031,18 +9031,6 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 	if( %variablePrefix%Pressed_g ){
 		skip_g := skip
 		SetTimer, handleUp, 1
-		;~ if(!skip) {
-		;~ } else {
-			; myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " mod" )
-			
-			;~ if(%variablePrefix%PressedAlone_g){
-				;~ lastNonHotkeys_time_g := time
-				;~ SendInput {Raw}%key_output_buffer_g%
-			;~ }
-			;~ key_output_buffer_g := ""
-			;~ %variablePrefix%Pressed_g := 0
-			;~ modifier_active_g = 0
-		;~ }
 	}
 }
 
@@ -9072,21 +9060,23 @@ handleUp() {
 	modifier_active_g = 0
 }
 
-resetModifiers( ignoreKey = "", resetTime = 1 ){
+resetModifiers( ignoreKey = "", up = 1 ){
 	global
 	;~ if( ignoreKey != "d" and ignoreKey != "f" )
 		;~ return
 	
-	if( ignoreKey != "s" )
-		sPressedAlone_g := 0
-	if( ignoreKey != "d" )
-		dPressedAlone_g := 0
-	if( ignoreKey != "f" )
-		fPressedAlone_g := 0
-	if( ignoreKey != "g" )
-		gPressedAlone_g := 0
-	if( ignoreKey != "c" )
-		cPressedAlone_g := 0
+	;~ if(up){
+		if( ignoreKey != "s" )
+			sPressedAlone_g := 0
+		if( ignoreKey != "d" )
+			dPressedAlone_g := 0
+		if( ignoreKey != "f" )
+			fPressedAlone_g := 0
+		if( ignoreKey != "g" )
+			gPressedAlone_g := 0
+		if( ignoreKey != "c" )
+			cPressedAlone_g := 0
+	;~ }
 	
 	hotkeys := "abcdefghijklmnopqrstuvwxyz"
 	loop, Parse, hotkeys
@@ -9134,6 +9124,11 @@ resetModifiers( ignoreKey = "", resetTime = 1 ){
 	g:: ; s + g :: redo
 		resetModifiers()
 		Send ^y
+		return
+	
+	s:: ; s + s :: test
+		resetModifiers()
+		MyTT("test2")
 		return
 	
 		
