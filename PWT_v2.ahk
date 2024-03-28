@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;"
 loadStacks()
 
 
@@ -3086,6 +3086,10 @@ else if(Stack="19g") ; waitSetClipboard
 	{
 		Button1_Label=waitSetClipboard(value)
 	}
+else if(Stack="19h") ; white noise generator 
+	{
+		Button1_Label=https`://mynoise.net/NoiseMachines/whiteNoiseGenerator.php
+	}
 else
 	{	
 		EditVisible :=1
@@ -5228,9 +5232,9 @@ XButton2::
 			{
 				if(clipCounterBkp != clipCounter_g)
 					break
-				Sleep 100
+				Sleep 10
 				
-				if(A_Index = 99)
+				if(A_Index = 100)
 					return
 			}
 		}
@@ -9042,7 +9046,7 @@ handleUp() {
 	SetTimer, handleUp, Off  ; i.e. the timer turns itself off here.
 	;~ myTT("variablePrefix: " variablePrefix)
 	
-	if(!skip_g) {
+	if(!skip_g and !prevWindowActive_g) {
 		loop 50
 		{
 			if(!%variablePrefix%Pressed_g){
@@ -11425,11 +11429,13 @@ return
 	}
 
 	goToPreviousWindow2(){
+		global prevWindowActive_g
 		result:= shiftwin(2)
 
 		sleep 50
 		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
 		{
+			prevWindowActive_g := 1
 			accent := 0
 			alt := 0
 			
@@ -11449,6 +11455,7 @@ return
 			}
 			sleep 10
 		}
+		prevWindowActive_g := 0
 	}
 
 #IfWinNotActive, Decision Tree v2 ahk_class AutoHotkeyGUI
