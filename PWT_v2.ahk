@@ -9040,7 +9040,7 @@ handleUp() {
 	global
 	
 	SetTimer, handleUp, Off  ; i.e. the timer turns itself off here.
-	myTT("variablePrefix: " variablePrefix)
+	;~ myTT("variablePrefix: " variablePrefix)
 	
 	if(!skip_g) {
 		loop 50
