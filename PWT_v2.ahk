@@ -8996,7 +8996,7 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 			%variablePrefix%Pressed_g := 0
 		if( GetKeyState("CapsLock", "T") )
 			%variablePrefix%Pressed_g++
-		resetModifiers(key, 0)
+		;~ resetModifiers(key, 0)
 			
 		if( key != "Space" ){
 			if( %variablePrefix%Pressed_g = 1 )
@@ -9030,7 +9030,8 @@ handleModifiers( key="", isDown = 0, isShift = 0 ){
 	
 	if( %variablePrefix%Pressed_g ){
 		skip_g := skip
-		SetTimer, handleUp, 1
+		handleUp()
+		;~ SetTimer, handleUp, 1
 	}
 }
 
@@ -9077,6 +9078,12 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		if( ignoreKey != "c" )
 			cPressedAlone_g := 0
 	;~ }
+
+	
+	key_output_buffer_g := ""
+	;~ if(resetTime)
+		;~ lastNonHotkeys_time_g = 0
+	;~ myTT("resetModifiers: " resetModifiers)
 	
 	hotkeys := "abcdefghijklmnopqrstuvwxyz"
 	loop, Parse, hotkeys
@@ -9086,12 +9093,6 @@ resetModifiers( ignoreKey = "", up = 1 ){
 				%A_LoopField%Pressed_g := 0
 		}
 	}
-
-	
-	key_output_buffer_g := ""
-	;~ if(resetTime)
-		;~ lastNonHotkeys_time_g = 0
-	;~ myTT("resetModifiers: " resetModifiers)
 }
 	
 		
