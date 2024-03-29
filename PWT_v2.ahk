@@ -3302,6 +3302,180 @@ else
 	
 #if (Stack="18a") ; functions
 
+	handleModifiers( key="", isDown = 0, isShift = 0 ){
+		global
+		local skip
+		
+		StringReplace, key, A_ThisHotkey, % " Up"
+		key := RegExReplace(key, "^[^A-z 0-9]*([A-z 0-9]+).*", "$1")
+		if( RegExMatch(key, "[^a-z]") )
+			variablePrefix := "g_" ( key = " " ? "Space" : key )
+		else
+			variablePrefix := key
+		
+		
+		time := A_DD * 24 * 3600 * 1000 + A_Hour * 3600 * 1000 + A_Min * 60 * 1000 + A_Sec * 1000 + A_MSec
+		skip = 0
+		if( (time - lastNonHotkeys_time_g) < 1500 and A_ThisHotkey != lastHotkeys_g)
+		;~ if( lastNonHotkeys_time_g )
+			skip = 1
+		
+		diff := time - lastNonHotkeys_time_g
+		lastHotkeys_g := A_ThisHotkey
+		
+		
+		
+		if( !InStr(A_ThisHotkey, " Up") ){
+			%variablePrefix%Pressed_g = 1
+			if( !GetKeyState("Shift") )
+				%variablePrefix%Pressed_g := 0
+			if( GetKeyState("CapsLock", "T") )
+				%variablePrefix%Pressed_g++
+				
+			if( key != "Space" ){
+				if( %variablePrefix%Pressed_g = 1 )
+					output := capitalCase(key)
+				else
+					output := key
+			} else {
+				output := " "
+			}
+			
+			if(skip) {
+				lastNonHotkeys_time_g := time
+				
+				;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " " modifier_active_g)
+				if(!modifier_active_g){
+					SendInput {Raw}%output%
+				}else{
+					key_output_buffer_g := key_output_buffer_g . output
+				}
+				return
+			}
+			
+			key_output_buffer_g := key_output_buffer_g . output
+			
+			if( !%variablePrefix%Pressed_g )
+				allowDouble%variablePrefix%_g = 0
+			
+			%variablePrefix%PressedAlone_g := 1
+			%variablePrefix%Pressed_g := 1
+			modifier_active_g++
+			return
+		}
+		
+		if( %variablePrefix%Pressed_g ){
+			allowDouble%variablePrefix%_g = 1
+			skip_g := skip
+			handleUp()
+			;~ SetTimer, handleUp, 1
+		}
+	}
+
+
+	handleUp() {
+		global
+		local variablePrefix_l
+		
+		variablePrefix_l := variablePrefix
+		
+		SetTimer, handleUp, Off  
+		
+		if(!skip_g and !prevWindowActive_g) {
+			loop 50
+			{
+				if(!%variablePrefix_l%PressedAlone_g){
+					break
+				}
+				sleep 10
+			}
+		}
+		
+		if(%variablePrefix_l%PressedAlone_g){
+			lastNonHotkeys_time_g := time
+			SendInput {Raw}%key_output_buffer_g%
+		}
+		key_output_buffer_g := ""
+		modifier_active_g = 0
+		checkKeyPressed()
+	}
+
+	checkKeyPressed() {
+		global
+		
+		hotkeys := "abcdefghijklmnopqrstuvwxyz"
+		loop, Parse, hotkeys
+		{
+			if(%A_LoopField%Pressed_g){
+				if !GetKeyState(A_LoopField, "P")
+					%A_LoopField%Pressed_g := 0
+			}
+		}
+	}
+
+	resetModifiers( ignoreKey = "", up = 1 ){
+		global
+		
+		hotkeys := "abcdefghijklmnopqrstuvwxyz"
+		loop, Parse, hotkeys
+		{
+			if( ignoreKey != A_LoopField )
+				%A_LoopField%PressedAlone_g := 0
+		}
+
+		;~ if( ignoreKey != "s" )
+			;~ sPressedAlone_g := 0
+		;~ if( ignoreKey != "d" )
+			;~ dPressedAlone_g := 0
+		;~ if( ignoreKey != "f" )
+			;~ fPressedAlone_g := 0
+		;~ if( ignoreKey != "g" )
+			;~ gPressedAlone_g := 0
+		;~ if( ignoreKey != "l" )
+			;~ lPressedAlone_g := 0
+		;~ if( ignoreKey != "c" )
+			;~ cPressedAlone_g := 0
+
+		
+		key_output_buffer_g := ""
+		lastNonHotkeys_time_g = 0
+		modifier_active_g = 0
+		
+		checkKeyPressed()
+	}
+		
+		
+	consoleLog() {
+		global
+		if( allowDoubleD_g ) {
+			allowDoubleD_g = 0
+			resetModifiers()
+		
+			;~ waitClipboard()
+			;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
+			
+			if( WinActive("ahk_exe SciTE.exe") )
+				runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
+			else
+				runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
+			Send ^v
+		}
+	}
+		
+	toggleBetweenHotkeyAndTyping() {
+		global
+		time := A_DD * 24 * 3600 * 1000 + A_Hour * 3600 * 1000 + A_Min * 60 * 1000 + A_Sec * 1000 + A_MSec
+		skip = 0
+		if( (time - lastNonHotkeys_time_g) < 1500) {
+		;~ if( lastNonHotkeys_time_g ) {
+			lastNonHotkeys_time_g := 0
+			MyTT("Hotkey")
+		} else {
+			lastNonHotkeys_time_g := time
+			MyTT("Typing")
+		}
+	}
+
 	copyWordsAsSeperateElements() {
 		global
 		resetModifiers()
@@ -8897,13 +9071,24 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
-	; s + g :: redo
-	; s + f :: undo
-	; d + s :: cut
-	; d + g :: select all
+	; e + f :: chrome
+	; e + d :: VS Code
+	; e + s :: scite
+	; e + a :: git kraken
+	
+	; r + r :: ^h replace
+	; g + g :: ^f find
+	; j + j :: square brackets
+	; k + k :: curly brackets
+	; l + l :: ; semicolon
+	; f + f :: Enter
+	; s + g :: ^y redo
+	; s + f :: ^z undo
+	; d + s :: ^x cut
+	; d + g :: ^a select all
 	; d + h :: copy words as seperate elements
 	; f + h :: copy as separate elements
-	; d + c :: copy
+	; d + c :: ^c copy
 	; d + . :: share code to social media
 	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
@@ -8915,8 +9100,8 @@ scaffoldFiles(){
 	
 	; f + p :: HTML tag expander
 	; d + o :: Arrow function
-	; d + ; :: Send accent
-	; d + m :: console log
+	; i + i :: Send accent
+	; d + d :: console log
 
 	; c + - :: kebab-case
 	; +c + - :: snake_case
@@ -8929,21 +9114,19 @@ scaffoldFiles(){
 	; c + k :: CAPITAL_SNAKE_CASE
 	; c + . :: dot.case
 	
-	; d + v :: paste
+	; d + v :: ^v paste
 	; f + o :: TTS characters to SoleAsia
 	; c + o :: previous scaffold
 	; f + n :: Ctrl + Enter
 
-	; f + ; :: go to reference
-	; +f + ; :: go to prev reference
+	; f + c :: go to reference
+	; f + v :: go to prev reference
 	
+	; c + p :: convert code to template
 	
-	^+`:: convertCodeToTemplate() ; convert code to template
-	
-	+`:: insertPlaceholder() ; insert placeholder
+	; s + s :: insert placeholder
 	
 	; f + u :: surround selection by quotes
-	
 	
 	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
 	; f + m :: scaffold merge all
@@ -8951,6 +9134,8 @@ scaffoldFiles(){
 	
 	
 	; f + j :: Left
+	
+	`;:: toggleBetweenHotkeyAndTyping()
 
 	F1:: handleF1() ; free code camp submit or go to reference
 
@@ -8970,135 +9155,47 @@ registerModifiers(key){
     Hotkey $+%key% Up, handleModifiers	
     Hotkey If,
 }
-		
-handleModifiers( key="", isDown = 0, isShift = 0 ){
-	global
-	local skip
-	
-	StringReplace, key, A_ThisHotkey, % " Up"
-	key := RegExReplace(key, "^[^A-z 0-9]*([A-z 0-9]+).*", "$1")
-	if( RegExMatch(key, "[^a-z]") )
-		variablePrefix := "g_" ( key = " " ? "Space" : key )
-	else
-		variablePrefix := key
-	
-	
-	time := A_DD * 24 * 3600 * 1000 + A_Hour * 3600 * 1000 + A_Min * 60 * 1000 + A_Sec * 1000 + A_MSec
-	skip = 0
-	if( (time - lastNonHotkeys_time_g) < 1500 and A_ThisHotkey != lastHotkeys_g)
-		skip = 1
-	
-	diff := time - lastNonHotkeys_time_g
-	;~ myTT("diff: " diff)
-	lastHotkeys_g := A_ThisHotkey
-	
-	
-	
-	if( !InStr(A_ThisHotkey, " Up") ){
-		%variablePrefix%Pressed_g = 1
-		if( !GetKeyState("Shift") )
-			%variablePrefix%Pressed_g := 0
-		if( GetKeyState("CapsLock", "T") )
-			%variablePrefix%Pressed_g++
-		;~ resetModifiers(key, 0)
-			
-		if( key != "Space" ){
-			if( %variablePrefix%Pressed_g = 1 )
-				output := capitalCase(key)
-			else
-				output := key
-		} else {
-			output := " "
-		}
-		
-		if(skip) {
-			lastNonHotkeys_time_g := time
-			
-			;~ myTT(key " " skip " " key_output_buffer_g " " diff " " A_ThisHotkey " " modifier_active_g)
-			if(!modifier_active_g){
-				SendInput {Raw}%output%
-			}else{
-				key_output_buffer_g := key_output_buffer_g . output
-			}
-			return
-		}
-		
-		key_output_buffer_g := key_output_buffer_g . output
-			
-		
-		%variablePrefix%PressedAlone_g := 1
-		%variablePrefix%Pressed_g := 1
-		modifier_active_g++
+
+
+#if (Stack="15am" and ePressed_g) ; scaffolding mode + e
+	f:: ; e + f :: chrome
+		resetModifiers()
+		WinActivate, ahk_exe chrome.exe
 		return
-	}
-	
-	if( %variablePrefix%Pressed_g ){
-		skip_g := skip
-		handleUp()
-		;~ SetTimer, handleUp, 1
-	}
-}
 
+	d:: ; e + d :: VS Code
+		resetModifiers()
+		WinActivate, ahk_exe Code.exe
+		return
 
-handleUp() {
-	global
-	
-	SetTimer, handleUp, Off  ; i.e. the timer turns itself off here.
-	;~ myTT("variablePrefix: " variablePrefix)
-	
-	if(!skip_g and !prevWindowActive_g) {
-		loop 50
-		{
-			if(!%variablePrefix%Pressed_g){
-				break
-			}
-			sleep 10
+	s:: ; e + s :: scite
+		resetModifiers()
+		WinActivate, ahk_exe SciTE.exe
+		return
+
+	a:: ; e + a :: git kraken
+		resetModifiers()
+		WinActivate, ahk_exe gitkraken.exe
+		return
+
+#if (Stack="15am" and rPressed_g) ; scaffolding mode + r
+	r:: ; r + r :: ^h replace
+		if( allowDoubleR_g ) {
+			allowDoubleR_g = 0
+			resetModifiers()
+			Send ^h
 		}
-	}
-	
-	if(%variablePrefix%PressedAlone_g){
-		lastNonHotkeys_time_g := time
-		SendInput {Raw}%key_output_buffer_g%
-	}
-	key_output_buffer_g := ""
-	%variablePrefix%Pressed_g := 0
-	modifier_active_g = 0
-}
+		return
 
-resetModifiers( ignoreKey = "", up = 1 ){
-	global
-	;~ if( ignoreKey != "d" and ignoreKey != "f" )
-		;~ return
-	
-	;~ if(up){
-		if( ignoreKey != "s" )
-			sPressedAlone_g := 0
-		if( ignoreKey != "d" )
-			dPressedAlone_g := 0
-		if( ignoreKey != "f" )
-			fPressedAlone_g := 0
-		if( ignoreKey != "g" )
-			gPressedAlone_g := 0
-		if( ignoreKey != "c" )
-			cPressedAlone_g := 0
-	;~ }
 
-	
-	key_output_buffer_g := ""
-	;~ if(resetTime)
-		;~ lastNonHotkeys_time_g = 0
-	;~ myTT("resetModifiers: " resetModifiers)
-	
-	hotkeys := "abcdefghijklmnopqrstuvwxyz"
-	loop, Parse, hotkeys
-	{
-		if(%A_LoopField%Pressed_g){
-			if !GetKeyState(A_LoopField, "P")
-				%A_LoopField%Pressed_g := 0
+#if (Stack="15am" and iPressed_g) ; scaffolding mode + i
+	i:: ; i + i :: Send accent
+		if( allowDoubleI_g ) {
+			allowDoubleI_g = 0
+			resetModifiers()
+			Send ``
 		}
-	}
-}
-	
+		return
 		
 #if (Stack="15am" and sPressed_g) ; scaffolding mode + s
 	i:: ; s + i :: +Page Up
@@ -9121,19 +9218,22 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		resetModifiers()
 		return
 	
-	f:: ; s + f :: undo
+	f:: ; s + f :: ^z undo
 		resetModifiers()
 		Send ^z
 		return
 	
-	g:: ; s + g :: redo
+	g:: ; s + g :: ^y redo
 		resetModifiers()
 		Send ^y
 		return
 	
-	s:: ; s + s :: test
-		resetModifiers()
-		MyTT("test2")
+	s:: ; s + s :: insert placeholder
+		if( allowDoubleS_g ) {
+			allowDoubleS_g = 0
+			resetModifiers()
+			insertPlaceholder()
+		}
 		return
 	
 		
@@ -9159,6 +9259,7 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		return
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
+		
 	u:: ; d + u :: decode lines and tabs wrapper
 		decodeLinesAndTabsWrapper()
 		resetModifiers()
@@ -9182,9 +9283,13 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		resetModifiers()
 		return
 
-	s:: ; d + s :: cut
+	s:: ; d + s :: ^x cut
 		resetModifiers()
 		Send ^x
+		return
+	
+	d:: ; d + d :: console log
+		consoleLog()
 		return
 
 	f:: ; d + f :: go to previous window
@@ -9192,7 +9297,7 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		goToPreviousWindow2()
 		return
 	
-	g:: ; d + g :: select all
+	g:: ; d + g :: ^a select all
 		resetModifiers()
 		Send ^a
 		return
@@ -9215,17 +9320,12 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		Send {Shift Down}{Right}{Shift Up}
 		resetModifiers()
 		return
-
-	`;:: ; d + ; :: Send accent
-		Send ``
-		resetModifiers()
-		return
 	
-	c:: ; d + c :: copy
+	c:: ; d + c :: ^c copy
 		copy()
 		return
 		
-	v:: ; d + v :: paste
+	v:: ; d + v :: ^v paste
 		resetModifiers()
 		scaffold_output_mode := 1
 		scaffoldSingle( scaffold_columns_g, 1, 0, 1 )
@@ -9241,17 +9341,6 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		reloadVueFile()
 		return
 	
-	m:: ; d + m :: console log
-		resetModifiers()
-		
-		;~ waitClipboard()
-		;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
-		
-		runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
-		;~ runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
-		Send ^v
-		return
-	
 	,:: ; d + , :: pixel dev wait pixel
 		pixelDevWaitPixel()
 		resetModifiers()
@@ -9263,11 +9352,12 @@ resetModifiers( ignoreKey = "", up = 1 ){
 	
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
+
 	u:: ; f + u :: surround selection by quotes
 		surroundSelectionByQuotes()
 		resetModifiers()
 		return
-	
+
 	i:: ; f + i :: Up
 		Send {Up}
 		resetModifiers()
@@ -9281,6 +9371,14 @@ resetModifiers( ignoreKey = "", up = 1 ){
 	p:: ; f + p :: HTML tag expander
 		resetModifiers()
 		htmlTagExpander()
+		return
+	
+	f:: ; f + f :: Enter
+		if( allowDoubleF_g ) {
+			allowDoubleF_g = 0
+			resetModifiers()
+			Send {Enter}
+		}
 		return
 	
 	h:: ; f + h :: copy as separate elements
@@ -9303,20 +9401,20 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		resetModifiers()
 		return
 
-	`;:: ; f + ; :: go to reference
-		goToReference()
+	c:: ; f + c :: go to reference
 		resetModifiers()
+		goToReference()
 		return
 	
 	b:: ; f + b :: focus VS Code terminal
 		resetModifiers()
 		click 860, 999
-		;~ Sleep 100
-		;~ Send ^c
-		;~ Sleep 100
-		;~ Send {Up}
-		;~ Sleep 100
-		;~ Send {Enter}
+		Sleep 100
+		Send ^c
+		Sleep 100
+		Send {Up}
+		Sleep 100
+		Send {Enter}
 		return
 	
 	n:: ; f + n :: Ctrl + Enter
@@ -9373,7 +9471,7 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		;~ resetModifiers()
 		;~ return
 	
-	+;:: ; +f + ; :: go to prev reference
+	v:: ; f + v :: go to prev reference
 		resetModifiers()
 		goToPrevReference()
 		return
@@ -9394,6 +9492,14 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		resetModifiers()
 		Send {PGUP}
 		return
+		
+	g:: ; g + g :: ^f find
+		if( allowDoubleG_g ) {
+			allowDoubleG_g = 0
+			resetModifiers()
+			Send ^f
+		}
+		return
 	
 	j:: ; g + j :: Home
 		resetModifiers()
@@ -9410,6 +9516,36 @@ resetModifiers( ignoreKey = "", up = 1 ){
 		Send {End}
 		return
 
+
+#if (Stack="15am" and jPressed_g) ; scaffolding mode + j
+	j:: ; j + j :: square brackets
+		if( allowDoubleJ_g ) {
+			allowDoubleJ_g = 0
+			resetModifiers()
+			Send [
+		}
+		return
+
+
+#if (Stack="15am" and kPressed_g) ; scaffolding mode + k
+	k:: ; k + k :: curly brackets
+		if( allowDoubleK_g ) {
+			allowDoubleK_g = 0
+			resetModifiers()
+			t := "{"
+			SendInput {Raw}%t%
+		}
+		return
+
+
+#if (Stack="15am" and lPressed_g) ; scaffolding mode + l
+	l:: ; l + l :: ; semicolon
+		if( allowDoubleL_g ) {
+			allowDoubleL_g = 0
+			resetModifiers()
+			Send `;
+		}
+		return
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
 	-:: ; c + - :: kebab-case
@@ -9439,6 +9575,11 @@ resetModifiers( ignoreKey = "", up = 1 ){
 	o:: ; c + o :: previous scaffold
 		resetModifiers()
 		printUsingScaffold( "", 1, -1, 0) ; previous
+		return
+	
+	p:: ; c + p :: convert code to template
+		resetModifiers()
+		convertCodeToTemplate()
 		return
 	
 	h:: ; c + h :: All Title Case
@@ -11441,8 +11582,8 @@ return
 			
 			if GetKeyState("D", "P")
 				accent := 1
-			if GetKeyState("C", "P")
-				alt := 1
+			;~ if GetKeyState("C", "P")
+				;~ alt := 1
 			
 			if(alt and accent)
 				WinActivate, % "ahk_id " result.3
