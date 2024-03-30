@@ -9076,6 +9076,7 @@ scaffoldFiles(){
 	; e + s :: scite
 	; e + a :: git kraken
 	
+	; c + c :: ^/ comment
 	; r + r :: ^h replace
 	; g + g :: ^f find
 	; j + j :: square brackets
@@ -9604,6 +9605,14 @@ registerModifiers(key){
 		capitalSnakeCase()
 		Send ^v
 		resetModifiers()
+		return
+		
+	c:: ; c + c :: ^/ comment
+		if( allowDoubleC_g ) {
+			allowDoubleC_g = 0
+			resetModifiers()
+			Send ^/
+		}
 		return
 	
 	n:: ; c + n :: Title case
