@@ -8570,6 +8570,9 @@ waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1
 
 
 saveCodeAndRefreshChrome(){
+	Send ^s
+	Sleep 100
+	
 	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
 		if( WinExist("Visualize Data with a Treemap Diagram - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
 			if( requireWinActive("Visualize Data with a Treemap Diagram - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
@@ -9071,6 +9074,10 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; t + t :: focus VS Code terminal
+	; s + s :: ^s save
+	; a + a :: insert placeholder
+	; e + e :: Up
 	; e + f :: chrome
 	; e + d :: VS Code
 	; e + s :: scite
@@ -9079,8 +9086,8 @@ scaffoldFiles(){
 	; c + c :: ^/ comment
 	; r + r :: ^h replace
 	; g + g :: ^f find
-	; j + j :: square brackets
-	; k + k :: curly brackets
+	;~ ; j + j :: square brackets
+	;~ ; k + k :: curly brackets
 	; l + l :: ; semicolon
 	; f + f :: Enter
 	; s + g :: ^y redo
@@ -9096,7 +9103,6 @@ scaffoldFiles(){
 	; f + . :: scaffold clipboard
 	; d + f :: go to previous window
 	; f + , :: focus VS Code Editor
-	; f + b :: focus VS Code terminal
 	; +f + b :: focus VS Code terminal2
 	
 	; f + p :: HTML tag expander
@@ -9124,8 +9130,6 @@ scaffoldFiles(){
 	; f + v :: go to prev reference
 	
 	; c + p :: convert code to template
-	
-	; s + s :: insert placeholder
 	
 	; f + u :: surround selection by quotes
 	
@@ -9159,6 +9163,14 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and ePressed_g) ; scaffolding mode + e
+	e:: ; e + e :: Up
+		if( allowDoubleE_g ) {
+			allowDoubleE_g = 0
+			resetModifiers()
+			Send {Up}
+		}
+		return
+		
 	f:: ; e + f :: chrome
 		resetModifiers()
 		WinActivate, ahk_exe chrome.exe
@@ -9188,6 +9200,21 @@ registerModifiers(key){
 		}
 		return
 
+#if (Stack="15am" and tPressed_g) ; scaffolding mode + t
+	t:: ; t + t :: focus VS Code terminal
+		if( allowDoubleT_g ) {
+			allowDoubleT_g = 0
+			resetModifiers()
+			click 860, 999
+			Sleep 100
+			Send ^c
+			Sleep 100
+			Send {Up}
+			Sleep 100
+			Send {Enter}
+		}
+		return
+
 
 #if (Stack="15am" and iPressed_g) ; scaffolding mode + i
 	i:: ; i + i :: Send accent
@@ -9195,6 +9222,16 @@ registerModifiers(key){
 			allowDoubleI_g = 0
 			resetModifiers()
 			Send ``
+		}
+		return
+
+
+#if (Stack="15am" and aPressed_g) ; scaffolding mode + a
+	a:: ; a + a :: insert placeholder
+		if( allowDoubleA_g ) {
+			allowDoubleA_g = 0
+			resetModifiers()
+			insertPlaceholder()
 		}
 		return
 		
@@ -9229,11 +9266,11 @@ registerModifiers(key){
 		Send ^y
 		return
 	
-	s:: ; s + s :: insert placeholder
+	s:: ; s + s :: ^s save
 		if( allowDoubleS_g ) {
 			allowDoubleS_g = 0
 			resetModifiers()
-			insertPlaceholder()
+			saveCodeAndRefreshChrome()
 		}
 		return
 	
@@ -9407,17 +9444,6 @@ registerModifiers(key){
 		goToReference()
 		return
 	
-	b:: ; f + b :: focus VS Code terminal
-		resetModifiers()
-		click 860, 999
-		Sleep 100
-		Send ^c
-		Sleep 100
-		Send {Up}
-		Sleep 100
-		Send {Enter}
-		return
-	
 	n:: ; f + n :: Ctrl + Enter
 		resetModifiers()
 		Send {Ctrl Down}{Enter}{Ctrl Up}
@@ -9583,14 +9609,14 @@ registerModifiers(key){
 		convertCodeToTemplate()
 		return
 	
-	h:: ; c + h :: All Title Case
-		allTitleCase()
+	f:: ; c + f :: lower case
+		lowerCase()
 		Send ^v
 		resetModifiers()
 		return
 	
-	l:: ; c + l :: lower case
-		lowerCase()
+	h:: ; c + h :: All Title Case
+		allTitleCase()
 		Send ^v
 		resetModifiers()
 		return
@@ -11661,4 +11687,4 @@ return
 		;~ printUsingScaffold("")
 	;~ return
 
-	~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
+	;~ ~^s:: saveCodeAndRefreshChrome() ;save code and refresh chrome
