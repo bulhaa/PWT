@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;"
 loadStacks()
 
 
@@ -3090,6 +3090,10 @@ else if(Stack="19h") ; white noise generator
 	{
 		Button1_Label=https`://mynoise.net/NoiseMachines/whiteNoiseGenerator.php
 	}
+else if(Stack="19i") ; phind find ai chat bot 
+	{
+		Button1_Label=https`://www.phind.com/
+	}
 else
 	{	
 		EditVisible :=1
@@ -3456,6 +3460,8 @@ else
 			
 			if( WinActive("ahk_exe SciTE.exe") )
 				runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
+			else if( WinActive("\.py") )
+				runScaffold( "print('? value1 ?`: ', ? value1 ?)", Clipboard)
 			else
 				runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
 			Send ^v
@@ -9074,6 +9080,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; d + a :: peek prev tab
 	; t + t :: focus VS Code terminal
 	; s + s :: ^s save
 	; a + a :: insert placeholder
@@ -9101,7 +9108,7 @@ scaffoldFiles(){
 	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
 	; f + . :: scaffold clipboard
-	; d + f :: go to previous window
+	; d + f :: peek previous window
 	; f + , :: focus VS Code Editor
 	; +f + b :: focus VS Code terminal2
 	
@@ -9321,16 +9328,31 @@ registerModifiers(key){
 		resetModifiers()
 		return
 
+	a:: ; d + a :: peek prev tab
+		resetModifiers()
+		Send ^{Tab}
+		
+		sleep 50
+		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
+		{
+			if !GetKeyState("d", "P") {
+				Send ^{Tab}
+				break
+			}	
+			sleep 10
+		}
+		return
+
 	s:: ; d + s :: ^x cut
 		resetModifiers()
 		Send ^x
 		return
-	
+		
 	d:: ; d + d :: console log
 		consoleLog()
 		return
 
-	f:: ; d + f :: go to previous window
+	f:: ; d + f :: peek previous window
 		resetModifiers()
 		goToPreviousWindow2()
 		return
