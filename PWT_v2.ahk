@@ -9085,6 +9085,7 @@ scaffoldFiles(){
 	; s + s :: ^s save
 	; a + a :: insert placeholder
 	; e + e :: Up
+	
 	; e + f :: chrome
 	; e + d :: VS Code
 	; e + s :: scite
@@ -9093,8 +9094,6 @@ scaffoldFiles(){
 	; c + c :: ^/ comment
 	; r + r :: ^h replace
 	; g + g :: ^f find
-	;~ ; j + j :: square brackets
-	;~ ; k + k :: curly brackets
 	; l + l :: ; semicolon
 	; f + f :: Enter
 	; s + g :: ^y redo
@@ -9129,7 +9128,7 @@ scaffoldFiles(){
 	; c + . :: dot.case
 	
 	; d + v :: ^v paste
-	; f + o :: TTS characters to SoleAsia
+	; f + r :: TTS characters to SoleAsia
 	; c + o :: previous scaffold
 	; f + n :: Ctrl + Enter
 
@@ -9345,6 +9344,7 @@ registerModifiers(key){
 
 	s:: ; d + s :: ^x cut
 		resetModifiers()
+		copy()
 		Send ^x
 		return
 		
@@ -9412,6 +9412,11 @@ registerModifiers(key){
 	
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
+	
+	r:: ; f + r :: TTS characters to SoleAsia
+		resetModifiers()
+		ttsCharactersToSoleasia()
+		return
 
 	u:: ; f + u :: surround selection by quotes
 		surroundSelectionByQuotes()
@@ -9421,11 +9426,6 @@ registerModifiers(key){
 	i:: ; f + i :: Up
 		Send {Up}
 		resetModifiers()
-		return
-	
-	o:: ; f + o :: TTS characters to SoleAsia
-		resetModifiers()
-		ttsCharactersToSoleasia()
 		return
 	
 	p:: ; f + p :: HTML tag expander
@@ -9566,25 +9566,25 @@ registerModifiers(key){
 		return
 
 
-#if (Stack="15am" and jPressed_g) ; scaffolding mode + j
-	j:: ; j + j :: square brackets
-		if( allowDoubleJ_g ) {
-			allowDoubleJ_g = 0
-			resetModifiers()
-			Send [
-		}
-		return
+;~ #if (Stack="15am" and jPressed_g) ; scaffolding mode + j
+	;~ j:: ; j + j :: square brackets
+		;~ if( allowDoubleJ_g ) {
+			;~ allowDoubleJ_g = 0
+			;~ resetModifiers()
+			;~ Send [
+		;~ }
+		;~ return
 
 
-#if (Stack="15am" and kPressed_g) ; scaffolding mode + k
-	k:: ; k + k :: curly brackets
-		if( allowDoubleK_g ) {
-			allowDoubleK_g = 0
-			resetModifiers()
-			t := "{"
-			SendInput {Raw}%t%
-		}
-		return
+;~ #if (Stack="15am" and kPressed_g) ; scaffolding mode + k
+	;~ k:: ; k + k :: curly brackets
+		;~ if( allowDoubleK_g ) {
+			;~ allowDoubleK_g = 0
+			;~ resetModifiers()
+			;~ t := "{"
+			;~ SendInput {Raw}%t%
+		;~ }
+		;~ return
 
 
 #if (Stack="15am" and lPressed_g) ; scaffolding mode + l
