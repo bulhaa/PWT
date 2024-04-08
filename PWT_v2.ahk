@@ -3485,7 +3485,7 @@ else
 	copyWordsAsSeperateElements() {
 		global
 		resetModifiers()
-		;~ Send ^a
+		Send ^a
 		waitClipboard()
 		
 		Clipboard := RegExReplace(Clipboard, "\W+", "`n")
@@ -3493,7 +3493,7 @@ else
 		goToEndOfCliplist()
 		encodeAsSingleElement = 0
 		mergeClipboard(0, 0, encodeAsSingleElement)
-		;~ Send {Esc}a
+		Send {Esc}a
 		scaffold_output_mode = 1
 		
 		;~ scaffoldSingle( scaffold_columns_g, 1, 1 )
@@ -8576,10 +8576,10 @@ waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1
 
 
 saveCodeAndRefreshChrome(){
-	Send ^s
-	Sleep 100
 	
 	if( WinActive("ahk_exe Code.exe") or WinActive("ahk_exe sublime_text.exe") ){
+		Send ^s
+		Sleep 100
 		if( WinExist("Visualize Data with a Treemap Diagram - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ) {
 			if( requireWinActive("Visualize Data with a Treemap Diagram - Google Chrome ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe") ){
 				Click 78, 34
@@ -8593,8 +8593,12 @@ saveCodeAndRefreshChrome(){
 		}
 	}
 	else if( WinActive("ahk_class SciTEWindow ahk_exe SciTE.exe") ) {
+		Send ^s
 		Sleep 500
 		Reload
+	}
+	else if( WinActive(".ipynb - Colaboratory - Google Chrome") ) {
+		Send ^{Enter}
 	}
 }
 
@@ -9080,6 +9084,11 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; f + q :: ^+t Reopen closed tab
+	; f + w :: ^g Go to line
+	; f + e :: ^n New
+	; w + w :: F5 Refresh / Run
+	; f + t :: ^t new tab
 	; d + a :: peek prev tab
 	; t + t :: focus VS Code terminal
 	; s + s :: ^s save
@@ -9168,6 +9177,15 @@ registerModifiers(key){
 }
 
 
+#if (Stack="15am" and wPressed_g) ; scaffolding mode + w
+	w:: ; w + w :: F5 Refresh / Run
+		if( allowDoubleW_g ) {
+			allowDoubleW_g = 0
+			resetModifiers()
+			Send {F5}
+		}
+		return
+		
 #if (Stack="15am" and ePressed_g) ; scaffolding mode + e
 	e:: ; e + e :: Up
 		if( allowDoubleE_g ) {
@@ -9413,9 +9431,29 @@ registerModifiers(key){
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
 	
+	q:: ; f + q :: ^+t Reopen closed tab
+		resetModifiers()
+		Send ^+t
+		return
+	
+	w:: ; f + w :: ^g Go to line
+		resetModifiers()
+		Send ^g
+		return
+	
+	e:: ; f + e :: ^n New
+		resetModifiers()
+		Send ^n
+		return
+	
 	r:: ; f + r :: TTS characters to SoleAsia
 		resetModifiers()
 		ttsCharactersToSoleasia()
+		return
+
+	t:: ; f + t :: ^t new tab
+		resetModifiers()
+		Send ^t
 		return
 
 	u:: ; f + u :: surround selection by quotes
@@ -9533,7 +9571,7 @@ registerModifiers(key){
 	+b:: ; +f + b :: focus VS Code terminal2
 		click 1435, 1011
 		resetModifiers()
-		return	
+		return
 
 
 #if (Stack="15am" and gPressed_g) ; scaffolding mode + g
@@ -9659,7 +9697,10 @@ registerModifiers(key){
 		if( allowDoubleC_g ) {
 			allowDoubleC_g = 0
 			resetModifiers()
-			Send ^/
+			IfWinActive, ahk_exe SciTE.exe
+				Send ^q
+			else
+				Send ^/
 		}
 		return
 	
