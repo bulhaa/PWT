@@ -8597,7 +8597,7 @@ saveCodeAndRefreshChrome(){
 		Sleep 500
 		Reload
 	}
-	else if( WinActive(".ipynb - Colaboratory - Google Chrome") ) {
+	else if( WinActive(".ipynb - Colab") ) {
 		Send ^{Enter}
 	}
 }
@@ -9084,6 +9084,9 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; d + r :: github to google colabs
+	; f + s :: Page Down
+	; f + a :: End
 	; f + q :: ^+t Reopen closed tab
 	; f + w :: ^g Go to line
 	; f + e :: ^n New
@@ -9322,6 +9325,13 @@ registerModifiers(key){
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
 		
+	r:: ; d + r :: github to google colabs
+		resetModifiers()
+		waitClipboard()
+		StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
+		Send ^v
+		return
+		
 	u:: ; d + u :: decode lines and tabs wrapper
 		decodeLinesAndTabsWrapper()
 		resetModifiers()
@@ -9471,6 +9481,16 @@ registerModifiers(key){
 		htmlTagExpander()
 		return
 	
+	a:: ; f + a :: End
+		resetModifiers()
+		Send {End}
+		return
+	
+	s:: ; f + s :: Page Down
+		resetModifiers()
+		Send {PGDN}
+		return
+	
 	f:: ; f + f :: Enter
 		if( allowDoubleF_g ) {
 			allowDoubleF_g = 0
@@ -9502,6 +9522,11 @@ registerModifiers(key){
 	c:: ; f + c :: go to reference
 		resetModifiers()
 		goToReference()
+		return
+	
+	v:: ; f + v :: go to prev reference
+		resetModifiers()
+		goToPrevReference()
 		return
 	
 	n:: ; f + n :: Ctrl + Enter
@@ -9557,11 +9582,6 @@ registerModifiers(key){
 		;~ Send {Shift Down}{Right}{Shift Up}
 		;~ resetModifiers()
 		;~ return
-	
-	v:: ; f + v :: go to prev reference
-		resetModifiers()
-		goToPrevReference()
-		return
 		
 	;~ +,:: ; f + k :: +Down
 		;~ Send {Shift Down}{Down}{Shift Up}
