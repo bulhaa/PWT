@@ -3454,13 +3454,10 @@ else
 		if( allowDoubleD_g ) {
 			allowDoubleD_g = 0
 			resetModifiers()
-		
-			;~ waitClipboard()
-			;~ StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
 			
 			if( WinActive("ahk_exe SciTE.exe") )
 				runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
-			else if( WinActive("\.py") )
+			else if( WinActive("\.py") or WinActive(".ipynb - Colab") )
 				runScaffold( "print('? value1 ?`: ', ? value1 ?)", Clipboard)
 			else
 				runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
@@ -9084,6 +9081,8 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; d + w :: set scaffold template
+	; d + e :: none mode
 	; d + r :: github to google colabs
 	; f + s :: Page Down
 	; f + a :: End
@@ -9130,7 +9129,7 @@ scaffoldFiles(){
 
 	; c + - :: kebab-case
 	; +c + - :: snake_case
-	; c + l :: lower case
+	; c + f :: lower case
 	; c + u :: UPPER CASE
 	; c + i :: CapitalCamelCase
 	; c + j :: camelCase
@@ -9324,6 +9323,23 @@ registerModifiers(key){
 		return
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
+		
+	w:: ; d + w :: set scaffold template
+		resetModifiers()
+		oldClipboard := Clipboard
+		waitClipboard()
+		if(Clipboard="")
+			Clipboard:=oldClipboard
+		clip_two := Clipboard
+		scaffold_template := Clipboard
+		return
+		
+	e:: ; d + e :: none mode
+		resetModifiers()
+		Stack:="11n"
+		Manager()
+		myTT("None mode")
+		return
 		
 	r:: ; d + r :: github to google colabs
 		resetModifiers()
