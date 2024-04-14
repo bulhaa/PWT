@@ -2334,8 +2334,8 @@ if(Stack=0)
 	}
 else if(Stack="15am") ; scaffolding mode 
 	{
-		init_DB_Fields()
-		scaffoldFiles()
+		;~ init_DB_Fields()
+		;~ scaffoldFiles()
 		
 		;~ init_DB_Fields(1, 0)
 		;~ myTT("refreshed")
@@ -8676,7 +8676,7 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0, fo
 		printUsingScaffold( "M", 1, nColumns)
 		if( forcePaste or scaffold_output_mode ) {
 			scaffold_row_g := Trim(scaffold_row_g)
-			if(!scaffold_row_g)
+			if(!scaffold_row_g and scaffold_row_g!="0")
 				scaffold_row_g := clipBkp
 			
 			;~ if( RegExMatch(scaffold_row_g, "\W") ){
