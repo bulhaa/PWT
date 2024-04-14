@@ -9081,9 +9081,9 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
-	; d + w :: set scaffold template
+	; d + w :: github to google colabs
 	; d + e :: none mode
-	; d + r :: github to google colabs
+	; d + r :: set scaffold template
 	; f + s :: Page Down
 	; f + a :: End
 	; f + q :: ^+t Reopen closed tab
@@ -9324,14 +9324,11 @@ registerModifiers(key){
 		
 #if (Stack="15am" and dPressed_g) ; scaffolding mode + d
 		
-	w:: ; d + w :: set scaffold template
+	w:: ; d + w :: github to google colabs
 		resetModifiers()
-		oldClipboard := Clipboard
 		waitClipboard()
-		if(Clipboard="")
-			Clipboard:=oldClipboard
-		clip_two := Clipboard
-		scaffold_template := Clipboard
+		StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
+		Send ^v
 		return
 		
 	e:: ; d + e :: none mode
@@ -9341,11 +9338,14 @@ registerModifiers(key){
 		myTT("None mode")
 		return
 		
-	r:: ; d + r :: github to google colabs
+	r:: ; d + r :: set scaffold template
 		resetModifiers()
+		oldClipboard := Clipboard
 		waitClipboard()
-		StringReplace, Clipboard, Clipboard, https://github.com/, https://colab.research.google.com/github/
-		Send ^v
+		if(Clipboard="")
+			Clipboard:=oldClipboard
+		clip_two := Clipboard
+		scaffold_template := Clipboard
 		return
 		
 	u:: ; d + u :: decode lines and tabs wrapper
