@@ -3,7 +3,7 @@ TT_duration = 1000
 if( WinExist( "Debugging] ahk_class SciTEWindow") )
 	suspendTT = 1
 
-new_g_configurations := ", dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations"
+new_g_configurations := ", dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations, dbCache_error_logs, dbCache_primaryKey_error_logs"
 g_configurations()
 
 iniClipList()
@@ -427,8 +427,8 @@ skipFileOrFolder(src_path, dest_path){
 	arr.Push("\selenium-js-tester\")
 	arr.Push("~")
 	arr.Push("\Thumbs.db\")
-	arr.Push("C:\xampp\htdocs\ecouncil\ecouncil\assets\")
-	arr.Push("C:\xampp\htdocs\ecouncil\ecouncil\protected\runtime\")
+	arr.Push("C:\xampp\htdocs\gemen-reporting-module\assets\")
+	arr.Push("C:\xampp\htdocs\gemen-reporting-module\protected\runtime\")
 	arr.Push("\ec.sublime-project\")
 	arr.Push("\ec.sublime-workspace\")
 	arr.Push("\.env\")
@@ -2334,8 +2334,8 @@ if(Stack=0)
 	}
 else if(Stack="15am") ; scaffolding mode 
 	{
-		;~ init_DB_Fields()
-		;~ scaffoldFiles()
+		init_DB_Fields()
+		scaffoldFiles()
 		
 		;~ init_DB_Fields(1, 0)
 		;~ myTT("refreshed")
@@ -2439,12 +2439,12 @@ else if(Stack="15v") ; load new search configuration from external file
 	}
 else if(Stack="15y") ; push eCouncil to git
 	{
-		Button1_Label=Run cmd`nWinWaitActive, ahk_exe cmd.exe`nSend cd C:\xampp\htdocs\eCouncil\eCouncil{Enter}`nSend "C:\Program Files\Git\cmd\git.exe"  push -u origin3 master{Enter}`n 
+		Button1_Label=Run cmd`nWinWaitActive, ahk_exe cmd.exe`nSend cd C:\xampp\htdocs\gemen-reporting-module{Enter}`nSend "C:\Program Files\Git\cmd\git.exe"  push -u origin3 master{Enter}`n 
 		if run 
 		{ 
 		  Run cmd 
 		  WinWaitActive, ahk_exe cmd.exe 
-		  Send cd /D C:\xampp\htdocs\eCouncil\eCouncil{Enter} 
+		  Send cd /D C:\xampp\htdocs\gemen-reporting-module{Enter} 
 		  Send "C:\Program Files\Git\cmd\git.exe"  push -u origin3 master{Enter} 
 		} 
 	}
@@ -3459,8 +3459,12 @@ else
 				runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
 			else if( WinActive("\.py") or WinActive(".ipynb - Colab") )
 				runScaffold( "print('? value1 ?`: ', ? value1 ?)", Clipboard)
+			else if( WinActive("\.php") )
+				runScaffold( "dd('? value1 ?`: ', ? value1 ?);", Clipboard)
 			else
 				runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
+			
+			waitSetClipboard(scaffold_row_g)
 			Send ^v
 		}
 	}
@@ -3795,6 +3799,8 @@ else
 				relations := getRelationsByHttp()
 				DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
 				setGlobal("dbCache_" plural, DB_Fields)
+			} else {
+				setGlobal("dbCache_" plural, 1)
 			}
 		}
 			
@@ -3972,7 +3978,7 @@ else
 	
 #if (Stack="16x") ; sync to ecouncil gitlab 
 	`::
-		Source=C:\xampp\htdocs\ecouncil\ecouncil
+		Source=C:\xampp\htdocs\gemen-reporting-module
 		Destination=C:\xampp\htdocs\eCouncil-gitlab\web
 		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
@@ -5497,15 +5503,15 @@ XButton2::
 		Destination=C:\xampp\htdocs\gems-ws-api
 		
 		
-		;~ Source=C:\xampp\htdocs\ecouncil\ecouncil
+		;~ Source=C:\xampp\htdocs\gemen-reporting-module
 		;~ Destination=C:\xampp\htdocs\eCouncil-gitlab\web
 
 		
 		;~ Source=C:\xampp\htdocs\eCouncil-gitlab\web
-		;~ Destination=C:\xampp\htdocs\ecouncil\ecouncil
+		;~ Destination=C:\xampp\htdocs\gemen-reporting-module
 		
 		;~ Source=C:\xampp\htdocs\Main\Source\LGAStatsSln\Source\yii
-		;~ Destination=C:\xampp\htdocs\eCouncil\eCouncil\yii
+		;~ Destination=C:\xampp\htdocs\gemen-reporting-module\yii
 			
 		;~ Source=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline - LOCAL
 		;~ Destination=C:\Users\User\Downloads\MAKUDI-Source-Code2\MAKUDI\MakudiOnline
@@ -6019,7 +6025,7 @@ model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary_key
 		customModelName := customModelName(table_name_singular)
 	
 	;~ customModelName := scaffoldModel( customModelName )
-	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%.php
+	file =C:\xampp\htdocs\gemen-reporting-module\app\Models\%customModelName%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6083,7 +6089,7 @@ yii_searchModel_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, p
 		customModelName := customModelName(table_name_singular)
 	
 	;~ customModelName := scaffoldModel( customModelName )
-	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%Search.php
+	file =C:\xampp\htdocs\gemen-reporting-module\models\%customModelName%Search.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6175,7 +6181,7 @@ yii_model_a(table_name_singular = 1, table_name_plural = 2, reverse = 0, primary
 		customModelName := customModelName(table_name_singular)
 	
 	;~ customModelName := scaffoldModel( customModelName )
-	file =C:\xampp\htdocs\ecouncil\ecouncil\models\%customModelName%.php
+	file =C:\xampp\htdocs\gemen-reporting-module\models\%customModelName%.php
 	
 	if(reverse){
 		FileRead, content, %file%
@@ -6445,9 +6451,9 @@ yii_IndexView_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueSH1 ?")
-	FileCreateDir, C:\xampp\htdocs\ecouncil\ecouncil\views\%name%
+	FileCreateDir, C:\xampp\htdocs\gemen-reporting-module\views\%name%
 	
-	file =C:\xampp\htdocs\ecouncil\ecouncil\views\%name%\index.php
+	file =C:\xampp\htdocs\gemen-reporting-module\views\%name%\index.php
 	
 	fileWrite( content, file )
 }
@@ -6545,7 +6551,7 @@ yii_Controller_a(table_name_singular = 1, table_name_plural = 2, reverse = 0){
 	content := scaffoldModel(t)
 	
 	name := scaffoldModel("? valueCC1 ?Controller")
-	file =C:\xampp\htdocs\ecouncil\ecouncil\controllers\%name%.php
+	file =C:\xampp\htdocs\gemen-reporting-module\controllers\%name%.php
 	
 	fileWrite( content, file )
 }
@@ -8875,7 +8881,7 @@ convertCodeToTemplate(){
 			myTT(scaffold_row_g)
 		scaffold_row_g := row
 		
-		waitSetClipboard(row)
+		;~ waitSetClipboard(row)
 		;~ Clipboard .= row
 		
 		if(next)
@@ -9046,8 +9052,9 @@ directoryName(){
 currentTableName(){
 	global singular
 	
-	singular := ""
-	;~ singular := "Product"
+	;~ singular := ""
+	if(!singular)
+		singular := "error_logs"
 }
 
 
@@ -9061,7 +9068,9 @@ scaffoldFiles(){
 		myTT("DB table not found")
 	else{
 		;~ archivedScaffolds()
-		
+	
+		;~ model()
+
 		
 		;~ vue_button()
 		;~ vue_modal()
@@ -9081,6 +9090,8 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; s + c :: code to template
+	; s + v :: template to code
 	; d + w :: github to google colabs
 	; d + e :: none mode
 	; d + r :: set scaffold template
@@ -9145,8 +9156,6 @@ scaffoldFiles(){
 
 	; f + c :: go to reference
 	; f + v :: go to prev reference
-	
-	; c + p :: convert code to template
 	
 	; f + u :: surround selection by quotes
 	
@@ -9300,6 +9309,18 @@ registerModifiers(key){
 		}
 		return
 	
+	c:: ; s + c :: convert code to template
+		resetModifiers()
+		convertCodeToTemplate()
+		return
+	
+	v:: ; s + v :: template to code
+		resetModifiers()
+		waitClipboard()
+		content := scaffoldModel( Clipboard )
+		waitSetClipboard(content)
+		return
+	
 		
 #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
 	i:: ; f + d + i :: ^+Home
@@ -9346,6 +9367,9 @@ registerModifiers(key){
 			Clipboard:=oldClipboard
 		clip_two := Clipboard
 		scaffold_template := Clipboard
+		singular := Clipboard
+		
+		init_DB_Fields()
 		return
 		
 	u:: ; d + u :: decode lines and tabs wrapper
@@ -9564,6 +9588,7 @@ registerModifiers(key){
 		resetModifiers()
 		;~ Send ^z
 		scaffoldMergeAll( scaffold_columns_g )
+		waitSetClipboard(scaffold_row_g)
 		return
 
 	,:: ; f + , :: focus VS Code Editor
@@ -9698,11 +9723,6 @@ registerModifiers(key){
 	o:: ; c + o :: previous scaffold
 		resetModifiers()
 		printUsingScaffold( "", 1, -1, 0) ; previous
-		return
-	
-	p:: ; c + p :: convert code to template
-		resetModifiers()
-		convertCodeToTemplate()
 		return
 	
 	f:: ; c + f :: lower case
@@ -11401,7 +11421,7 @@ return
 		Sleep 300
 		Clipboard := A_yyyy "_" A_MM "_" A_DD
 		
-		file := "C:\xampp\htdocs\ecouncil\ecouncil\protected\components\AccessController.php"
+		file := "C:\xampp\htdocs\gemen-reporting-module\protected\components\AccessController.php"
 		FileRead, content, %file%
 		content:= RegExReplace(content, ")(\$GLOBALS\[\""commit_date\""\] \= \').*(\'\;)", "$1" date_time "$2")
 		fileWrite( content, file )
