@@ -3,7 +3,7 @@ TT_duration = 1000
 if( WinExist( "Debugging] ahk_class SciTEWindow") )
 	suspendTT = 1
 
-new_g_configurations := ", dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations, dbCache_error_logs, dbCache_primaryKey_error_logs"
+new_g_configurations := ", smart_replace_search_term_g, smart_replace_replacement_g, dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations, dbCache_error_logs, dbCache_primaryKey_error_logs"
 g_configurations()
 
 iniClipList()
@@ -8811,6 +8811,7 @@ convertCodeToTemplate(){
 	content := RegExReplace(content, """( \w+ )""", "$1")
 	content := encodeLinesAndTabs(content)
 	Clipboard := content
+	return scaffold_template
 }
 
 	; params
@@ -8907,7 +8908,7 @@ convertCodeToTemplate(){
 			;~ Send {BackSpace}
 			;~ Sleep 100
 			;~ Send {Home}
-			Send ^v
+			;~ Send ^v
 			;~ Sleep 100
 			
 			
@@ -9049,11 +9050,11 @@ directoryName(){
 }
 
 
-currentTableName(){
+currentTableName(overwrite=0){
 	global singular
 	
 	;~ singular := ""
-	if(!singular)
+	if(!singular or overwrite)
 		singular := "error_logs"
 }
 
@@ -9090,6 +9091,11 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; s + e :: set smart_replace_search_term_g
+	; s + r :: set smart_replace_replacement_g
+	; f + g :: smart replace
+	; v + v :: go to bookmark
+	; v + f :: toggle bookmark
 	; s + c :: code to template
 	; s + v :: template to code
 	; d + w :: github to google colabs
@@ -9270,12 +9276,24 @@ registerModifiers(key){
 		}
 		return
 		
-#if (Stack="15am" and sPressed_g) ; scaffolding mode + s
+#if (Stack="15am" and sPressed_g) ; scaffolding mode + s, 
+	e:: ; s + e :: set smart_replace_search_term_g
+		resetModifiers()
+		waitClipboard()
+		smart_replace_search_term_g := Clipboard
+		return
+
+	r:: ; s + r :: set smart_replace_replacement_g
+		resetModifiers()
+		waitClipboard()
+		smart_replace_replacement_g := Clipboard
+		return
+
 	i:: ; s + i :: +Page Up
 		Send {Shift Down}{PGUP}{Shift Up}
 		resetModifiers()
 		return
-	
+
 	j:: ; s + j :: ^+Left
 		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
 		resetModifiers()
@@ -9309,16 +9327,21 @@ registerModifiers(key){
 		}
 		return
 	
-	c:: ; s + c :: convert code to template
+	c:: ; s + c :: code to template
 		resetModifiers()
+		singular := smart_replace_search_term_g
+		init_DB_Fields()
 		convertCodeToTemplate()
 		return
 	
 	v:: ; s + v :: template to code
 		resetModifiers()
+		singular := smart_replace_replacement_g
+		init_DB_Fields()
 		waitClipboard()
 		content := scaffoldModel( Clipboard )
 		waitSetClipboard(content)
+		Send ^v
 		return
 	
 		
@@ -9367,9 +9390,6 @@ registerModifiers(key){
 			Clipboard:=oldClipboard
 		clip_two := Clipboard
 		scaffold_template := Clipboard
-		singular := Clipboard
-		
-		init_DB_Fields()
 		return
 		
 	u:: ; d + u :: decode lines and tabs wrapper
@@ -9537,6 +9557,21 @@ registerModifiers(key){
 			resetModifiers()
 			Send {Enter}
 		}
+		return
+	
+	g:: ; f + g :: smart replace
+		resetModifiers()
+		scaffold_template_bkp := scaffold_template
+		singular := smart_replace_search_term_g
+		init_DB_Fields()
+		template := convertCodeToTemplate()
+		
+		singular := smart_replace_replacement_g
+		init_DB_Fields()
+		content := scaffoldModel( template )
+		waitSetClipboard(content)
+		Send ^v
+		scaffold_template := scaffold_template_bkp
 		return
 	
 	h:: ; f + h :: copy as separate elements
@@ -9771,9 +9806,27 @@ registerModifiers(key){
 		Send ^v
 		resetModifiers()
 		return
+		
+#if (Stack="15am" and vPressed_g) ; scaffolding mode + v
+	v:: ; v + v :: go to bookmark
+		if( allowDoubleV_g ) {
+			allowDoubleV_g = 0
+			resetModifiers()
+			IfWinActive, ahk_exe SciTE.exe
+				Send {F2}
+			else
+				Send ^!l
+		}
+		return
+		
+	f:: ; v + f :: toggle bookmark
+		resetModifiers()
+		IfWinActive, ahk_exe SciTE.exe
+			Send ^{F2}
+		else
+			Send ^!k
+		return
 
-	
-	
 #if (Stack="15ak") ; Go to reference 
 	`:: goToReference()
 	
