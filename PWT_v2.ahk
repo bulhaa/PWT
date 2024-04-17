@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;"
 loadStacks()
 
 
@@ -3093,6 +3093,10 @@ else if(Stack="19h") ; white noise generator
 else if(Stack="19i") ; phind find ai chat bot 
 	{
 		Button1_Label=https`://www.phind.com/
+	}
+else if(Stack="19j") ; git rebase --autostash 
+	{
+		Button1_Label=git rebase --autostash
 	}
 else
 	{	
@@ -9091,6 +9095,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; s + d :: !- VSCode Go Back
 	; s + e :: set smart_replace_search_term_g
 	; s + r :: set smart_replace_replacement_g
 	; f + g :: smart replace
@@ -9309,6 +9314,19 @@ registerModifiers(key){
 		resetModifiers()
 		return
 	
+	s:: ; s + s :: ^s save
+		if( allowDoubleS_g ) {
+			allowDoubleS_g = 0
+			resetModifiers()
+			saveCodeAndRefreshChrome()
+		}
+		return
+	
+	d:: ; s + d :: !- VSCode Go Back
+		resetModifiers()
+		Send !-
+		return
+	
 	f:: ; s + f :: ^z undo
 		resetModifiers()
 		Send ^z
@@ -9317,14 +9335,6 @@ registerModifiers(key){
 	g:: ; s + g :: ^y redo
 		resetModifiers()
 		Send ^y
-		return
-	
-	s:: ; s + s :: ^s save
-		if( allowDoubleS_g ) {
-			allowDoubleS_g = 0
-			resetModifiers()
-			saveCodeAndRefreshChrome()
-		}
 		return
 	
 	c:: ; s + c :: code to template
