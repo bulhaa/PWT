@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;"
 loadStacks()
 
 
@@ -3097,6 +3097,10 @@ else if(Stack="19i") ; phind find ai chat bot
 else if(Stack="19j") ; git rebase --autostash 
 	{
 		Button1_Label=git rebase --autostash
+	}
+else if(Stack="19k") ; git patch 
+	{
+		Button1_Label=git add .`ngit diff --cached > mypatch.patch`ngit reset --hard`ngit pull`ngit apply mypatch.patch`n`ngit apply --reject --whitespace=fix mypatch.patch
 	}
 else
 	{	
@@ -8887,7 +8891,7 @@ convertCodeToTemplate(){
 		scaffold_row_g := row
 		
 		;~ waitSetClipboard(row)
-		;~ Clipboard .= row
+		Clipboard .= row
 		
 		if(next)
 			myTT(scaffold_row_g)
