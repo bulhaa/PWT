@@ -3100,7 +3100,7 @@ else if(Stack="19j") ; git rebase --autostash
 	}
 else if(Stack="19k") ; git patch 
 	{
-		Button1_Label=git add .`ngit diff --cached > mypatch.patch`ngit reset --hard`ngit pull`ngit apply mypatch.patch`n`ngit apply --reject --whitespace=fix mypatch.patch
+		Button1_Label=git add .`ngit diff --cached > mypatch.patch`ngit reset --hard`ngit pull`ngit apply mypatch.patch`n`ngit apply --reject --whitespace=fix mypatch.patch`n`npatch -p1 < ~/patches/temp_workaround.patch
 	}
 else
 	{	
@@ -9099,6 +9099,8 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; x + x :: down
+	; s + a :: VS Code - focus source control
 	; s + d :: !- VSCode Go Back
 	; s + e :: set smart_replace_search_term_g
 	; s + r :: set smart_replace_replacement_g
@@ -9315,6 +9317,11 @@ registerModifiers(key){
 	
 	l:: ; s + l :: ^+Right
 		Send {Ctrl Down}{Shift Down}{Right}{Shift Up}{Ctrl Up}
+		resetModifiers()
+		return
+	
+	a:: ; s + a :: VS Code - focus source control
+		Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
@@ -9743,6 +9750,17 @@ registerModifiers(key){
 			Send `;
 		}
 		return
+
+
+#if (Stack="15am" and xPressed_g) ; scaffolding mode + x
+	x:: ; x + x :: down
+		if( allowDoubleX_g ) {
+			allowDoubleX_g = 0
+			resetModifiers()
+			Send {Down}
+		}
+		return
+		
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
 	-:: ; c + - :: kebab-case
