@@ -9454,7 +9454,7 @@ registerModifiers(key){
 	s:: ; d + s :: ^x cut
 		resetModifiers()
 		copy()
-		Send ^x
+		Send {Del}
 		return
 		
 	d:: ; d + d :: console log
