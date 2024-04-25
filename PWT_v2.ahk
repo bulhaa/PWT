@@ -2875,7 +2875,7 @@ else if(Stack="16i") ; rtl iyyu-normal
 	}
 else if(Stack="16k") ; docker 
 	{
-		Button1_Label='Turn windows features on or off' -> enable WSL and Virutal Machine Platform`nInstall Ubuntu for windows (from Windows store)`nDocker Desktop -> Settings -> Resources -> WSL integration`n`n** Docker commands`nmkdir -p code/ncit/gems`ngit clone https`://git.egov.mv/ahmed.shifau/traefik-proxy.git`ncd traefik-proxy/`ndocker network create proxy`ndocker ps`ndocker rm -f bdc9e9e4d788`ndocker-compose up -d`ngit clone https`://git.egov.mv/ncit_new/gems-workspace/api.git`ngit clone https`://git.egov.mv/ncit_new/gems-workspace/app.git`nmkdir task`nmv web/ task/web`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     laravelsail/php82-composer`:latest     composer install --ignore-platform-reqs`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     chipaau/php`:8.1     composer install --ignore-platform-reqs`ncode .`ncd ~/code/ncit/gems/task/web/`ngit fetch origin`ngit branch -r`ngit checkout -b feature/deployment`ngit log --graph`nll`ngit pull origin feature/deployment`ngit pull origin`n`ncp .env.example .env`n`n./vendor/bin/sail up -d --build`n./vendor/bin/sail down -v`n./vendor/bin/sail artisan migrate`:fresh --seed`n`n./vendor/bin/sail artisan optimize`:clear`n./vendor/bin/sail up -d --remove-orphans`n./vendor/bin/sail logs -f laravel.test`n`n./vendor/bin/sail npm run dev`n`nhttps`://traefik.localhost/#/http/routers`nhttps`://workspace.localhost
+		Button1_Label='Turn windows features on or off' -> enable WSL and Virtual Machine Platform`nInstall Ubuntu for windows (from Windows store)`nDocker Desktop -> Settings -> Resources -> WSL integration`n`n** Docker commands`nmkdir -p code/ncit/gems`ngit clone https`://git.egov.mv/ahmed.shifau/traefik-proxy.git`ncd traefik-proxy/`ndocker network create proxy`ndocker ps`ndocker rm -f bdc9e9e4d788`ndocker-compose up -d`ngit clone https`://git.egov.mv/ncit_new/gems-workspace/api.git`ngit clone https`://git.egov.mv/ncit_new/gems-workspace/app.git`nmkdir task`nmv web/ task/web`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     laravelsail/php82-composer`:latest     composer install --ignore-platform-reqs`ndocker run --rm     -u "$(id -u)`:$(id -g)"     -v "$(pwd)`:/var/www/html"     -w /var/www/html     chipaau/php`:8.1     composer install --ignore-platform-reqs`ncode .`ncd ~/code/ncit/gems/task/web/`ngit fetch origin`ngit branch -r`ngit checkout -b feature/deployment`ngit log --graph`nll`ngit pull origin feature/deployment`ngit pull origin`n`ncp .env.example .env`n`n./vendor/bin/sail up -d --build`n./vendor/bin/sail down -v`n./vendor/bin/sail artisan migrate`:fresh --seed`n`n./vendor/bin/sail artisan optimize`:clear`n./vendor/bin/sail up -d --remove-orphans`n./vendor/bin/sail logs -f laravel.test`n`n./vendor/bin/sail npm run dev`n`nhttps`://traefik.localhost/#/http/routers`nhttps`://workspace.localhost
 	}
 else if(Stack="16l") ; db seed with initial data 
 	{
@@ -3523,7 +3523,8 @@ else
 		Send ^v
 	}
 	
-	reloadVueFile(){
+	reloadVueFile() {
+		;~ waitSetClipboard("")
 		Clipboard=
 		Send ^k
 		Send ^+c
@@ -3534,17 +3535,17 @@ else
 		Clipboard := path
 		
 		;~ waitPixel(-1, -1, 312, 660, "0xF36E1B", 0)
-		;~ waitPixel(-1, -1, 314, 693, "0xEADCD5", 0)
+		;~ waitPixel(-1, -1, 315, 736, "0xF36E1B", 0)
 		;~ 683
 		;~ - 683 + 644
-		y1 := 661
+		y1 := 736
 		y2 := 697 - 683 + y1
 		y3 := 651 - 661 + y1
 		y4 := 751 - 708 + y1
 		y5 := 882 - 708 + y1
 		y6 := 911 - 708 + y1
 		y7 := 859 - 708 + y1
-		y8 := 869 - 708 + y1
+		y8 := 861 - 699 + y1
 		y9 := 857 - 708 + y1
 		y10 := 901
 		y11 := 725 - 708 + y1
@@ -3557,6 +3558,7 @@ else
 		if(requireWinActive("ahk_exe chrome.exe")){
 			Click 314, %y3% ; network tab
 			MouseMove, 1, 1
+			
 			if(waitPixel(-1, -1, 310, y1, "0xF36E1B", 0)){
 				
 				PixelGetColor, color, 258, %y11% ; 0xFFFFFF
@@ -3566,21 +3568,37 @@ else
 
 				Click 167, %y4% ; filter query
 				Send ^v
-				Click 68, %y5% ; click request
-				waitPixel(-1, -1, 933, y9, "0xF6E8E0", 0)
+				Sleep 500
+				;~ return
+				MouseMove 68, %y5% ; click request
+				Click Right
 				
-				PixelGetColor, color, 541, %y8% ; 0xFFFFFF
-				if(color != 0xF36E1B){
-					Sleep 100
-					MouseMove 543, %y7%	
-					Click 543, %y7% ; Headers tab
-				}
-				MouseMove, 1, 1
-				waitPixel(-1, -1, 541, y8, "0xF36E1B", 0)
-				MouseMove 750, %y6% ; Request URL
-				Click, 2
-				Send +{End}
-				waitClipboard()
+				;~ waitPixel(-1, -1, 1847, y9, "0xFAF2ED", 0)
+				
+				
+				;~ waitSetClipboard("")
+				Clipboard=
+				Sleep 500
+				
+				Send {Down 5}
+				Send {Right}
+				Send {Enter}
+				
+				;~ waitPixel(-1, -1, 933, y9, "0xF6E8E0", 0)
+				
+				;~ PixelGetColor, color, 541, %y8% ; 0xFFFFFF
+				;~ if(color != 0xF36E1B){
+					;~ Sleep 100
+					;~ MouseMove 543, %y7%	
+					;~ Click 543, %y7% ; Headers tab
+				;~ }
+				;~ MouseMove, 1, 1
+				;~ waitPixel(-1, -1, 541, y8, "0xF36E1B", 0)
+				;~ MouseMove 541, %y8% ; 
+				;~ MouseMove 750, %y6% ; Request URL
+				;~ Click, 2
+				;~ Send +{End}
+				waitClipboard(0)
 
 				fetch = fetch("%Clipboard%"`, {`n  "headers"`: {`n    "sec-ch-ua"`: "\"Chromium\"`;v=\"122\"`, \"Not(A`:Brand\"`;v=\"24\"`, \"Google Chrome\"`;v=\"122\""`,`n    "sec-ch-ua-mobile"`: "?0"`,`n    "sec-ch-ua-platform"`: "\"Windows\""`n  }`,`n  "referrer"`: "https`://localhost`:5173/resources/js/src/components/mails/modals/CreateIndividualModal.vue"`,`n  "referrerPolicy"`: "strict-origin-when-cross-origin"`,`n  "body"`: null`,`n  "method"`: "GET"`,`n  "mode"`: "cors"`,`n  "credentials"`: "omit"`n})`;
 				Clipboard := fetch
@@ -8516,7 +8534,7 @@ sendTelegramMessage(message){
 }
 
 
-waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
+waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 10, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
 	global botStatus
 	;~ 139, 265, "0x00A6FF", 0, 20, 1293, 264, "0x00A6FF"
 			loop {
@@ -8578,8 +8596,12 @@ waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1
 					;~ Sleep 1000
 					;~ myTT("fail 2")
 					sendTelegramMessage("could not find matching pixel")
-					if(stopOnFail)
+					if(stopOnFail) {
 						color := color
+						myTT("x2: " x2)
+						myTT("y2: " y2)
+						myTT("color1: " color1)
+					}
 					return 0
 				}
 			}
@@ -9099,6 +9121,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; f + Space :: ^p VS Code go to file
 	; x + x :: down
 	; s + a :: VS Code - focus source control
 	; s + d :: !- VSCode Go Back
@@ -9658,7 +9681,11 @@ registerModifiers(key){
 		runScaffold( scaffold_template, Clipboard)
 		Send ^v
 		return
-
+		
+	Space:: ; f + Space :: ^p VS Code go to file
+		resetModifiers()
+		Send ^p
+		return
 
 	;~ +i:: ; f + i :: +Up
 		;~ Send {Shift Down}{Up}{Shift Up}
