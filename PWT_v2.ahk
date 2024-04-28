@@ -3236,16 +3236,20 @@ else
 #if (Stack="18r") ; vue import component 
 	`::
 		;~ t = resources\js\src\views\documents\components\list\detail\topbar\case.vue
+		Send ^k
+		Send ^+c
+		waitClipboard(0)
 		t := Clipboard
-		name := RegExReplace(t, "i).*[\\]([^\\]+)[.]vue$", "$1")
+		name := RegExReplace(t, "i).*[\\\ss/]([^\\\/]+)[.]vue$", "$1")
 		name := capitalCamelCase(name)
-		StringReplace, t, t, resources\js\src, @, All
 		StringReplace, t, t, \, /, All
+		StringReplace, t, t, resources/js/src, @, All
 		
 		t = `    <%name% />`n    import %name% from '%t%'`;`n
 		Clipboard := t
 		myTT(t)
 	return
+
 	
 #if (Stack="18h") ; 550 character for translation 
 	`::
@@ -3313,6 +3317,46 @@ else
 	wizard()
 	
 #if (Stack="18a") ; functions
+
+	peekPrevTab() {
+		Send ^{Tab}
+		prevWindowActive_g = 1
+		
+		sleep 200
+		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
+		{
+			if( GetKeyState("G", "P")) {
+				prevWindowActive_g++
+				if(prevWindowActive_g = 2) {
+					WinActivate, % "ahk_id " result.1
+					WinWaitActive, % "ahk_id " result.1, , 1
+				} else if(prevWindowActive_g > 2) {
+					t := prevWindowActive_g - 1
+					Send ^{Tab}
+					Send {Ctrl Down}
+					Loop %t%
+					{
+						Send {Tab}
+					}
+					Send {Ctrl Up}
+				}
+				
+				sleep 150
+			}
+			
+			if !GetKeyState("D", "P") {
+				if(prevWindowActive_g = 1) {
+					Send ^{Tab}
+				} else {
+					Send {Ctrl Up}
+				}
+				
+				break
+			}
+			sleep 10
+		}
+		prevWindowActive_g = 0
+	}
 
 	handleModifiers( key="", isDown = 0, isShift = 0 ){
 		global
@@ -3535,10 +3579,10 @@ else
 		Clipboard := path
 		
 		;~ waitPixel(-1, -1, 312, 660, "0xF36E1B", 0)
-		;~ waitPixel(-1, -1, 315, 736, "0xF36E1B", 0)
+		;~ waitPixel(-1, -1, 316, 734, "0xF36E1B", 0)
 		;~ 683
 		;~ - 683 + 644
-		y1 := 736
+		y1 := 734
 		y2 := 697 - 683 + y1
 		y3 := 651 - 661 + y1
 		y4 := 751 - 708 + y1
@@ -9142,7 +9186,7 @@ scaffoldFiles(){
 	; f + e :: ^n New
 	; w + w :: F5 Refresh / Run
 	; f + t :: ^t new tab
-	; d + a :: peek prev tab
+	; d + g :: peek prev tab
 	; t + t :: focus VS Code terminal
 	; s + s :: ^s save
 	; a + a :: insert placeholder
@@ -9161,7 +9205,7 @@ scaffoldFiles(){
 	; s + g :: ^y redo
 	; s + f :: ^z undo
 	; d + s :: ^x cut
-	; d + g :: ^a select all
+	; d + Space :: ^a select all
 	; d + h :: copy words as seperate elements
 	; f + h :: copy as separate elements
 	; d + c :: ^c copy
@@ -9459,21 +9503,6 @@ registerModifiers(key){
 		resetModifiers()
 		return
 
-	a:: ; d + a :: peek prev tab
-		resetModifiers()
-		Send ^{Tab}
-		
-		sleep 50
-		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
-		{
-			if !GetKeyState("d", "P") {
-				Send ^{Tab}
-				break
-			}	
-			sleep 10
-		}
-		return
-
 	s:: ; d + s :: ^x cut
 		resetModifiers()
 		copy()
@@ -9481,17 +9510,21 @@ registerModifiers(key){
 		return
 		
 	d:: ; d + d :: console log
-		consoleLog()
+		if( allowDoubleD_g ) {
+			allowDoubleD_g = 0
+			resetModifiers()
+			consoleLog()
+		}
 		return
 
 	f:: ; d + f :: peek previous window
 		resetModifiers()
 		goToPreviousWindow2()
 		return
-	
-	g:: ; d + g :: ^a select all
+
+	g:: ; d + g :: peek prev tab
 		resetModifiers()
-		Send ^a
+		peekPrevTab()
 		return
 
 	h:: ; d + h :: copy words as seperate elements
@@ -9531,6 +9564,11 @@ registerModifiers(key){
 	n:: ; d + n :: reload vue file
 		resetModifiers()
 		reloadVueFile()
+		return
+	
+	Space:: ; d + Space :: ^a select all
+		resetModifiers()
+		Send ^a
 		return
 	
 	,:: ; d + , :: pixel dev wait pixel
@@ -11838,27 +11876,33 @@ return
 	goToPreviousWindow2(){
 		global prevWindowActive_g
 		result:= shiftwin(2)
+		WinActivate, % "ahk_id " result.2
+		prevWindowActive_g := 1
 
-		sleep 50
+		sleep 200
 		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
 		{
-			prevWindowActive_g := 1
-			accent := 0
-			alt := 0
+			if( GetKeyState("F", "P")) {
+				prevWindowActive_g++
+				if(prevWindowActive_g = 2) {
+					WinActivate, % "ahk_id " result.1
+					WinWaitActive, % "ahk_id " result.1, , 1
+					Send {Alt Down}{Tab}
+				} else if(prevWindowActive_g > 2) {
+					Send {Tab}
+				}
+				
+				sleep 150
+			}
 			
-			if GetKeyState("D", "P")
-				accent := 1
-			;~ if GetKeyState("C", "P")
-				;~ alt := 1
-			
-			if(alt and accent)
-				WinActivate, % "ahk_id " result.3
-			else if(accent)
-				WinActivate, % "ahk_id " result.2
-			else{
-				WinActivate, % "ahk_id " result.1
-				if(! alt)
-					break
+			if( !GetKeyState("D", "P") ) {
+				if(prevWindowActive_g = 1) {
+					WinActivate, % "ahk_id " result.1
+				} else {
+					Send {Alt Up}
+				}
+				
+				break
 			}
 			sleep 10
 		}
