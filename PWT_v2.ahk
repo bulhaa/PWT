@@ -5229,14 +5229,16 @@ XButton2::
 		; home reddit
 		t := RegExReplace(t, ")Upvote\R\d*\R\RDownvote\RReply\Rreply\R\RShare\RShare\R\R(.+ avatar\R)?(.*\R)(OP\R)?.*\R\d+(m|h|d) ago", "$2")
 		t := RegExReplace(t, ")Upvote\R\d*\R\RDownvote\RReply\Rreply\R\RShare\RShare", "$2")
-		t := RegExReplace(t, ")(.+ avatar\R)?(.*\R)(OP\R)?.*\R\d+(m|h|d) ago", "$2")
+		;~ t := RegExReplace(t, ")(.+ avatar\R)?(.*\R)(OP\R)?.*\R\d+(m|h|d) ago", "$2")
 		t := RegExReplace(t, ")(.*\R)(OP\R)?.*\R\d+(m|h|d) ago", "$2")
 
 		; discord Today at 6:48 PM
 		t := RegExReplace(t, ")(Today|Yesterday) at \d+:\d+ (AM|PM)", "")
 		
 		;~ ToolTip % t
+		waitSetClipboard(t)
 		;~ Clipboard := t
+
 		;~ Sleep 2000
 		;~ ToolTip
 		;~ return
@@ -5252,9 +5254,6 @@ XButton2::
 		if(t0 = 1)
 			t := "<a href=""" t """>" t "</a>"
 		
-		
-			
-			
 		whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
 		whr.Open("POST", "https://soleasia.mv/ip.php?mode=update&id=1", true)
 		whr.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -9169,8 +9168,8 @@ scaffoldFiles(){
 	; x + x :: down
 	; s + a :: VS Code - focus source control
 	; s + d :: !- VSCode Go Back
-	; s + e :: set smart_replace_search_term_g
-	; s + r :: set smart_replace_replacement_g
+	; s + e :: search_term
+	; s + r :: replacement
 	; f + g :: smart replace
 	; v + v :: go to bookmark
 	; v + f :: toggle bookmark
