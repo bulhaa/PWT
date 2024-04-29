@@ -3,7 +3,7 @@ TT_duration = 1000
 if( WinExist( "Debugging] ahk_class SciTEWindow") )
 	suspendTT = 1
 
-new_g_configurations := ", smart_replace_search_term_g, smart_replace_replacement_g, dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations, dbCache_error_logs, dbCache_primaryKey_error_logs"
+new_g_configurations := ", gui_x_offset_g, smart_replace_search_term_g, smart_replace_replacement_g, dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations, dbCache_error_logs, dbCache_primaryKey_error_logs"
 g_configurations()
 
 iniClipList()
@@ -48,7 +48,9 @@ Gui +LastFound  ; Make the GUI window the last found window for use by the line 
 WinSet, TransColor, E7EEF8 240
 
 Gui, +Resize
-Gui, Add, Pic, x-980 y0 vPic1
+if(!gui_x_offset_g)
+	gui_x_offset_g = 680
+Gui, Add, Pic, x-%gui_x_offset_g% y0 vPic1
 Gui, Add, Pic, x-480 y0 vPic2 +0x4000000 
 gui, font, , Courier New
 Gui, Add, Button, x12 y60 w460 h60 gButton1 vButton1, %Button1_Label%
@@ -9509,11 +9511,7 @@ registerModifiers(key){
 		return
 		
 	d:: ; d + d :: console log
-		if( allowDoubleD_g ) {
-			allowDoubleD_g = 0
-			resetModifiers()
-			consoleLog()
-		}
+		consoleLog()
 		return
 
 	f:: ; d + f :: peek previous window
