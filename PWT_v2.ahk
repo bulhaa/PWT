@@ -3329,7 +3329,7 @@ else
 
 	peekPrevTab() {
 		Send ^{Tab}
-		myTT("peekPrevTab: ")
+		;~ myTT("peekPrevTab: ")
 		if(!prevWindowActive_g)
 			prevWindowActive_g = 1
 		
@@ -3343,13 +3343,13 @@ else
 					;~ WinWaitActive, % "ahk_id " result.1, , 1
 					
 					
-					myTT("Ctrl: " prevWindowActive_g)
+					;~ myTT("Ctrl: " prevWindowActive_g)
 					
 					Send {Ctrl Down}
 					Send {Tab}
 					Send +{Tab}
 				} else if(prevWindowActive_g > 2) {
-					myTT("prevWindowActive_g: " prevWindowActive_g)
+					;~ myTT("prevWindowActive_g: " prevWindowActive_g)
 					;~ t := prevWindowActive_g - 1
 					;~ Send ^{Tab}
 					;~ Send {Ctrl Down}
@@ -3365,7 +3365,7 @@ else
 			}
 			
 			if !GetKeyState("D", "P") {
-				myTT("sleep: ")
+				;~ myTT("sleep: ")
 				if(prevWindowActive_g = 1) {
 					Send ^{Tab}
 				} else {
@@ -9186,6 +9186,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; r + Space :: git revert (VS Code)
 	; f + Space :: ^p VS Code go to file
 	; x + x :: down
 	; s + a :: VS Code - focus source control
@@ -9338,6 +9339,12 @@ registerModifiers(key){
 			resetModifiers()
 			Send ^h
 		}
+		return
+		
+	Space:: ; r + Space :: git revert (VS Code)
+		resetModifiers()
+		Send ^k
+		Send ^r
 		return
 
 #if (Stack="15am" and tPressed_g) ; scaffolding mode + t
