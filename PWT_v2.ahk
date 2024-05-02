@@ -3317,12 +3317,21 @@ else
 	
 #if (Stack="18b") ; wizard 
 	wizard()
-	
+
 #if (Stack="18a") ; functions
+
+#if (prevWindowActive_g >= 1)
+
+	^d:: myTT("sleep: ^d")
+	^g:: myTT("sleep: ^g")
+	!d:: myTT("sleep: !d")
+	!g:: myTT("sleep: !g")
 
 	peekPrevTab() {
 		Send ^{Tab}
-		prevWindowActive_g = 1
+		myTT("peekPrevTab: ")
+		if(!prevWindowActive_g)
+			prevWindowActive_g = 1
 		
 		sleep 200
 		Loop  ; Since no number is specified with it, this is an infinite loop unless "break" or "return" is encountered inside.
@@ -3330,23 +3339,33 @@ else
 			if( GetKeyState("G", "P")) {
 				prevWindowActive_g++
 				if(prevWindowActive_g = 2) {
-					WinActivate, % "ahk_id " result.1
-					WinWaitActive, % "ahk_id " result.1, , 1
-				} else if(prevWindowActive_g > 2) {
-					t := prevWindowActive_g - 1
-					Send ^{Tab}
+					;~ WinActivate, % "ahk_id " result.1
+					;~ WinWaitActive, % "ahk_id " result.1, , 1
+					
+					
+					myTT("Ctrl: " prevWindowActive_g)
+					
 					Send {Ctrl Down}
-					Loop %t%
-					{
-						Send {Tab}
-					}
-					Send {Ctrl Up}
+					Send {Tab}
+					Send +{Tab}
+				} else if(prevWindowActive_g > 2) {
+					myTT("prevWindowActive_g: " prevWindowActive_g)
+					;~ t := prevWindowActive_g - 1
+					;~ Send ^{Tab}
+					;~ Send {Ctrl Down}
+					;~ Loop %t%
+					;~ {
+					;~ Send {Ctrl Down}
+					Send {Tab}
+					;~ }
+					;~ Send {Ctrl Up}
 				}
 				
 				sleep 150
 			}
 			
 			if !GetKeyState("D", "P") {
+				myTT("sleep: ")
 				if(prevWindowActive_g = 1) {
 					Send ^{Tab}
 				} else {
@@ -3581,10 +3600,10 @@ else
 		Clipboard := path
 		
 		;~ waitPixel(-1, -1, 312, 660, "0xF36E1B", 0)
-		;~ waitPixel(-1, -1, 316, 734, "0xF36E1B", 0)
+		;~ waitPixel(-1, -1, 312, 747, "0xF36E1B", 0)
 		;~ 683
 		;~ - 683 + 644
-		y1 := 734
+		y1 := 747
 		y2 := 697 - 683 + y1
 		y3 := 651 - 661 + y1
 		y4 := 751 - 708 + y1
@@ -3665,7 +3684,8 @@ else
 							Send {Esc}
 							Sleep 100
 						;~ }
-						Sleep 2000
+						waitPixel(-1, -1, 236, 113, "0xFFFFFF", 0)
+						Sleep 1000
 						waitPixel(-1, -1, 236, 113, "0x595102", 0)
 				
 						PixelGetColor, color, 258, %y11% ; 0xFFFFFF
@@ -8579,7 +8599,7 @@ sendTelegramMessage(message){
 }
 
 
-waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 10, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
+waitPixel(x1, y1, x2, y2, color1, not_true = 0, duration = 100, x3 = -1, y3 = -1, color2 = "0", stopOnFail = 1){
 	global botStatus
 	;~ 139, 265, "0x00A6FF", 0, 20, 1293, 264, "0x00A6FF"
 			loop {
@@ -9514,11 +9534,13 @@ registerModifiers(key){
 		consoleLog()
 		return
 
+	^f::
 	f:: ; d + f :: peek previous window
 		resetModifiers()
 		goToPreviousWindow2()
 		return
 
+	^g::
 	g:: ; d + g :: peek prev tab
 		resetModifiers()
 		peekPrevTab()
