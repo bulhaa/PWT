@@ -9359,6 +9359,10 @@ registerModifiers(key){
 			Send {Up}
 			Sleep 100
 			Send {Enter}
+			Sleep 100
+			Send {Up}
+			Sleep 100
+			Send {Enter}
 		}
 		return
 
