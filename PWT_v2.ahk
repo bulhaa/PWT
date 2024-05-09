@@ -429,8 +429,8 @@ skipFileOrFolder(src_path, dest_path){
 	arr.Push("\selenium-js-tester\")
 	arr.Push("~")
 	arr.Push("\Thumbs.db\")
-	arr.Push("C:\xampp\htdocs\gemen-reporting-module\assets\")
-	arr.Push("C:\xampp\htdocs\gemen-reporting-module\protected\runtime\")
+	arr.Push("C:\xampp\htdocs\ecouncil\ecouncil\assets\")
+	arr.Push("C:\xampp\htdocs\ecouncil\ecouncil\protected\runtime\")
 	arr.Push("\ec.sublime-project\")
 	arr.Push("\ec.sublime-workspace\")
 	arr.Push("\.env\")
@@ -2441,12 +2441,12 @@ else if(Stack="15v") ; load new search configuration from external file
 	}
 else if(Stack="15y") ; push eCouncil to git
 	{
-		Button1_Label=Run cmd`nWinWaitActive, ahk_exe cmd.exe`nSend cd C:\xampp\htdocs\gemen-reporting-module{Enter}`nSend "C:\Program Files\Git\cmd\git.exe"  push -u origin3 master{Enter}`n 
+		Button1_Label=Run cmd`nWinWaitActive, ahk_exe cmd.exe`nSend cd C:\xampp\htdocs\ecouncil\ecouncil{Enter}`nSend "C:\Program Files\Git\cmd\git.exe"  push -u origin3 master{Enter}`n 
 		if run 
 		{ 
 		  Run cmd 
 		  WinWaitActive, ahk_exe cmd.exe 
-		  Send cd /D C:\xampp\htdocs\gemen-reporting-module{Enter} 
+		  Send cd /D C:\xampp\htdocs\ecouncil\ecouncil{Enter} 
 		  Send "C:\Program Files\Git\cmd\git.exe"  push -u origin3 master{Enter} 
 		} 
 	}
@@ -3670,7 +3670,7 @@ else
 		
 				Click 185, %y3% ; console tab
 				MouseMove, 1, 1
-				if(waitPixel(-1, -1, 168, y1, "0xF36E1B", 0)){
+				if(waitPixel(-1, -1, 185, y1, "0xF36E1B", 0)){
 					Send ^v
 					Send {Enter}
 					Click 314, %y3% ; network tab
@@ -4070,7 +4070,7 @@ else
 	
 #if (Stack="16x") ; sync to ecouncil gitlab 
 	`::
-		Source=C:\xampp\htdocs\gemen-reporting-module
+		Source=C:\xampp\htdocs\ecouncil\ecouncil
 		Destination=C:\xampp\htdocs\eCouncil-gitlab\web
 		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
@@ -4081,8 +4081,8 @@ else
 	
 #if (Stack="16w") ; sync from case gitlab 
 	`::
-		Source=C:\xampp\htdocs\case-manager-gitlab
-		Destination=C:\xampp\htdocs\case-manager
+		Source=\\wsl.localhost\Ubuntu\home\hammadh\code\ncit\gems\app\resources
+		Destination=C:\xampp\htdocs\gems-ws-app\resources
 		synchronizeFoldersOneWay(Source, Destination, "O") ; overwrite modifications
 
 		MyTT("Done Synching")
@@ -9599,6 +9599,7 @@ registerModifiers(key){
 	Space:: ; d + Space :: ^a select all
 		resetModifiers()
 		Send ^a
+		copy()
 		return
 	
 	,:: ; d + , :: pixel dev wait pixel
@@ -11601,7 +11602,7 @@ return
 		Sleep 300
 		Clipboard := A_yyyy "_" A_MM "_" A_DD
 		
-		file := "C:\xampp\htdocs\gemen-reporting-module\protected\components\AccessController.php"
+		file := "C:\xampp\htdocs\ecouncil\ecouncil\protected\components\AccessController.php"
 		FileRead, content, %file%
 		content:= RegExReplace(content, ")(\$GLOBALS\[\""commit_date\""\] \= \').*(\'\;)", "$1" date_time "$2")
 		fileWrite( content, file )
