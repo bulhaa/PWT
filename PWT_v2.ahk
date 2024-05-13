@@ -2978,7 +2978,7 @@ else if(Stack="17n") ; ffmpeg concat video files
 	}
 else if(Stack="17o") ; ecouncil db 
 	{
-		Button1_Label=http`://localhost/phpmyadmin/index.php?route=/sql&db=ecouncil_ecouncil_r2&table=addresses&pos=0
+		Button1_Label=http`://localhost:8080/phpmyadmin/index.php?route=/sql&db=ecouncil_ecouncil_r2&table=addresses&pos=0
 	}
 else if(Stack="17s") ; job application 
 	{
@@ -9186,10 +9186,11 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
-	; r + Space :: git revert (VS Code)
-	; f + Space :: ^p VS Code go to file
+	; g + Space :: ^+o VSCode search function
+	; r + Space :: git revert (VSCode)
+	; f + Space :: ^p VSCode go to file
 	; x + x :: down
-	; s + a :: VS Code - focus source control
+	; s + a :: VSCode - focus source control
 	; s + d :: !- VSCode Go Back
 	; s + e :: search_term
 	; s + r :: replacement
@@ -9209,13 +9210,13 @@ scaffoldFiles(){
 	; w + w :: F5 Refresh / Run
 	; f + t :: ^t new tab
 	; d + g :: peek prev tab
-	; t + t :: focus VS Code terminal
+	; t + t :: focus VSCode terminal
 	; s + s :: ^s save
 	; a + a :: insert placeholder
 	; e + e :: Up
 	
 	; e + f :: chrome
-	; e + d :: VS Code
+	; e + d :: VSCode
 	; e + s :: scite
 	; e + a :: git kraken
 	
@@ -9236,8 +9237,8 @@ scaffoldFiles(){
 	; d + n :: reload vue file
 	; f + . :: scaffold clipboard
 	; d + f :: peek previous window
-	; f + , :: focus VS Code Editor
-	; +f + b :: focus VS Code terminal2
+	; f + , :: focus VSCode Editor
+	; +f + b :: focus VSCode terminal2
 	
 	; f + p :: HTML tag expander
 	; d + o :: Arrow function
@@ -9317,7 +9318,7 @@ registerModifiers(key){
 		WinActivate, ahk_exe chrome.exe
 		return
 
-	d:: ; e + d :: VS Code
+	d:: ; e + d :: VSCode
 		resetModifiers()
 		WinActivate, ahk_exe Code.exe
 		return
@@ -9341,14 +9342,14 @@ registerModifiers(key){
 		}
 		return
 		
-	Space:: ; r + Space :: git revert (VS Code)
+	Space:: ; r + Space :: git revert (VSCode)
 		resetModifiers()
 		Send ^k
 		Send ^r
 		return
 
 #if (Stack="15am" and tPressed_g) ; scaffolding mode + t
-	t:: ; t + t :: focus VS Code terminal
+	t:: ; t + t :: focus VSCode terminal
 		if( allowDoubleT_g ) {
 			allowDoubleT_g = 0
 			resetModifiers()
@@ -9419,7 +9420,7 @@ registerModifiers(key){
 		resetModifiers()
 		return
 	
-	a:: ; s + a :: VS Code - focus source control
+	a:: ; s + a :: VSCode - focus source control
 		Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
 		resetModifiers()
 		return
@@ -9594,14 +9595,6 @@ registerModifiers(key){
 	n:: ; d + n :: reload vue file
 		resetModifiers()
 		reloadVueFile()
-		return
-	
-	Space:: ; d + Space :: ^a select all
-		resetModifiers()
-		Send ^a
-		copy()
-		return
-	
 	,:: ; d + , :: pixel dev wait pixel
 		pixelDevWaitPixel()
 		resetModifiers()
@@ -9610,7 +9603,13 @@ registerModifiers(key){
 	.:: ; d + . :: share code to social media
 		shareCodeToSocialMedia()
 		return
+		return
 	
+	Space:: ; d + Space :: ^a select all
+		resetModifiers()
+		Send ^a
+		copy()
+		return	
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
 	
@@ -9739,7 +9738,7 @@ registerModifiers(key){
 		waitSetClipboard(scaffold_row_g)
 		return
 
-	,:: ; f + , :: focus VS Code Editor
+	,:: ; f + , :: focus VSCode Editor
 		Click 596, 72
 		resetModifiers()
 		return
@@ -9751,7 +9750,7 @@ registerModifiers(key){
 		Send ^v
 		return
 		
-	Space:: ; f + Space :: ^p VS Code go to file
+	Space:: ; f + Space :: ^p VSCode go to file
 		resetModifiers()
 		Send ^p
 		return
@@ -9781,7 +9780,7 @@ registerModifiers(key){
 		;~ resetModifiers()
 		;~ return
 		
-	+b:: ; +f + b :: focus VS Code terminal2
+	+b:: ; +f + b :: focus VSCode terminal2
 		click 1435, 1011
 		resetModifiers()
 		return
@@ -9814,6 +9813,13 @@ registerModifiers(key){
 	l:: ; g + l :: End
 		resetModifiers()
 		Send {End}
+		return
+	
+	Space:: ; g + Space :: ^+o VSCode search function
+		resetModifiers()
+		Send ^+o
+		Sleep 100
+		Send :
 		return
 
 
@@ -11602,7 +11608,7 @@ return
 		Sleep 300
 		Clipboard := A_yyyy "_" A_MM "_" A_DD
 		
-		file := "C:\xampp\htdocs\ecouncil\ecouncil\protected\components\AccessController.php"
+		file := "C:\xampp\htdocs\eCouncil\web\protected\components\AccessController.php"
 		FileRead, content, %file%
 		content:= RegExReplace(content, ")(\$GLOBALS\[\""commit_date\""\] \= \').*(\'\;)", "$1" date_time "$2")
 		fileWrite( content, file )
