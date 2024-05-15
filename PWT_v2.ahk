@@ -2594,7 +2594,7 @@ else if(Stack="12s") ; laravel make migration
 	}
 else if(Stack="12g") ; Git export log to csv 
 	{
-		Button1_Label=cd C`:\xampp\htdocs\eCouncil-gitlab`n`ngit log --since="last month" --pretty=format`:`%s > log.txt
+		Button1_Label=git log --since="last month" --pretty=format`:`%s > log.txt
 	}
 else if(Stack="12y") ; sheri bandwidth usage 
 	{
@@ -5256,12 +5256,13 @@ XButton2::
 
 		; discord Today at 6:48 PM
 		t := RegExReplace(t, ")(Today|Yesterday) at \d+:\d+ (AM|PM)", "")
+		t := RegExReplace(t, ")\d+[/]\d+[/]\d+ \d+:\d+ (AM|PM)", "")
 		
 		;~ ToolTip % t
 		waitSetClipboard(t)
 		;~ Clipboard := t
 
-		;~ Sleep 2000
+		;~ Sleep 10000
 		;~ ToolTip
 		;~ return
 		
