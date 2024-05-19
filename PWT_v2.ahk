@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;ecouncil gemen local,19m;"
 loadStacks()
 
 
@@ -3107,6 +3107,10 @@ else if(Stack="19k") ; git patch
 else if(Stack="19l") ; efaas dev admin 
 	{
 		Button1_Label=https`://efaas-dev.egov.mv/eFaasAdmin
+	}
+else if(Stack="19m") ; ecouncil gemen local 
+	{
+		Button1_Label=http`://ecouncil.test`:8080/
 	}
 else
 	{	
