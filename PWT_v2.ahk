@@ -5468,8 +5468,8 @@ XButton2::
 	
 	return
 	
-	mergeClipboard(copy = 1, encodeAsSingleElement = 0, copyResult = 1) {
-		return waitClipboard(copy, 1, encodeAsSingleElement, copyResult)
+	mergeClipboard(copy = 1, encodeAsSingleElement = 0, copyResult = 1, override="") {
+		return waitClipboard(copy, 1, encodeAsSingleElement, copyResult, override)
 	}
 	
 	waitSetClipboard(value) {
@@ -5495,7 +5495,7 @@ XButton2::
 		return 1
 	}
 
-	waitClipboard(copy = 1, merge = 0, encodeAsSingleElement = 0, copyResult = 1) {
+	waitClipboard(copy = 1, merge = 0, encodeAsSingleElement = 0, copyResult = 1, override="") {
 		global clipList, clipList_A_Index, clipCounter_g
 		
 
@@ -5526,23 +5526,31 @@ XButton2::
 		;~ Send {Esc}
 		
 		if !ErrorLevel
-		{	
-			temp := Clipboard
-			preview := RegExReplace(Clipboard, "s)^((.*?\R){10}).*", "$1")
+		{
+			if(override)
+				temp := override
+			else
+				temp := Clipboard
+			preview := RegExReplace(temp, "s)^((.*?\R){10}).*", "$1")
 			
 			if(encodeAsSingleElement)
 			{
 				StringReplace, temp, temp, `t, % chr(254), All
 				StringReplace, temp, temp, `n, % chr(255), All
 				StringReplace, temp, temp, `r,, All
-				waitSetClipboard(temp)
+				output := temp
+				if(copyResult)
+					waitSetClipboard(temp)
 			}
 			
 			if(merge){
+				emptyClipList = 0
 				if (clipList != "")
 					clipList .= "`n" temp
-				else
+				else {
+					emptyClipList = 1
 					clipList := temp
+				}
 				
 				StringSplit, clipList, clipList, `n, `r
 				
@@ -5555,7 +5563,9 @@ XButton2::
 						else
 							output := clipList%t%
 					}
-					waitSetClipboard(output)
+					
+					if(copyResult)
+						waitSetClipboard(output)
 				}
 			}
 				
@@ -5567,7 +5577,7 @@ XButton2::
 			;~ Clipboard := oldClipboard
 		}
 		
-		return Clipboard
+		return output
 	}
 	
 	ClipChanged(DataType) {
@@ -8767,11 +8777,11 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0, fo
 	TT_duration = 1000
 	if( !scaffold_output_mode ) {
 		oldClipboard := Clipboard
-		waitClipboard(1, 0, encodeAsSingleElement)
-		if(Clipboard="")
-			Clipboard:=oldClipboard
-		inputValue := Clipboard
-		mergeClipboard(0)
+		t := waitClipboard(1, 0, encodeAsSingleElement, 0)
+		if(t="")
+			t:=oldClipboard
+		inputValue := t
+		mergeClipboard(0, 0, 0, t)
 		suspendTT = 0
 		myTT(inputValue)
 	}else{
@@ -8779,14 +8789,17 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0, fo
 		clipBkp := Clipboard
 		printUsingScaffold( "M", 1, nColumns)
 		if( forcePaste or scaffold_output_mode ) {
-			scaffold_row_g := Trim(scaffold_row_g)
+			;~ scaffold_row_g := Trim(scaffold_row_g)
 			if(!scaffold_row_g and scaffold_row_g!="0")
 				scaffold_row_g := clipBkp
 			
 			;~ if( RegExMatch(scaffold_row_g, "\W") ){
 				;~ Clipboard := ""
 				;~ Sleep 10
-				waitSetClipboard(scaffold_row_g)
+				
+				StringReplace, clipBkp, clipBkp, `r, , All
+				if(clipBkp != scaffold_row_g)
+					waitSetClipboard(scaffold_row_g)
 				;~ Clipboard := scaffold_row_g
 				;~ waitClipboard(0)
 				Send ^v
@@ -8987,7 +9000,14 @@ convertCodeToTemplate(){
 		scaffold_row_g := row
 		
 		;~ waitSetClipboard(row)
-		Clipboard .= row
+		
+		;~ StringSplit, clipList, clipList, `n, `r
+		StringReplace, clipBkp, Clipboard, `r, , All
+		if(clipBkp != row)
+		;~ if(clipList0 > 1)
+		;~ if(Clipboard != row)
+			Clipboard := row
+			;~ Clipboard .= row
 		
 		if(next)
 			myTT(scaffold_row_g)
