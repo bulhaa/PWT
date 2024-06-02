@@ -8790,8 +8790,10 @@ scaffoldSingle(nColumns = -1, defaultTemplate = 1, encodeAsSingleElement = 0, fo
 		printUsingScaffold( "M", 1, nColumns)
 		if( forcePaste or scaffold_output_mode ) {
 			;~ scaffold_row_g := Trim(scaffold_row_g)
-			if(!scaffold_row_g and scaffold_row_g!="0")
+			if(!scaffold_row_g and scaffold_row_g!="0") {
 				scaffold_row_g := clipBkp
+				waitSetClipboard(clipBkp)
+			}
 			
 			;~ if( RegExMatch(scaffold_row_g, "\W") ){
 				;~ Clipboard := ""
@@ -9224,7 +9226,7 @@ scaffoldFiles(){
 	; s + e :: search_term
 	; s + r :: replacement
 	; f + g :: smart replace
-	; v + v :: go to bookmark
+	; v + v :: go to bookmark or inspect element in chrome
 	; v + f :: toggle bookmark
 	; s + c :: code to template
 	; s + v :: template to code
@@ -9906,7 +9908,7 @@ registerModifiers(key){
 		resetModifiers()
 		return
 		
-	u:: ; c + u :: UPPER CASE
+	d:: ; c + d :: UPPER CASE
 		capitalCase()
 		Send ^v
 		resetModifiers()
@@ -9971,12 +9973,14 @@ registerModifiers(key){
 		return
 		
 #if (Stack="15am" and vPressed_g) ; scaffolding mode + v
-	v:: ; v + v :: go to bookmark
+	v:: ; v + v :: go to bookmark or inspect element in chrome
 		if( allowDoubleV_g ) {
 			allowDoubleV_g = 0
 			resetModifiers()
 			IfWinActive, ahk_exe SciTE.exe
 				Send {F2}
+			else if(WinActive("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe"))
+				Send ^+c
 			else
 				Send ^!l
 		}
@@ -10339,6 +10343,7 @@ registerModifiers(key){
 		valueAT%index% := allTitleCase(value%index%)
 		valueT%index% := titleCase(value%index%)
 		valueL%index% := lowerCase(value%index%)
+		valueCS%index% := capitalSnakeCase(value%index%)
 		
 		StringReplace, hayStack, hayStack, ? value%index% ?, % value%index%, All
 		StringReplace, hayStack, hayStack, ? valueC%index% ?, % valueC%index%, All
@@ -10349,6 +10354,7 @@ registerModifiers(key){
 		StringReplace, hayStack, hayStack, ? valueAT%index% ?, % valueAT%index%, All
 		StringReplace, hayStack, hayStack, ? valueT%index% ?, % valueT%index%, All
 		StringReplace, hayStack, hayStack, ? valueL%index% ?, % valueL%index%, All
+		StringReplace, hayStack, hayStack, ? valueCS%index% ?, % valueCS%index%, All
 		
 		return hayStack
 	}
