@@ -8717,6 +8717,9 @@ saveCodeAndRefreshChrome(){
 	else if( WinActive(".ipynb - Colab") ) {
 		Send ^{Enter}
 	}
+	else {
+		Send ^s
+	}
 }
 
 insertPlaceholder(){
