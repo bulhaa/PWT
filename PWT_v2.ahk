@@ -2974,7 +2974,7 @@ else if(Stack="17m") ; ecouncil git
 	}
 else if(Stack="17n") ; ffmpeg concat video files 
 	{
-		Button1_Label=`;~ file '¿ value1 ¿'`n`n`;~ cd C`:\Users\Hammadh`n`;~ C`:\Users\Hammadh\Downloads\ffmpeg-2023-06-21-git-1bcb8a7338-full_build\bin\ffmpeg -safe 0 -f concat -i C`:\Users\Hammadh\mylist.txt -c copy output.mp4`n`n`t+```:`: Send ¿ value1 ¿{Left 3}+{Left}`n
+		Button1_Label=`;~ file '¿ value1 ¿'`n`ncd /d D`:\Downloads`nD`:\Downloads\ffmpeg-2023-06-21-git-1bcb8a7338-full_build\bin\ffmpeg -safe 0 -f concat -i mylist.txt -c copy output.mp4`n`n`t+```:`: Send ¿ value1 ¿{Left 3}+{Left}`n`n
 	}
 else if(Stack="17o") ; ecouncil db 
 	{
@@ -3138,6 +3138,30 @@ else
 }
 
 
+#if (Stack="17n") ; ffmpeg concat video files 
+	`:: ffmpegConcatVideoFiles()
+	
+	ffmpegConcatVideoFiles(){
+		waitClipboard()
+		Source:=Clipboard
+		myTT(Clipboard)
+
+		fileList=
+		counter=0
+		Loop, Files, %Source%\*.*, F
+		{
+			if(counter != 0)
+				fileList .= line "`n"
+			line := "file '" Source "\" counter "'"
+			counter++
+		}
+		
+		file = D:\Downloads\mylist.txt
+		fileWrite( fileList, file)
+			
+		Clipboard:= "cd /d D:\Downloads`nD:\Downloads\ffmpeg-2023-06-21-git-1bcb8a7338-full_build\bin\ffmpeg -safe 0 -f concat -i mylist.txt -c copy output.mp4"
+	}
+	
 #if (Stack="19c") ; ts-node-dev 
 	`::
 		t=`,`n`t`t"s"`: "ts-node-dev --respawn --transpile-only server.js"
@@ -3541,6 +3565,8 @@ else
 			else if( WinActive("\.py") or WinActive(".ipynb - Colab") )
 				runScaffold( "print('? value1 ?`: ', ? value1 ?)", Clipboard)
 			else if( WinActive("\.php") )
+				runScaffold( "dd('? value1 ?`: ', ? value1 ?);", Clipboard)
+			else if( WinActive("\.ctp") )
 				runScaffold( "dd('? value1 ?`: ', ? value1 ?);", Clipboard)
 			else
 				runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
@@ -9225,6 +9251,7 @@ scaffoldFiles(){
 	; f + Space :: ^p VSCode go to file
 	; x + x :: down
 	; s + a :: VSCode - focus source control
+	; s + a :: ffmpeg concat video files
 	; s + d :: !- VSCode Go Back
 	; s + e :: search_term
 	; s + r :: replacement
@@ -9455,7 +9482,8 @@ registerModifiers(key){
 		return
 	
 	a:: ; s + a :: VSCode - focus source control
-		Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
+		ffmpegConcatVideoFiles()
+		;~ Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
