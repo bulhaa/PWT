@@ -9853,6 +9853,11 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and gPressed_g) ; scaffolding mode + g
+	t:: ; g + t :: send time
+		resetModifiers()
+		sendDatetime()
+		return
+		
 	i:: ; g + i :: Page Up
 		resetModifiers()
 		Send {PGUP}
@@ -11652,7 +11657,21 @@ return
 return
 
 #if (Stack="15a") ; Send datetime
-	`::
+	`:: sendDatetime()
+	
+	sendDatetime() {
+		date_time := A_yyyy "-" A_MM "-" A_DD "-" A_Hour ":" A_Min
+		Clipboard:= date_time
+		Send ^v
+		Sleep 300
+		Clipboard := A_yyyy "_" A_MM "_" A_DD
+		
+		file := "C:\xampp\htdocs\eCouncil\web\protected\components\AccessController.php"
+		FileRead, content, %file%
+		content:= RegExReplace(content, ")(\$GLOBALS\[\""commit_date\""\] \= \').*(\'\;)", "$1" date_time "$2")
+		fileWrite( content, file )
+	}
+	
 		;~ waitClipboard()
 		
 		;~ formData:= Clipboard
@@ -11672,17 +11691,6 @@ return
 		;~ Clipboard := formData
 	;~ return
 	
-		date_time := A_yyyy "-" A_MM "-" A_DD "-" A_Hour ":" A_Min
-		Clipboard:= date_time
-		Send ^v
-		Sleep 300
-		Clipboard := A_yyyy "_" A_MM "_" A_DD
-		
-		file := "C:\xampp\htdocs\eCouncil\web\protected\components\AccessController.php"
-		FileRead, content, %file%
-		content:= RegExReplace(content, ")(\$GLOBALS\[\""commit_date\""\] \= \').*(\'\;)", "$1" date_time "$2")
-		fileWrite( content, file )
-	return
 
 	
 #if (Stack="15i") ; Request in chrome to JS
