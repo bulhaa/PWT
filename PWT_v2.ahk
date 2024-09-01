@@ -9259,16 +9259,10 @@ scaffoldFiles(){
 	; s + a :: VSCode - focus source control
 	; g + h :: ffmpeg concat video files
 	; s + d :: !- VSCode Go Back
-	; s + e :: search_term
-	; s + r :: replacement
-	; f + g :: smart replace
 	; v + v :: go to bookmark or inspect element in chrome
 	; v + f :: toggle bookmark
-	; s + c :: code to template
-	; s + v :: template to code
 	; d + w :: github to google colabs
 	; d + e :: none mode
-	; d + r :: set scaffold template
 	; f + s :: Page Down
 	; f + a :: End
 	; f + q :: ^+t Reopen closed tab
@@ -9281,6 +9275,23 @@ scaffoldFiles(){
 	; s + s :: ^s save
 	; a + a :: insert placeholder
 	; e + e :: Up
+	
+	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
+	; d + r :: set scaffold template
+	; e + Space :: copy as separate elements
+	; w + Space :: scaffold merge all
+	
+	; v + Space :: scaffold clipboard
+	; d + p :: set scaffold_columns_g
+	; d + h :: copy words as seperate elements
+	
+	; s + e :: search_term
+	; s + r :: replacement
+	; f + g :: smart replace
+	
+	; s + c :: code to template
+	; s + v :: template to code
+	
 	
 	; e + f :: chrome
 	; e + d :: VSCode
@@ -9296,13 +9307,10 @@ scaffoldFiles(){
 	; s + f :: ^z undo
 	; d + s :: ^x cut
 	; d + Space :: ^a select all
-	; d + h :: copy words as seperate elements
-	; f + h :: copy as separate elements
 	; d + c :: ^c copy
 	; d + . :: share code to social media
 	; d + , :: pixel dev wait pixel
 	; d + n :: reload vue file
-	; f + . :: scaffold clipboard
 	; d + f :: peek previous window
 	; f + , :: focus VSCode Editor
 	; +f + b :: focus VSCode terminal2
@@ -9333,9 +9341,6 @@ scaffoldFiles(){
 	
 	; f + u :: surround selection by quotes
 	
-	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
-	; f + m :: scaffold merge all
-	; d + p :: set scaffold_columns_g
 	
 	
 	; f + j :: Left
@@ -9371,6 +9376,14 @@ registerModifiers(key){
 		}
 		return
 		
+	Space:: ; w + Space :: scaffold merge all
+		resetModifiers()
+		;~ Send ^z
+		scaffoldMergeAll( scaffold_columns_g )
+		waitSetClipboard(scaffold_row_g)
+		return
+
+		
 #if (Stack="15am" and ePressed_g) ; scaffolding mode + e
 	e:: ; e + e :: Up
 		if( allowDoubleE_g ) {
@@ -9399,6 +9412,13 @@ registerModifiers(key){
 		resetModifiers()
 		WinActivate, ahk_exe gitkraken.exe
 		return
+		
+	Space:: ; e + Space :: copy as separate elements
+		resetModifiers()
+		scaffold_output_mode = 0
+		scaffoldSingle( scaffold_columns_g )
+		return
+
 
 #if (Stack="15am" and rPressed_g) ; scaffolding mode + r
 	r:: ; r + r :: ^h replace
@@ -9753,11 +9773,7 @@ registerModifiers(key){
 		scaffold_template := scaffold_template_bkp
 		return
 	
-	h:: ; f + h :: copy as separate elements
-		resetModifiers()
-		scaffold_output_mode = 0
-		scaffoldSingle( scaffold_columns_g )
-		return
+	h:: ; f + h ::
 	
 	j:: ; f + j :: Left
 		Send {Left}
@@ -9799,24 +9815,14 @@ registerModifiers(key){
 		Send {Ctrl Down}{Enter}{Ctrl Up}
 		return
 	
-	m:: ; f + m :: scaffold merge all
-		resetModifiers()
-		;~ Send ^z
-		scaffoldMergeAll( scaffold_columns_g )
-		waitSetClipboard(scaffold_row_g)
-		return
+	m:: ; f + m :
 
 	,:: ; f + , :: focus VSCode Editor
 		Click 596, 72
 		resetModifiers()
 		return
 	
-	.:: ; f + . :: scaffold clipboard
-		resetModifiers()
-		waitClipboard()
-		runScaffold( scaffold_template, Clipboard)
-		Send ^v
-		return
+	.:: ; f + . ::
 		
 	Space:: ; f + Space :: ^p VSCode go to file
 		resetModifiers()
@@ -10040,6 +10046,14 @@ registerModifiers(key){
 		else
 			Send ^!k
 		return
+		
+	Space:: ; v + Space :: scaffold clipboard
+		resetModifiers()
+		waitClipboard()
+		runScaffold( scaffold_template, Clipboard)
+		Send ^v
+		return
+		
 
 #if (Stack="15ak") ; Go to reference 
 	`:: goToReference()
