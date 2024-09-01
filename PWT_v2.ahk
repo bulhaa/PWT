@@ -5568,11 +5568,12 @@ XButton2::
 				StringReplace, temp, temp, `t, % chr(254), All
 				StringReplace, temp, temp, `n, % chr(255), All
 				StringReplace, temp, temp, `r,, All
-				output := temp
-				if(copyResult)
-					waitSetClipboard(temp)
 			}
 			
+			output := temp
+			if(copyResult)
+				waitSetClipboard(temp)
+
 			if(merge){
 				emptyClipList = 0
 				if (clipList != "")
@@ -9250,12 +9251,13 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; g + t :: send time
 	; g + Space :: ^+o VSCode search function
 	; r + Space :: git revert (VSCode)
 	; f + Space :: ^p VSCode go to file
 	; x + x :: down
 	; s + a :: VSCode - focus source control
-	; s + a :: ffmpeg concat video files
+	; g + h :: ffmpeg concat video files
 	; s + d :: !- VSCode Go Back
 	; s + e :: search_term
 	; s + r :: replacement
@@ -9313,7 +9315,7 @@ scaffoldFiles(){
 	; c + - :: kebab-case
 	; +c + - :: snake_case
 	; c + f :: lower case
-	; c + u :: UPPER CASE
+	; c + d :: UPPER CASE
 	; c + i :: CapitalCamelCase
 	; c + j :: camelCase
 	; c + h :: All Title Case
@@ -9486,8 +9488,7 @@ registerModifiers(key){
 		return
 	
 	a:: ; s + a :: VSCode - focus source control
-		ffmpegConcatVideoFiles()
-		;~ Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
+		Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
 		resetModifiers()
 		return
 	
@@ -9674,7 +9675,7 @@ registerModifiers(key){
 	Space:: ; d + Space :: ^a select all
 		resetModifiers()
 		Send ^a
-		copy()
+		;~ copy()
 		return	
 		
 #if (Stack="15am" and fPressed_g) ; scaffolding mode + f
@@ -9754,6 +9755,7 @@ registerModifiers(key){
 	
 	h:: ; f + h :: copy as separate elements
 		resetModifiers()
+		scaffold_output_mode = 0
 		scaffoldSingle( scaffold_columns_g )
 		return
 	
@@ -9871,6 +9873,11 @@ registerModifiers(key){
 		}
 		return
 	
+	h:: ; g + h :: ffmpeg concat video files
+		resetModifiers()
+		ffmpegConcatVideoFiles()
+		return
+	
 	j:: ; g + j :: Home
 		resetModifiers()
 		Send {Home}
@@ -9937,27 +9944,27 @@ registerModifiers(key){
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
 	-:: ; c + - :: kebab-case
+		resetModifiers()
 		snakeCaseWithHyphen()
 		Send ^v
-		resetModifiers()
 		return
 	
 	+-:: ; +c + - :: snake_case
+		resetModifiers()
 		snakeCase()
 		Send ^v
-		resetModifiers()
 		return
 		
 	d:: ; c + d :: UPPER CASE
+		resetModifiers()
 		capitalCase()
 		Send ^v
-		resetModifiers()
 		return
 	
 	i:: ; c + i :: CapitalCamelCase
+		resetModifiers()
 		capitalCamelCase()
 		Send ^v
-		resetModifiers()
 		return
 	
 	o:: ; c + o :: previous scaffold
@@ -9966,27 +9973,27 @@ registerModifiers(key){
 		return
 	
 	f:: ; c + f :: lower case
+		resetModifiers()
 		lowerCase()
 		Send ^v
-		resetModifiers()
 		return
 	
 	h:: ; c + h :: All Title Case
+		resetModifiers()
 		allTitleCase()
 		Send ^v
-		resetModifiers()
 		return
 	
 	j:: ; c + j :: camelCase
+		resetModifiers()
 		camelCase()
 		Send ^v
-		resetModifiers()
 		return
 	
 	k:: ; c + k :: CAPITAL_SNAKE_CASE
+		resetModifiers()
 		capitalSnakeCase()
 		Send ^v
-		resetModifiers()
 		return
 		
 	c:: ; c + c :: ^/ comment
@@ -10001,15 +10008,15 @@ registerModifiers(key){
 		return
 	
 	n:: ; c + n :: Title case
+		resetModifiers()
 		titleCase()
 		Send ^v
-		resetModifiers()
 		return
 	
 	.:: ; c + . :: dot.case
+		resetModifiers()
 		dotCase()
 		Send ^v
-		resetModifiers()
 		return
 		
 #if (Stack="15am" and vPressed_g) ; scaffolding mode + v
