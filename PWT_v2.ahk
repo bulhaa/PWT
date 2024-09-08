@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;ecouncil gemen local,19m;laravel auth login,19n;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;ecouncil gemen local,19m;laravel auth login,19n;xpat grab workpermits of site,19o;"
 loadStacks()
 
 
@@ -3116,6 +3116,10 @@ else if(Stack="19n") ; laravel auth login
 	{
 		Button1_Label=$user = User`:`:find($this->user)`;`nauth()->login($user)`;
 	}
+else if(Stack="19o") ; xpat grab workpermits of site 
+	{
+		Button1_Label=output = ''`njQuery.each($('#slot-table > tbody > tr > td`:nth-child(3) > div > div > a')`,`n            function( i`, val ) {`n  output += val.href + "\n"`;`n})`nconsole.log(output)`n
+	}
 else
 	{	
 		EditVisible :=1
@@ -3142,6 +3146,16 @@ else
 }
 
 
+#if (Stack="19o") ; xpat grab workpermits of site 
+	`::
+		StringSplit, Clipboard, Clipboard, `n, `r
+		
+		loop %Clipboard0% {
+			if(InStr(Clipboard%A_Index%, "="))
+				run, % Clipboard%A_Index%
+		}
+	return
+	
 #if (Stack="17n") ; ffmpeg concat video files 
 	`:: ffmpegConcatVideoFiles()
 	
