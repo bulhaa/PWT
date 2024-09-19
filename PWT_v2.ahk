@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;ecouncil gemen local,19m;laravel auth login,19n;xpat grab workpermits of site,19o;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;ecouncil gemen local,19m;laravel auth login,19n;xpat grab workpermits of site,19o;r correlation,19p;"
 loadStacks()
 
 
@@ -3119,6 +3119,10 @@ else if(Stack="19n") ; laravel auth login
 else if(Stack="19o") ; xpat grab workpermits of site 
 	{
 		Button1_Label=output = ''`njQuery.each($('#slot-table > tbody > tr > td`:nth-child(3) > div > div > a')`,`n            function( i`, val ) {`n  output += val.href + "\n"`;`n})`nconsole.log(output)`n
+	}
+else if(Stack="19p") ; r correlation 
+	{
+		Button1_Label=https`://colab.research.google.com/drive/1BYnnbqeyZAlYnxR9IHC8tpW07EpDeyKR#scrollTo=NeGJnU1Cv-sJ`n`ndata1 <- read.csv("Plog(Sheet16) (1).csv"`, header=TRUE`, stringsAsFactors=FALSE)`n`n`ndata1[`,1] <- as.numeric(data1[`,1])`n`nc <- cor(data1`, method = c("pearson"`, "kendall"`, "spearman"))`n`n
 	}
 else
 	{	
