@@ -9303,6 +9303,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; d + r :: ^+n new folder
 	; g + r :: toggle easy typing
 	; g + t :: send time
 	; g + Space :: ^+o VSCode search function
@@ -9326,7 +9327,7 @@ scaffoldFiles(){
 	; d + g :: peek prev tab
 	; t + t :: focus VSCode terminal
 	; s + s :: ^s save
-	; a + a :: 
+	; a + a :: Escape
 	; e + e :: Up
 	
 	; e + Space :: scaffold mode
@@ -9527,15 +9528,16 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and aPressed_g) ; scaffolding mode + a
-	a:: ; a + a :: 
+	a:: ; a + a :: Send Escape
 		if( allowDoubleA_g ) {
 			allowDoubleA_g = 0
 			resetModifiers()
-			;~ if(scaffold_mode_g) {
-				;~ Send ^z
+			if(scaffold_mode_g) {
+				Send ^z
 				scaffoldMergeAll( scaffold_columns_g )
 				waitSetClipboard(scaffold_row_g)
-			;~ } else
+			} else
+				Send {Esc}
 		}
 		return
 		
@@ -9651,8 +9653,9 @@ registerModifiers(key){
 		myTT("None mode")
 		return
 		
-	r:: ; d + r :: 
+	r:: ; d + r :: ^+n new folder
 		resetModifiers()
+		Send ^+n
 		return
 		
 	u:: ; d + u :: decode lines and tabs wrapper
