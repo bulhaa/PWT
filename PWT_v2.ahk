@@ -3381,6 +3381,41 @@ else
 	!d:: myTT("sleep: !d")
 	!g:: myTT("sleep: !g")
 
+	handleDoubleS() {
+		global
+		if( allowDoubleS_g ) {
+			allowDoubleS_g = 0
+			resetModifiers()
+			if(scaffold_mode_g) {
+				; copy as separate elements
+				resetModifiers()
+				scaffold_output_mode = 0
+				scaffoldSingle( scaffold_columns_g )
+				myTT("copy as separate elements")
+			} else
+				saveCodeAndRefreshChrome()
+		}
+	}
+
+	handleDoubleD() {
+		global
+		if( allowDoubleD_g ) {
+			allowDoubleD_g = 0
+			resetModifiers()
+			if(scaffold_mode_g) {
+				; set scaffold template
+				oldClipboard := Clipboard
+				waitClipboard()
+				if(Clipboard="")
+					Clipboard:=oldClipboard
+				clip_two := Clipboard
+				scaffold_template := Clipboard
+				myTT("set scaffold template")
+			} else
+				consoleLog()
+		}
+	}
+	
 	peekPrevTab() {
 		Send ^{Tab}
 		;~ myTT("peekPrevTab: ")
@@ -3578,24 +3613,22 @@ else
 		
 	consoleLog() {
 		global
-		if( allowDoubleD_g ) {
-			allowDoubleD_g = 0
-			resetModifiers()
-			
-			if( WinActive("ahk_exe SciTE.exe") )
-				runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
-			else if( WinActive("\.py") or WinActive(".ipynb - Colab") )
-				runScaffold( "print('? value1 ?`: ', ? value1 ?)", Clipboard)
-			else if( WinActive("\.php") )
-				runScaffold( "dd('? value1 ?`: ', ? value1 ?);", Clipboard)
-			else if( WinActive("\.ctp") )
-				runScaffold( "dd('? value1 ?`: ', ? value1 ?);", Clipboard)
-			else
-				runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
-			
-			waitSetClipboard(scaffold_row_g)
-			Send ^v
-		}
+		
+		resetModifiers()
+		
+		if( WinActive("ahk_exe SciTE.exe") )
+			runScaffold( "myTT(""? value1 ?`: "" ? value1 ?)`", Clipboard)
+		else if( WinActive("\.py") or WinActive(".ipynb - Colab") )
+			runScaffold( "print('? value1 ?`: ', ? value1 ?)", Clipboard)
+		else if( WinActive("\.php") )
+			runScaffold( "dd('? value1 ?`: ', ? value1 ?);", Clipboard)
+		else if( WinActive("\.ctp") )
+			runScaffold( "dd('? value1 ?`: ', ? value1 ?);", Clipboard)
+		else
+			runScaffold( "console.log('? value1 ?`: ', ? value1 ?)`;", Clipboard)
+		
+		waitSetClipboard(scaffold_row_g)
+		Send ^v
 	}
 		
 	toggleBetweenHotkeyAndTyping() {
@@ -8761,7 +8794,7 @@ saveCodeAndRefreshChrome(){
 	}
 	else if( WinActive("ahk_class SciTEWindow ahk_exe SciTE.exe") ) {
 		Send ^s
-		Sleep 500
+		Sleep 1000
 		Reload
 	}
 	else if( WinActive(".ipynb - Colab") ) {
@@ -9293,13 +9326,15 @@ scaffoldFiles(){
 	; d + g :: peek prev tab
 	; t + t :: focus VSCode terminal
 	; s + s :: ^s save
-	; a + a :: insert placeholder
+	; a + a :: 
 	; e + e :: Up
 	
+	; e + Space :: scaffold mode
+	; f + f :: insert placeholder
+	; d + d :: set scaffold template
+	; s + s :: copy as separate elements
+	; a + a :: scaffold merge all
 	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
-	; d + r :: set scaffold template
-	; e + Space :: copy as separate elements
-	; w + Space :: scaffold merge all
 	
 	; v + Space :: scaffold clipboard
 	; d + p :: set scaffold_columns_g
@@ -9397,12 +9432,7 @@ registerModifiers(key){
 		}
 		return
 		
-	Space:: ; w + Space :: scaffold merge all
-		resetModifiers()
-		;~ Send ^z
-		scaffoldMergeAll( scaffold_columns_g )
-		waitSetClipboard(scaffold_row_g)
-		return
+	Space:: ; w + Space :: 
 
 		
 #if (Stack="15am" and ePressed_g) ; scaffolding mode + e
@@ -9442,10 +9472,12 @@ registerModifiers(key){
 		;~ WinActivate, RStudio ahk_class Chrome_WidgetWin_1 ahk_exe rstudio.exe
 		return
 		
-	Space:: ; e + Space :: copy as separate elements
+	Space:: ; e + Space :: scaffold mode
 		resetModifiers()
-		scaffold_output_mode = 0
-		scaffoldSingle( scaffold_columns_g )
+		scaffold_mode_g = 1
+		myTT("scaffold_mode_g: " scaffold_mode_g)
+		;~ scaffold_output_mode = 0
+		;~ scaffoldSingle( scaffold_columns_g )
 		return
 
 
@@ -9495,11 +9527,15 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and aPressed_g) ; scaffolding mode + a
-	a:: ; a + a :: insert placeholder
+	a:: ; a + a :: 
 		if( allowDoubleA_g ) {
 			allowDoubleA_g = 0
 			resetModifiers()
-			insertPlaceholder()
+			;~ if(scaffold_mode_g) {
+				;~ Send ^z
+				scaffoldMergeAll( scaffold_columns_g )
+				waitSetClipboard(scaffold_row_g)
+			;~ } else
 		}
 		return
 		
@@ -9517,36 +9553,32 @@ registerModifiers(key){
 		return
 
 	i:: ; s + i :: +Page Up
-		Send {Shift Down}{PGUP}{Shift Up}
 		resetModifiers()
+		Send {Shift Down}{PGUP}{Shift Up}
 		return
 
 	j:: ; s + j :: ^+Left
-		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
 		resetModifiers()
+		Send {Ctrl Down}{Shift Down}{Left}{Shift Up}{Ctrl Up}
 		return
 	
 	k:: ; s + k :: +Page Down
-		Send {Shift Down}{PGDN}{Shift Up}
 		resetModifiers()
+		Send {Shift Down}{PGDN}{Shift Up}
 		return
 	
 	l:: ; s + l :: ^+Right
-		Send {Ctrl Down}{Shift Down}{Right}{Shift Up}{Ctrl Up}
 		resetModifiers()
+		Send {Ctrl Down}{Shift Down}{Right}{Shift Up}{Ctrl Up}
 		return
 	
 	a:: ; s + a :: VSCode - focus source control
-		Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
 		resetModifiers()
+		Send {Ctrl Down}{Alt Down}so{Alt Up}{Ctrl Up}
 		return
 	
 	s:: ; s + s :: ^s save
-		if( allowDoubleS_g ) {
-			allowDoubleS_g = 0
-			resetModifiers()
-			saveCodeAndRefreshChrome()
-		}
+		handleDoubleS()
 		return
 	
 	d:: ; s + d :: !- VSCode Go Back
@@ -9619,14 +9651,8 @@ registerModifiers(key){
 		myTT("None mode")
 		return
 		
-	r:: ; d + r :: set scaffold template
+	r:: ; d + r :: 
 		resetModifiers()
-		oldClipboard := Clipboard
-		waitClipboard()
-		if(Clipboard="")
-			Clipboard:=oldClipboard
-		clip_two := Clipboard
-		scaffold_template := Clipboard
 		return
 		
 	u:: ; d + u :: decode lines and tabs wrapper
@@ -9640,10 +9666,10 @@ registerModifiers(key){
 		return
 	
 	o Up:: ; d + o :: Arrow function
+		resetModifiers()
 		Clipboard := "(d, i) => {}"
 		Sleep 100
 		Send ^v
-		resetModifiers()
 	o:: return
 
 	p:: ; d + p :: set scaffold_columns_g
@@ -9659,7 +9685,7 @@ registerModifiers(key){
 		return
 		
 	d:: ; d + d :: console log
-		consoleLog()
+		handleDoubleD()
 		return
 
 	^f::
@@ -9783,7 +9809,10 @@ registerModifiers(key){
 		if( allowDoubleF_g ) {
 			allowDoubleF_g = 0
 			resetModifiers()
-			Send {Enter}
+			if(scaffold_mode_g)
+				insertPlaceholder()
+			else
+				Send {Enter}
 		}
 		return
 	
@@ -12090,11 +12119,13 @@ return
 		Send ^a
 	return
 	
-#if (Stack != "15am") ; not scaffolding mode 
+;~ #if (Stack != "15am") ; not scaffolding mode 
+#if
 	CapsLock::
 			Stack:="15am"
 			Manager()
 			myTT("Scaffoldin mode")
+			scaffold_mode_g = 0
 		return
 	
 #if
