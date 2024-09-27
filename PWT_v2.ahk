@@ -3386,14 +3386,7 @@ else
 		if( allowDoubleS_g ) {
 			allowDoubleS_g = 0
 			resetModifiers()
-			if(scaffold_mode_g) {
-				; copy as separate elements
-				resetModifiers()
-				scaffold_output_mode = 0
-				scaffoldSingle( scaffold_columns_g )
-				myTT("copy as separate elements")
-			} else
-				saveCodeAndRefreshChrome()
+			saveCodeAndRefreshChrome()
 		}
 	}
 
@@ -3402,17 +3395,7 @@ else
 		if( allowDoubleD_g ) {
 			allowDoubleD_g = 0
 			resetModifiers()
-			if(scaffold_mode_g) {
-				; set scaffold template
-				oldClipboard := Clipboard
-				waitClipboard()
-				if(Clipboard="")
-					Clipboard:=oldClipboard
-				clip_two := Clipboard
-				scaffold_template := Clipboard
-				myTT("set scaffold template")
-			} else
-				consoleLog()
+			consoleLog()
 		}
 	}
 	
@@ -9303,6 +9286,8 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; v + f :: arrow keys mode
+	; e + Space :: Escape
 	; d + r :: ^+n new folder
 	; g + r :: toggle easy typing
 	; g + t :: send time
@@ -9314,7 +9299,7 @@ scaffoldFiles(){
 	; g + h :: ffmpeg concat video files
 	; s + d :: !- VSCode Go Back
 	; v + v :: go to bookmark or inspect element in chrome
-	; v + f :: toggle bookmark
+	; v + Space :: toggle bookmark
 	; d + w :: github to google colabs
 	; d + e :: none mode
 	; f + s :: Page Down
@@ -9327,17 +9312,17 @@ scaffoldFiles(){
 	; d + g :: peek prev tab
 	; t + t :: focus VSCode terminal
 	; s + s :: ^s save
-	; a + a :: Escape
+	; a + a :: page up
 	; e + e :: Up
 	
-	; e + Space :: scaffold mode
-	; f + f :: insert placeholder
-	; d + d :: set scaffold template
-	; s + s :: copy as separate elements
-	; a + a :: scaffold merge all
+	; w + Space :: scaffold mode
 	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
+	; f :: insert placeholder
+	; d :: set scaffold template
+	; s :: copy as separate elements
+	; a :: scaffold merge all
 	
-	; v + Space :: scaffold clipboard
+	; v + g :: scaffold clipboard
 	; d + p :: set scaffold_columns_g
 	; d + h :: copy words as seperate elements
 	
@@ -9424,6 +9409,258 @@ registerModifiers(key){
 }
 
 
+#if (Stack="15am" and mode_g = "arrow keys mode") ; scaffolding mode + arrow keys mode
+	e:: ; e :: Up
+		Send {Up}
+		resetModifiers()
+		return
+	
+	s:: ; s :: Left
+		Send {Left}
+		resetModifiers()
+		return
+	
+	d:: ; d :: Down
+		Send {Down}
+		resetModifiers()
+		return
+	
+	f:: ; f :: Right
+		Send {Right}
+		resetModifiers()
+		return
+
+	a:: ; a :: Home
+		Send {Home}
+		resetModifiers()
+		return
+
+	c:: ; c :: End
+		Send {End}
+		resetModifiers()
+		return
+
+	t:: ; t :: Page Up
+		Send {PGUP}
+		resetModifiers()
+		return
+
+	g:: ; g :: Page Down
+		Send {PGDN}
+		resetModifiers()
+		return
+
+	v:: ; v :: arrow keys mode selector mode
+		mode_g := "arrow keys mode selector mode"
+		resetModifiers()
+		return
+
+#if (Stack="15am" and mode_g = "arrow keys with Ctrl mode") ; scaffolding mode + arrow keys with Ctrl mode
+	e:: ; e :: Up
+		Send ^{Up}
+		resetModifiers()
+		return
+	
+	s:: ; s :: Left
+		Send ^{Left}
+		resetModifiers()
+		return
+	
+	d:: ; d :: Down
+		Send ^{Down}
+		resetModifiers()
+		return
+	
+	f:: ; f :: Right
+		Send ^{Right}
+		resetModifiers()
+		return
+
+	a:: ; a :: Home
+		Send ^{Home}
+		resetModifiers()
+		return
+
+	c:: ; c :: End
+		Send ^{End}
+		resetModifiers()
+		return
+
+	t:: ; t :: Page Up
+		Send ^{PGUP}
+		resetModifiers()
+		return
+
+	g:: ; g :: Page Down
+		Send ^{PGDN}
+		resetModifiers()
+		return
+
+	v:: ; v :: arrow keys mode selector mode
+		mode_g := "arrow keys mode selector mode"
+		resetModifiers()
+		return
+		
+#if (Stack="15am" and mode_g = "arrow keys with Shift mode") ; scaffolding mode + arrow keys with Shift mode
+	e:: ; e :: Up
+		Send +{Up}
+		resetModifiers()
+		return
+	
+	s:: ; s :: Left
+		Send +{Left}
+		resetModifiers()
+		return
+	
+	d:: ; d :: Down
+		Send +{Down}
+		resetModifiers()
+		return
+	
+	f:: ; f :: Right
+		Send +{Right}
+		resetModifiers()
+		return
+
+	a:: ; a :: Home
+		Send +{Home}
+		resetModifiers()
+		return
+
+	c:: ; c :: End
+		Send +{End}
+		resetModifiers()
+		return
+
+	t:: ; t :: Page Up
+		Send +{PGUP}
+		resetModifiers()
+		return
+
+	g:: ; g :: Page Down
+		Send +{PGDN}
+		resetModifiers()
+		return
+
+	v:: ; v :: arrow keys mode selector mode
+		mode_g := "arrow keys mode selector mode"
+		resetModifiers()
+		return
+
+#if (Stack="15am" and mode_g = "arrow keys with Ctrl Shift mode") ; scaffolding mode + arrow keys with Ctrl Shift mode
+	e:: ; e :: Up
+		Send ^+{Up}
+		resetModifiers()
+		return
+	
+	s:: ; s :: Left
+		Send ^+{Left}
+		resetModifiers()
+		return
+	
+	d:: ; d :: Down
+		Send ^+{Down}
+		resetModifiers()
+		return
+	
+	f:: ; f :: Right
+		Send ^+{Right}
+		resetModifiers()
+		return
+
+	a:: ; a :: Home
+		Send ^+{Home}
+		resetModifiers()
+		return
+
+	c:: ; c :: End
+		Send ^+{End}
+		resetModifiers()
+		return
+
+	t:: ; t :: Page Up
+		Send ^+{PGUP}
+		resetModifiers()
+		return
+
+	g:: ; g :: Page Down
+		Send ^+{PGDN}
+		resetModifiers()
+		return
+
+	v:: ; v :: arrow keys mode selector mode
+		mode_g := "arrow keys mode selector mode"
+		resetModifiers()
+		return
+
+#if (Stack="15am" and mode_g = "arrow keys mode selector mode") ; scaffolding mode + arrow keys mode selector mode
+	a:: ; a :: scaffold merge all
+		resetModifiers()
+		mode_g := "arrow keys with Ctrl Shift mode"
+		return
+	
+	s:: ; s :: copy as separate elements
+		resetModifiers()
+		mode_g := "arrow keys with Shift mode"
+		return
+	
+	d:: ; d :: set scaffold template
+		resetModifiers()
+		mode_g := "arrow keys with Ctrl mode"
+		return
+	
+	f:: ; f :: insert placeholder
+		resetModifiers()
+		mode_g := "arrow keys mode"
+		return
+
+#if (Stack="15am" and mode_g = "scaffold mode") ; scaffolding mode + scaffold mode
+	a:: ; a :: scaffold merge all
+		resetModifiers()
+		Send ^z
+		scaffoldMergeAll( scaffold_columns_g )
+		waitSetClipboard(scaffold_row_g)
+		return
+	
+	s:: ; s :: copy as separate elements
+		resetModifiers()
+		scaffold_output_mode = 0
+		scaffoldSingle( scaffold_columns_g )
+		myTT("copy as separate elements")
+		return
+	
+	d:: ; d :: set scaffold template
+		resetModifiers()
+		oldClipboard := Clipboard
+		waitClipboard()
+		if(Clipboard="")
+			Clipboard:=oldClipboard
+		clip_two := Clipboard
+		scaffold_template := Clipboard
+		myTT("set scaffold template")
+		return
+	
+	f:: ; f :: insert placeholder
+		resetModifiers()
+		insertPlaceholder()
+		return
+
+	w:: ; w :: Home
+		resetModifiers()
+		return
+
+	r:: ; r :: End
+		resetModifiers()
+		return
+
+	t:: ; t :: Page Up
+		resetModifiers()
+		return
+
+	g:: ; g :: Page Down
+		resetModifiers()
+		return
+
 #if (Stack="15am" and wPressed_g) ; scaffolding mode + w
 	w:: ; w + w :: F5 Refresh / Run
 		if( allowDoubleW_g ) {
@@ -9433,9 +9670,11 @@ registerModifiers(key){
 		}
 		return
 		
-	Space:: ; w + Space :: 
-
-		
+	Space:: ; w + Space :: scaffold mode
+		resetModifiers()
+		mode_g := "scaffold mode"
+		return
+	
 #if (Stack="15am" and ePressed_g) ; scaffolding mode + e
 	e:: ; e + e :: Up
 		if( allowDoubleE_g ) {
@@ -9473,12 +9712,10 @@ registerModifiers(key){
 		;~ WinActivate, RStudio ahk_class Chrome_WidgetWin_1 ahk_exe rstudio.exe
 		return
 		
-	Space:: ; e + Space :: scaffold mode
+	Space:: ; e + Space :: Escape
 		resetModifiers()
-		scaffold_mode_g = 1
-		myTT("scaffold_mode_g: " scaffold_mode_g)
-		;~ scaffold_output_mode = 0
-		;~ scaffoldSingle( scaffold_columns_g )
+		Send {Esc}
+		myTT(mode_g)
 		return
 
 
@@ -9528,16 +9765,11 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and aPressed_g) ; scaffolding mode + a
-	a:: ; a + a :: Send Escape
+	a:: ; a + a :: page up
 		if( allowDoubleA_g ) {
 			allowDoubleA_g = 0
 			resetModifiers()
-			if(scaffold_mode_g) {
-				Send ^z
-				scaffoldMergeAll( scaffold_columns_g )
-				waitSetClipboard(scaffold_row_g)
-			} else
-				Send {Esc}
+			Send {PGUP}
 		}
 		return
 		
@@ -9812,10 +10044,7 @@ registerModifiers(key){
 		if( allowDoubleF_g ) {
 			allowDoubleF_g = 0
 			resetModifiers()
-			if(scaffold_mode_g)
-				insertPlaceholder()
-			else
-				Send {Enter}
+			Send {Enter}
 		}
 		return
 	
@@ -10109,7 +10338,7 @@ registerModifiers(key){
 		}
 		return
 		
-	f:: ; v + f :: toggle bookmark
+	Space:: ; v + Space :: toggle bookmark
 		resetModifiers()
 		IfWinActive, ahk_exe SciTE.exe
 			Send ^{F2}
@@ -10117,7 +10346,31 @@ registerModifiers(key){
 			Send ^!k
 		return
 		
-	Space:: ; v + Space :: scaffold clipboard
+	f:: ; v + f :: arrow keys mode
+		resetModifiers()
+		mode_g := "arrow keys mode"
+		myTT(mode_g)
+		return
+
+	d:: ; v + d :: arrow keys with Ctrl mode
+		resetModifiers()
+		mode_g := "arrow keys with Ctrl mode"
+		myTT(mode_g)
+		return
+
+	s:: ; v + s :: arrow keys with Shift mode
+		resetModifiers()
+		mode_g := "arrow keys with Shift mode"
+		myTT(mode_g)
+		return
+
+	a:: ; v + a :: arrow keys with Ctrl Shift mode
+		resetModifiers()
+		mode_g := "arrow keys with Ctrl Shift mode"
+		myTT(mode_g)
+		return
+
+	g:: ; v + g :: scaffold clipboard
 		resetModifiers()
 		waitClipboard()
 		runScaffold( scaffold_template, Clipboard)
@@ -12128,7 +12381,7 @@ return
 			Stack:="15am"
 			Manager()
 			myTT("Scaffoldin mode")
-			scaffold_mode_g = 0
+			mode_g = 0
 		return
 	
 #if
