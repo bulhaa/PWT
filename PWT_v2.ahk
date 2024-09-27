@@ -9286,6 +9286,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; a + a :: ^w close tab
 	; v + f :: arrow keys mode
 	; e + Space :: Escape
 	; d + r :: ^+n new folder
@@ -9312,10 +9313,9 @@ scaffoldFiles(){
 	; d + g :: peek prev tab
 	; t + t :: focus VSCode terminal
 	; s + s :: ^s save
-	; a + a :: page up
 	; e + e :: Up
 	
-	; w + Space :: scaffold mode
+	; s + Space :: scaffold mode
 	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
 	; f :: insert placeholder
 	; d :: set scaffold template
@@ -9669,11 +9669,6 @@ registerModifiers(key){
 			Send {F5}
 		}
 		return
-		
-	Space:: ; w + Space :: scaffold mode
-		resetModifiers()
-		mode_g := "scaffold mode"
-		return
 	
 #if (Stack="15am" and ePressed_g) ; scaffolding mode + e
 	e:: ; e + e :: Up
@@ -9765,11 +9760,11 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and aPressed_g) ; scaffolding mode + a
-	a:: ; a + a :: page up
+	a:: ; a + a :: ^w close tab
 		if( allowDoubleA_g ) {
 			allowDoubleA_g = 0
 			resetModifiers()
-			Send {PGUP}
+			Send ^w
 		}
 		return
 		
@@ -9847,6 +9842,10 @@ registerModifiers(key){
 		Send ^v
 		return
 	
+	Space:: ; s + Space :: scaffold mode
+		resetModifiers()
+		mode_g := "scaffold mode"
+		return
 		
 #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
 	i:: ; f + d + i :: ^+Home
