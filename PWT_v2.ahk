@@ -3,7 +3,7 @@ TT_duration = 1000
 if( WinExist( "Debugging] ahk_class SciTEWindow") )
 	suspendTT = 1
 
-new_g_configurations := ", gui_x_offset_g, smart_replace_search_term_g, smart_replace_replacement_g, dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations, dbCache_error_logs, dbCache_primaryKey_error_logs"
+new_g_configurations := ", gui_x_offset_g, smart_replace_search_term_g, smart_replace_replacement_g, dbCache_members, dbCache_primaryKey_members, dbCache_house_registrations, dbCache_primaryKey_house_registrations, dbCache_error_logs, dbCache_primaryKey_error_logs, easy_typing_g"
 g_configurations()
 
 iniClipList()
@@ -3178,10 +3178,10 @@ else
 			counter++
 		}
 		
-		file = D:\Downloads\mylist.txt
+		file = C:\Users\Hammadh\Downloads\mylist.txt
 		fileWrite( fileList, file)
 			
-		Clipboard:= "cd /d D:\Downloads`nD:\Downloads\ffmpeg-2023-06-21-git-1bcb8a7338-full_build\bin\ffmpeg -safe 0 -f concat -i mylist.txt -c copy output.mp4"
+		Clipboard:= "cd /d C:\Users\Hammadh\Downloads`nD:\Downloads\ffmpeg-2023-06-21-git-1bcb8a7338-full_build\bin\ffmpeg -safe 0 -f concat -i mylist.txt -c copy output.mp4"
 	}
 	
 #if (Stack="19c") ; ts-node-dev 
@@ -3510,7 +3510,7 @@ else
 		
 		variablePrefix_l := variablePrefix
 		
-		SetTimer, handleUp, Off  
+		SetTimer, handleUp, Off
 		
 		if(!skip_g and !prevWindowActive_g) {
 			loop 50
@@ -3522,7 +3522,7 @@ else
 			}
 		}
 		
-		if(%variablePrefix_l%PressedAlone_g){
+		if(easy_typing_g and %variablePrefix_l%PressedAlone_g){
 			lastNonHotkeys_time_g := time
 			SendInput {Raw}%key_output_buffer_g%
 		}
@@ -3635,6 +3635,7 @@ else
 		goToEndOfCliplist()
 		scaffold_output_mode = 0
 		scaffoldSingle( scaffold_columns_g, 1, 1 )
+		resetModifiers()
 	}
 		
 	shareCodeToSocialMedia() {
@@ -9269,6 +9270,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; g + r :: toggle easy typing
 	; g + t :: send time
 	; g + Space :: ^+o VSCode search function
 	; r + Space :: git revert (VSCode)
@@ -9311,6 +9313,7 @@ scaffoldFiles(){
 	; s + v :: template to code
 	
 	
+	; e + r :: file explorer
 	; e + f :: chrome
 	; e + d :: VSCode
 	; e + s :: scite
@@ -9338,16 +9341,16 @@ scaffoldFiles(){
 	; i + i :: Send accent
 	; d + d :: console log
 
-	; c + - :: kebab-case
-	; +c + - :: snake_case
+	; c + v :: kebab-case
+	; c + s :: snake_case
 	; c + f :: lower case
 	; c + d :: UPPER CASE
 	; c + i :: CapitalCamelCase
 	; c + j :: camelCase
 	; c + h :: All Title Case
-	; c + n :: Title case
+	; c + a :: Title case
 	; c + k :: CAPITAL_SNAKE_CASE
-	; c + . :: dot.case
+	; c + r :: dot.case
 	
 	; d + v :: ^v paste
 	; f + r :: TTS characters to SoleAsia
@@ -9411,9 +9414,15 @@ registerModifiers(key){
 		}
 		return
 		
+	r:: ; e + r :: file explorer
+		resetModifiers()
+		WinActivate, ahk_class CabinetWClass ahk_exe explorer.exe
+		return
+
 	f:: ; e + f :: chrome
 		resetModifiers()
 		WinActivate, ahk_exe chrome.exe
+		;~ WinActivate, ahk_class CabinetWClass ahk_exe explorer.exe
 		return
 
 	d:: ; e + d :: VSCode
@@ -9424,11 +9433,13 @@ registerModifiers(key){
 	s:: ; e + s :: scite
 		resetModifiers()
 		WinActivate, ahk_exe SciTE.exe
+		;~ WinActivate, ahk_exe WINWORD.EXE
 		return
 
 	a:: ; e + a :: git kraken
 		resetModifiers()
 		WinActivate, ahk_exe gitkraken.exe
+		;~ WinActivate, RStudio ahk_class Chrome_WidgetWin_1 ahk_exe rstudio.exe
 		return
 		
 	Space:: ; e + Space :: copy as separate elements
@@ -9879,6 +9890,15 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and gPressed_g) ; scaffolding mode + g
+	r:: ; g + r :: toggle easy typing
+		resetModifiers()
+		if(easy_typing_g)
+			easy_typing_g = 0
+		else
+			easy_typing_g = 1
+		myTT("easy typing: " easy_typing_g)
+		return
+		
 	t:: ; g + t :: send time
 		resetModifiers()
 		sendDatetime()
@@ -9967,13 +9987,19 @@ registerModifiers(key){
 		
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
-	-:: ; c + - :: kebab-case
+	v:: ; c + v :: kebab-case
 		resetModifiers()
 		snakeCaseWithHyphen()
 		Send ^v
 		return
 	
-	+-:: ; +c + - :: snake_case
+	i:: ; c + i :: CapitalCamelCase
+		resetModifiers()
+		capitalCamelCase()
+		Send ^v
+		return
+	
+	s:: ; c + s :: snake_case
 		resetModifiers()
 		snakeCase()
 		Send ^v
@@ -9982,12 +10008,6 @@ registerModifiers(key){
 	d:: ; c + d :: UPPER CASE
 		resetModifiers()
 		capitalCase()
-		Send ^v
-		return
-	
-	i:: ; c + i :: CapitalCamelCase
-		resetModifiers()
-		capitalCamelCase()
 		Send ^v
 		return
 	
@@ -10031,13 +10051,13 @@ registerModifiers(key){
 		}
 		return
 	
-	n:: ; c + n :: Title case
+	a:: ; c + a :: Title case
 		resetModifiers()
 		titleCase()
 		Send ^v
 		return
 	
-	.:: ; c + . :: dot.case
+	r:: ; c + r :: dot.case
 		resetModifiers()
 		dotCase()
 		Send ^v
