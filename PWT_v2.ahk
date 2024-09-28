@@ -3380,6 +3380,23 @@ else
 	^g:: myTT("sleep: ^g")
 	!d:: myTT("sleep: !d")
 	!g:: myTT("sleep: !g")
+	
+	smartReplace() {
+		global
+		
+		resetModifiers()
+		scaffold_template_bkp := scaffold_template
+		singular := smart_replace_search_term_g
+		init_DB_Fields()
+		template := convertCodeToTemplate()
+		
+		singular := smart_replace_replacement_g
+		init_DB_Fields()
+		content := scaffoldModel( template )
+		waitSetClipboard(content)
+		Send ^v
+		scaffold_template := scaffold_template_bkp
+	}
 
 	handleDoubleS() {
 		global
@@ -9286,6 +9303,12 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; f + g :: 
+	; s + c :: 
+	; s + v :: 
+	
+	; s + e :: !y Yes
+	; s + r :: !n No
 	; a + a :: ^w close tab
 	; v + f :: arrow keys mode
 	; e + Space :: Escape
@@ -9315,6 +9338,7 @@ scaffoldFiles(){
 	; s + s :: ^s save
 	; e + e :: Up
 	
+	
 	; s + Space :: scaffold mode
 	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
 	; f :: insert placeholder
@@ -9322,16 +9346,16 @@ scaffoldFiles(){
 	; s :: copy as separate elements
 	; a :: scaffold merge all
 	
-	; v + g :: scaffold clipboard
+	; g :: scaffold clipboard
 	; d + p :: set scaffold_columns_g
 	; d + h :: copy words as seperate elements
 	
-	; s + e :: search_term
-	; s + r :: replacement
-	; f + g :: smart replace
+	; w :: search_term
+	; e :: replacement
+	; r :: smart replace
 	
-	; s + c :: code to template
-	; s + v :: template to code
+	; c :: code to template
+	; v :: template to code
 	
 	
 	; e + r :: file explorer
@@ -9361,17 +9385,26 @@ scaffoldFiles(){
 	; d + o :: Arrow function
 	; i + i :: Send accent
 	; d + d :: console log
-
-	; c + v :: kebab-case
-	; c + s :: snake_case
-	; c + f :: lower case
-	; c + d :: UPPER CASE
-	; c + i :: CapitalCamelCase
-	; c + j :: camelCase
-	; c + h :: All Title Case
-	; c + a :: Title case
-	; c + k :: CAPITAL_SNAKE_CASE
-	; c + r :: dot.case
+	
+	
+	; c + f :: case mode
+	; Space :: display shortcuts
+	; t :: undo
+	
+	; w :: CapitalCamelCase
+	; e :: camelCase
+	; r :: CAPITAL_SNAKE_CASE
+	
+	; a :: All Title Case
+	; s :: snake_case
+	; d :: UPPER CASE
+	; f :: lower case
+	; g :: Title case
+	
+	; c :: dot.case
+	; v :: kebab-case
+	
+	
 	
 	; d + v :: ^v paste
 	; f + r :: TTS characters to SoleAsia
@@ -9594,27 +9627,127 @@ registerModifiers(key){
 		return
 
 #if (Stack="15am" and mode_g = "arrow keys mode selector mode") ; scaffolding mode + arrow keys mode selector mode
-	a:: ; a :: scaffold merge all
+	a:: ; a :: arrow keys with Ctrl Shift mode
 		resetModifiers()
 		mode_g := "arrow keys with Ctrl Shift mode"
 		return
 	
-	s:: ; s :: copy as separate elements
+	s:: ; s :: arrow keys with Shift mode
 		resetModifiers()
 		mode_g := "arrow keys with Shift mode"
 		return
 	
-	d:: ; d :: set scaffold template
+	d:: ; d :: arrow keys with Ctrl mode
 		resetModifiers()
 		mode_g := "arrow keys with Ctrl mode"
 		return
 	
-	f:: ; f :: insert placeholder
+	f:: ; f :: arrow keys mode
 		resetModifiers()
 		mode_g := "arrow keys mode"
 		return
 
+#if (Stack="15am" and mode_g = "case mode") ; scaffolding mode + case mode
+	
+	w:: ; w :: CapitalCamelCase
+		resetModifiers()
+		capitalCamelCase()
+		Send ^v
+		myTT("CapitalCamelCase")
+		return
+	
+	e:: ; e :: camelCase
+		resetModifiers()
+		camelCase()
+		Send ^v
+		myTT("camelCase")
+		return
+	
+	r:: ; r :: CAPITAL_SNAKE_CASE
+		resetModifiers()
+		capitalSnakeCase()
+		Send ^v
+		myTT("CAPITAL_SNAKE_CASE")
+		return
+	
+	t:: ; t :: undo
+		resetModifiers()
+		Send ^z
+		return
+	
+	a:: ; a :: All Title Case
+		resetModifiers()
+		allTitleCase()
+		Send ^v
+		myTT("All Title Case")
+		return
+	
+	s:: ; s :: snake_case
+		resetModifiers()
+		snakeCase()
+		Send ^v
+		myTT("snake_case")
+		return
+		
+	d:: ; d :: UPPER CASE
+		resetModifiers()
+		capitalCase()
+		Send ^v
+		myTT("UPPER CASE")
+		return
+	
+	f:: ; f :: lower case
+		resetModifiers()
+		lowerCase()
+		Send ^v
+		myTT("lower case")
+		return
+	
+	g:: ; g :: Title case
+		resetModifiers()
+		titleCase()
+		Send ^v
+		myTT("Title case")
+		return
+	
+	c:: ; c :: dot.case
+		resetModifiers()
+		dotCase()
+		Send ^v
+		myTT("dot.case")
+		return
+		
+	v:: ; v :: kebab-case
+		resetModifiers()
+		snakeCaseWithHyphen()
+		Send ^v
+		myTT("kebab-case")
+		return
+		
+	Space:: ; Space :: display shortcuts
+		resetModifiers()
+		ToolTip t `:`: undo`n`nw `:`: CapitalCamelCase`ne `:`: camelCase`nr `:`: CAPITAL_SNAKE_CASE`n`na `:`: All Title Case`ns `:`: snake_case`nd `:`: UPPER CASE`nf `:`: lower case`ng `:`: Title case`n`nc `:`: dot.case`nv `:`: kebab-case
+		;~ Sleep 5000
+		;~ ToolTip
+		return
+
 #if (Stack="15am" and mode_g = "scaffold mode") ; scaffolding mode + scaffold mode
+	w:: ; w :: set smart_replace_search_term_g
+		resetModifiers()
+		waitClipboard()
+		smart_replace_search_term_g := Clipboard
+		return
+
+	e:: ; e :: set smart_replace_replacement_g
+		resetModifiers()
+		waitClipboard()
+		smart_replace_replacement_g := Clipboard
+		return
+	
+	r:: ; r :: smart replace
+		smartReplace()
+		return
+		
 	a:: ; a :: scaffold merge all
 		resetModifiers()
 		Send ^z
@@ -9639,26 +9772,41 @@ registerModifiers(key){
 		scaffold_template := Clipboard
 		myTT("set scaffold template")
 		return
-	
+		
 	f:: ; f :: insert placeholder
 		resetModifiers()
 		insertPlaceholder()
 		return
 
-	w:: ; w :: Home
+	g:: ; g :: scaffold clipboard
 		resetModifiers()
+		waitClipboard()
+		runScaffold( scaffold_template, Clipboard)
+		Send ^v
 		return
-
-	r:: ; r :: End
+	
+	c:: ; c :: code to template
 		resetModifiers()
+		singular := smart_replace_search_term_g
+		init_DB_Fields()
+		convertCodeToTemplate()
 		return
-
-	t:: ; t :: Page Up
+	
+	v:: ; v :: template to code
 		resetModifiers()
+		singular := smart_replace_replacement_g
+		init_DB_Fields()
+		waitClipboard()
+		content := scaffoldModel( Clipboard )
+		waitSetClipboard(content)
+		Send ^v
 		return
-
-	g:: ; g :: Page Down
+		
+	Space:: ; Space :: display shortcuts
 		resetModifiers()
+		ToolTip f `:`: insert placeholder`nd `:`: set scaffold template`ns `:`: copy as separate elements`na `:`: scaffold merge all`n`t`ng `:`: scaffold clipboard`nd + p `:`: set scaffold_columns_g`nd + h `:`: copy words as seperate elements`n`t`nw `:`: search_term`ne `:`: replacement`nr `:`: smart replace`n`t`nc `:`: code to template`nv `:`: template to code
+		;~ Sleep 5000
+		;~ ToolTip
 		return
 
 #if (Stack="15am" and wPressed_g) ; scaffolding mode + w
@@ -9769,16 +9917,14 @@ registerModifiers(key){
 		return
 		
 #if (Stack="15am" and sPressed_g) ; scaffolding mode + s, 
-	e:: ; s + e :: set smart_replace_search_term_g
+	e:: ; s + e :: !y Yes
 		resetModifiers()
-		waitClipboard()
-		smart_replace_search_term_g := Clipboard
+		Send !y
 		return
 
-	r:: ; s + r :: set smart_replace_replacement_g
+	r:: ; s + r :: !n No
 		resetModifiers()
-		waitClipboard()
-		smart_replace_replacement_g := Clipboard
+		Send !n
 		return
 
 	i:: ; s + i :: +Page Up
@@ -9825,26 +9971,14 @@ registerModifiers(key){
 		Send ^y
 		return
 	
-	c:: ; s + c :: code to template
-		resetModifiers()
-		singular := smart_replace_search_term_g
-		init_DB_Fields()
-		convertCodeToTemplate()
-		return
+	c:: ; s + c :: 
 	
-	v:: ; s + v :: template to code
-		resetModifiers()
-		singular := smart_replace_replacement_g
-		init_DB_Fields()
-		waitClipboard()
-		content := scaffoldModel( Clipboard )
-		waitSetClipboard(content)
-		Send ^v
-		return
+	v:: ; s + v :: 
 	
 	Space:: ; s + Space :: scaffold mode
 		resetModifiers()
 		mode_g := "scaffold mode"
+		myTT("scaffold mode")
 		return
 		
 #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
@@ -10047,20 +10181,7 @@ registerModifiers(key){
 		}
 		return
 	
-	g:: ; f + g :: smart replace
-		resetModifiers()
-		scaffold_template_bkp := scaffold_template
-		singular := smart_replace_search_term_g
-		init_DB_Fields()
-		template := convertCodeToTemplate()
-		
-		singular := smart_replace_replacement_g
-		init_DB_Fields()
-		content := scaffoldModel( template )
-		waitSetClipboard(content)
-		Send ^v
-		scaffold_template := scaffold_template_bkp
-		return
+	g:: ; f + g :: 
 	
 	h:: ; f + h ::
 	
@@ -10247,57 +10368,23 @@ registerModifiers(key){
 		
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
-	v:: ; c + v :: kebab-case
-		resetModifiers()
-		snakeCaseWithHyphen()
-		Send ^v
-		return
-	
-	i:: ; c + i :: CapitalCamelCase
-		resetModifiers()
-		capitalCamelCase()
-		Send ^v
-		return
-	
-	s:: ; c + s :: snake_case
-		resetModifiers()
-		snakeCase()
-		Send ^v
-		return
-		
-	d:: ; c + d :: UPPER CASE
-		resetModifiers()
-		capitalCase()
-		Send ^v
-		return
+	r:: ; c + r :: 
 	
 	o:: ; c + o :: previous scaffold
 		resetModifiers()
 		printUsingScaffold( "", 1, -1, 0) ; previous
 		return
 	
-	f:: ; c + f :: lower case
-		resetModifiers()
-		lowerCase()
-		Send ^v
-		return
+	a:: ; c + a :: 
 	
-	h:: ; c + h :: All Title Case
-		resetModifiers()
-		allTitleCase()
-		Send ^v
-		return
+	s:: ; c + s :: 
+		
+	d:: ; c + d :: 
 	
-	j:: ; c + j :: camelCase
+	f:: ; c + f :: case mode
 		resetModifiers()
-		camelCase()
-		Send ^v
-		return
-	
-	k:: ; c + k :: CAPITAL_SNAKE_CASE
-		resetModifiers()
-		capitalSnakeCase()
-		Send ^v
+		mode_g := "case mode"
+		myTT(mode_g)
 		return
 		
 	c:: ; c + c :: ^/ comment
@@ -10310,18 +10397,8 @@ registerModifiers(key){
 				Send ^/
 		}
 		return
-	
-	a:: ; c + a :: Title case
-		resetModifiers()
-		titleCase()
-		Send ^v
-		return
-	
-	r:: ; c + r :: dot.case
-		resetModifiers()
-		dotCase()
-		Send ^v
-		return
+		
+	v:: ; c + v :: 
 		
 #if (Stack="15am" and vPressed_g) ; scaffolding mode + v
 	v:: ; v + v :: go to bookmark or inspect element in chrome
@@ -10369,12 +10446,7 @@ registerModifiers(key){
 		myTT(mode_g)
 		return
 
-	g:: ; v + g :: scaffold clipboard
-		resetModifiers()
-		waitClipboard()
-		runScaffold( scaffold_template, Clipboard)
-		Send ^v
-		return
+	g:: ; v + g :: 
 		
 
 #if (Stack="15ak") ; Go to reference 
