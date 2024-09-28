@@ -3387,11 +3387,11 @@ else
 		resetModifiers()
 		scaffold_template_bkp := scaffold_template
 		singular := smart_replace_search_term_g
-		init_DB_Fields()
-		template := convertCodeToTemplate()
+		init_DB_Fields(1, 1, 0)
+		template := convertCodeToTemplate(0)
 		
 		singular := smart_replace_replacement_g
-		init_DB_Fields()
+		init_DB_Fields(1, 1, 0)
 		content := scaffoldModel( template )
 		waitSetClipboard(content)
 		Send ^v
@@ -3940,7 +3940,7 @@ else
 
 #if (Stack="17x") ; init DB Fields 
 
-	init_DB_Fields( loadName = 1, cache = 1){
+	init_DB_Fields( loadName = 1, cache = 1, fetchFromDB = 1){
 		global modelName, DB_Fields, singularToPlural, pluralToSingular, singular, fields, table_name_singular, table_name_plural, primary_key, primary_key_row
 		
 		if( loadName )
@@ -3975,19 +3975,21 @@ else
 		StringSplit, primary_key_row, primary_key_row, `t
 		primary_key := primary_key_row1
 		
-		if(!DB_Fields or !cache){
-			dataTypes := getDataTypesByHttp()
-			if(dataTypes){
-				relations := getRelationsByHttp()
-				DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
-				setGlobal("dbCache_" plural, DB_Fields)
-			} else {
-				setGlobal("dbCache_" plural, 1)
+		if(fetchFromDB) {
+			if(!DB_Fields or !cache){
+				dataTypes := getDataTypesByHttp()
+				if(dataTypes){
+					relations := getRelationsByHttp()
+					DB_Fields := mergeDataTypesAndRelationships(dataTypes, relations)
+					setGlobal("dbCache_" plural, DB_Fields)
+				} else {
+					setGlobal("dbCache_" plural, 1)
+				}
 			}
+				
+			fields := load_fields()
+			specificFieldsArr()
 		}
-			
-		fields := load_fields()
-		specificFieldsArr()
 	}
 
 	
@@ -8968,7 +8970,7 @@ surroundSelectionByQuotes(){
 	Clipboard := old_Clipboard
 }
 
-convertCodeToTemplate(){
+convertCodeToTemplate(init_DB_Fields = 1){
 	global
 	
 	;unscaffold
@@ -8977,7 +8979,8 @@ convertCodeToTemplate(){
 	content := Clipboard
 	
 	if(singular){
-		init_DB_Fields()
+		if(init_DB_Fields)
+			init_DB_Fields(1, 1, 0)
 		StringCaseSense, On
 		
 		cases =CC`tAT`tS`tSH`tC`tL`tU`tT
