@@ -9304,9 +9304,12 @@ scaffoldFiles(){
 	; d + b :: display shortcut list
 	
 	; f + g :: 
-	; s + c :: 
 	; s + v :: 
 	
+	; c + a :: symbol mode 3
+	; c + s :: symbol mode 2
+	; c + d :: symbol mode 1
+	; s + c :: number pad mode
 	; s + e :: !y Yes
 	; s + r :: !n No
 	; a + a :: ^w close tab
@@ -9647,6 +9650,341 @@ registerModifiers(key){
 		mode_g := "arrow keys mode"
 		return
 
+#if (Stack="15am" and mode_g = "number pad mode") ; scaffolding mode + number pad mode
+	x:: ; x :: 1
+		resetModifiers()
+		Send 1
+		return
+	
+	c:: ; c :: 2
+		resetModifiers()
+		Send 2
+		return
+	
+	v:: ; v :: 3
+		resetModifiers()
+		Send 3
+		return
+	
+	s:: ; s :: 4
+		resetModifiers()
+		Send 4
+		return
+	
+	d:: ; d :: 5
+		resetModifiers()
+		Send 5
+		return
+	
+	f:: ; f :: 6
+		resetModifiers()
+		Send 6
+		return
+	
+	w:: ; w :: 7
+		resetModifiers()
+		Send 7
+		return
+	
+	e:: ; e :: 8
+		resetModifiers()
+		Send 8
+		return
+	
+	r:: ; r :: 9
+		resetModifiers()
+		Send 9
+		return
+	
+	a:: ; a :: 0
+		resetModifiers()
+		Send 0
+		return
+	
+	z:: ; z :: =
+		resetModifiers()
+		SendInput {Raw}=
+		return
+	
+	t:: ; t :: +
+		resetModifiers()
+		SendInput {Raw}+
+		return
+	
+	g:: ; g :: .
+		resetModifiers()
+		SendInput {Raw}.
+		return
+	
+	b:: ; b :: -
+		resetModifiers()
+		SendInput {Raw}-
+		return
+	
+	1:: ; 1 :: (
+		resetModifiers()
+		SendInput {Raw}(
+		return
+	
+	2:: ; 2 :: )
+		resetModifiers()
+		SendInput {Raw})
+		return
+	
+	3:: ; 3 :: *
+		resetModifiers()
+		SendInput {Raw}*
+		return
+	
+	4:: ; 4 :: /
+		resetModifiers()
+		SendInput {Raw}/
+		return
+	
+	q:: ; q :: ^z Undo
+		resetModifiers()
+		Send ^z
+		return
+		
+	Space:: ; Space :: display shortcuts
+		resetModifiers()
+		ToolTip a `:`: 0`nz `:`: =`nt `:`: +`ng `:`: .`nb `:`: -`n1 `:`: (`n2 `:`: )`n3 `:`: *`n4 `:`: /`nq `:`: ^z Undo`n
+		;~ Sleep 5000
+		;~ ToolTip
+		return
+
+	;~ a :: 0
+	;~ z :: =
+	;~ t :: +
+	;~ g :: .
+	;~ b :: -
+	;~ 1 :: (
+	;~ 2 :: )
+	;~ 3 :: *
+	;~ 4 :: /
+	;~ q :: ^z Undo
+
+#if (Stack="15am" and mode_g = "symbol mode 1") ; scaffolding mode + symbol mode 1
+	e:: ; e :: ~
+		resetModifiers()
+		SendInput {Raw}~
+		return
+		
+	r:: ; r :: !
+		resetModifiers()
+		SendInput {Raw}!
+		return
+		
+	t:: ; t :: @
+		resetModifiers()
+		SendInput {Raw}@
+		return
+		
+	c:: ; c :: #
+		resetModifiers()
+		SendInput {Raw}#
+		return
+		
+	v:: ; v :: $
+		resetModifiers()
+		SendInput {Raw}$
+		return
+		
+	a:: ; a :: %
+		resetModifiers()
+		SendInput {Raw}`%
+		return
+		
+	s:: ; s :: ^
+		resetModifiers()
+		SendInput {Raw}^
+		return
+		
+	d:: ; d :: &
+		resetModifiers()
+		SendInput {Raw}&
+		return
+		
+	f:: ; f :: _
+		resetModifiers()
+		SendInput {Raw}_
+		return
+		
+	g:: ; g :: `
+		resetModifiers()
+		SendInput {Raw}``
+		return
+	
+	q:: ; q :: ^z Undo
+		resetModifiers()
+		Send ^z
+		return
+		
+	Space:: ; Space :: display shortcuts
+		resetModifiers()
+		ToolTip e `:`: ~`nr `:`: !`nt `:`: @`nc `:`: #`nv `:`: $`na `:`: `%`ns `:`: ^`nd `:`: &`nf `:`: _`ng `:`: ```nq `:`: ^z Undo
+		;~ Sleep 5000
+		;~ ToolTip
+		return
+	
+	; e :: ~
+	; r :: !
+	; t :: @
+	; c :: #
+	; v :: $
+	; a :: %
+	; s :: ^
+	; d :: &
+	; f :: _
+	; g :: `
+	; q :: ^z Undo
+
+#if (Stack="15am" and mode_g = "symbol mode 2") ; scaffolding mode + symbol mode 2
+	e:: ; e :: (
+		resetModifiers()
+		SendInput {Raw}(
+		return
+		
+	r:: ; r :: )
+		resetModifiers()
+		SendInput {Raw})
+		return
+		
+	t:: ; t :: [
+		resetModifiers()
+		SendInput {Raw}[
+		return
+		
+	c:: ; c :: ]
+		resetModifiers()
+		SendInput {Raw}]
+		return
+		
+	v:: ; v :: \
+		resetModifiers()
+		SendInput {Raw}\
+		return
+		
+	a:: ; a :: ;
+		resetModifiers()
+		SendInput {Raw};
+		return
+		
+	s:: ; s :: '
+		resetModifiers()
+		SendInput {Raw}'
+		return
+		
+	d:: ; d :: ,
+		resetModifiers()
+		SendInput {Raw},
+		return
+		
+	f:: ; f :: .
+		resetModifiers()
+		SendInput {Raw}.
+		return
+		
+	g:: ; g :: /
+		resetModifiers()
+		SendInput {Raw}/
+		return
+	
+	q:: ; q :: ^z Undo
+		resetModifiers()
+		Send ^z
+		return
+		
+	Space:: ; Space :: display shortcuts
+		resetModifiers()
+		ToolTip e `:`: (`nr `:`: )`nt `:`: [`nc `:`: ]`nv `:`: \`na `:`: `;`ns `:`: '`nd `:`: `,`nf `:`: .`ng `:`: /`nq `:`: ^z Undo
+		;~ Sleep 5000
+		;~ ToolTip
+		return
+	
+	; e :: (
+	; r :: )
+	; t :: [
+	; c :: ]
+	; v :: \
+	; a :: ;
+	; s :: '
+	; d :: ,
+	; f :: .
+	; g :: /
+	; q :: ^z Undo
+
+
+#if (Stack="15am" and mode_g = "symbol mode 3") ; scaffolding mode + symbol mode 3
+	e:: ; e :: _
+		resetModifiers()
+		SendInput {Raw}_
+		return
+		
+	r:: ; r :: =
+		resetModifiers()
+		SendInput {Raw}=
+		return
+		
+	t:: ; t :: {
+		resetModifiers()
+		SendInput {Raw}{
+		return
+		
+	c:: ; c :: }
+		resetModifiers()
+		SendInput {Raw}}
+		return
+		
+	v:: ; v :: |
+		resetModifiers()
+		SendInput {Raw}|
+		return
+		
+	a:: ; a :: :
+		resetModifiers()
+		SendInput {Raw}:
+		return
+		
+	s:: ; s :: "
+		resetModifiers()
+		SendInput {Raw}"
+		return
+		
+	d:: ; d :: <
+		resetModifiers()
+		SendInput {Raw}<
+		return
+		
+	f:: ; f :: >
+		resetModifiers()
+		SendInput {Raw}>
+		return
+		
+	g:: ; g :: ?
+		resetModifiers()
+		SendInput {Raw}?
+		return
+		
+	Space:: ; Space :: display shortcuts
+		resetModifiers()
+		ToolTip e `:`: _`nr `:`: =`nt `:`: {`nc `:`: }`nv `:`: |`na `:`: `:`ns `:`: "`nd `:`: <`nf `:`: >`ng `:`: ?`nq `:`: ^z Undo
+		;~ Sleep 5000
+		;~ ToolTip
+		return
+	
+	; e :: _
+	; r :: =
+	; t :: {
+	; c :: }
+	; v :: |
+	; a :: :
+	; s :: "
+	; d :: <
+	; f :: >
+	; g :: ?
+	; q :: ^z Undo
+
 #if (Stack="15am" and mode_g = "case mode") ; scaffolding mode + case mode
 	
 	w:: ; w :: CapitalCamelCase
@@ -9753,6 +10091,7 @@ registerModifiers(key){
 		Send ^z
 		scaffoldMergeAll( scaffold_columns_g )
 		waitSetClipboard(scaffold_row_g)
+		scaffold_template := "test"
 		return
 	
 	s:: ; s :: copy as separate elements
@@ -9804,11 +10143,21 @@ registerModifiers(key){
 		
 	Space:: ; Space :: display shortcuts
 		resetModifiers()
-		ToolTip f `:`: insert placeholder`nd `:`: set scaffold template`ns `:`: copy as separate elements`na `:`: scaffold merge all`n`t`ng `:`: scaffold clipboard`nd + p `:`: set scaffold_columns_g`nd + h `:`: copy words as seperate elements`n`t`nw `:`: search_term`ne `:`: replacement`nr `:`: smart replace`n`t`nc `:`: code to template`nv `:`: template to code
+		ToolTip f `:`: insert placeholder`nd `:`: set scaffold template`ns `:`: copy as separate elements`na `:`: scaffold merge all`n`t`ng `:`: scaffold clipboard`nd + p `:`: set scaffold_columns_g`nd + h `:`: copy words as seperate elements`n`t`nw `:`: search_term`ne `:`: replacement`nr `:`: smart replace`n`t`nc `:`: code to template`nv `:`: template to code`n`n`nvalueC3 `:= camelCase`nvalueCC3 `:= capitalCamelCase`nvalueS3 `:= snakeCase`nvalueSH3 `:= snakecasewithhyphen`nvalueU3 `:= capitalCase`nvalueAT3 `:= allTitleCase`nvalueT3 `:= titleCase`nvalueL3 `:= lowerCase`nvalueCS3 `:= capitalSnakeCase
 		;~ Sleep 5000
 		;~ ToolTip
 		return
-
+		
+	;~ valueC3 := camelCase
+	;~ valueCC3 := capitalCamelCase
+	;~ valueS3 := snakeCase
+	;~ valueSH3 := snakecasewithhyphen
+	;~ valueU3 := capitalCase
+	;~ valueAT3 := allTitleCase
+	;~ valueT3 := titleCase
+	;~ valueL3 := lowerCase
+	;~ valueCS3 := capitalSnakeCase
+	
 #if (Stack="15am" and wPressed_g) ; scaffolding mode + w
 	w:: ; w + w :: F5 Refresh / Run
 		if( allowDoubleW_g ) {
@@ -9971,14 +10320,18 @@ registerModifiers(key){
 		Send ^y
 		return
 	
-	c:: ; s + c :: 
+	c:: ; s + c :: number pad mode
+		resetModifiers()
+		mode_g := "number pad mode"
+		myTT(mode_g)
+		return
 	
 	v:: ; s + v :: 
 	
 	Space:: ; s + Space :: scaffold mode
 		resetModifiers()
 		mode_g := "scaffold mode"
-		myTT("scaffold mode")
+		myTT(mode_g)
 		return
 		
 #if (Stack="15am" and dPressed_g and fPressed_g) ; scaffolding mode + f + d
@@ -10374,12 +10727,24 @@ registerModifiers(key){
 		resetModifiers()
 		printUsingScaffold( "", 1, -1, 0) ; previous
 		return
-	
-	a:: ; c + a :: 
-	
-	s:: ; c + s :: 
 		
-	d:: ; c + d :: 
+	a:: ; c + a :: symbol mode 1
+		resetModifiers()
+		mode_g := "symbol mode 1"
+		myTT(mode_g)
+		return
+		
+	s:: ; c + s :: symbol mode 2
+		resetModifiers()
+		mode_g := "symbol mode 2"
+		myTT(mode_g)
+		return
+		
+	d:: ; c + d :: symbol mode 3
+		resetModifiers()
+		mode_g := "symbol mode 3"
+		myTT(mode_g)
+		return
 	
 	f:: ; c + f :: case mode
 		resetModifiers()
