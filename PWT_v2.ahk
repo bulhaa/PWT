@@ -3390,11 +3390,20 @@ else
 		init_DB_Fields(1, 1, 0)
 		template := convertCodeToTemplate(0)
 		
-		singular := smart_replace_replacement_g
-		init_DB_Fields(1, 1, 0)
-		content := scaffoldModel( template )
-		waitSetClipboard(content)
-		Send ^v
+		StringSplit, smart_replace_replacement_g, smart_replace_replacement_g, `n, `r
+		
+		output=
+		loop %smart_replace_replacement_g0% {
+			singular := smart_replace_replacement_g%A_Index%
+			init_DB_Fields(1, 1, 0)
+			content := scaffoldModel( template )
+			output := output content
+		}
+		
+		waitSetClipboard(output)
+		Send {Right}^v
+		Sleep 100
+		Send {F3}
 		scaffold_template := scaffold_template_bkp
 	}
 
@@ -10087,6 +10096,11 @@ registerModifiers(key){
 	
 	r:: ; r :: smart replace
 		smartReplace()
+		return
+	
+	t:: ; t :: F3 find next
+		resetModifiers()
+		Send {F3}
 		return
 		
 	a:: ; a :: scaffold merge all
