@@ -3404,7 +3404,7 @@ else
 		Send {Right}^v
 		Sleep 100
 		Send {F3}
-		scaffold_template := scaffold_template_bkp
+		;~ scaffold_template := scaffold_template_bkp
 	}
 
 	handleDoubleS() {
@@ -10105,7 +10105,7 @@ registerModifiers(key){
 		
 	a:: ; a :: scaffold merge all
 		resetModifiers()
-		Send ^z
+		;~ Send ^z
 		scaffoldMergeAll( scaffold_columns_g )
 		waitSetClipboard(scaffold_row_g)
 		scaffold_template := "test"
@@ -10198,10 +10198,15 @@ registerModifiers(key){
 		WinActivate, ahk_class CabinetWClass ahk_exe explorer.exe
 		return
 
-	f:: ; e + f :: chrome
+	a:: ; e + a :: git kraken
 		resetModifiers()
-		WinActivate, ahk_exe chrome.exe
-		;~ WinActivate, ahk_class CabinetWClass ahk_exe explorer.exe
+		;~ WinActivate, ahk_exe gitkraken.exe
+		WinActivate, RStudio ahk_class Chrome_WidgetWin_1 ahk_exe rstudio.exe
+		return
+
+	s:: ; e + s :: scite
+		resetModifiers()
+		WinActivate, ahk_exe SciTE.exe
 		return
 
 	d:: ; e + d :: VSCode
@@ -10209,16 +10214,14 @@ registerModifiers(key){
 		WinActivate, ahk_exe Code.exe
 		return
 
-	s:: ; e + s :: scite
+	f:: ; e + f :: chrome
 		resetModifiers()
-		WinActivate, ahk_exe SciTE.exe
-		;~ WinActivate, ahk_exe WINWORD.EXE
+		WinActivate, ahk_exe chrome.exe
 		return
 
-	a:: ; e + a :: git kraken
+	g:: ; e + g :: MS WORD
 		resetModifiers()
-		WinActivate, ahk_exe gitkraken.exe
-		;~ WinActivate, RStudio ahk_class Chrome_WidgetWin_1 ahk_exe rstudio.exe
+		WinActivate, ahk_exe WINWORD.EXE
 		return
 		
 	Space:: ; e + Space :: Escape
