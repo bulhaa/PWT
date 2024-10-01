@@ -9315,8 +9315,8 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
-	; s + v :: 
-	
+	; s + v :: ^w close tab
+	; a + a :: F3 find next
 	; f + g :: F2 rename
 	; c + a :: symbol mode 3
 	; c + s :: symbol mode 2
@@ -9324,7 +9324,6 @@ scaffoldFiles(){
 	; s + c :: number pad mode
 	; s + e :: !y Yes
 	; s + r :: !n No
-	; a + a :: ^w close tab
 	; v + f :: arrow keys mode
 	; e + Space :: Escape
 	; d + r :: ^+n new folder
@@ -10200,8 +10199,8 @@ registerModifiers(key){
 
 	a:: ; e + a :: git kraken
 		resetModifiers()
-		;~ WinActivate, ahk_exe gitkraken.exe
-		WinActivate, RStudio ahk_class Chrome_WidgetWin_1 ahk_exe rstudio.exe
+		WinActivate, ahk_exe gitkraken.exe
+		;~ WinActivate, RStudio ahk_class Chrome_WidgetWin_1 ahk_exe rstudio.exe
 		return
 
 	s:: ; e + s :: scite
@@ -10277,11 +10276,11 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and aPressed_g) ; scaffolding mode + a
-	a:: ; a + a :: ^w close tab
+	a:: ; a + a :: F3 find next
 		if( allowDoubleA_g ) {
 			allowDoubleA_g = 0
 			resetModifiers()
-			Send ^w
+			Send {F3}
 		}
 		return
 		
@@ -10346,7 +10345,10 @@ registerModifiers(key){
 		myTT(mode_g)
 		return
 	
-	v:: ; s + v :: 
+	v:: ; s + v :: ^w close tab
+		resetModifiers()
+		Send ^w
+		return
 	
 	Space:: ; s + Space :: scaffold mode
 		resetModifiers()
