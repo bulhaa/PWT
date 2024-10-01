@@ -2272,7 +2272,8 @@ Manager(){
 	else
 	{
 		StringSplit, zlistBoxItem, zlistBoxItem, `n, `r
-		GuiControl,, Edit2, % zlistBoxItem%listSel%
+		if(!InStr(listSel, " "))
+			GuiControl,, Edit2, % zlistBoxItem%listSel%
 	}
 	
 	Button1_Label := ""
@@ -12843,6 +12844,7 @@ return
 			Manager()
 			myTT("Scaffoldin mode")
 			mode_g = 0
+			lastNonHotkeys_time_g := 0
 		return
 	
 #if
