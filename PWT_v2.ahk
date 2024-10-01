@@ -9315,9 +9315,9 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
-	; f + g :: 
 	; s + v :: 
 	
+	; f + g :: F2 rename
 	; c + a :: symbol mode 3
 	; c + s :: symbol mode 2
 	; c + d :: symbol mode 1
@@ -10554,7 +10554,10 @@ registerModifiers(key){
 		}
 		return
 	
-	g:: ; f + g :: 
+	g:: ; f + g :: F2 rename
+		resetModifiers()
+		Send {F2}
+		return
 	
 	h:: ; f + h ::
 	
