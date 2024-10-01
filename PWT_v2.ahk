@@ -3645,14 +3645,14 @@ else
 		global
 		time := A_DD * 24 * 3600 * 1000 + A_Hour * 3600 * 1000 + A_Min * 60 * 1000 + A_Sec * 1000 + A_MSec
 		skip = 0
-		if( (time - lastNonHotkeys_time_g) < 1500) {
+		;~ if( (time - lastNonHotkeys_time_g) < 1500) {
 		;~ if( lastNonHotkeys_time_g ) {
 			lastNonHotkeys_time_g := 0
 			MyTT("Hotkey")
-		} else {
-			lastNonHotkeys_time_g := time
-			MyTT("Typing")
-		}
+		;~ } else {
+			;~ lastNonHotkeys_time_g := time
+			;~ MyTT("Typing")
+		;~ }
 	}
 
 	copyWordsAsSeperateElements() {
