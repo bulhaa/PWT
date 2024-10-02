@@ -9319,9 +9319,9 @@ scaffoldFiles(){
 	; s + v :: ^w close tab
 	; a + a :: F3 find next
 	; f + g :: F2 rename
-	; c + a :: symbol mode 3
+	; c + a :: symbol mode 1
 	; c + s :: symbol mode 2
-	; c + d :: symbol mode 1
+	; c + d :: symbol mode 3
 	; s + c :: number pad mode
 	; s + e :: !y Yes
 	; s + r :: !n No
@@ -9817,9 +9817,9 @@ registerModifiers(key){
 		SendInput {Raw}&
 		return
 		
-	f:: ; f :: _
+	f:: ; f :: -
 		resetModifiers()
-		SendInput {Raw}_
+		SendInput {Raw}-
 		return
 		
 	g:: ; g :: `
