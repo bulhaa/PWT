@@ -9354,6 +9354,13 @@ scaffoldFiles(){
 	; e + e :: Up
 	
 	
+	; e + r :: file explorer
+	; e + f :: chrome
+	; e + d :: VSCode
+	; e + s :: scite
+	; e + a :: git kraken
+	
+	
 	; s + Space :: scaffold mode
 	`::	scaffoldSingle( scaffold_columns_g, 1, 1 ) ; scaffold single
 	; f :: insert placeholder
@@ -9371,13 +9378,6 @@ scaffoldFiles(){
 	
 	; c :: code to template
 	; v :: template to code
-	
-	
-	; e + r :: file explorer
-	; e + f :: chrome
-	; e + d :: VSCode
-	; e + s :: scite
-	; e + a :: git kraken
 	
 	; c + c :: ^/ comment
 	; r + r :: ^h replace
@@ -9834,7 +9834,7 @@ registerModifiers(key){
 		
 	Space:: ; Space :: display shortcuts
 		resetModifiers()
-		ToolTip e `:`: ~`nr `:`: !`nt `:`: @`nc `:`: #`nv `:`: $`na `:`: `%`ns `:`: ^`nd `:`: &`nf `:`: _`ng `:`: ```nq `:`: ^z Undo
+		ToolTip e `:`: ~`nr `:`: !`nt `:`: @`nc `:`: #`nv `:`: $`na `:`: `%`ns `:`: ^`nd `:`: &`nf `:`: -`ng `:`: ```nq `:`: ^z Undo
 		;~ Sleep 5000
 		;~ ToolTip
 		return
@@ -10108,7 +10108,7 @@ registerModifiers(key){
 		;~ Send ^z
 		scaffoldMergeAll( scaffold_columns_g )
 		waitSetClipboard(scaffold_row_g)
-		scaffold_template := "test"
+		;~ scaffold_template := "test"
 		return
 	
 	s:: ; s :: copy as separate elements
