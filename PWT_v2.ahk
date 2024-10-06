@@ -10194,6 +10194,7 @@ registerModifiers(key){
 		return
 		
 	r:: ; e + r :: file explorer
+		;~ WinGet, Clipboard, ID, A
 		resetModifiers()
 		WinActivate, ahk_class CabinetWClass ahk_exe explorer.exe
 		return
