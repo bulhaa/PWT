@@ -15,7 +15,7 @@ recentFunctions := Object()	; creates initially empty stack
 
 #Include PWT_v2_include.ahk
 
-newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;ecouncil gemen local,19m;laravel auth login,19n;xpat grab workpermits of site,19o;r correlation,19p;"
+newStacks := "pixel dev,18t;Advent of Code - Parabolic Reflector Dish - Challenge Day 14,18u;goblin.tools AI,18v;chrome password manager,18w;git credential cache,18y;git remote set-url,18z;freeCodeCamp connect to pSql,19a;devdocs.io,19b;ts-node-dev,19c;js log after fetch,19d;gemen-reporting.te.egov.mv,19e;bing translator,19f;waitSetClipboard clip set,19g;white noise generator,19h;phind find ai chat bot,19i;git rebase --autostash,19j;git patch,19k;efaas dev admin,19l;ecouncil gemen local,19m;laravel auth login,19n;xpat grab workpermits of site,19o;r correlation,19p;ezee optimus attach menu to item,19q;Benford's law,19r;"
 loadStacks()
 
 
@@ -3124,6 +3124,14 @@ else if(Stack="19o") ; xpat grab workpermits of site
 else if(Stack="19p") ; r correlation 
 	{
 		Button1_Label=https`://colab.research.google.com/drive/1BYnnbqeyZAlYnxR9IHC8tpW07EpDeyKR#scrollTo=NeGJnU1Cv-sJ`n`ndata1 <- read.csv("Plog(Sheet16) (1).csv"`, header=TRUE`, stringsAsFactors=FALSE)`n`n`ndata1[`,1] <- as.numeric(data1[`,1])`n`nc <- cor(data1`, method = c("pearson"`, "kendall"`, "spearman"))`n`n
+	}
+else if(Stack="19q") ; ezee optimus attach menu to item 
+	{
+		Button1_Label=`n`n`t`t`tClick 808`, 635`n`t`t`tSleep`, 100`n`t`t`t`n`t`t`tMouseClick`, left`,  1032`,  500`n`t`t`tSleep`, 100`n`t`t`tClick 1000`, 579`n`t`t`tSleep`, 100`n`t`t`t`n`t`t`tMouseClick`, left`,  1028`,  550`n`t`t`tSleep`, 100`n`t`t`tSend Main`n`t`t`tSleep`, 100`n`t`t`tSend {Enter}`n`t`t`tSleep`, 100`n`t`t`t`n`t`t`tMouseClick`, left`,  1075`,  590`n`t`t`tSleep`, 100`n`t`t`tSend Thai`n`t`t`tSleep`, 100`n`t`t`tSend {Enter}`n`t`t`tSleep`, 100`n`t`t`t`n`t`t`tClick 1078`, 639`n`t`t`tSleep`, 100`n`t`t`tSend Salad`n`t`t`tSleep`, 100`n`t`t`tSend {Enter}`n`t`t`t`n`t`t`tSleep`, 100`n`t`t`t`;~ MouseClick`, left`,  1216`,  692`n`t`t`t`;~ Sleep`, 100
+	}
+else if(Stack="19r") ; Benford's law 
+	{
+		Button1_Label=`t`t`;~ loop 99`n`t`t`;~ {`n`t`t`t`;~ loop `%A_Index`%`n`t`t`t`;~ {`n`t`t`t`t`;~ loop `%A_Index`%`n`t`t`t`t`;~ {`n`t`t`t`t`t`;~ number `:= A_Index . "a"`n`t`t`t`t`t`;~ StringSplit`, number`, number`, `n`t`t`t`t`t`;~ t`%number1`%++`n`t`t`t`t`;~ }`n`t`t`t`;~ }`n`t`t`;~ }`n`t`t`n`t`t`;~ output=`n`t`t`;~ loop 9`n`t`t`;~ {`n`t`t`t`;~ output .= A_Index "`:" t`%A_Index`%++ "``n"`n`t`t`;~ }`n`t`t`n`t`t`;~ MsgBox `%output`%`n`t`t`;~ myTT(output)`n`t`;~ return`n`n
 	}
 else
 	{	
@@ -9316,6 +9324,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; e + c :: Win ID to clipboard
 	; s + v :: ^w close tab
 	; a + a :: F3 find next
 	; f + g :: F2 rename
@@ -10194,7 +10203,6 @@ registerModifiers(key){
 		return
 		
 	r:: ; e + r :: file explorer
-		;~ WinGet, Clipboard, ID, A
 		resetModifiers()
 		WinActivate, ahk_class CabinetWClass ahk_exe explorer.exe
 		return
@@ -10223,6 +10231,13 @@ registerModifiers(key){
 	g:: ; e + g :: MS WORD
 		resetModifiers()
 		WinActivate, ahk_exe WINWORD.EXE
+		return
+
+	c:: ; e + c :: Win ID to clipboard
+		resetModifiers()
+		WinGet, t, ID, A
+		Clipboard := "ahk_id " t
+		myTT(Clipboard)
 		return
 		
 	Space:: ; e + Space :: Escape
