@@ -9324,6 +9324,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; f + b :: get mouse coordinates
 	; e + c :: Win ID to clipboard
 	; s + v :: ^w close tab
 	; a + a :: F3 find next
@@ -9339,6 +9340,15 @@ scaffoldFiles(){
 	; d + r :: ^+n new folder
 	; g + r :: toggle easy typing
 	; g + t :: send time
+	
+	
+	; e + r :: file explorer
+	; e + f :: chrome
+	; e + d :: VSCode
+	; e + s :: scite
+	; e + a :: git kraken
+	
+	
 	; g + Space :: ^+o VSCode search function
 	; r + Space :: git revert (VSCode)
 	; f + Space :: ^p VSCode go to file
@@ -9361,13 +9371,6 @@ scaffoldFiles(){
 	; t + t :: focus VSCode terminal
 	; s + s :: ^s save
 	; e + e :: Up
-	
-	
-	; e + r :: file explorer
-	; e + f :: chrome
-	; e + d :: VSCode
-	; e + s :: scite
-	; e + a :: git kraken
 	
 	
 	; s + Space :: scaffold mode
@@ -9672,19 +9675,19 @@ registerModifiers(key){
 		return
 
 #if (Stack="15am" and mode_g = "number pad mode") ; scaffolding mode + number pad mode
-	x:: ; x :: 1
+	b:: ; b :: +
+		resetModifiers()
+		Send {Raw}+
+		return
+	
+	c:: ; c :: 1
 		resetModifiers()
 		Send 1
 		return
 	
-	c:: ; c :: 2
+	v:: ; v :: 2
 		resetModifiers()
 		Send 2
-		return
-	
-	v:: ; v :: 3
-		resetModifiers()
-		Send 3
 		return
 	
 	s:: ; s :: 4
@@ -9727,17 +9730,17 @@ registerModifiers(key){
 		SendInput {Raw}=
 		return
 	
-	t:: ; t :: +
-		resetModifiers()
-		SendInput {Raw}+
-		return
-	
-	g:: ; g :: .
+	t:: ; t :: .
 		resetModifiers()
 		SendInput {Raw}.
 		return
 	
-	b:: ; b :: -
+	g:: ; g :: 3
+		resetModifiers()
+		SendInput {Raw}3
+		return
+	
+	q:: ; q :: -
 		resetModifiers()
 		SendInput {Raw}-
 		return
@@ -9762,28 +9765,28 @@ registerModifiers(key){
 		SendInput {Raw}/
 		return
 	
-	q:: ; q :: ^z Undo
+	x:: ; x :: ^z Undo
 		resetModifiers()
 		Send ^z
 		return
 		
 	Space:: ; Space :: display shortcuts
 		resetModifiers()
-		ToolTip a `:`: 0`nz `:`: =`nt `:`: +`ng `:`: .`nb `:`: -`n1 `:`: (`n2 `:`: )`n3 `:`: *`n4 `:`: /`nq `:`: ^z Undo`n
+		ToolTip a `:`: 0`nz `:`: =`nb `:`: +`nt `:`: .`nq `:`: -`n1 `:`: (`n2 `:`: )`n3 `:`: *`n4 `:`: /`nx `:`: ^z Undo`n
 		;~ Sleep 5000
 		;~ ToolTip
 		return
 
 	;~ a :: 0
 	;~ z :: =
-	;~ t :: +
-	;~ g :: .
-	;~ b :: -
+	;~ b :: +
+	;~ t :: .
+	;~ q :: -
 	;~ 1 :: (
 	;~ 2 :: )
 	;~ 3 :: *
 	;~ 4 :: /
-	;~ q :: ^z Undo
+	;~ x :: ^z Undo
 
 #if (Stack="15am" and mode_g = "symbol mode 1") ; scaffolding mode + symbol mode 1
 	e:: ; e :: ~
@@ -10603,6 +10606,15 @@ registerModifiers(key){
 	v:: ; f + v :: go to prev reference
 		resetModifiers()
 		goToPrevReference()
+		return
+	
+	b:: ; f + b :: get mouse coordinates
+		resetModifiers()
+		CoordMode, Mouse, Relative
+		MouseGetPos, X, Y
+		CoordMode, Mouse, Relative
+		Clipboard:="Click " X ", " Y
+		myTT(Clipboard)
 		return
 	
 	n:: ; f + n :: Ctrl + Enter
