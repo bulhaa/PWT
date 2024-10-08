@@ -9324,11 +9324,11 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; c + Space :: F3 find next
 	; v + g :: ^Enter
 	; f + b :: get mouse coordinates
 	; e + c :: Win ID to clipboard
 	; s + v :: ^w close tab
-	; a + a :: F3 find next
 	; f + g :: F2 rename
 	; c + a :: symbol mode 1
 	; c + s :: symbol mode 2
@@ -10332,13 +10332,7 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and aPressed_g) ; scaffolding mode + a
-	a:: ; a + a :: F3 find next
-		if( allowDoubleA_g ) {
-			allowDoubleA_g = 0
-			resetModifiers()
-			Send {F3}
-		}
-		return
+	a:: ; a + a :: 
 		
 #if (Stack="15am" and sPressed_g) ; scaffolding mode + s, 
 	e:: ; s + e :: !y Yes
@@ -10854,6 +10848,11 @@ registerModifiers(key){
 		return
 		
 	v:: ; c + v :: 
+		
+	Space:: ; c + Space :: F3 find next
+		resetModifiers()
+		Send {F3}
+		return
 		
 #if (Stack="15am" and vPressed_g) ; scaffolding mode + v
 	a:: ; v + a :: arrow keys with Ctrl Shift mode
