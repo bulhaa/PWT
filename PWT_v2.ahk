@@ -9681,14 +9681,14 @@ registerModifiers(key){
 		Send {Raw}+
 		return
 	
-	c:: ; c :: 1
+	c:: ; c :: 0
 		resetModifiers()
-		Send 1
+		Send 0
 		return
 	
-	v:: ; v :: 2
+	v:: ; v :: 1
 		resetModifiers()
-		Send 2
+		Send 1
 		return
 	
 	s:: ; s :: 4
@@ -9721,9 +9721,9 @@ registerModifiers(key){
 		Send 9
 		return
 	
-	a:: ; a :: 0
+	a:: ; a :: 2
 		resetModifiers()
-		Send 0
+		Send 2
 		return
 	
 	z:: ; z :: =
@@ -9805,7 +9805,7 @@ registerModifiers(key){
 		SendInput {Raw}@
 		return
 		
-	c:: ; c :: #
+	w:: ; w :: #
 		resetModifiers()
 		SendInput {Raw}#
 		return
@@ -9845,9 +9845,14 @@ registerModifiers(key){
 		Send ^z
 		return
 		
+	c:: ; c :: symbol mode switcher mode
+		resetModifiers()
+		mode_g := "symbol mode switcher mode"
+		return
+		
 	Space:: ; Space :: display shortcuts
 		resetModifiers()
-		ToolTip e `:`: ~`nr `:`: !`nt `:`: @`nc `:`: #`nv `:`: $`na `:`: `%`ns `:`: ^`nd `:`: &`nf `:`: -`ng `:`: ```nq `:`: ^z Undo
+		ToolTip e `:`: ~`nr `:`: !`nt `:`: @`nw `:`: #`nv `:`: $`na `:`: `%`ns `:`: ^`nd `:`: &`nf `:`: -`ng `:`: ```nq `:`: ^z Undo
 		;~ Sleep 5000
 		;~ ToolTip
 		return
@@ -9855,7 +9860,7 @@ registerModifiers(key){
 	; e :: ~
 	; r :: !
 	; t :: @
-	; c :: #
+	; w :: #
 	; v :: $
 	; a :: %
 	; s :: ^
@@ -9880,7 +9885,7 @@ registerModifiers(key){
 		SendInput {Raw}[
 		return
 		
-	c:: ; c :: ]
+	w:: ; w :: ]
 		resetModifiers()
 		SendInput {Raw}]
 		return
@@ -9920,9 +9925,14 @@ registerModifiers(key){
 		Send ^z
 		return
 		
+	c:: ; c :: symbol mode switcher mode
+		resetModifiers()
+		mode_g := "symbol mode switcher mode"
+		return
+		
 	Space:: ; Space :: display shortcuts
 		resetModifiers()
-		ToolTip e `:`: (`nr `:`: )`nt `:`: [`nc `:`: ]`nv `:`: \`na `:`: `;`ns `:`: '`nd `:`: `,`nf `:`: .`ng `:`: /`nq `:`: ^z Undo
+		ToolTip e `:`: (`nr `:`: )`nt `:`: [`nw `:`: ]`nv `:`: \`na `:`: `;`ns `:`: '`nd `:`: `,`nf `:`: .`ng `:`: /`nq `:`: ^z Undo
 		;~ Sleep 5000
 		;~ ToolTip
 		return
@@ -9930,7 +9940,7 @@ registerModifiers(key){
 	; e :: (
 	; r :: )
 	; t :: [
-	; c :: ]
+	; w :: ]
 	; v :: \
 	; a :: ;
 	; s :: '
@@ -9956,7 +9966,7 @@ registerModifiers(key){
 		SendInput {Raw}{
 		return
 		
-	c:: ; c :: }
+	w:: ; w :: }
 		resetModifiers()
 		SendInput {Raw}}
 		return
@@ -9991,9 +10001,14 @@ registerModifiers(key){
 		SendInput {Raw}?
 		return
 		
+	c:: ; c :: symbol mode switcher mode
+		resetModifiers()
+		mode_g := "symbol mode switcher mode"
+		return
+		
 	Space:: ; Space :: display shortcuts
 		resetModifiers()
-		ToolTip e `:`: _`nr `:`: =`nt `:`: {`nc `:`: }`nv `:`: |`na `:`: `:`ns `:`: "`nd `:`: <`nf `:`: >`ng `:`: ?`nq `:`: ^z Undo
+		ToolTip e `:`: _`nr `:`: =`nt `:`: {`nw `:`: }`nv `:`: |`na `:`: `:`ns `:`: "`nd `:`: <`nf `:`: >`ng `:`: ?`nq `:`: ^z Undo
 		;~ Sleep 5000
 		;~ ToolTip
 		return
@@ -10001,7 +10016,7 @@ registerModifiers(key){
 	; e :: _
 	; r :: =
 	; t :: {
-	; c :: }
+	; w :: }
 	; v :: |
 	; a :: :
 	; s :: "
@@ -10009,6 +10024,26 @@ registerModifiers(key){
 	; f :: >
 	; g :: ?
 	; q :: ^z Undo
+	
+#if (Stack="15am" and mode_g = "symbol mode switcher mode") ; scaffolding mode + symbol mode switcher mode
+		
+	a:: ; a :: symbol mode 1
+		resetModifiers()
+		mode_g := "symbol mode 1"
+		myTT(mode_g)
+		return
+		
+	s:: ; s :: symbol mode 2
+		resetModifiers()
+		mode_g := "symbol mode 2"
+		myTT(mode_g)
+		return
+		
+	d:: ; d :: symbol mode 3
+		resetModifiers()
+		mode_g := "symbol mode 3"
+		myTT(mode_g)
+		return
 
 #if (Stack="15am" and mode_g = "case mode") ; scaffolding mode + case mode
 	
