@@ -9324,6 +9324,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; a + a :: Go to scaffold mode code
 	; c + v :: +F3 find prev
 	; c + Space :: F3 find next
 	; v + g :: ^Enter
@@ -10333,7 +10334,17 @@ registerModifiers(key){
 
 
 #if (Stack="15am" and aPressed_g) ; scaffolding mode + a
-	a:: ; a + a :: 
+	a:: ; a + a :: Go to scaffold mode code
+		if( allowDoubleA_g ) {
+			allowDoubleA_g = 0
+			resetModifiers()
+			Send ^{Home}
+			Send ^f
+			SendInput {Raw}#if (Stack="15am")
+			Send {Enter}
+
+		}
+		return
 		
 #if (Stack="15am" and sPressed_g) ; scaffolding mode + s, 
 	e:: ; s + e :: !y Yes
