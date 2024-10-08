@@ -9324,6 +9324,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; c + v :: +F3 find prev
 	; c + Space :: F3 find next
 	; v + g :: ^Enter
 	; f + b :: get mouse coordinates
@@ -10847,7 +10848,10 @@ registerModifiers(key){
 		}
 		return
 		
-	v:: ; c + v :: 
+	v:: ; c + v :: +F3 find prev
+		resetModifiers()
+		Send +{F3}
+		return
 		
 	Space:: ; c + Space :: F3 find next
 		resetModifiers()
