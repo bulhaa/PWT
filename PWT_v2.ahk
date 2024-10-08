@@ -9324,6 +9324,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; c + e :: ^j downloads in chrome
 	; a + a :: Go to scaffold mode code
 	; c + v :: +F3 find prev
 	; c + Space :: F3 find next
@@ -10342,7 +10343,7 @@ registerModifiers(key){
 			Send ^f
 			SendInput {Raw}#if (Stack="15am")
 			Send {Enter}
-
+			Send {Esc}
 		}
 		return
 		
@@ -10817,6 +10818,13 @@ registerModifiers(key){
 		
 
 #if (Stack="15am" and cPressed_g) ; scaffolding mode + c
+	w:: ; c + w :: 
+	
+	e:: ; c + e :: ^j downloads in chrome
+		resetModifiers()
+		Send ^j
+		return
+	
 	r:: ; c + r :: 
 	
 	o:: ; c + o :: previous scaffold
