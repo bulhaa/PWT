@@ -9324,6 +9324,7 @@ scaffoldFiles(){
 #if (Stack="15am") ; scaffolding mode
 	; d + b :: display shortcut list
 	
+	; v + g :: ^Enter
 	; f + b :: get mouse coordinates
 	; e + c :: Win ID to clipboard
 	; s + v :: ^w close tab
@@ -10820,6 +10821,35 @@ registerModifiers(key){
 	v:: ; c + v :: 
 		
 #if (Stack="15am" and vPressed_g) ; scaffolding mode + v
+	a:: ; v + a :: arrow keys with Ctrl Shift mode
+		resetModifiers()
+		mode_g := "arrow keys with Ctrl Shift mode"
+		myTT(mode_g)
+		return
+
+	s:: ; v + s :: arrow keys with Shift mode
+		resetModifiers()
+		mode_g := "arrow keys with Shift mode"
+		myTT(mode_g)
+		return
+
+	d:: ; v + d :: arrow keys with Ctrl mode
+		resetModifiers()
+		mode_g := "arrow keys with Ctrl mode"
+		myTT(mode_g)
+		return
+		
+	f:: ; v + f :: arrow keys mode
+		resetModifiers()
+		mode_g := "arrow keys mode"
+		myTT(mode_g)
+		return
+
+	g:: ; v + g :: ^Enter
+		resetModifiers()
+		Send ^{Enter}
+		return
+		
 	v:: ; v + v :: go to bookmark or inspect element in chrome
 		if( allowDoubleV_g ) {
 			allowDoubleV_g = 0
@@ -10840,32 +10870,6 @@ registerModifiers(key){
 		else
 			Send ^!k
 		return
-		
-	f:: ; v + f :: arrow keys mode
-		resetModifiers()
-		mode_g := "arrow keys mode"
-		myTT(mode_g)
-		return
-
-	d:: ; v + d :: arrow keys with Ctrl mode
-		resetModifiers()
-		mode_g := "arrow keys with Ctrl mode"
-		myTT(mode_g)
-		return
-
-	s:: ; v + s :: arrow keys with Shift mode
-		resetModifiers()
-		mode_g := "arrow keys with Shift mode"
-		myTT(mode_g)
-		return
-
-	a:: ; v + a :: arrow keys with Ctrl Shift mode
-		resetModifiers()
-		mode_g := "arrow keys with Ctrl Shift mode"
-		myTT(mode_g)
-		return
-
-	g:: ; v + g :: 
 		
 
 #if (Stack="15ak") ; Go to reference 
